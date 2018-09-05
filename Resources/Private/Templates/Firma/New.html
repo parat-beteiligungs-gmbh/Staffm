@@ -1,0 +1,29 @@
+
+<f:layout name="Default" />
+
+This template displays a NEW form for the current domain object.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        New.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="main">
+<h1><f:translate id="staffm.firma.news" /></h1>
+
+<f:flashMessages />
+
+<f:render partial="FormErrors" />
+
+<f:form action="create"  name="newFirma" object="{newFirma}">
+    <f:render partial="Firma/FormFields" /><br />
+    <div class="btn-group">
+        <f:link.action class="btn btn-secondary" action="list"><f:translate id="staffm.back" /></f:link.action>
+        <f:form.submit class="btn btn-success" value="{f:translate(id:'staffm.save')}" />
+    </div>
+</f:form>
+</f:section>

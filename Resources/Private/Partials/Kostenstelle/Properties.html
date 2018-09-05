@@ -1,0 +1,71 @@
+{namespace tv = Pmwebdesign\Staffm\ViewHelpers}
+<table class="tx_staffm table-left" >
+	<tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_kostenstelle.nummer" />
+		</td>
+		<td>
+			{kostenstelle.nummer}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_kostenstelle.bezeichnung" />
+		</td>
+		<td>
+			{kostenstelle.bezeichnung}
+		</td>
+	</tr>
+        <tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_kostenstelle.verantwortlicher" />
+		</td>
+		<td>
+                    <f:link.action controller="Mitarbeiter" action="showVeraKst" arguments="{kostenstelle:kostenstelle, search:search}">                        
+                        <f:if condition="{kostenstelle.verantwortlicher.image}">
+                            <f:for each="{kostenstelle.verantwortlicher.image}" as="img" key="key" iteration="iterator">    
+                                <f:if condition="{iterator.isFirst}">
+                                    <f:image class="tx_staffm profilbild klein" src="{img.originalResource.publicUrl}" />                                            
+                                </f:if>
+                            </f:for>                               
+                        </f:if>  
+                        {kostenstelle.verantwortlicher.lastName} {kostenstelle.verantwortlicher.firstName}
+                    </f:link.action>
+		</td>
+	</tr>        
+</table>
+<f:if condition="{kostenstelle.images}">      
+    <div id="carouselExampleControls" class="carousel slide carouseldetailview" data-ride="carousel">
+        <div class="carousel-inner carouseldetailviewinner">
+            <f:for each="{kostenstelle.images}" as="image" iteration="iterator">                
+                <f:if condition="{iterator.isFirst}">
+                    <f:then>
+                        <div class="carousel-item active">
+                            <a class="sd-lightbox lightboxRelAttribute = sd-lightbox[2] lightboxEnabled = 1" href="{f:uri.image(src:'{image.uid}', treatIdAsReference: 1, cropVariant: 'desktop')}" rel="lightbox[2]">
+                                <f:image src="{image.uid}" alt="" style="width:auto;max-width:100%;height: auto;max-height: 300px" treatIdAsReference="1" />     
+                            </a>
+                        </div>
+                    </f:then>
+                    <f:else>
+                        <div class="carousel-item" stlye="text-align:center">
+                            <a class="sd-lightbox lightboxRelAttribute = sd-lightbox[2] lightboxEnabled = 1" href="{f:uri.image(src:'{image.uid}', treatIdAsReference: 1, cropVariant: 'desktop')}" rel="lightbox[2]">
+                                <f:image src="{image.uid}" alt="" style="width:auto;max-width:100%;height: auto;max-height: 300px" treatIdAsReference="1" />     
+                            </a>
+                        </div>
+                    </f:else>
+                </f:if>
+            </f:for>    
+        </div>
+        <f:if condition="{kostenstelle.images -> f:count()} > 1">
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </f:if>
+    </div>
+</f:if>
+<br style="clear: both" />

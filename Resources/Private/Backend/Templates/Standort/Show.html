@@ -1,0 +1,55 @@
+{namespace tv = Pmwebdesign\Staffm\ViewHelpers}
+<f:layout name="Default" />
+
+This Template is responsible for displaying a single view for a domain object
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        Show.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="content">
+<h1>Einzelansicht Standort</h1>
+
+<f:flashMessages />
+<f:render partial="Standort/Properties" arguments="{standort:standort}" /><br />
+<f:if condition="{key} == 'vonMit'">
+    <f:then>        
+        <f:link.action class="btn btn-default" controller="Mitarbeiter" action="show" arguments="{mitarbeiter:mitarbeiter}">Zurück</f:link.action><br />
+    </f:then>
+    <f:else>
+        <f:link.action class="btn btn-default" action="list">Zurück zur Liste</f:link.action><br />
+    </f:else>        
+</f:if>
+<br />
+<h2>Zugeordnete Mitarbeiter (<f:count subject="{standort.mitarbeiters}" />)</h2>
+<table class="tx_staffm">    
+    <tr>
+        <th></th>
+        <th><f:translate key="tx_staffm_domain_model_mitarbeiter.personalnummer" /></th>
+        <th><f:translate key="tx_staffm_domain_model_mitarbeiter.last_name" /></th>
+        <th><f:translate key="tx_staffm_domain_model_mitarbeiter.first_name" /></th>
+        <th><f:translate key="tx_staffm_domain_model_mitarbeiter.title" /></th>
+        <th><f:translate key="tx_staffm_domain_model_mitarbeiter.telephone" /></th>	                
+    </tr>    
+    
+    <f:for each="{standort.mitarbeiters}" as="ma">            
+        <tr>
+                <td>
+                    <f:if condition="{ma.image}">
+                        <f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, standort:standort, key: 'auswahlKst'}"><f:image class="tx_staffm profilbild klein" src="uploads/tx_srfeuserregister/{tv:image(m: ma)}" /></f:link.action>
+                    </f:if>                        
+                </td>
+                <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, standort:standort, key: 'auswahlKst'}"> {ma.personalnummer}</f:link.action></td>
+                <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, standort:standort, key: 'auswahlKst'}"> {ma.lastName}</f:link.action></td>
+                <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, standort:standort, key: 'auswahlKst'}"> {ma.firstName}</f:link.action></td>
+                <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, standort:standort, key: 'auswahlKst'}"> {ma.title}</f:link.action></td>
+                <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, standort:standort, key: 'auswahlKst'}"> {ma.telephone}</f:link.action></td>
+        </tr>
+    </f:for>
+</table>
+</f:section>

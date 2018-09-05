@@ -1,0 +1,105 @@
+{namespace tv = Pmwebdesign\Staffm\ViewHelpers}
+<f:layout name="Default" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="content">
+<h1>Liste von Qualifikationen</h1>
+
+<f:flashMessages />
+    <f:if condition="{key} != 'auswahl'">  
+        <f:then>
+            <f:form action="list" arguments="{mitarbeiter:mitarbeiter, key:key}" additionalAttributes="{role: 'form'}">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="input-group">                   
+                            <span class="input-group-btn">                            
+                                    <f:link.action class="btn btn-default" title="Neue Qualifikation anlegen" action="new">Neue Qualifikation</f:link.action>
+                            </span>     
+                            <f:form.textfield class="form-control" name="search" value="{search}" />
+                            <span class="input-group-btn"> 
+                                 <f:form.submit class="btn btn-default" value="Suchen" />
+                            </span> 
+                        </div>
+                    </div>
+                </div>  
+                <br />
+                <tv:widget.atoZNav objects="{qualifikations}" as="filteredQualifikations" property="bezeichnung" search="{search}" maid="{maid}">    
+                <tv:widget.sort objects="{filteredQualifikations}" as="sortedQualifikations" property="bezeichnung">
+                <f:link.action id="excelExport" class="btn btn-default" action="export" arguments="{searching:'{search}'}" name="excelExport" >
+                <f:image class="tx_staffm icon" src="typo3conf/ext/staffm/Resources/Public/Icons/Excel.png" />
+                    Excel Export
+                </f:link.action>
+                    <br />
+                    <br />
+                    <table  class="tx_staffm" >
+                            <tr>
+                                <th><f:translate key="tx_staffm_domain_model_qualifikation.bezeichnung" /></th>                    
+                                <th><f:translate key="tx_staffm_domain_model_qualifikation.beschreibung" /></th>
+                                <th>Letzter Bearbeiter</th>
+                            </tr>
+                            <f:for each="{sortedQualifikations}" as="qualifikation">
+                                    <tr>            
+                                        <td><f:link.action action="show" arguments="{qualifikation : qualifikation}">{qualifikation.bezeichnung}</f:link.action></td>
+                                        <td width="200"><f:link.action action="show" arguments="{qualifikation : qualifikation}"><div class="tx_staffm tds">{qualifikation.beschreibung}</div></f:link.action></td>
+                                        <td>
+                                            <f:for each="{qualifikation.qualilogs}" as="qualilog" iteration="itemIterator">
+                                                <f:if condition="{itemIterator.index} == 0">
+                                                    <f:link.action action="show" arguments="{qualifikation : qualifikation}">{qualilog.bearbeiter.lastName} {qualilog.bearbeiter.firstName}</f:link.action>
+                                                </f:if>
+                                                   
+                                            </f:for>
+                                        </td>
+                                        <td><f:link.action class="staffm-link" action="edit" arguments="{qualifikation : qualifikation}">Bearbeiten</f:link.action></td>
+                                        <td><f:link.action class="staffm-link" action="delete" arguments="{qualifikation : qualifikation}">Löschen</f:link.action></td>                                           
+                                    </tr>
+                            </f:for>
+                    </table>
+                </tv:widget.sort>
+                </tv:widget.atoZNav>
+            </f:form>
+        </f:then>
+        <f:else>
+            <f:form action="choose" controller="Mitarbeiterqualifikation" arguments="{mitarbeiter:mitarbeiter}" additionalAttributes="{role: 'form'}" >
+            <table>
+                <td class="tx-staffm bold">Name:&nbsp;</td><td>{mitarbeiter.LastName} {mitarbeiter.firstName}</td><br />
+            </table>            
+            <table  class="tx_staffm" >
+                <tr>
+                    <th><f:translate key="tx_staffm_domain_model_qualifikation.bezeichnung" /></th>                    
+                </tr>
+
+                <f:for each="{qualifikations}" as="qualifikation">
+                        <tr>                            
+                                <f:if condition="{key} == 'auswahl'">
+                                    <f:then>
+                                        <td>{qualifikation.bezeichnung}</td>
+                                        <td><f:form.checkbox name="qualifikationcb[]" value="{qualifikation.bezeichnung}" multiple="1" checked="{tv:quali(mq: mitarbeiter.mitarbeiterQualifikationen, qu: qualifikation)}" /></td>
+                                        <!-- <tv:quali mq="{mitarbeiter.mitarbeiterQualifikationen}" qu="{qualifikation}" /> -->
+                                    </f:then>                                
+                                    <f:else>
+                                        <td><f:link.action action="show" arguments="{qualifikation : qualifikation}">{qualifikation.bezeichnung}</f:link.action></td>
+                                        <td><f:link.action class="staffm-link" action="edit" arguments="{qualifikation : qualifikation}">Bearbeiten</f:link.action></td>
+                                        <td><f:link.action class="staffm-link" action="delete" arguments="{qualifikation : qualifikation}">Löschen</f:link.action></td>
+                                    </f:else>
+                                </f:if>
+                        </tr>
+                </f:for>
+            </table>
+            <br />
+            <div class="btn-group" role="group">
+                <f:link.action class="btn btn-default" action="edit" controller="Mitarbeiter" arguments="{mitarbeiter:mitarbeiter}">Zurück</f:link.action><f:form.submit class="btn btn-default" value="Auswahl übergeben" />
+            </div>
+            </f:form>
+        </f:else>
+    </f:if>  
+</f:section>

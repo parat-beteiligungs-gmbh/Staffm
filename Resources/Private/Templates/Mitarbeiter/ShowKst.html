@@ -1,0 +1,41 @@
+
+<f:layout name="Default" />
+
+This Template is responsible for displaying a single view for a domain object
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        Show.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="main">
+    <h1><f:translate id="staffm.mitarbeiter.show.headline" /></h1>
+
+<f:flashMessages />
+<f:render partial="Mitarbeiter/Properties" arguments="{mitarbeiter:mitarbeiter}" /><br />
+<div class="btn-group">
+    <f:if condition="{position}">
+        <f:link.action class="btn btn-default" controller="Position" action="show" arguments="{position:position}"><f:translate id="staffm.back" /></f:link.action>
+    </f:if>
+    <f:if condition="{kostenstelle}">
+        <f:link.action section="ma{mitarbeiter.uid}" class="btn btn-default" controller="Kostenstelle" action="show" arguments="{kostenstelle:kostenstelle, search:search}"><f:translate id="staffm.back" /></f:link.action>
+    </f:if>
+    <f:if condition="{firma}">
+        <f:link.action section="ma{mitarbeiter.uid}" class="btn btn-default" controller="Firma" action="show" arguments="{firma:firma}"><f:translate id="staffm.back" /></f:link.action>
+    </f:if>
+    <f:if condition="{standort}">
+        <f:link.action class="btn btn-default" controller="Standort" action="show" arguments="{standort:standort}"><f:translate id="staffm.back" /></f:link.action>
+    </f:if>
+    <f:if condition="{qualifikation}">
+        <f:link.action section="ma{mitarbeiter.uid}" class="btn btn-default" controller="Qualifikation" action="show" arguments="{qualifikation:qualifikation, search:search}"><f:translate id="staffm.back" /></f:link.action>
+    </f:if>
+    <f:if condition="{custom}">
+        <f:link.action section="ma{mitarbeiter.uid}" class="btn btn-default" controller="Mitarbeiter" action="listCustom"><f:translate id="staffm.back" /></f:link.action>
+    </f:if>
+</div>
+<br />
+</f:section>

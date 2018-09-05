@@ -1,0 +1,115 @@
+{namespace tv = Pmwebdesign\Staffm\ViewHelpers}
+<f:layout name="Default" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+Resources:
+Private:
+Templates:
+List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="main">
+    <h1>Mitarbeiterliste</h1>
+    <f:flashMessages />
+    <f:form action="list" arguments="{kostenstelle:kostenstelle, key:key}" additionalAttributes="{role: 'form'}">
+        <f:comment>Auswahl für Kostenverantwortlichen?</f:comment>
+        <f:if condition="{key} != 'auswahl'">              
+            <f:then>
+                <f:comment>Keine Auswahl für Kostenverantwortlichen</f:comment>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="input-group">                   
+                            <span class="input-group-btn">                            
+                                <f:link.action class="btn btn-default" title="Zum Formular für Mitarbeiter anlegen" action="new">Neuer Mitarbeiter</f:link.action>
+                            </span>     
+                            <f:form.textfield class="form-control" title="Volltextsuche: mehrere Begriffe, oder Teilbegriffe möglich (z. B. Qualifikation: Eink, für Einkauf)" name="search" value="{search}" />
+                            <span class="input-group-btn"> 
+                                <f:form.submit class="btn btn-default" value="Suchen" />
+                            </span> 
+                        </div>
+                    </div>
+                </div> 
+            </f:then>
+            <f:else>
+                <f:comment>Auswahl für Kostenverantwortlichen</f:comment>
+                <table>
+                    <td class="tx-staffm bold">Name:&nbsp;</td><td>{kostenstelle.verantwortlicher.LastName} {kostenstelle.verantwortlicher.firstName} &nbsp;</td>            
+                </table>   
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="input-group">                   
+                            <span class="input-group-btn">                            
+                                <f:link.action class="btn btn-default" action="edit" controller="Kostenstelle" arguments="{kostenstelle:kostenstelle}">Zurück</f:link.action>
+                            </span>     
+                            <f:form.textfield class="form-control" name="search" value="{search}" />
+                            <span class="input-group-btn"> 
+                                <f:form.submit class="btn btn-default" value="Suchen" />
+                            </span> 
+                        </div>
+                    </div>
+                </div>                 
+            </f:else>
+        </f:if>
+    </f:form>
+    <tv:widget.atoZNav objects="{mitarbeiters}" as="filteredMitarbeiters" property="lastName" search="{search}" maid="{maid}">    
+        <tv:widget.sort objects="{filteredMitarbeiters}" as="sortedMitarbeiters" property="lastName">
+            <f:link.action id="excelExport" class="btn btn-default" action="export" arguments="{searching:'{search}'}" name="excelExport" >
+                <f:image class="tx_staffm icon" src="typo3conf/ext/staffm/Resources/Public/Icons/Excel.png" />
+                Excel Export
+            </f:link.action>
+            <table class="tx_staffm">     
+                <tr>
+                    <th></th>
+                    <th><f:translate key="tx_staffm_domain_model_mitarbeiter.personalnummer" /></th>
+                <th><f:translate key="tx_staffm_domain_model_mitarbeiter.username" /></th>
+                <th><f:translate key="tx_staffm_domain_model_mitarbeiter.last_name" /></th>
+                <th><f:translate key="tx_staffm_domain_model_mitarbeiter.first_name" /></th>
+                <th><f:translate key="tx_staffm_domain_model_mitarbeiter.title" /></th>
+                <th><f:translate key="tx_staffm_domain_model_mitarbeiter.telephone" /></th>	                
+                </tr>
+                <f:for each="{sortedMitarbeiters}" as="mitarbeiter">            
+                    <tr id="ma{mitarbeiter.uid}">    
+                        <td>
+                        <f:if condition="{mitarbeiter.image}">                                
+                            <f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"><f:image class="tx_staffm profilbild klein" src="uploads/tx_srfeuserregister/{tv:image(m: mitarbeiter)}" /></f:link.action>                                      
+                        </f:if>                       
+                        </td>
+                        <td><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, key:'{search}'}"> {mitarbeiter.personalnummer}</f:link.action></td>
+                        <td><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.username}</f:link.action></td>
+                        <td><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.lastName}</f:link.action></td>
+                        <td><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.firstName}</f:link.action></td>
+                        <td><div class="tx_staffm tds250"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.title}</f:link.action></div></td>
+                        <td><f:link.action arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.telephone}</f:link.action></td>                        
+                        <f:if condition="{key} == 'auswahl'">
+                            <f:then>
+                                <td><f:link.action class="staffm-link" action="choose" arguments="{kostenstelle:kostenstelle, mitarbeiter:mitarbeiter}">Wählen</f:link.action></td>
+                            </f:then>
+                            <f:else>
+                                <div class="btn-group" role="group" aria-label="...">                                
+                                    <td><f:link.action class="btn btn-info btn-sm" action="edit" arguments="{mitarbeiter : mitarbeiter}">Bearbeiten</f:link.action></td>
+                                    <td><f:link.action class="btn btn-danger btn-sm" action="delete" arguments="{mitarbeiter : mitarbeiter}">Löschen</f:link.action></td>
+                                </div>                           
+                            </f:else>
+                        </f:if>
+                    </tr>               	
+                </f:for>
+            </table>
+        </tv:widget.sort>
+    </tv:widget.atoZNav>
+    <script type="text/javascript">
+        //$(document).ready(function() {      
+        $(".loadImg").mouseover(function () {
+            var mitarbeiter = document.getElementsById(".loadImgOut").value;
+            alert(mitarbeiter.lastName);
+            //$(".loadImgOut").innerHTML = '<f:image class="tx_staffm profilbild" src="uploads/tx_srfeuserregister/{mitarbeiter.image}" />';
+            //document.getElementsByClassName('loadImgOut').innerHTML = '<f:image class="tx_staffm profilbild" src="uploads/tx_srfeuserregister/{mitarbeiter.image}" />';
+            //$(".loadImgOut").append('<img class="tx_staffm profilbild" src="../../uploads/tx_srfeuserregister/' + {mitarbeiter.image} + '" />');
+        });
+        //});    
+    </script>
+</f:section>
+

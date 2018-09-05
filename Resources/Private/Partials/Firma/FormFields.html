@@ -1,0 +1,68 @@
+{namespace vh=Pmwebdesign\Staffm\ViewHelpers}
+<label class="tx-staffm bold" for="nummer">
+    <f:translate key="tx_staffm_domain_model_firma.nummer" />
+</label><br />
+<f:form.textfield class="form-control" property="nummer" /><br />
+<label class="tx-staffm bold" for="bezeichnung">
+    <f:translate key="tx_staffm_domain_model_firma.bezeichnung" />
+</label><br />
+<f:form.textfield class="form-control" property="bezeichnung" /><br />
+<label class="tx-staffm bold" for="adresse">
+    <f:translate key="tx_staffm_domain_model_firma.adresse" />
+</label><br />
+<f:form.textfield class="form-control" property="adresse" /><br />
+<label class="tx-staffm bold" for="plz">
+    <f:translate key="tx_staffm_domain_model_firma.plz" />
+</label><br />
+<f:form.textfield class="form-control" property="plz" /><br />
+<label class="tx-staffm bold" for="ort">
+    <f:translate key="tx_staffm_domain_model_firma.ort" />
+</label><br />
+<f:form.textfield class="form-control" property="ort" /><br />
+<label class="tx-staffm bold" for="ortszusatz">
+    <f:translate key="tx_staffm_domain_model_firma.ortszusatz" />
+</label><br />
+<f:form.textfield class="form-control" property="ortszusatz" /><br />
+<label class="tx-staffm bold" for="land">
+    <f:translate key="tx_staffm_domain_model_firma.land" />
+</label><br />
+<f:form.textfield class="form-control" property="land" /><br />
+<label class="tx-staffm bold" for="tel1">
+    <f:translate key="tx_staffm_domain_model_firma.tel1" />
+</label><br />
+<f:form.textfield class="form-control" property="tel1" /><br />
+<label class="tx-staffm bold" for="tel2">
+    <f:translate key="tx_staffm_domain_model_firma.tel2" />
+</label><br />
+<f:form.textfield class="form-control" property="tel2" /><br />
+<label class="tx-staffm bold" for="fax">
+    <f:translate key="tx_staffm_domain_model_firma.fax" />
+</label><br />
+<f:form.textfield class="form-control" property="fax" /><br />
+<label class="tx-staffm bold" for="images"><f:translate key="tx_staffm_domain_model_firma.images" /></label><br />
+<vh:form.multiupload property="images" resources="resources">
+    <ul style="list-style:none;padding:0">
+        <f:for each="{resources}" as="resource">
+            <li>
+                <label>
+                    <vh:form.multiupload.delete property="images" value="{resource}" />
+                    <f:image image="{resource}" alt="" width="250" height="auto" />
+                </label>
+            </li>
+        </f:for>
+    </ul>
+</vh:form.multiupload>
+<div style="clear:both"></div><br />
+<label class="tx-staffm bold" for="files"><f:translate key="tx_staffm_domain_model_firma.files" /></label><br />
+<vh:form.multiupload property="files" resources="resources">
+    <ul style="list-style:none;padding:0">
+        <f:for each="{resources}" as="resource">
+            <li>
+                <label>
+                    <vh:form.multiupload.delete property="files" value="{resource}" />
+                    <f:image image="{resource}" alt="" width="250" height="auto" />
+                </label>
+            </li>
+        </f:for>
+    </ul>
+</vh:form.multiupload>

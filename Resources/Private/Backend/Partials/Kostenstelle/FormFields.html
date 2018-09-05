@@ -1,0 +1,21 @@
+
+<label class="tx-staffm bold" for="nummer">
+	<f:translate key="tx_staffm_domain_model_kostenstelle.nummer" />
+</label><br />
+	<f:form.textfield style="width:300px" property="nummer" /><br />
+<label class="tx-staffm bold" for="bezeichnung">
+	<f:translate key="tx_staffm_domain_model_kostenstelle.bezeichnung" />
+</label><br />
+	<f:form.textfield style="width:300px" property="bezeichnung" /><br />
+<label class="tx-staffm bold" for="verantwortlicher">
+	<f:translate key="tx_staffm_domain_model_kostenstelle.verantwortlicher" />
+</label><br />
+	<f:form.hidden property="verantwortlicher" />
+        <f:form.textfield style="width:300px" disabled="disabled" value="{kostenstelle.verantwortlicher.lastName} {kostenstelle.verantwortlicher.firstName}" />
+        <div class="btn-group" role="group">
+        <f:link.action class="btn btn-default" action="list" controller="Mitarbeiter" arguments="{kostenstelle:kostenstelle, mitarbeiter:mitarbeiter, key:'auswahl'}">Auswahl</f:link.action>
+            <f:if condition="{kostenstelle.verantwortlicher}">
+                <f:link.action class="btn btn-default" action="deleteKstVerantwortlicher" arguments="{kostenstelle:kostenstelle}">Entfernen</f:link.action>
+            </f:if>
+        </div>
+        <br />

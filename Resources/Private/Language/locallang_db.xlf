@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="de" datatype="plaintext" original="messages" date="2016-01-20T10:57:53Z" product-name="staffm">
+        <header/>
+        <body>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter">
+                <source>Mitarbeiter</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.personalnummer">
+                <source>Personalnummer</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.username">
+                <source>Username</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.date_of_birth_show">
+                <source>Geburtsdatum anzeigen</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.date_of_birth">
+                <source>Geburtsdatum</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.last_name">
+                <source>Nachname</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.first_name">
+                <source>Vorname</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.position">
+                <source>Position</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.telephone">
+                <source>Telefon</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.fax">
+                <source>Fax</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.handy">
+                <source>Handy</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.email">
+                <source>Email</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.title">
+                <source>Titel</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.kostenstelle">
+                <source>Kostenstelle</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.firma">
+                <source>Firma</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.standort">
+                <source>Standort</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.qualifikationen">
+                <source>Qualifikationen</source>
+            </trans-unit>
+            <trans-unit id="fe_users.tx_extbase_type.Tx_Staffm_Mitarbeiter">
+                <source>Staffmanage Mitarbeiter</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_position">
+                <source>Positionen</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_position.nummer">
+                <source>Nummer</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_position.bezeichnung">
+                <source>Bezeichnung</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_kostenstelle">
+                <source>Kostenstelle</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_kostenstelle.nummer">
+                <source>Nummer</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_kostenstelle.bezeichnung">
+                <source>Bezeichnung</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_kostenstelle.verantwortlicher">
+                <source>Verantwortlicher</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_kostenstelle.images">
+                <source>Bilder</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_taetigkeit">
+                <source>Taetigkeit</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_taetigkeit.bezeichnung">
+                <source>Bezeichnung</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeitertaetigkeit">
+                <source>Mitarbeitertaetigkeit</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeitertaetigkeit.mitarbeiter">
+                <source>Mitarbeiter</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeitertaetigkeit.taetigkeit">
+                <source>Taetigkeit</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_qualifikation">
+                <source>Qualifikation</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_qualifikation.bezeichnung">
+                <source>Bezeichnung</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_qualifikation.beschreibung">
+                <source>Beschreibung</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_qualifikation.mitarbeiters">
+                <source>Mitarbeiter</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiterqualifikation">
+                <source>Mitarbeiterqualifikation</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiterqualifikation.mitarbeiter">
+                <source>Mitarbeiter</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiterqualifikation.qualifikation">
+                <source>Qualifikation</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_firma">
+                <source>Firma</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_firma.nummer">
+                <source>Nummer</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_firma.bezeichnung">
+                <source>Bezeichnung</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_firma.adresse">
+                <source>Adresse</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_firma.plz">
+                <source>PLZ</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_firma.ort">
+                <source>Ort</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_firma.ortszusatz">
+                <source>Ortszusatz</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_firma.land">
+                <source>Land</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_firma.tel1">
+                <source>Telefon</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_firma.tel2">
+                <source>Telefon</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_firma.fax">
+                <source>Fax</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_firma.images">
+                <source>Bilder</source>
+            </trans-unit>      
+            <trans-unit id="tx_staffm_domain_model_firma.files">
+                <source>Dateien</source>
+            </trans-unit>      
+            <trans-unit id="tx_staffm_domain_model_standort">
+                <source>Standort</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_standort.bezeichnung">
+                <source>Bezeichnung</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeitersoftware">
+                <source>Mitarbeitersoftware</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeitersoftware.mitarbeiter">
+                <source>Mitarbeiter</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeitersoftware.software">
+                <source>Software</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_software">
+                <source>Software</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_software.bezeichnung">
+                <source>Bezeichnung</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

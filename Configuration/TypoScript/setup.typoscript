@@ -1,0 +1,83 @@
+
+plugin.tx_staffm {
+	view {
+		templateRootPath = {$plugin.tx_staffm.view.templateRootPath}
+		partialRootPath = {$plugin.tx_staffm.view.partialRootPath}
+		layoutRootPath = {$plugin.tx_staffm.view.layoutRootPath}
+	}
+	persistence {
+		storagePid = {$plugin.tx_staffm.persistence.storagePid}
+                classes {                    
+                    Pmwebdesign\Staffm\Domain\Model\Mitarbeiter.RecordStoragePid = 42
+                    Pmwebdesign\Staffm\Domain\Model\Mitarbeiter.newRecordStoragePid = 42                    
+                }
+	}        
+	features {
+		# uncomment the following line to enable the new Property Mapper.
+		# rewrittenPropertyMapper = 1
+	}
+}
+
+plugin.tx_staffm._CSS_DEFAULT_STYLE (
+	textarea.f3-form-error {
+		background-color:#FF9F9F;
+		border: 1px #FF0000 solid;
+	}
+
+	input.f3-form-error {
+		background-color:#FF9F9F;
+		border: 1px #FF0000 solid;
+	}
+
+	.tx-staffm table {
+		border-collapse:separate;
+		border-spacing:10px;
+	}
+
+	.tx-staffm table th {
+		font-weight:bold;
+	}
+
+	.tx-staffm table td {
+		vertical-align:top;
+	}
+
+	.typo3-messages .message-error {
+		color:red;
+	}
+
+	.typo3-messages .message-ok {
+		color:green;
+	}
+
+)
+
+ # Module configuration
+module.tx_staffm {
+	persistence {
+		storagePid = {$module.tx_staffm.persistence.storagePid}
+                classes = {$module.tx_staffm.persistence.classes}
+	}
+	view {
+		templateRootPath = {$module.tx_staffm.view.templateRootPath}
+		partialRootPath = {$module.tx_staffm.view.partialRootPath}
+		layoutRootPath = {$module.tx_staffm.view.layoutRootPath}
+	}
+}
+
+page {
+      # Caching
+      noCache = 0 
+
+      #config.cache.16 = tx_staffm_domain_model_mitarbeiter:42,tx_staffm_domain_model_kostenstelle:53
+      
+      includeCSS {        
+        staffm = EXT:staffm/Resources/Public/css/jquery-ui.css
+        staffm1 = EXT:staffm/Resources/Public/css/staffm.css
+      }
+      
+      includeJSFooter {
+          # Eigenes Javascript sofot mit kompletter Website laden
+          #staffmjs = EXT:staffm/Resources/Public/js/staffm.js
+      }
+}

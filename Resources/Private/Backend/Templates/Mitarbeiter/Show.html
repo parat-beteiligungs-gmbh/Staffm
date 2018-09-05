@@ -1,0 +1,25 @@
+
+<f:layout name="Default" />
+
+This Template is responsible for displaying a single view for a domain object
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        Show.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="content">
+<h1>Einzelansicht Mitarbeiter</h1>
+
+<f:flashMessages />
+<f:render partial="Mitarbeiter/Properties" arguments="{mitarbeiter:mitarbeiter, images:images}" /><br />
+<f:comment><f:if condition="{key}">
+    <f:link.action class="btn btn-default" action="list" arguments="{key:'{key}'}">Zurück zum Suchergebnis</f:link.action>
+    </f:if></f:comment>
+<f:link.action section="ma{mitarbeiter.uid}" class="btn btn-default" action="list">Zurück zur Liste</f:link.action>    
+<br />
+</f:section>

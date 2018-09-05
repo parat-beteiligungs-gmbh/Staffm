@@ -1,0 +1,82 @@
+{namespace tv = Pmwebdesign\Staffm\ViewHelpers}
+<f:layout name="Default" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="content">
+<h1>Firmenliste</h1>
+<f:flashMessages />
+<f:form action="list" arguments="{mitarbeiter:mitarbeiter, key:key}" additionalAttributes="{role: 'form'}">
+    <f:if condition="{key} != 'auswahl'">  
+        <f:then>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="input-group">                       
+                            <span class="input-group-btn">
+                                <f:link.action class="btn btn-default" action="new">Neue Firma</f:link.action>
+                            </span>                       
+                            <f:form.textfield class="form-control" name="search" value="{search}" />
+                            <span class="input-group-btn">   
+                                <f:form.submit class="btn btn-default" value="Suchen" />
+                            </span>
+                    </div>
+                </div>
+            </div>  
+        </f:then>
+        <f:else>
+            <table>
+                <td class="tx-staffm bold">Name:&nbsp;</td><td>{mitarbeiter.LastName} {mitarbeiter.firstName}</td><br />
+            </table><br />   
+            
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                                <f:link.action class="btn btn-default" action="edit" controller="Mitarbeiter" arguments="{mitarbeiter:mitarbeiter}">zurück</f:link.action>
+                        </span> 
+                        <f:form.textfield class="form-control" name="search" value="{search}" />
+                        <span class="input-group-btn">
+                                <f:form.submit class="btn btn-default" value="Suchen" />
+                        </span>           
+                    </div>
+                </div>
+            </div>  
+        </f:else>
+    </f:if>
+</f:form>
+<tv:widget.atoZNav objects="{firmas}" as="filteredFirmas" property="bezeichnung" search="{search}" maid="{maid}">    
+<tv:widget.sort objects="{filteredFirmas}" as="sortedFirmas" property="bezeichnung">
+<br />
+<br />
+<table  class="tx_staffm" >
+	<tr>
+		<th><f:translate key="tx_staffm_domain_model_firma.bezeichnung" /></th>	               
+	</tr>
+
+	<f:for each="{sortedFirmas}" as="firma">
+		<tr>
+			<td><f:link.action action="show" arguments="{firma : firma}"> {firma.bezeichnung}</f:link.action></td>
+                        <f:if condition="{key} == 'auswahl'">
+                            <f:then>
+                                <td><f:link.action class="staffm-link" action="choose" arguments="{mitarbeiter:mitarbeiter, firma:firma}">Wählen</f:link.action></td>
+                            </f:then>
+                            <f:else>
+                                <td><f:link.action class="staffm-link" action="edit" arguments="{firma : firma}">Bearbeiten</f:link.action></td>
+                                <td><f:link.action class="staffm-link" action="delete" arguments="{firma : firma}">Löschen</f:link.action></td>
+                            </f:else>
+                        </f:if>			
+		</tr>
+	</f:for>
+</table>
+</tv:widget.sort>
+</tv:widget.atoZNav>
+</f:section>

@@ -1,0 +1,97 @@
+{namespace tv = Pmwebdesign\Staffm\ViewHelpers}
+<f:layout name="Default" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="main">
+    <f:flashMessages />  
+    <f:comment>List view</f:comment>
+    <f:if condition="{templateart} == 0">
+        <table class="tx_staffm">     
+                <tr>
+                        <th></th>
+                        <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.personalnummer" /></th>
+                        <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.username" /></th>
+                        <th><f:translate key="tx_staffm_domain_model_mitarbeiter.last_name" /></th>
+                        <th><f:translate key="tx_staffm_domain_model_mitarbeiter.first_name" /></th>
+                        <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.title" /></th>
+                        <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.telephone" /></th>	    
+                        <!-- Search condition einbauen, falls mehr performance erwünscht -->
+                        <f:if condition="{search}">
+                            <th><f:translate key="tx_staffm_domain_model_qualifikation" /></th>                    
+                        </f:if>                    
+                </tr>
+                <f:for each="{mitarbeiters}" as="mitarbeiter">            
+                        <tr>
+                                <td>
+                                    <f:if condition="{mitarbeiter.image}">   
+                                        <f:for each="{mitarbeiter.image}" as="img" key="key" iteration="iterator">        
+                                            <f:if condition="{iterator.isFirst}">
+                                                <f:link.action pluginName="Staffmcustom" action="showCustom" arguments="{mitarbeiter : mitarbeiter, custom : custom}"><f:image class="tx_staffm profilbild klein" src="{img.originalResource.publicUrl}" /></f:link.action>                                            
+                                            </f:if>
+                                        </f:for>                                                                           
+                                    </f:if>                        
+                                </td>
+                                <td class="staffmmobilehidden"><div id="ma{mitarbeiter.uid}" class="anchor"></div><f:link.action pluginName="Staffmcustom" action="showCustom" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.personalnummer}</f:link.action></td>
+                                <td class="staffmmobilehidden"><f:link.action pluginName="Staffmcustom" action="showCustom" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.username}</f:link.action></td>
+                                <td><f:link.action pluginName="Staffmcustom" action="showCustom" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.lastName}</f:link.action></td>
+                                <td><f:link.action pluginName="Staffmcustom" action="showCustom" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.firstName}</f:link.action></td>
+                                <td class="staffmmobilehidden"><div class="tx_staffm tds150"><f:link.action title="{mitarbeiter.title}" pluginName="Staffmcustom" action="showCustom" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.title}</f:link.action></div></td>
+                                <td class="staffmmobilehidden"><f:link.action pluginName="Staffmcustom" action="showCustom" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.telephone}</f:link.action></td>                              
+
+                        </tr>               	
+                </f:for>
+        </table>
+    </f:if>
+    <f:comment>3-Column view</f:comment>
+    <f:if condition="{templateart} == 3">
+        <div class="container">
+            <f:for each="{mitarbeiters}" as="mitarbeiter" iteration="iterator">               
+                <f:if condition="{iterator.index} == 0 || {iterator.index} == 3 || {iterator.index} == 6 || {iterator.index} == 9 || {iterator.index} == 12 || {iterator.index} == 15 || {iterator.index} == 18">
+                    <div class="row">                                            
+                </f:if>
+                <div class="col-sm pictureicons">
+                    <figure class="image tx_staffm fig">
+                        <div style="min-width: 150px;min-height: 150px">
+                            <f:if condition="{mitarbeiter.image}">  
+                                <f:then>
+                                    <f:for each="{mitarbeiter.image}" as="img" key="key" iteration="iterator2">        
+                                        <f:if condition="{iterator2.isFirst}">
+                                            <f:link.action pluginName="Staffmcustom" action="showCustom" arguments="{mitarbeiter : mitarbeiter}"><f:image class="tx_staffm picture-3-column" src="{img.originalResource.publicUrl}" /></f:link.action>                                            
+                                        </f:if>
+                                    </f:for>    
+                                </f:then>
+                                <f:else>
+                                    <f:link.action pluginName="Staffmcustom" action="showCustom" arguments="{mitarbeiter : mitarbeiter}"><f:image class="tx_staffm picture-3-column" src="fileadmin/dummy.jpeg" /></f:link.action>                                            
+                                </f:else>
+                            </f:if>
+                        </div>
+                        <figcaption class="image-caption">
+                            <h5 style="text-transform: uppercase">{mitarbeiter.lastName} {mitarbeiter.firstName}</h5>
+                            <div class="style2picturedescr">
+                                {mitarbeiter.title}
+                                <f:link.action pluginName="Staffmcustom" action="showCustom" arguments="{mitarbeiter : mitarbeiter}" class="style2picturedescrbutton">
+                                    <p class="btn-read-more-link">                                            
+                                        <f:translate id="staffm.more" />                                              
+                                    </p>
+                                </f:link.action>
+                            </div>
+                        </figcaption>
+                    </figure>
+                </div>
+                <f:if condition="{iterator.index} == 2 || {iterator.index} == 5 || {iterator.index} == 8 || {iterator.index} == 12 || {iterator.index} == 15 || {iterator.index} == 18 || {iterator.index} == 21 || {iterator.isLast}">
+                    </div>                                            
+                </f:if>
+            </f:for>
+        </div>
+    </f:if>
+</f:section>

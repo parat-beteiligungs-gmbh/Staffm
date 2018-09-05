@@ -1,0 +1,31 @@
+<label for="qualilog">
+    Letzter Bearbeiter:&nbsp;
+</label>	
+        <f:for each="{qualifikation.qualilogs}" as="qualilog" iteration="itemIterator">
+            <f:if condition="{itemIterator.index} == 0">
+                <f:link.action action="show" arguments="{qualifikation : qualifikation}">{qualilog.bearbeiter.lastName} {qualilog.bearbeiter.firstName}</f:link.action>
+            </f:if>
+        </f:for><br />
+<label for="bezeichnung">
+	<f:translate key="tx_staffm_domain_model_qualifikation.bezeichnung" />
+</label><br />
+	<f:form.textfield class="form-control" property="bezeichnung" /><br />
+<label for="beschreibung">
+	<f:translate key="tx_staffm_domain_model_qualifikation.beschreibung" />
+</label><br />
+	<f:form.textarea class="form-control" rows="5" property="beschreibung" /><br />
+ <label for="mitarbeiters">
+	<f:translate key="tx_staffm_domain_model_qualifikation.mitarbeiters" />
+</label><br />  
+<f:for each="{qualifikation.mitarbeiters}" as="mitarbeiter" iteration="iterator">
+    <f:if condition="{iterator.isLast}">
+        <f:then>
+            {mitarbeiter.lastName} {mitarbeiter.firstName}
+        </f:then>
+        <f:else>
+            {mitarbeiter.lastName} {mitarbeiter.firstName},
+        </f:else>
+    </f:if>
+</f:for>
+<br />
+<f:link.action class="btn btn-default" action="listChooseQuali" controller="Mitarbeiter" arguments="{qualifikation:qualifikation, key:'auswahl', standardsearch:search}">Auswahl</f:link.action><br /><br />

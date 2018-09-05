@@ -1,0 +1,27 @@
+<!--<ul class="pagination" onClick="getIDsearch(this);return;">-->
+<nav aria-label="Page navigation">
+<ul class="pagination pagination-staffm">
+    <li {f:if(condition: '{char}=="%"', then: 'class="page-item active"')}>
+        <f:widget.link arguments="{char:'%', key:'alle'}" class="page-link{f:if(condition: '{char}==%', then: ' active')}">[ALLE]</f:widget.link>        
+    </li>
+    <f:for each="{letters}" as="letter">
+        <li class="staffmmobilehidden {f:if(condition: '{char}=={letter}', then: ' page-item active', else: ' page-item')}">
+            <f:widget.link arguments="{char:letter, key:'buchs'}" class="page-link{f:if(condition: '{char}=={letter}', then: ' active')}">{letter}</f:widget.link>
+        </li>
+    </f:for>    
+</ul>
+</nav>
+<f:form.hidden id="searchstatus" name="tx_staffm_staffm[searchstatus]" value="{searchstatus}" />
+<f:renderChildren arguments="{contentArguments}" />
+
+<f:if condition="{key} == ''">   
+    <f:if condition="{settings.elemente.max}">
+        <f:then>
+            <br /><p class="text-muted clear">Es werden maximal {settings.elemente.max} Elemente ausgegeben, wenn keine Suchauswahl (wie z. B. [ALLE]) getroffen wurde.</p><br />    
+        </f:then>
+        <f:else>
+            <br /><p class="text-muted clear">Es werden maximal 50 Elemente ausgegeben, wenn keine Suchauswahl (wie z. B. [ALLE]) getroffen wurde.</p><br />    
+        </f:else>
+    </f:if>
+    <br />    
+</f:if>

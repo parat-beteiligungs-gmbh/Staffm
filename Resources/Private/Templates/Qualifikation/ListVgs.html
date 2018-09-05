@@ -1,0 +1,59 @@
+{namespace tv = Pmwebdesign\Staffm\ViewHelpers}
+<f:layout name="Default" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="main">
+    <h1><f:translate id="staffm.qualifikation.list.headline" /></h1>
+    <f:flashMessages />
+    
+            <f:form action="chooselist" arguments="{key:key}" additionalAttributes="{role: 'form'}">                                               
+                <div id="tableContainer" class="tableContainer">    
+                    <table class="tx_staffm" >
+                        <thead class="fixedHeader">
+                            <tr>
+                                <th><f:translate key="tx_staffm_domain_model_qualifikation.bezeichnung" /></th>  
+                                <!--<th style="background-color: #666"><f:translate key="tx_staffm_domain_model_qualifikation.beschreibung" /></th>-->                                 
+                                <f:for each="{mitarbeiters}" as="ma">                                    
+                                    <th title="{ma.title}">{ma.lastName} {ma.firstName}</th>                                             
+                                </f:for> 
+                            </tr>
+                        </thead>
+                        <tbody class="scrollContent">
+                            <f:for each="{qualifikations}" as="qualifikation">
+                                    <tr id="qu{qualifikation.uid}">            
+                                        <td style="text-align: left" title="{qualifikation.beschreibung}"><p><b>{qualifikation.bezeichnung}</b></p></td>                                        
+                                        <!--<td title="{qualifikation.beschreibung}"><p class="tds">{qualifikation.beschreibung}</p></td>-->                                        
+                                        <f:for each="{mitarbeiters}" as="ma"> 
+                                            <td><f:form.checkbox title="{qualifikation.bezeichnung} ({qualifikation.beschreibung})" name="qualifikationen[{qualifikation.uid}]" value="{ma.uid}" multiple="1" checked="{tv:quali(m: ma, qu: qualifikation)}" /></td>                                            
+                                        </f:for> 
+                                    </tr>
+                            </f:for>
+                        </tbody>
+                    </table> 
+                </div><br />
+                <f:if condition="{mitarbeiters}">
+                    <!--<f:form.submit style="float: left" class="btn btn-default" value="Qualifikationszuordnung speichern" />-->
+                    <button type="submit" class="btn btn-success"><f:translate id="staffm.qualifikation.text.zuordnung" /></button>
+                </f:if>                
+            </f:form>
+       
+</f:section>
+
+<script>  
+    // Zum Seitenanfang, langsames ein- und ausblenden
+    var tableh = document.getElementById('tableheader');
+    window.onscroll = function() {        
+        //tableh.style.position = "fixed";
+        document.querySelector('#tableheader').setAttribute('style', 'position:fixed');
+    };    
+</script>

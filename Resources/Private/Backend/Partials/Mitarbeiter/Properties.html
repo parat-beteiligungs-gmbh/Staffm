@@ -1,0 +1,152 @@
+<f:if condition="{mitarbeiter.image}">
+    <p class="tx-staffm bold">Profilbild:</p>
+    <div class="tx_staffm bilderrahmen">
+        <f:for each="{images}" as="image" key="key">        
+            <a href="../../uploads/tx_srfeuserregister/{image}">
+                <f:image class="tx_staffm profilbild" src="uploads/tx_srfeuserregister/{image}" />
+            </a>
+        </f:for>        
+    </div>
+</f:if><br />
+<table class="tx_staffm table-left" >
+	<tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.personalnummer" />
+		</td>
+		<td>
+			{mitarbeiter.personalnummer}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.username" />
+		</td>
+		<td>
+			{mitarbeiter.username}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.date_of_birth" />
+		</td>
+                <td>
+                    <f:if condition="{mitarbeiter.dateOfBirth}!=0">
+                            {f:format.date(date: mitarbeiter.dateOfBirth, format: 'd-m-Y')}
+                    </f:if>	
+                </td>   
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.last_name" />
+		</td>
+		<td>
+			{mitarbeiter.lastName}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.first_name" />
+		</td>
+		<td>
+			{mitarbeiter.firstName}
+		</td>
+	</tr>
+        <tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.position" />
+		</td>
+		<td>
+                    <f:link.action class="tx_staffm link" action="show" controller="Position" arguments="{mitarbeiter:mitarbeiter, key: 'vonMit'}">
+			{mitarbeiter.position.bezeichnung}
+                    </f:link.action>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.telephone" />
+		</td>
+		<td>
+			{mitarbeiter.telephone}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.fax" />
+		</td>
+		<td>
+			{mitarbeiter.fax}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.handy" />
+		</td>
+		<td>
+			{mitarbeiter.handy}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.email" />
+		</td>
+		<td>
+			<f:link.email title="Email schreiben" class="tx_staffm link" email="{mitarbeiter.email}" />
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.title" />
+		</td>
+		<td>
+			{mitarbeiter.title}
+		</td>
+	</tr>
+        <tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.kostenstelle" />
+		</td>
+		<td>
+                    <f:link.action class="tx_staffm link" action="show" controller="Kostenstelle" arguments="{mitarbeiter:mitarbeiter, key: 'vonMit'}">
+			{mitarbeiter.kostenstelle.nummer} {mitarbeiter.kostenstelle.bezeichnung}
+                    </f:link.action>
+		</td>
+	</tr>
+        <tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.firma" />
+		</td>
+		<td>
+                    <f:link.action class="tx_staffm link" action="show" controller="Firma" arguments="{mitarbeiter:mitarbeiter, key: 'vonMit'}">
+			{mitarbeiter.firma.bezeichnung}
+                    </f:link.action>
+		</td>
+	</tr>
+        <f:comment><tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.standort" />
+		</td>
+		<td>         
+                    <f:link.action class="tx_staffm link" action="show" controller="Standort" arguments="{mitarbeiter:mitarbeiter, key: 'vonMit'}">
+                        {mitarbeiter.standort.bezeichnung}
+                    </f:link.action>
+		</td>
+        </tr></f:comment>
+        <tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_qualifikation" />
+		</td>	
+                <td></td>
+	</tr>
+        <f:for each="{mitarbeiter.mitarbeiterQualifikationen}" as="mitarbeiterqualifikation" iteration="it">
+            <tr>
+                <td style="text-align: right;">{it.cycle}</td>
+                <td>
+                    <f:link.action class="tx_staffm link" action="show" controller="Qualifikation" arguments="{mitarbeiterqualifikation:mitarbeiterqualifikation, mitarbeiter:mitarbeiter, key: 'vonMit'}">
+                        {mitarbeiterqualifikation.qualifikation.bezeichnung} 
+                    </f:link.action>
+                </td>
+            </tr>       
+        </f:for>
+       
+        
+</table>

@@ -1,0 +1,59 @@
+{namespace tv = Pmwebdesign\Staffm\ViewHelpers}
+<f:layout name="Default" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="main">
+<h1>Standortliste</h1>
+
+<f:flashMessages />
+<f:form action="list" arguments="{mitarbeiter:mitarbeiter, key:key}" additionalAttributes="{role: 'form'}">
+    <f:if condition="{key} != 'auswahl'">  
+        <f:then>            
+            <f:form.textfield name="search" value="{search}" /><f:form.submit class="btn btn-default" value="Suchen" />            
+            <br /><br />
+        </f:then>
+        <f:else>
+            <table>
+                <td class="tx-staffm bold">Name:&nbsp;</td><td>{mitarbeiter.LastName} {mitarbeiter.firstName}</td><br />
+            </table><br />
+            <f:link.action class="btn btn-default" action="edit" controller="Mitarbeiter" arguments="{mitarbeiter:mitarbeiter}">zurück</f:link.action>&nbsp;&nbsp;
+            <f:form.textfield name="search" value="{search}" /><f:form.submit class="btn btn-default" value="Suchen" />  
+        </f:else>
+    </f:if>
+</f:form>
+<tv:widget.atoZNav objects="{standorts}" as="filteredStandorts" property="bezeichnung" search="{search}" maid="{maid}">    
+<tv:widget.sort objects="{filteredStandorts}" as="sortedStandorts" property="bezeichnung">
+    <br />
+    <br />
+    <table  class="tx_staffm" >
+            <tr>
+                    <th><f:translate key="tx_staffm_domain_model_standort.bezeichnung" /></th>                    
+            </tr>
+
+            <f:for each="{sortedStandorts}" as="standort">
+                    <tr>
+                        <td><f:link.action action="show" arguments="{standort : standort}"> {standort.bezeichnung}</f:link.action></td>
+                        <f:security.ifHasRole role="PA">
+                            <td class="width0">
+                                <div class="input-group">
+                                    <div class="input-group-btn"><f:link.action class="btn btn-info btn-sm" action="edit" arguments="{standort : standort}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Bearbeiten</f:link.action></div>
+                                    <div class="input-group-btn"><f:link.action class="btn btn-danger btn-sm" action="delete" arguments="{standort : standort}">Löschen</f:link.action></div>
+                                </div>
+                            </td>
+                        </f:security.ifHasRole>
+                    </tr>
+            </f:for>
+    </table>
+</tv:widget.sort>
+</tv:widget.atoZNav>
+</f:section>

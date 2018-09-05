@@ -1,0 +1,34 @@
+
+config.tx_extbase {
+    persistence {
+        updateReferenceIndex = 1
+        classes {
+            TYPO3\CMS\Extbase\Domain\Model\FrontendUser {
+                subclasses {
+                    Tx_Staffm_Mitarbeiter = Pmwebdesign\Staffm\Domain\Model\Mitarbeiter
+					
+                }
+            }
+            Pmwebdesign\Staffm\Domain\Model\Mitarbeiter {
+                mapping {
+                    tableName = fe_users
+                    recordType >
+                    #recordType = Tx_Staffm_Mitarbeiter
+                }
+            }
+            Pmwebdesign\Staffm\Domain\Model\FileReference {
+                mapping {
+                        tableName = sys_file_reference
+                        columns {
+                                uid_local.mapOnProperty = originalFileIdentifier
+                        }
+                }
+            }
+            
+    	}    
+        objects {
+            TYPO3\CMS\Extbase\Domain\Model\FileReference.className = Pmwebdesign\Staffm\Domain\Model\FileReference
+            TYPO3\CMS\Extbase\Mvc\Controller\MvcPropertyMappingConfigurationService.className = Pmwebdesign\Staffm\Property\MvcPropertyMappingConfigurationService
+        }
+    }
+}

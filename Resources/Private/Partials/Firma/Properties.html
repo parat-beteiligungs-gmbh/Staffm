@@ -1,0 +1,150 @@
+
+<table class="tx_staffm table-left">
+    <tr>
+        <td><f:translate key="tx_staffm_domain_model_firma.nummer" /></td>
+<td>{firma.nummer}</td>
+</tr>
+<tr>
+    <td>
+<f:translate key="tx_staffm_domain_model_firma.bezeichnung" />
+</td>
+<td>
+    {firma.bezeichnung}
+</td>
+</tr>
+<tr>
+    <td>
+<f:translate key="tx_staffm_domain_model_firma.adresse" />
+</td>
+<td>
+    {firma.adresse}
+</td>
+</tr>
+<tr>
+    <td>
+<f:translate key="tx_staffm_domain_model_firma.plz" />
+</td>
+<td>
+    {firma.plz}
+</td>
+</tr>
+<tr>
+    <td>
+<f:translate key="tx_staffm_domain_model_firma.ort" />
+</td>
+<td>
+    {firma.ort}
+</td>
+</tr>
+<f:if condition="{firma.ortszusatz}">
+    <tr>
+        <td>
+    <f:translate key="tx_staffm_domain_model_firma.ortszusatz" />
+    </td>
+    <td>
+        {firma.ortszusatz}
+    </td>
+    </tr>
+</f:if>
+<tr>
+    <td>
+<f:translate key="tx_staffm_domain_model_firma.land" />
+</td>
+<td>
+    {firma.land}
+</td>
+</tr>
+<tr>
+    <td>
+<f:translate key="tx_staffm_domain_model_firma.tel1" />
+</td>
+<td>
+    <a title="{f:translate(id:'staffm.call')}" href="tel:{firma.tel1}">{firma.tel1}</a>
+</td>
+</tr>
+<f:if condition="{firma.tel2}">
+    <tr>
+        <td>
+    <f:translate key="tx_staffm_domain_model_firma.tel2" />
+    </td>
+    <td>
+        <a title="{f:translate(id:'staffm.call')}" href="tel:{firma.tel2}">{firma.tel2}</a>
+    </td>
+    </tr>
+</f:if>
+<f:if condition="{firma.fax}">
+    <tr>
+        <td>
+    <f:translate key="tx_staffm_domain_model_firma.fax" />
+    </td>
+    <td>
+        {firma.fax}
+    </td>
+    </tr>
+</f:if>
+</table>
+<f:if condition="{firma.images}">      
+    <div id="carouselExampleControls" class="carousel slide carouseldetailview" data-ride="carousel">
+        <div class="carousel-inner carouseldetailviewinner">
+            <f:for each="{firma.images}" as="image" iteration="iterator">                
+                <f:if condition="{iterator.isFirst}">
+                    <f:then>
+                        <div class="carousel-item active">
+                            <a class="sd-lightbox lightboxRelAttribute = sd-lightbox[2] lightboxEnabled = 1" href="{f:uri.image(src:'{image.uid}', treatIdAsReference: 1, cropVariant: 'desktop')}" rel="lightbox[2]">
+                                <f:image src="{image.uid}" alt="" style="width:auto;max-width:100%;height: auto;max-height: 300px" treatIdAsReference="1" />     
+                            </a>
+                        </div>
+                    </f:then>
+                    <f:else>
+                        <div class="carousel-item" stlye="text-align:center">
+                            <a class="sd-lightbox lightboxRelAttribute = sd-lightbox[2] lightboxEnabled = 1" href="{f:uri.image(src:'{image.uid}', treatIdAsReference: 1, cropVariant: 'desktop')}" rel="lightbox[2]">
+                                <f:image src="{image.uid}" alt="" style="width:auto;max-width:100%;height: auto;max-height: 300px" treatIdAsReference="1" />     
+                            </a>
+                        </div>
+                    </f:else>
+                </f:if>
+            </f:for>    
+        </div>
+        <f:if condition="{firma.images -> f:count()} > 1">
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </f:if>
+    </div>
+</f:if>
+<br style="clear: both" />
+
+<f:if condition="{firma.files}">
+    <table class="filelisttable">
+    <label class="tx-staffm bold" for="images"><f:translate key="tx_staffm_domain_model_firma.files" /></label><br />
+    <f:for each="{firma.files}" as="fileone">  
+        <tr>
+            <td>
+                <span>                    
+                    <a href="{fileone.originalResource.publicUrl}">
+                        <!-- Icon for file -->
+                        <f:image src="fileadmin/private/images/fileicons/set1/svg/{fileone.originalResource.originalFile.properties.extension}.svg" />                        
+                        <f:if condition="{fileone.originalResource.title}">
+                            <f:then>                       
+                                <b>{fileone.originalResource.title}</b>
+                                <f:if condition="{fileone.originalResource.description}">
+                                    &nbsp;- {fileone.originalResource.description}       
+                                </f:if>
+                                <span class="news-related-files-size"> {fileone.originalResource.size -> f:format.bytes()}</span>
+                            </f:then>
+                            <f:else>
+                                {fileone.originalResource.name}
+                            </f:else>
+                        </f:if>                        
+                    </a>
+                </span>
+            </td>
+        </tr>
+    </f:for>
+    </table>
+</f:if><br />

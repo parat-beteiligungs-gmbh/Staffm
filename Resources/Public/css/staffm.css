@@ -1,0 +1,530 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 11.01.2016, 12:36:10
+    Author     : Markus Puffer <mpuffer@parat.eu>
+*/
+
+/** Navbar */
+.navbarstaffm {
+    border-radius: 5px;
+    padding-left: 5px;
+}
+
+input {
+    min-height: 21px;
+}
+.tx-staffm a {
+    /*color: #000000;*/
+}
+.tx-staffm a:hover {
+    text-decoration: none;
+}
+
+/* Labels */
+.tx-staffm label {
+    font-weight: bold;
+}
+
+/** Table */
+.tx_staffm a {
+    /*color: #000;*/
+    /*color: #555;*/
+}
+
+.tx_staffm.link {
+    color: #0000cc;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+#datel {
+    font-weight: bold;
+    color: #cd0a0a;
+}
+
+.staffm-button {
+    font-size: 12px;
+    background-color: #d3d3d3;
+    color: #000;
+    padding: 3.5px;
+    margin: 5px 5px 5px 0;
+    border-radius: 3px;
+    border: 1px solid #a6a6a6;
+}
+
+.staffm-button.ok {
+    color: #000;
+    background-color: #009900;
+}
+
+.staffm-button.delete {
+    color: #fff;
+    background-color: #C9234A;
+}
+
+.button-big {
+    font-size: 15px;
+    background-color: #666666;
+    color: #fff;
+    padding: 15px;
+    line-height: 55px;  
+}
+
+.staffm-button:hover {
+    background-color: transparent;
+    color: #C9234A;
+    border: 1px solid #000;
+    text-decoration: none;
+}
+
+.staffm-button.right {
+    float: right;
+}
+
+#typo3-inner-docbody {
+    /*max-width: 800px;
+    max-height: 400px;
+    overflow: scroll;*/
+}
+
+table.tx_staffm {
+    width: 100%;
+    margin-left: 0;
+    border-spacing: 0;    
+    clear: both;
+}
+table.tx_staffm.table-left {
+    width: auto;
+    float: left;
+}
+table.tx_staffm td a {    
+    text-decoration: none;
+}
+
+table.tx_staffm a:hover {
+    /*color: #C9234A;*/
+    /*color: #000;*/
+}
+
+table.tx_staffm th {
+    text-align: left;
+    padding: 5px;
+    /*border-left-style: solid;
+        border-bottom-style: solid;
+    border-width: 0.5px;
+    border-color: #000;*/
+    background-color: #343a40;    
+    color: #fff;
+} 
+
+table.tx_staffm td {    
+    padding: 2px 5px;
+    /*border-left-style: solid;*/
+    /*border-right-style: solid;*/
+    /*border-width: 1px 0.5px 1px 0.5px;*/
+    border-width: 0.5px; 
+    border-color: #000;
+    background-color: #fff;  
+    vertical-align: top;
+}
+
+table.tx_staffm p {
+    
+}
+
+/* Jede zweite Tabellenzeile färben */
+table.tx_staffm tr:nth-child(odd) td {
+    background-color: #d3d3d3;
+}
+
+table.tx_staffm td a {
+    /*color: #000;*/
+}
+
+table.tx_staffm.table-left tr:nth-child(even) td {
+    /*background-color: #fff;*/
+}
+
+table.tx_staffm.table-left td:nth-child(odd) {
+    background-color: #343a40;
+    color: #fff;
+    font-weight: bold;
+}
+
+table.tx_staffm td .staffm-link {
+    color: #666666;
+}
+
+/** A-Z Suche */
+.pagination-staffm {
+    
+}
+.pagination-staffm .page-item.active .page-link {    
+    background-color: #C9234A;
+    border-color: #C9234A;
+}
+.pagination-staffm .page-link {
+    color: #000000;
+}
+.pagination-staffm .page-link:hover {
+    color: #C9234A;
+    background-color: #e9ecef !important;
+}
+/*.pagination li a:hover, .pagination li.active {
+    background-color: #C9234A;    
+    color: #000;
+}*/
+
+.width0 {
+    width: 0;
+}
+
+/* Button Sortierung ändern */
+#btn-sm {    
+    clear: both;
+    float: left;
+    padding-top: 7px;
+    /*margin-left: 35px;*/
+    /*margin-left: calc(100% / 2 - 120px);*/    
+}
+
+#elem {    
+    float: left; 
+    padding-top: 10px;
+}
+
+#excelExport {
+    float: left;  
+    /*margin-left: 20px;*/
+}
+
+/* Profilbild */
+.tx_staffm.profilbild {
+    width: auto;    
+    height: 300px;    
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px;
+}
+
+.tx_staffm.profilbild.mittel {
+    max-width: 60px;    
+    border-radius: 3px;
+}
+
+.tx_staffm.profilbild.klein {
+    max-width: 30px;    
+    height: auto;
+    border-radius: 3px;
+}
+.tx_staffm.picture-3-column {
+    height: 150px;
+    width: auto;
+    max-width: 150px;   
+    border-radius: 75px;
+}
+
+.tx_staffm.fig {
+    text-align: center;
+}
+
+/* Dateiicon */
+.tx_staffm.icon {    
+    max-height: 16px;
+    width: auto;  
+    padding-top: 2px;
+}
+
+.tx_staffm.bilderrahmen { 
+    position: relative;
+    box-sizing: border-box;    
+    /*border: 1px solid #000;
+    margin: 0 0 10px 0;
+    box-shadow: 3px -3px 20px #000;*/
+    width: 100%;
+    height: auto;
+}
+
+/* Text auf bestimmte Pixel beschränken */
+.tds {
+    white-space: nowrap;
+    overflow: hidden;    
+    text-overflow: ellipsis; 
+    width: 240px;
+}
+.tx_staffm.tds400 {
+    white-space: nowrap;
+    overflow: hidden;    
+    text-overflow: ellipsis;
+    width: 400px;
+}
+.tx_staffm.tds250 {
+    white-space: nowrap;
+    overflow: hidden;    
+    text-overflow: ellipsis;
+    width: 250px;
+}
+.tx_staffm.tds150 {
+    white-space: nowrap;
+    overflow: hidden;    
+    text-overflow: ellipsis;
+    width: 150px;
+}
+
+/* Markieren */
+.marksq {
+    
+}
+
+.marksq:hover {    
+    background-color: #a6a6a6;
+}
+
+/*#tx_staffm_seitenanfang {
+    position: fixed;
+    right: 100px;
+    bottom: 5px;
+}*/
+
+/* Scrollbare Tabelle 
+head:first-child+body thead[class].fixedHeader tr {
+    display: block;
+}
+
+head:first-child+body tbody[class].scrollContent {
+    display: block;
+    height: 500px;
+    overflow: auto;
+}
+
+head:first-child+body thead[class].fixedHeader th {
+    width: 205px;
+}
+
+head:first-child+body thead[class].fixedHeader th + th {
+    width: 250px;
+}
+
+head:first-child+body thead[class].fixedHeader th + th + th {
+    width: 300px;
+}
+
+head:first-child+body tbody[class].scrollContent td {
+    width: 200px;
+}
+
+head:first-child+body tbody[class].scrollContent td + td {
+    width: 240px;
+}
+
+head:first-child+body tbody[class].scrollContent td + td + td {
+    width: 300px;
+}*/
+
+.left {
+    float: left;
+}
+
+/* define height and width of scrollable area. Add 16px to width for scrollbar          */
+div.tableContainer {
+	clear: both;
+	border: 1px solid #666;
+	height: 285px;        
+	overflow-x: visible;
+        overflow-y: hidden;
+	/*width: 756px*/
+        width: auto;
+}
+
+/* Reset overflow value to hidden for all non-IE browsers. */
+html>body div.tableContainer {
+        /*overflow: hidden; /* Fließen nach rechts, hidden standard */
+	/*width: 756px*/
+        width: 100%
+}
+
+/* define width of table. IE browsers only                 */
+div.tableContainer table {
+	float: left;
+	/*width: 740px*/
+        width: calc(100% - 16px)
+        /*width: 100%*/
+}
+
+/* define width of table. Add 16px to width for scrollbar.           */
+/* All other non-IE browsers.                                        */
+html>body div.tableContainer table {
+	/*width: 756px*/
+        width: 100%
+}
+
+/* set table header to a fixed position. WinIE 6.x only                                       */
+/* In WinIE 6.x, any element with a position property set to relative and is a child of       */
+/* an element that has an overflow property set, the relative value translates into fixed.    */
+/* Ex: parent element DIV with a class of tableContainer has an overflow property set to auto */
+thead.fixedHeader tr {
+	position: relative
+}
+
+/* set THEAD element to have block level attributes. All other non-IE browsers            */
+/* this enables overflow to work on TBODY element. All other non-IE, non-Mozilla browsers */
+html>body thead.fixedHeader tr {
+	display: block
+}
+
+/* make the TH elements pretty */
+thead.fixedHeader th {
+/*	background: #666;*/
+	/*border-left: 1px solid #FFF;*/
+	border-right: 1px solid #FFF;
+	border-top: 1px solid #666;
+	font-weight: normal;
+	padding: 4px 3px;
+	text-align: left
+}
+
+/* make the A elements pretty. makes for nice clickable headers                */
+thead.fixedHeader a, thead.fixedHeader a:link, thead.fixedHeader a:visited {
+	color: #FFF;
+	display: block;
+	text-decoration: none;
+	width: 100%
+}
+
+/* make the A elements pretty. makes for nice clickable headers                */
+/* WARNING: swapping the background on hover may cause problems in WinIE 6.x   */
+thead.fixedHeader a:hover {
+	color: #FFF;
+	display: block;
+	text-decoration: underline;
+	width: 100%
+}
+
+/* define the table content to be scrollable                                              */
+/* set TBODY element to have block level attributes. All other non-IE browsers            */
+/* this enables overflow to work on TBODY element. All other non-IE, non-Mozilla browsers */
+/* induced side effect is that child TDs no longer accept width: auto                     */
+html>body tbody.scrollContent {
+	display: block;
+	/*height: 262px; passt nicht? */
+        height: 242px;
+	overflow-y: auto; 
+	width: 100%;        
+}
+
+.scroller {
+    overflow-y: auto;
+}
+
+/* make TD elements pretty. Provide alternating classes for striping the table */
+/* http://www.alistapart.com/articles/zebratables/                             */
+tbody.scrollContent td, tbody.scrollContent tr.normalRow td {
+	background: #FFF;
+	border-bottom: none;
+	border-left: none;
+	border-right: 1px solid #CCC;
+	border-top: 1px solid #DDD;
+	padding: 2px 3px 3px 4px
+}
+
+tbody.scrollContent tr.alternateRow td {
+	background: #EEE;
+	border-bottom: none;
+	border-left: none;
+	border-right: 1px solid #CCC;
+	border-top: 1px solid #DDD;
+	padding: 2px 3px 3px 4px
+}
+
+/* define width of TH elements: 1st, 2nd, and 3rd respectively.          */
+/* Add 16px to last TH for scrollbar padding. All other non-IE browsers. */
+/* http://www.w3.org/TR/REC-CSS2/selector.html#adjacent-selectors        */
+html>body thead.fixedHeader th {
+	width: 240px;
+        min-width: 240px;
+        max-width: 240px
+}
+
+html>body thead.fixedHeader th + th {
+	width: 120px;
+        min-width: 120px
+}
+
+html>body thead.fixedHeader th + th + th {
+	width: 120px;
+        min-width: 120px
+}
+
+/* define width of TD elements: 1st, 2nd, and 3rd respectively.          */
+/* All other non-IE browsers.                                            */
+/* http://www.w3.org/TR/REC-CSS2/selector.html#adjacent-selectors        */
+html>body tbody.scrollContent td {
+	width: 240px;
+        min-width: 240px;
+        max-width: 240px;
+        text-align: center;
+}
+
+html>body tbody.scrollContent td + td {
+	width: 120px;
+        min-width: 120px;
+        max-width: 120px
+}
+
+html>body tbody.scrollContent td + td + td {
+	width: 120px;
+        min-width: 120px;
+        max-width: 120px
+}
+
+.message-ok {
+    color:#3b7826;
+    background-color:#cdeaca;    
+    border-color:#58b548;
+    /*padding: 5px*/
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: searchfield-cancel-button;
+}
+
+.staffmmobilehidden {
+    display: none;
+}
+.nobackground {
+    background-color: transparent !important;
+}
+
+/** Slider */
+/* Sliderdetailview */
+.carouseldetailview {
+    max-width: 100%;
+    min-width: 250px;
+    background:#d3d3d3;
+    overflow:hidden;
+}
+.carouseldetailviewinner {
+    text-align: center;
+}
+.carouseldetailviewitem {
+    
+}
+
+@media (min-width: 992px) {
+    .staffmmobilehidden {
+        display: table-cell;
+    }
+    
+    /** Slider */
+    /* Sliderdetailview */
+    .carouseldetailview {
+        max-width: 50%;
+    }    
+}
+

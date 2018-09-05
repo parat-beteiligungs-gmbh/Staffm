@@ -1,0 +1,19 @@
+<h1>{headline}</h1>
+
+<f:form enctype="multipart/form-data" action="{action}" object="{kostenstelle}" name="kostenstelle" arguments="{kostenstelle:kostenstelle,mitarbeiter:mitarbeiter}" additionalAttributes="{role:'form'}">
+    <label>Kostenstelle: {kostenstelle.nummer}</label><br /><br />
+       
+    <f:if condition="{action} == 'add'">
+        <f:then>
+            <f:link.action class="tx-btn btn-default" action="list" controller="Mitarbeiter" arguments="{kostenstelle:kostenstelle,mitarbeiter:mitarbeiter}">
+                Verantwortlichen auswählen/speichern
+            </f:link.action><br /><br />    
+        </f:then>
+        <f:else>
+            <label>Verantwortlicher: {kostenstelle.verantwortlicher.name}</label><br /><br />
+            <f:form.submit class="btn btn-default" value="{submitmessage}" class="tx-btn btn-default" />
+        </f:else>
+    </f:if>
+    <br />
+    <f:link.action class="tx-btn btn-default" controller="Kostenstelle" arguments="{kostenstelle:kostenstelle}" action="edit">Zurück</f:link.action>
+</f:form>

@@ -1,0 +1,14 @@
+
+<f:if condition="{countmit} > 1">
+    <f:widget.link title="Ändert die Sortierung (A-Z / Z-A)" arguments="{order:order}" class="" id="btn-sm"><span class="glyphicon glyphicon-sort" aria-hidden="true">&nbsp;</span></f:widget.link>
+</f:if>
+<span id="elem">({countmit}
+<f:if condition="{countmit} == 1">
+    <f:then>
+        Element)
+    </f:then>
+    <f:else>
+        Elemente)
+    </f:else>
+</f:if></span>
+<f:renderChildren arguments="{contentArguments}" /><!-- Inhalt des ViewHelpers wird gerendert -->

@@ -1,0 +1,96 @@
+
+<f:be.container pageTitle="mitarbeiter"
+                enableJumpToUrl="false"                
+                enableClickMenu="false" 
+                loadPrototype="false" 
+                loadScriptaculous="false"
+                scriptaculousModule=""
+                loadExtJs="true" 
+                loadExtJsTheme="false" 
+                extJsAdapter="jQuery" 
+                enableExtJsDebug="true"    
+                loadJQuery="true"  
+                includeCssFiles="{0: '{f:uri.resource(path:\'css/staffm.css\')}', 1: '{f:uri.resource(path:\'css/jquery-ui.css\')}', 2: '{f:uri.resource(path:\'css/bootstrap.min.css\')}'}" 
+                includeJsFiles="{0: '{f:uri.resource(path:\'js/jquery-1.10.2.js\')}', 1: '{f:uri.resource(path:\'js/jquery-ui.js\')}', 2: '{f:uri.resource(path:\'js/bootstrap.min.js\')}'}"                
+                addJsInlineLabels="{0: 'label1', 1: 'label2'}">    
+                <!-- TODO 
+                <link href="{f:uri.resource(path:'css/bootstrap.min.css')}" rel="stylesheet">
+                <link href="{f:uri.resource(path:'css/staffm.css')}" rel="stylesheet">
+                <script src="{f:uri.resource(path:'js/jquery-1.10.2.js')}" type="text/javascript"></script>
+                -->   
+		<div id="typo3-docheader">
+			<div class="typo3-docheader-functions">
+				<div class="left">
+					<f:be.buttons.csh />
+					<f:be.menus.actionMenu>
+						<f:be.menus.actionMenuItem label="Overview" controller="" action="list" />
+						<f:be.menus.actionMenuItem label="Create new Kostenstelle" action="new" controller="Kostenstelle" />
+								<f:be.menus.actionMenuItem label="Neue Tätigkeit" action="new" controller="Taetigkeit" />
+								<f:be.menus.actionMenuItem label="Create new Mitarbeitertaetigkeit" action="new" controller="Mitarbeitertaetigkeit" />
+								<f:be.menus.actionMenuItem label="Neue Qualifikation" action="new" controller="Qualifikation" />
+								<f:be.menus.actionMenuItem label="Create new Mitarbeiterqualifikation" action="new" controller="Mitarbeiterqualifikation" />
+								<f:be.menus.actionMenuItem label="Create new Firma" action="new" controller="Firma" />
+								<f:be.menus.actionMenuItem label="Create new Standort" action="new" controller="Standort" />
+								<f:be.menus.actionMenuItem label="Create new Mitarbeitersoftware" action="new" controller="Mitarbeitersoftware" />
+								<f:be.menus.actionMenuItem label="Create new Software" action="new" controller="Software" />
+					</f:be.menus.actionMenu>
+				</div>
+				<div class="right">
+					<f:be.pagePath />
+					<f:be.pageInfo />
+				</div>
+			</div>
+			<div class="typo3-docheader-buttons">
+				<div class="left">
+
+				</div>
+				<div class="right">
+					<f:be.buttons.shortcut />
+				</div>
+			</div>
+
+		</div>
+		<div id="typo3-docbody">
+			<div id="typo3-inner-docbody">
+				<f:flashMessages />
+                                
+                                <f:link.action class="staffm-button button-big" action="list" controller="Mitarbeiter">Mitarbeiter</f:link.action>
+                                <f:link.action class="staffm-button button-big" action="list" controller="Qualifikation">Qualifikationen</f:link.action>
+                                <f:link.action class="staffm-button button-big" action="list" controller="Kostenstelle">Kostenstellen</f:link.action>
+                                <f:link.action class="staffm-button button-big" action="list" controller="Firma">Firma</f:link.action>
+                                <f:link.action class="staffm-button button-big" action="list" controller="Position">Positionen</f:link.action>
+                                <f:comment><f:link.action class="staffm-button button-big" action="list" controller="Standort">Standort</f:link.action></f:comment>                                
+                                <div style="display:block;box-sizing:border-box;background-color:white;"><img style="display:block;margin-left:auto;margin-right:auto;" src="../typo3conf/ext/staffm/Resources/Public/Icons/loading-frame.gif" id="ladebild" /></div>        
+                                <div id="ladediv" style="display:block;"><br /><br /></div>                               
+				<f:render section="content" />                                   
+			</div>
+		</div>	
+</f:be.container>
+<script>
+    /*function disable_image() {
+        document.getElementById("ladebild").setAttribute("style", "display:none;");
+    }*/
+    //oQuickReply.swap('lades');
+    window.onload = function() {
+        document.getElementById("ladebild").setAttribute("style", "display:none;");
+        //document.getElementById("ladediv").setAttribute("style", "width:100%;");       
+    };
+    window.onbeforeunload = function() {
+        document.getElementById("ladebild").setAttribute("style", "display:block;margin-left:auto;margin-right:auto;cursor:wait;");
+        document.getElementById("ladediv").setAttribute("style", "display:none;");   
+        document.getElementById("typo3-inner-docbody").setAttribute("style", "cursor:wait;");       
+    };    
+    
+    // Wenn Seite vollständig geladen
+    $(document).ready(function() {  
+        /* Excelexport Button
+         * Ladebilder nicht setzten, da sie sonst dauernd laufen
+         */
+        $( "#excelExport" ).click(function(){             
+            window.onbeforeunload = null;
+            document.getElementById("ladebild").setAttribute("style", "display:none;margin-left:auto;margin-right:auto;");
+            document.getElementById("ladediv").setAttribute("style", "display:block;");
+            document.getElementById("ladedivall").setAttribute("style", "cursor:normal;"); 
+        });           
+    });
+</script>

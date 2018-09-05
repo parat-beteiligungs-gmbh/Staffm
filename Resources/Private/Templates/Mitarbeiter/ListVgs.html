@@ -1,0 +1,123 @@
+{namespace tv = Pmwebdesign\Staffm\ViewHelpers}
+<f:layout name="Default" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="main">
+    <h1><f:translate id="staffm.mitarbeiter.list.headline" /></h1>
+    <f:flashMessages />
+    <f:form action="list" arguments="{kostenstelle:kostenstelle, key:key}" additionalAttributes="{role: 'form'}">       
+        <div class="input-group">
+            <f:form.textfield class="form-control" placeholder="Suchwort..." title="Volltextsuche: mehrere Begriffe, oder Teilbegriffe möglich (z. B. Tätigkeit: Eink, für Einkauf)" name="search" value="{search}" />
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-default"><f:translate id="staffm.search" /></button>
+            </div>       
+        </div>              
+    </f:form>   
+    <br />
+    <table class="tx_staffm">     
+        <tr>
+                <th></th>
+                <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.personalnummer" /></th>                
+                <th><f:translate key="tx_staffm_domain_model_mitarbeiter.last_name" /></th>
+                <th><f:translate key="tx_staffm_domain_model_mitarbeiter.first_name" /></th>
+                <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.title" /></th>
+                <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.telephone" /></th>	
+                <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_qualifikation" /></th>                
+        </tr>                  
+        <f:for each="{mitarbeiters}" as="mitarbeiter">            
+            <tr id="ma{mitarbeiter.uid}">    
+                <td>
+                    <f:if condition="{mitarbeiter.image}">   
+                        <f:for each="{mitarbeiter.image}" as="img" key="key" iteration="iterator">        
+                            <f:if condition="{iterator.isFirst}">
+                                <f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, search:search}"><f:image class="tx_staffm profilbild klein" src="{img.originalResource.publicUrl}" /></f:link.action>                                            
+                            </f:if>
+                        </f:for>                                                                           
+                    </f:if>                          
+                </td>
+                <td class="staffmmobilehidden"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.personalnummer}</f:link.action></td>                                   
+                <td><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.lastName}</f:link.action></td>
+                <td><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.firstName}</f:link.action></td>
+                <td class="staffmmobilehidden"><div class="tx_staffm tds150"><f:link.action title="{mitarbeiter.title}" action="show" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.title}</f:link.action></div></td>
+                <td class="staffmmobilehidden"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.telephone}</f:link.action></td>                                          
+                <td class="staffmmobilehidden">
+                    <f:if condition="{mitarbeiter.qualifikationen}">
+                        <f:then>
+                            <f:for each="{mitarbeiter.qualifikationen}" as="mitarbeiterqualifikation" iteration="iteration">
+                                <f:if condition="{iteration.isFirst}">
+                                    <f:then>
+                                        <p class="marksq" title="{mitarbeiterqualifikation.beschreibung}"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"><span>{mitarbeiterqualifikation.bezeichnung}</span></f:link.action>
+                                            <f:if condition="{mitarbeiter.qualifikationen -> f:count()} > 1">
+                                                <a class="btn btn-sm btn-secondary" style="float:right" href="javascript:void(0)" id="q{mitarbeiter.uid}" onClick="getID(this);return false;"><span name="q{mitarbeiter.uid}glyphiconchange" id="q{mitarbeiter.uid}" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                                                    <f:if condition="{mitarbeiter.qualifikationen -> f:count()} < 10">
+                                                        0
+                                                    </f:if>
+                                                    {mitarbeiter.qualifikationen -> f:count()}</a>
+                                            </f:if>
+                                        </p>
+                                    </f:then>
+                                    <f:else>
+                                        <p class="marksq q{mitarbeiter.uid}hidden" style="display:none" title="{mitarbeiterqualifikation.qualifikation.beschreibung}"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}">{mitarbeiterqualifikation.bezeichnung}</f:link.action></p>                                            
+                                    </f:else>
+                                </f:if>                                            
+                            </f:for>                                                  
+                        </f:then>
+                        <f:else>
+                            <p><f:link.action style="color:red" action="show" arguments="{mitarbeiter : mitarbeiter}">>> keine <<</f:link.action></p>     
+                        </f:else>
+                    </f:if>
+                </td>
+                <td class="nobackground"><f:link.action class="btn btn-sm btn-secondary" title="{mitarbeiter.firstName} {mitarbeiter.lastName} bearbeiten" action="edit" arguments="{mitarbeiter : mitarbeiter, berechtigung:'vonVorg'}"><f:translate id="staffm.edit" /></f:link.action></td>                                                                   
+            </tr>               	                
+        </f:for>      
+    </table>
+    <f:if condition="{mitarbeiters}">  
+        <f:then></f:then>
+        <f:else>
+            <br />
+            <p style="color:#C9234A"><f:translate id="staffm.text.kstverantwortlicher.keinemitarbeiter" /></p>
+        </f:else>
+    </f:if>
+    <script>    
+        function getID(stat) {
+            // ID der geklickten Mitarbeiterqualifikation ermitteln
+            //var objEvt = (window.event)? window.event: objEvt;
+            //var objSrc = (objEvt.target)? objEvt.target : objEvt.srcElement;
+            //var id = objSrc.id;      
+            var id = stat.id;
+
+            // Klassen der Mitarbeiterqualifikation ermitteln
+            var list = document.getElementsByClassName(id + "hidden");
+            // Aus- oder einblenden
+            for(var i = 0; i < list.length; i++) {
+                /*(list[i].style.display == 'none') ? list[i].style.display = ''
+                : list[i].style.display = 'none';*/
+
+                var elem = document.getElementsByName(id + 'glyphiconchange');            
+                if (list[i].style.display == 'none') {
+                    list[i].style.display = '';
+                    for (var ii = 0; ii < elem.length; ii++) { 
+                        elem[ii].setAttribute('class', 'glyphicon glyphicon-triangle-top');
+                    }                 
+                } else {
+                    list[i].style.display = 'none';
+                    //elem.setAttribute('class', 'glyphicon glyphicon-triangle-bottom');
+                    for (var ii = 0; ii < elem.length; ii++) { 
+                        elem[ii].setAttribute('class', 'glyphicon glyphicon-triangle-bottom');
+                    }        
+
+                } 
+            }
+        }
+    </script>
+</f:section>

@@ -1,0 +1,135 @@
+{namespace vh=Pmwebdesign\Staffm\ViewHelpers}
+<label class="tx-staffm bold">Profil-Bild</label><br />
+        <vh:form.multiupload property="image" resources="resources">
+            <ul style="list-style:none;padding:0">
+                <f:for each="{resources}" as="resource">
+                    <li>
+                        <label>
+                            <vh:form.multiupload.delete property="image" value="{resource}" />
+                            <f:image image="{resource}" alt="" width="250" height="auto" />
+                        </label>
+                    </li>
+                </f:for>
+            </ul>
+        </vh:form.multiupload>   
+<br style="clear:both"/>
+<label class="tx-staffm bold" for="personalnummer">
+	<f:translate key="tx_staffm_domain_model_mitarbeiter.personalnummer" />
+</label>
+	<f:form.textfield class="form-control" style="max-width:300px" property="personalnummer" disabled="True" /><br />        
+<label class="tx-staffm bold" for="username">
+	<f:translate key="tx_staffm_domain_model_mitarbeiter.username" />
+</label>
+	<f:form.textfield class="form-control" style="max-width:300px" title="AD-Name von IT" property="username" disabled="True" /><br />
+<label class="tx-staffm bold" for="dateOfBirthShow">
+	<f:translate key="tx_staffm_domain_model_mitarbeiter.date_of_birth_show" />        
+</label>        
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <f:form.radio property="dateOfBirthShow" value="1" />&nbsp;Ja
+                </div>
+            </div>
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <f:form.radio property="dateOfBirthShow" value="0" />&nbsp;Nein
+                </div>
+            </div>            
+        </div><br />
+<label class="tx-staffm bold" for="dateOfBirth">
+	<f:translate key="tx_staffm_domain_model_mitarbeiter.date_of_birth" />        
+</label>  
+        <f:if condition="{mitarbeiter.dateOfBirthShow} == 1">
+            <f:then>
+                <f:if condition="{mitarbeiter.dateOfBirth}">
+                    <f:then>
+                        <f:form.textfield class="form-control" style="max-width:300px" id="dateb" value="{f:format.date(date: mitarbeiter.dateOfBirth, format: 'd.m.Y')}" title="Format: TT-MM-JJJJ" disabled="True" /><f:form.hidden id="dateInteger" property="dateOfBirth" /><br />
+                    </f:then>
+                    <f:else>
+                        <f:form.textfield class="form-control" style="max-width:300px" id="dateb" value="{f:format.date(date: mitarbeiter.dateOfBirth, format: 'd.m.Y')}" title="Format: TT-MM-JJJJ" /><f:form.hidden id="dateInteger" property="dateOfBirth" /><br />        
+                    </f:else>
+                </f:if>
+            </f:then>
+            <f:else>
+                <p><f:translate id="staffm.text.geburtsdatumausgabe" /></p><f:form.hidden id="dateInteger" property="dateOfBirth" />
+            </f:else>
+        </f:if>
+<label class="tx-staffm bold" for="lastName">
+	<f:translate key="tx_staffm_domain_model_mitarbeiter.last_name" />
+</label>
+	<f:form.textfield class="form-control" style="max-width:300px" property="lastName" disabled="True" /><br />
+<label class="tx-staffm bold" for="firstName">
+	<f:translate key="tx_staffm_domain_model_mitarbeiter.first_name" />
+</label>
+	<f:form.textfield class="form-control" style="max-width:300px" property="firstName" disabled="True" /><br />
+<label class="tx-staffm bold" for="telephone">
+	<f:translate key="tx_staffm_domain_model_mitarbeiter.telephone" />
+</label>
+	<f:form.textfield class="form-control" style="max-width:300px" property="telephone" disabled="True" /><br />
+<label class="tx-staffm bold" for="fax">
+	<f:translate key="tx_staffm_domain_model_mitarbeiter.fax" />
+</label>
+	<f:form.textfield class="form-control" style="max-width:300px" property="fax" disabled="True" /><br />
+<label class="tx-staffm bold" for="handy">
+	<f:translate key="tx_staffm_domain_model_mitarbeiter.handy" />
+</label>
+	<f:form.textfield class="form-control" style="max-width:300px" property="handy" /><br />
+<label class="tx-staffm bold" for="email">
+	<f:translate key="tx_staffm_domain_model_mitarbeiter.email" />
+</label>
+	<f:form.textfield type="email" class="form-control" style="max-width:300px" property="email" disabled="True" /><br />
+<label class="tx-staffm bold" for="title">
+	<f:translate key="tx_staffm_domain_model_mitarbeiter.title" />
+</label>
+	<f:form.textfield class="form-control" style="max-width:300px" property="title" disabled="True" /><br />
+<f:if condition="{mitarbeiter}">
+    <label class="tx-staffm bold" for="kostenstelle">
+            <f:translate key="tx_staffm_domain_model_mitarbeiter.kostenstelle" />
+    </label>       
+            <f:form.hidden property="kostenstelle" />
+            <f:form.textfield class="form-control" style="max-width:300px" value="{mitarbeiter.kostenstelle.nummer} {mitarbeiter.kostenstelle.bezeichnung}" disabled="disabled" />            
+            <br /><br />
+    <label class="tx-staffm bold" for="position">
+            <f:translate key="tx_staffm_domain_model_mitarbeiter.position" />
+    </label>
+            <f:form.hidden property="position" />
+            <f:form.textfield class="form-control" style="max-width:300px" disabled="disabled" value="{mitarbeiter.position.bezeichnung}" />            
+            <br /><br />
+    <label class="tx-staffm bold" for="firma">
+            <f:translate key="tx_staffm_domain_model_mitarbeiter.firma" />
+    </label>
+            <f:form.hidden property="firma" />
+            <f:form.textfield class="form-control" style="max-width:300px" disabled="disabled" value="{mitarbeiter.firma.bezeichnung}" />            
+            <br /><br />
+    <f:comment><label class="tx-staffm bold" for="standort">
+            <f:translate key="tx_staffm_domain_model_mitarbeiter.standort" />        
+    </label>
+            <f:form.hidden property="standort" />
+            <label>{mitarbeiter.standort.bezeichnung}</label>            
+            <br /></f:comment>
+    <label class="tx-staffm bold" for="qualifikation">
+            <f:translate key="tx_staffm_domain_model_qualifikation" />        
+    </label><br />
+            <f:if condition="{mitarbeiter.qualifikationen}">
+                <f:then>
+                    <f:for each="{mitarbeiter.qualifikationen}" as="quali" iteration="qIteration">
+                        <f:form.textfield class="form-control" style="max-width:300px" disabled="disabled" value="{qIteration.cycle} - {quali.bezeichnung}" />
+                        <f:if condition="{qIteration.isLast}">
+                            <f:security.ifHasRole role="PA">
+                                <div class="btn-group" role="group">
+                                    <f:link.action class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:'auswahlUsr', standardsearch:search}"><f:translate id="staffm.choose" /></f:link.action>                    
+                                    <f:link.action class="btn btn-danger" action="deleteQuali" controller="Mitarbeiterqualifikation" arguments="{mitarbeiter:mitarbeiter}" title="Entfernt alle Qualifikationen!"><f:translate id="staffm.allremove" /></f:link.action>                    
+                                </div>
+                            </f:security.ifHasRole>
+                            <br />
+                        </f:if>                        
+                    </f:for>
+                </f:then>
+                <f:else>                   
+                    <f:security.ifHasRole role="PA">
+                        <f:link.action style="float:left" class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:'auswahlUsr'}"><f:translate id="staffm.choose" /></f:link.action><br />                        
+                    </f:security.ifHasRole>
+                    <br />
+                </f:else>
+            </f:if>
+</f:if>

@@ -1,0 +1,62 @@
+{namespace tv = Pmwebdesign\Staffm\ViewHelpers}
+<f:layout name="Default" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="content">
+<h1>Standortliste</h1>
+
+<f:flashMessages />
+<f:form action="list" arguments="{mitarbeiter:mitarbeiter, key:key}" additionalAttributes="{role: 'form'}">
+    <f:if condition="{key} != 'auswahl'">  
+        <f:then>
+            <f:link.action class="btn btn-default" action="new">Neuer Standort</f:link.action>&nbsp;&nbsp;
+            <f:form.textfield name="search" value="{search}" /><f:form.submit class="btn btn-default" value="Suchen" />            
+            <br /><br />
+        </f:then>
+        <f:else>
+            <table>
+                <td class="tx-staffm bold">Name:&nbsp;</td><td>{mitarbeiter.LastName} {mitarbeiter.firstName}</td><br />
+            </table><br />
+            <f:link.action class="btn btn-default" action="edit" controller="Mitarbeiter" arguments="{mitarbeiter:mitarbeiter}">zurück</f:link.action>&nbsp;&nbsp;
+            <f:form.textfield name="search" value="{search}" /><f:form.submit class="btn btn-default" value="Suchen" />  
+        </f:else>
+    </f:if>
+</f:form>
+<tv:widget.atoZNav objects="{standorts}" as="filteredStandorts" property="bezeichnung" search="{search}" maid="{maid}"><br />    
+<tv:widget.sort objects="{filteredStandorts}" as="sortedStandorts" property="bezeichnung">
+    <br />
+    <br />
+    <table  class="tx_staffm" >
+            <tr>
+                    <th><f:translate key="tx_staffm_domain_model_standort.bezeichnung" /></th>                    
+            </tr>
+
+            <f:for each="{sortedStandorts}" as="standort">
+                    <tr>
+                            <td><f:link.action action="show" arguments="{standort : standort}"> {standort.bezeichnung}</f:link.action></td>
+                            <f:if condition="{key} == 'auswahl'">
+                                <f:then>
+                                    <td><f:link.action class="staffm-link" action="choose" arguments="{mitarbeiter:mitarbeiter, standort : standort}">Wählen</f:link.action></td>
+                                </f:then>
+                                <f:else>
+                                    <td><f:link.action class="staffm-link" action="edit" arguments="{standort : standort}">Bearbeiten</f:link.action></td>
+                                    <td><f:link.action class="staffm-link" action="delete" arguments="{standort : standort}">Löschen</f:link.action></td>
+                                </f:else>
+                            </f:if>
+
+                    </tr>
+            </f:for>
+    </table>
+</tv:widget.sort>
+</tv:widget.atoZNav>
+</f:section>

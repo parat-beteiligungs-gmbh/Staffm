@@ -1,0 +1,45 @@
+<T3DataStructure>
+    <sheets>
+        <sDEF>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>Elemente Config</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <settings.elemente.max>
+                        <TCEforms>
+                            <label>Max. Anzahl Elemente</label>
+                            <config>
+                                <type>input</type>
+                                <size>2</size>
+                                <eval>int</eval>
+                                <default>5</default>
+                            </config>
+                        </TCEforms>
+                    </settings.elemente.max>                    
+                    <settings.admingroups>
+                        <TCEforms>
+                            <label>Berechtigte Gruppen zur vollst. Bearbeitung</label>
+                            <config>
+                                <type>group</type>
+                                <internal_type>db</internal_type>
+                                <allowed>fe_groups</allowed>                                                           
+                                <show_thumbs>1</show_thumbs>
+                            </config>
+                        </TCEforms>
+                    </settings.admingroups>
+                    <settings.admingroups2>
+                        <TCEforms>
+                            <label>Test auslesen aus Klasse</label>
+                            <config>
+                                <type>select</type>
+                                <itemsProcFunc>Pmwebdesign\Staffm\Property\FlexForm\FlexFormUserFunc->getFrontendUserGroup</itemsProcFunc>
+                            </config>
+                        </TCEforms>
+                    </settings.admingroups2>
+                </el>
+            </ROOT>
+        </sDEF>
+    </sheets>
+</T3DataStructure>

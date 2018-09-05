@@ -1,0 +1,144 @@
+{namespace tv = Pmwebdesign\Staffm\ViewHelpers}
+<f:layout name="Default" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="main">
+    <h1><f:translate id="staffm.qualifikation.list.headline" /></h1>
+<f:flashMessages />
+<f:comment><div style="position: relative;background-color: #ccff66;padding: 10px;border-style:solid;border-width: thin">
+    <b>INFO:</b>
+    <p style="color: red">Die Zuordnung der Qualifikationen kann jetzt durch die Vorgesetzten erfolgen! 
+        Dazu in das Intranet einloggen und anschließend können die Mitarbeiter der Kostenstellen des Vorgesetzten, bearbeitet werden.</p>
+    <p style="color: red">Bei weiteren Fragen wenden Sie sich an den <a style="text-decoration: underline" href="http://intranet/index.php?id=146&tx_staffm_staffm%5Bmitarbeiter%5D=467&tx_staffm_staffm%5Baction%5D=show&tx_staffm_staffm%5Bcontroller%5D=Mitarbeiter&cHash=0b4a067d2b05ddcf1ed0fd22364b4e89">Administrator</a> der Website.
+    </p>
+</div><br /></f:comment>
+    <f:if condition="{key} == ''">  
+        <f:then>
+            <f:form action="list" arguments="{mitarbeiter:mitarbeiter, key:key, berechtigung:berechtigung}" additionalAttributes="{role: 'form'}">                                  
+                <tv:widget.atoZNav objects="{qualifikations}" as="filteredQualifikations" property="bezeichnung" search="{search}" maid="{maid}"> 
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <f:security.ifHasRole role="PA">                                                           
+                                <f:link.action class="btn btn-default" title="Neue Qualifikation anlegen" action="new"><f:translate id="staffm.qualifikation.new" /></f:link.action>                               
+                            </f:security.ifHasRole>
+                            <f:link.action title="Die Liste in Excel ausgeben" id="excelExport" class="btn btn-default" action="export" arguments="{searching:'{search}'}" >
+                                <f:image class="tx_staffm icon" src="typo3conf/ext/staffm/Resources/Public/Icons/Excel.png" />
+                                Excel Export
+                            </f:link.action>
+                        </div>
+                        <f:form.textfield class="form-control" placeholder="Suchwort..." title="Volltextsuche für Bezeichnung, oder einen Teil der Beschreibung einer Qualifikation" name="search" value="{search}" />                                                            
+                        <div class="input-group-append">   
+                            <button type="submit" class="btn btn-default"><f:translate id="staffm.search" /></button>
+                        </div>                            
+                    </div>
+                    <tv:widget.sort objects="{filteredQualifikations}" as="sortedQualifikations" property="bezeichnung">
+                   
+                    <table class="tx_staffm" >
+                            <tr>
+                                <th><f:translate key="tx_staffm_domain_model_qualifikation.bezeichnung" /></th>  
+                                <th><f:translate key="tx_staffm_domain_model_qualifikation.beschreibung" /></th>
+                                <th class="staffmmobilehidden"><f:translate id="staffm.text.zugeordnete" /> <f:translate key="tx_staffm_domain_model_mitarbeiter" /></th>                                
+                            </tr>
+                            <f:for each="{sortedQualifikations}" as="qualifikation">
+                                    <tr>
+                                        <td><div id="q{qualifikation.uid}" class="anchor"></div><div class="tx_staffm tds250"><f:link.action title="{qualifikation.bezeichnung}" action="show" arguments="{qualifikation : qualifikation, search:search}">{qualifikation.bezeichnung}</f:link.action></div></td>
+                                        <td><div class="tx_staffm tds400"><f:link.action title="{qualifikation.beschreibung}" action="show" arguments="{qualifikation : qualifikation, search:search}">{qualifikation.beschreibung}</f:link.action></div></td>                                                                                   
+                                        <td class="staffmmobilehidden">     
+                                            <f:for each="{qualifikation.mitarbeiters}" as="m" iteration="iteration">
+                                                <f:if condition="{iteration.isFirst}">
+                                                    <f:then>
+                                                        <p class="marksq" title="{m.telephone}"><f:link.action action="show" arguments="{qualifikation : qualifikation, search:search}"><span>{m.lastName} {m.firstName}</span></f:link.action>
+                                                            <f:if condition="{qualifikation.mitarbeiters -> f:count()} > 1">
+                                                                <a class="btn btn-secondary btn-sm" style="float:right" href="javascript:void(0)" id="q{qualifikation.uid}" onClick="getID(this);return false;"><span name="q{qualifikation.uid}glyphiconchange" id="q{qualifikation.uid}" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                                                                    <f:if condition="{qualifikation.mitarbeiters -> f:count()} < 10">
+                                                                        0
+                                                                    </f:if>
+                                                                    {qualifikation.mitarbeiters -> f:count()}</a>
+                                                            </f:if>
+                                                        </p>
+                                                    </f:then>
+                                                    <f:else>
+                                                        <p class="marksq q{qualifikation.uid}hidden" style="display:none" title="{m.telephone}"><f:link.action action="show" arguments="{qualifikation : qualifikation, search:search}">{m.lastName} {m.firstName}</f:link.action></p>                                            
+                                                    </f:else>
+                                                </f:if>                                            
+                                            </f:for>
+                                        </td>                                         
+                                        <f:security.ifHasRole role="PA">
+                                            <td class="staffmmobilehidden nobackground">
+                                                <div class="btn-group">
+                                                    <f:link.action class="btn btn-secondary btn-sm" action="edit" arguments="{qualifikation : qualifikation}"><f:translate id="staffm.edit" /></f:link.action>
+                                                    <f:link.action class="btn btn-danger btn-sm" action="delete" arguments="{qualifikation : qualifikation}"><f:translate id="staffm.delete" /></f:link.action>
+                                                </div>
+                                            </td>
+                                        </f:security.ifHasRole>
+                                    </tr>
+                            </f:for>
+                    </table>
+                    </tv:widget.sort>
+                </tv:widget.atoZNav>
+            </f:form>
+        </f:then>
+        <f:else>
+            <f:form action="update" controller="Mitarbeiter" arguments="{mitarbeiter:mitarbeiter, key:key, berechtigung:berechtigung}" additionalAttributes="{role: 'form'}" >
+                <table>
+                    <td class="tx-staffm bold">Name:&nbsp;</td><td>{mitarbeiter.LastName} {mitarbeiter.firstName}</td><br />
+                </table>            
+                <table  class="tx_staffm" >
+                    <tr>
+                        <th><f:translate key="tx_staffm_domain_model_qualifikation.bezeichnung" /></th>                    
+                    </tr>
+                    <f:for each="{qualifikations}" as="qualifikation">
+                            <tr>
+                                <td>{qualifikation.bezeichnung}</td>
+                                <td><f:form.checkbox name="qualifikationen" value="{qualifikation.uid}" multiple="1" checked="{tv:quali(m:mitarbeiter, qu: qualifikation)}" /></td>                                
+                            </tr>
+                    </f:for>
+                </table>
+                <br />
+                <div class="btn-group" role="group">
+                    <f:link.action class="btn btn-secondary" action="edit" controller="Mitarbeiter" arguments="{mitarbeiter:mitarbeiter, berechtigung:berechtigung}"><f:translate id="staffm.back" /></f:link.action>
+                    <button class="btn btn-success" type="submit"><f:translate id="staffm.choose" /> <f:translate id="staffm.text.uebergeben" /></button><!--<f:form.submit class="btn btn-default" value="Auswahl übergeben" />-->
+                </div>
+            </f:form>
+        </f:else>
+    </f:if>  
+    <script>    
+        function getID(stat) { 
+            var id = stat.id;      
+
+            // Klassen der Mitarbeiterqualifikation ermitteln
+            var list = document.getElementsByClassName(id + "hidden");
+            // Aus- oder einblenden
+            for(var i = 0; i < list.length; i++) {
+                /*(list[i].style.display == 'none') ? list[i].style.display = ''
+                : list[i].style.display = 'none';*/
+
+                var elem = document.getElementsByName(id + 'glyphiconchange');            
+                if (list[i].style.display == 'none') {
+                    list[i].style.display = '';
+                    for (var ii = 0; ii < elem.length; ii++) { 
+                        elem[ii].setAttribute('class', 'glyphicon glyphicon-triangle-top');
+                    }                 
+                } else {
+                    list[i].style.display = 'none';
+                    //elem.setAttribute('class', 'glyphicon glyphicon-triangle-bottom');
+                    for (var ii = 0; ii < elem.length; ii++) { 
+                        elem[ii].setAttribute('class', 'glyphicon glyphicon-triangle-bottom');
+                    }        
+
+                } 
+            }    
+            
+        }
+    </script>
+</f:section>

@@ -1,0 +1,56 @@
+{namespace tv = Pmwebdesign\Staffm\ViewHelpers}
+<f:layout name="Default" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="main">
+<h1>Kostenstellenliste</h1>
+
+<f:flashMessages />
+<f:form action="list" arguments="{mitarbeiter:mitarbeiter, key:key}" additionalAttributes="{role: 'form'}">    
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="input-group">
+                <f:form.textfield class="form-control" title="Volltextsuche (z. B. Kst-Nr, Bezeichnung, oder Verantwortlicher)" name="search" value="{search}" />
+                <span class="input-group-btn">
+                        <f:form.submit class="btn btn-default" value="Suchen" />
+                </span>           
+            </div>
+        </div>
+    </div>    
+</f:form>
+<tv:widget.atoZNav objects="{kostenstelles}" as="filteredKostenstelles" property="bezeichnung" search="{search}" maid="{maid}">    
+<tv:widget.sort objects="{filteredKostenstelles}" as="sortedKostenstelles" property="bezeichnung">    
+    <f:link.action id="excelExport" class="btn btn-default" action="export" arguments="{searching:'{search}'}" >
+        <f:image class="tx_staffm icon" src="typo3conf/ext/staffm/Resources/Public/Icons/Excel.png" />
+        Excel Export
+    </f:link.action>
+    <br />
+    <br />
+    <table  class="tx_staffm" >
+            <tr>
+                    <th><f:translate key="tx_staffm_domain_model_kostenstelle.nummer" /></th>
+                    <th><f:translate key="tx_staffm_domain_model_kostenstelle.bezeichnung" /></th>
+                    <th><f:translate key="tx_staffm_domain_model_kostenstelle.verantwortlicher" /></th>                    
+            </tr>
+
+            <f:for each="{sortedKostenstelles}" as="kostenstelle">
+                    <tr>
+                            <td><f:link.action action="show" arguments="{kostenstelle : kostenstelle}"> {kostenstelle.nummer}</f:link.action></td>
+                            <td><f:link.action action="show" arguments="{kostenstelle : kostenstelle}"> {kostenstelle.bezeichnung}</f:link.action></td>
+                            <td><f:link.action action="show" arguments="{kostenstelle : kostenstelle}"> {kostenstelle.verantwortlicher.lastName} {kostenstelle.verantwortlicher.firstName}</f:link.action></td>                            
+                    </tr>
+            </f:for>
+    </table>
+</tv:widget.sort>
+</tv:widget.atoZNav>
+</f:section>

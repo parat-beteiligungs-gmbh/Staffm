@@ -1,0 +1,39 @@
+{namespace vh=Pmwebdesign\Staffm\ViewHelpers}
+<label class="tx-staffm bold" for="images">
+	<f:translate key="tx_staffm_domain_model_kostenstelle.images" />
+</label><br /> 
+<vh:form.multiupload property="images" resources="resources">
+    <ul style="list-style:none;padding:0">
+        <f:for each="{resources}" as="resource">
+            <li>
+                <label>
+                    <vh:form.multiupload.delete property="images" value="{resource}" />
+                    <f:image image="{resource}" alt="" width="250" height="auto" />
+                </label>
+            </li>
+        </f:for>
+    </ul>
+</vh:form.multiupload>    
+<label class="tx-staffm bold" for="nummer">
+	<f:translate key="tx_staffm_domain_model_kostenstelle.nummer" />
+</label><br />
+	<f:form.textfield class="form-control" property="nummer" /><br />
+<label class="tx-staffm bold" for="bezeichnung">
+	<f:translate key="tx_staffm_domain_model_kostenstelle.bezeichnung" />
+</label><br />
+	<f:form.textfield class="form-control" property="bezeichnung" />
+<f:if condition="{kostenstelle}">
+    <br />
+    <label class="tx-staffm bold" for="verantwortlicher">
+            <f:translate key="tx_staffm_domain_model_kostenstelle.verantwortlicher" />
+    </label><br />
+            <f:form.hidden property="verantwortlicher" />
+            <label>{kostenstelle.verantwortlicher.lastName} {kostenstelle.verantwortlicher.firstName}</label>
+            <div class="btn-group" role="group">
+                <f:link.action class="btn btn-default" action="listChoose" controller="Mitarbeiter" arguments="{kostenstelle:kostenstelle, mitarbeiter:mitarbeiter, key:'auswahl'}"><f:translate key="staffm.choose" /></f:link.action>            
+                <f:if condition="{kostenstelle.verantwortlicher}">
+                    <f:link.action class="btn btn-danger" action="deleteKstVerantwortlicher" arguments="{kostenstelle:kostenstelle}"><f:translate key="staffm.remove" /></f:link.action>
+                </f:if>
+            </div>
+            <br />
+</f:if>       

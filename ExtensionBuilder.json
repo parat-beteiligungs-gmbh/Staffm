@@ -1,0 +1,888 @@
+{
+    "modules": [
+        {
+            "config": {
+                "position": [
+                    292,
+                    120
+                ]
+            },
+            "name": "New Model Object",
+            "value": {
+                "actionGroup": {
+                    "_default0_list": true,
+                    "_default1_show": true,
+                    "_default2_new_create": true,
+                    "_default3_edit_update": true,
+                    "_default4_delete": true,
+                    "customActions": [
+
+                    ]
+                },
+                "name": "Mitarbeiter",
+                "objectsettings": {
+                    "addDeletedField": true,
+                    "addHiddenField": true,
+                    "addStarttimeEndtimeFields": true,
+                    "aggregateRoot": false,
+                    "categorizable": false,
+                    "description": "user from fe_users table of typo3 (frontend user)",
+                    "mapToTable": "fe_users",
+                    "parentClass": "\\TYPO3\\CMS\\Extbase\\Domain\\Model\\FrontendUser",
+                    "sorting": false,
+                    "type": "Entity",
+                    "uid": "1168902731068"
+                },
+                "propertyGroup": {
+                    "properties": [
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "personalnummer",
+                            "propertyType": "String",
+                            "uid": "175604214651"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "username",
+                            "propertyType": "String",
+                            "uid": "949215158203"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "dateOfBirth",
+                            "propertyType": "TimeSec",
+                            "uid": "439399892296"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "lastName",
+                            "propertyType": "String",
+                            "uid": "1126993033633"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "firstName",
+                            "propertyType": "String",
+                            "uid": "1217367203003"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "telephone",
+                            "propertyType": "String",
+                            "uid": "631613352711"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "fax",
+                            "propertyType": "String",
+                            "uid": "917336556180"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "handy",
+                            "propertyType": "String",
+                            "uid": "91586465002"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "email",
+                            "propertyType": "String",
+                            "uid": "574846911407"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "title",
+                            "propertyType": "String",
+                            "uid": "423499558698"
+                        }
+                    ]
+                },
+                "relationGroup": {
+                    "relations": [
+                        {
+                            "foreignRelationClass": "",
+                            "lazyLoading": false,
+                            "propertyIsExcludeField": true,
+                            "relationDescription": "",
+                            "relationName": "kostenstelle",
+                            "relationType": "manyToOne",
+                            "relationWire": "[wired]",
+                            "uid": "919056979557"
+                        },
+                        {
+                            "foreignRelationClass": "",
+                            "lazyLoading": false,
+                            "propertyIsExcludeField": true,
+                            "relationDescription": "",
+                            "relationName": "firma",
+                            "relationType": "manyToOne",
+                            "relationWire": "[wired]",
+                            "uid": "1404116441038"
+                        },
+                        {
+                            "foreignRelationClass": "",
+                            "lazyLoading": false,
+                            "propertyIsExcludeField": true,
+                            "relationDescription": "",
+                            "relationName": "standort",
+                            "relationType": "manyToOne",
+                            "relationWire": "[wired]",
+                            "uid": "104348088872"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "config": {
+                "position": [
+                    39,
+                    122
+                ]
+            },
+            "name": "New Model Object",
+            "value": {
+                "actionGroup": {
+                    "_default0_list": true,
+                    "_default1_show": true,
+                    "_default2_new_create": true,
+                    "_default3_edit_update": true,
+                    "_default4_delete": true,
+                    "customActions": [
+
+                    ]
+                },
+                "name": "Kostenstelle",
+                "objectsettings": {
+                    "addDeletedField": false,
+                    "addHiddenField": false,
+                    "addStarttimeEndtimeFields": false,
+                    "aggregateRoot": true,
+                    "categorizable": false,
+                    "description": "",
+                    "mapToTable": "",
+                    "parentClass": "",
+                    "sorting": true,
+                    "type": "Entity",
+                    "uid": "325553272150"
+                },
+                "propertyGroup": {
+                    "properties": [
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "nummer",
+                            "propertyType": "String",
+                            "uid": "1279396683327"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "bezeichnung",
+                            "propertyType": "String",
+                            "uid": "1246064567725"
+                        }
+                    ]
+                },
+                "relationGroup": {
+                    "relations": [
+                        {
+                            "foreignRelationClass": "",
+                            "lazyLoading": false,
+                            "propertyIsExcludeField": true,
+                            "relationDescription": "Kostenstellen mit Verantwortlichen",
+                            "relationName": "verantwortlicher",
+                            "relationType": "manyToOne",
+                            "relationWire": "[wired]",
+                            "uid": "1092235446946"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "config": {
+                "position": [
+                    718,
+                    78
+                ]
+            },
+            "name": "New Model Object",
+            "value": {
+                "actionGroup": {
+                    "_default0_list": true,
+                    "_default1_show": true,
+                    "_default2_new_create": true,
+                    "_default3_edit_update": true,
+                    "_default4_delete": true,
+                    "customActions": [
+
+                    ]
+                },
+                "name": "Taetigkeit",
+                "objectsettings": {
+                    "addDeletedField": false,
+                    "addHiddenField": false,
+                    "addStarttimeEndtimeFields": false,
+                    "aggregateRoot": true,
+                    "categorizable": false,
+                    "description": "T\u00e4tigkeiten der User (mehrere m\u00f6glich)",
+                    "mapToTable": "",
+                    "parentClass": "",
+                    "sorting": true,
+                    "type": "Entity",
+                    "uid": "442416575893"
+                },
+                "propertyGroup": {
+                    "properties": [
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "bezeichnung",
+                            "propertyType": "String",
+                            "uid": "724718486634"
+                        }
+                    ]
+                },
+                "relationGroup": {
+                    "relations": [
+
+                    ]
+                }
+            }
+        },
+        {
+            "config": {
+                "position": [
+                    718,
+                    224
+                ]
+            },
+            "name": "New Model Object",
+            "value": {
+                "actionGroup": {
+                    "_default0_list": true,
+                    "_default1_show": true,
+                    "_default2_new_create": true,
+                    "_default3_edit_update": true,
+                    "_default4_delete": true,
+                    "customActions": [
+
+                    ]
+                },
+                "name": "Mitarbeitertaetigkeit",
+                "objectsettings": {
+                    "addDeletedField": false,
+                    "addHiddenField": false,
+                    "addStarttimeEndtimeFields": false,
+                    "aggregateRoot": true,
+                    "categorizable": false,
+                    "description": "",
+                    "mapToTable": "",
+                    "parentClass": "",
+                    "sorting": false,
+                    "type": "Entity",
+                    "uid": "520834179571"
+                },
+                "propertyGroup": {
+                    "properties": [
+
+                    ]
+                },
+                "relationGroup": {
+                    "relations": [
+                        {
+                            "foreignRelationClass": "",
+                            "lazyLoading": false,
+                            "propertyIsExcludeField": true,
+                            "relationDescription": "",
+                            "relationName": "mitarbeiter",
+                            "relationType": "manyToOne",
+                            "relationWire": "[wired]",
+                            "uid": "1412442040074"
+                        },
+                        {
+                            "foreignRelationClass": "",
+                            "lazyLoading": false,
+                            "propertyIsExcludeField": true,
+                            "relationDescription": "",
+                            "relationName": "taetigkeit",
+                            "relationType": "manyToOne",
+                            "relationWire": "[wired]",
+                            "uid": "1094892637426"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "config": {
+                "position": [
+                    721,
+                    647
+                ]
+            },
+            "name": "New Model Object",
+            "value": {
+                "actionGroup": {
+                    "_default0_list": true,
+                    "_default1_show": true,
+                    "_default2_new_create": true,
+                    "_default3_edit_update": true,
+                    "_default4_delete": true,
+                    "customActions": [
+
+                    ]
+                },
+                "name": "Qualifikation",
+                "objectsettings": {
+                    "addDeletedField": false,
+                    "addHiddenField": false,
+                    "addStarttimeEndtimeFields": false,
+                    "aggregateRoot": true,
+                    "categorizable": false,
+                    "description": "",
+                    "mapToTable": "",
+                    "parentClass": "",
+                    "sorting": true,
+                    "type": "Entity",
+                    "uid": "13110680811"
+                },
+                "propertyGroup": {
+                    "properties": [
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "bezeichnung",
+                            "propertyType": "String",
+                            "uid": "561556385221"
+                        }
+                    ]
+                },
+                "relationGroup": {
+                    "relations": [
+
+                    ]
+                }
+            }
+        },
+        {
+            "config": {
+                "position": [
+                    720,
+                    440
+                ]
+            },
+            "name": "New Model Object",
+            "value": {
+                "actionGroup": {
+                    "_default0_list": true,
+                    "_default1_show": true,
+                    "_default2_new_create": true,
+                    "_default3_edit_update": true,
+                    "_default4_delete": true,
+                    "customActions": [
+
+                    ]
+                },
+                "name": "Mitarbeiterqualifikation",
+                "objectsettings": {
+                    "addDeletedField": false,
+                    "addHiddenField": false,
+                    "addStarttimeEndtimeFields": false,
+                    "aggregateRoot": true,
+                    "categorizable": false,
+                    "description": "",
+                    "mapToTable": "",
+                    "parentClass": "",
+                    "sorting": false,
+                    "type": "Entity",
+                    "uid": "1148064278415"
+                },
+                "propertyGroup": {
+                    "properties": [
+
+                    ]
+                },
+                "relationGroup": {
+                    "relations": [
+                        {
+                            "foreignRelationClass": "",
+                            "lazyLoading": false,
+                            "propertyIsExcludeField": true,
+                            "relationDescription": "",
+                            "relationName": "mitarbeiter",
+                            "relationType": "manyToOne",
+                            "relationWire": "[wired]",
+                            "uid": "984884407917"
+                        },
+                        {
+                            "foreignRelationClass": "",
+                            "lazyLoading": false,
+                            "propertyIsExcludeField": true,
+                            "relationDescription": "",
+                            "relationName": "qualifikation",
+                            "relationType": "manyToOne",
+                            "relationWire": "[wired]",
+                            "uid": "977558413848"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "config": {
+                "position": [
+                    40,
+                    317
+                ]
+            },
+            "name": "New Model Object",
+            "value": {
+                "actionGroup": {
+                    "_default0_list": true,
+                    "_default1_show": true,
+                    "_default2_new_create": true,
+                    "_default3_edit_update": true,
+                    "_default4_delete": true,
+                    "customActions": [
+
+                    ]
+                },
+                "name": "Firma",
+                "objectsettings": {
+                    "addDeletedField": false,
+                    "addHiddenField": false,
+                    "addStarttimeEndtimeFields": false,
+                    "aggregateRoot": true,
+                    "categorizable": false,
+                    "description": "",
+                    "mapToTable": "",
+                    "parentClass": "",
+                    "sorting": true,
+                    "type": "Entity",
+                    "uid": "688195666159"
+                },
+                "propertyGroup": {
+                    "properties": [
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "bezeichnung",
+                            "propertyType": "String",
+                            "uid": "558220183306"
+                        }
+                    ]
+                },
+                "relationGroup": {
+                    "relations": [
+
+                    ]
+                }
+            }
+        },
+        {
+            "config": {
+                "position": [
+                    42,
+                    474
+                ]
+            },
+            "name": "New Model Object",
+            "value": {
+                "actionGroup": {
+                    "_default0_list": true,
+                    "_default1_show": true,
+                    "_default2_new_create": true,
+                    "_default3_edit_update": true,
+                    "_default4_delete": true,
+                    "customActions": [
+
+                    ]
+                },
+                "name": "Standort",
+                "objectsettings": {
+                    "addDeletedField": false,
+                    "addHiddenField": false,
+                    "addStarttimeEndtimeFields": false,
+                    "aggregateRoot": true,
+                    "categorizable": false,
+                    "description": "",
+                    "mapToTable": "",
+                    "parentClass": "",
+                    "sorting": true,
+                    "type": "Entity",
+                    "uid": "627809743897"
+                },
+                "propertyGroup": {
+                    "properties": [
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "bezeichnung",
+                            "propertyType": "String",
+                            "uid": "576612768634"
+                        }
+                    ]
+                },
+                "relationGroup": {
+                    "relations": [
+
+                    ]
+                }
+            }
+        },
+        {
+            "config": {
+                "position": [
+                    315,
+                    363
+                ]
+            },
+            "name": "New Model Object",
+            "value": {
+                "actionGroup": {
+                    "_default0_list": true,
+                    "_default1_show": true,
+                    "_default2_new_create": true,
+                    "_default3_edit_update": true,
+                    "_default4_delete": true,
+                    "customActions": [
+
+                    ]
+                },
+                "name": "Mitarbeitersoftware",
+                "objectsettings": {
+                    "addDeletedField": true,
+                    "addHiddenField": true,
+                    "addStarttimeEndtimeFields": true,
+                    "aggregateRoot": true,
+                    "categorizable": false,
+                    "description": "",
+                    "mapToTable": "",
+                    "parentClass": "",
+                    "sorting": false,
+                    "type": "Entity",
+                    "uid": "302761504186"
+                },
+                "propertyGroup": {
+                    "properties": [
+
+                    ]
+                },
+                "relationGroup": {
+                    "relations": [
+                        {
+                            "foreignRelationClass": "",
+                            "lazyLoading": false,
+                            "propertyIsExcludeField": true,
+                            "relationDescription": "",
+                            "relationName": "mitarbeiter",
+                            "relationType": "manyToOne",
+                            "relationWire": "[wired]",
+                            "uid": "489816962568"
+                        },
+                        {
+                            "foreignRelationClass": "",
+                            "lazyLoading": false,
+                            "propertyIsExcludeField": true,
+                            "relationDescription": "",
+                            "relationName": "software",
+                            "relationType": "manyToOne",
+                            "relationWire": "[wired]",
+                            "uid": "1217466743727"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "config": {
+                "position": [
+                    314,
+                    565
+                ]
+            },
+            "name": "New Model Object",
+            "value": {
+                "actionGroup": {
+                    "_default0_list": true,
+                    "_default1_show": true,
+                    "_default2_new_create": true,
+                    "_default3_edit_update": true,
+                    "_default4_delete": true,
+                    "customActions": [
+
+                    ]
+                },
+                "name": "Software",
+                "objectsettings": {
+                    "addDeletedField": true,
+                    "addHiddenField": true,
+                    "addStarttimeEndtimeFields": true,
+                    "aggregateRoot": true,
+                    "categorizable": false,
+                    "description": "",
+                    "mapToTable": "",
+                    "parentClass": "",
+                    "sorting": false,
+                    "type": "Entity",
+                    "uid": "52489283621"
+                },
+                "propertyGroup": {
+                    "properties": [
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "bezeichnung",
+                            "propertyType": "String",
+                            "uid": "1058293671042"
+                        }
+                    ]
+                },
+                "relationGroup": {
+                    "relations": [
+
+                    ]
+                }
+            }
+        }
+    ],
+    "properties": {
+        "backendModules": [
+            {
+                "actions": {
+                    "controllerActionCombinations": "Mitarbeiter => list,show,edit,new,create,update,delete"
+                },
+                "description": "Edit Employees",
+                "key": "staffmbackend",
+                "mainModule": "web",
+                "name": "Mitarbeiterbearbeitung",
+                "tabLabel": "Mitarbeiter"
+            }
+        ],
+        "description": "employee database with qualifications, numbers and so on",
+        "emConf": {
+            "category": "misc",
+            "custom_category": "",
+            "dependsOn": "typo3 => 6.2\n",
+            "disableLocalization": false,
+            "disableVersioning": false,
+            "sourceLanguage": "de",
+            "state": "alpha",
+            "targetVersion": "6.2",
+            "version": "6.2.0"
+        },
+        "extensionKey": "staffm",
+        "name": "Staffmanage",
+        "originalExtensionKey": "staffm",
+        "persons": [
+            {
+                "company": "PM-Webdesign",
+                "email": "mpuffer@pm-webdesign.bayern",
+                "name": "Markus Puffer",
+                "role": "Developer"
+            }
+        ],
+        "plugins": [
+            {
+                "actions": {
+                    "controllerActionCombinations": "Mitarbeiter => list,show",
+                    "noncacheableActions": "Mitarbeiter => list,show",
+                    "switchableActions": ""
+                },
+                "key": "staffm",
+                "name": "Stafflist"
+            }
+        ],
+        "vendorName": "Pmwebdesign"
+    },
+    "wires": [
+        {
+            "src": {
+                "moduleId": 1,
+                "terminal": "relationWire_0",
+                "uid": "1092235446946"
+            },
+            "tgt": {
+                "moduleId": 0,
+                "terminal": "SOURCES",
+                "uid": "1168902731068"
+            }
+        },
+        {
+            "src": {
+                "moduleId": 0,
+                "terminal": "relationWire_0",
+                "uid": "919056979557"
+            },
+            "tgt": {
+                "moduleId": 1,
+                "terminal": "SOURCES",
+                "uid": "325553272150"
+            }
+        },
+        {
+            "src": {
+                "moduleId": 3,
+                "terminal": "relationWire_0",
+                "uid": "1412442040074"
+            },
+            "tgt": {
+                "moduleId": 0,
+                "terminal": "SOURCES",
+                "uid": "1168902731068"
+            }
+        },
+        {
+            "src": {
+                "moduleId": 3,
+                "terminal": "relationWire_1",
+                "uid": "1094892637426"
+            },
+            "tgt": {
+                "moduleId": 2,
+                "terminal": "SOURCES",
+                "uid": "442416575893"
+            }
+        },
+        {
+            "src": {
+                "moduleId": 5,
+                "terminal": "relationWire_0",
+                "uid": "984884407917"
+            },
+            "tgt": {
+                "moduleId": 0,
+                "terminal": "SOURCES",
+                "uid": "1168902731068"
+            }
+        },
+        {
+            "src": {
+                "moduleId": 5,
+                "terminal": "relationWire_1",
+                "uid": "977558413848"
+            },
+            "tgt": {
+                "moduleId": 4,
+                "terminal": "SOURCES",
+                "uid": "13110680811"
+            }
+        },
+        {
+            "src": {
+                "moduleId": 0,
+                "terminal": "relationWire_1",
+                "uid": "1404116441038"
+            },
+            "tgt": {
+                "moduleId": 6,
+                "terminal": "SOURCES",
+                "uid": "688195666159"
+            }
+        },
+        {
+            "src": {
+                "moduleId": 0,
+                "terminal": "relationWire_2",
+                "uid": "104348088872"
+            },
+            "tgt": {
+                "moduleId": 7,
+                "terminal": "SOURCES",
+                "uid": "627809743897"
+            }
+        },
+        {
+            "src": {
+                "moduleId": 8,
+                "terminal": "relationWire_1",
+                "uid": "1217466743727"
+            },
+            "tgt": {
+                "moduleId": 9,
+                "terminal": "SOURCES",
+                "uid": "52489283621"
+            }
+        },
+        {
+            "src": {
+                "moduleId": 8,
+                "terminal": "relationWire_0",
+                "uid": "489816962568"
+            },
+            "tgt": {
+                "moduleId": 0,
+                "terminal": "SOURCES",
+                "uid": "1168902731068"
+            }
+        }
+    ],
+    "log": {
+        "last_modified": "2016-01-20 10:57",
+        "extension_builder_version": "6.2.0",
+        "be_user": "Puffer Markus (468)"
+    }
+}

@@ -1,0 +1,85 @@
+<div id="ladedivall" class="tx-staffm">  
+    <div id="seite"></div>    
+    <f:flashMessages />
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark navbarstaffm">
+        <f:link.action title="Mitarbeiterverwaltung (Hier können alle Daten bearbeitet werden, z. B. Profilbild)" class="navbar-brand" action="listVgs" controller="Mitarbeiter"><f:translate key="tx_staffm_domain_model_mitarbeiter" /></f:link.action>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">   
+                <li class="nav-item {f:if(condition: '{menuname} == \'Qualifikation\'', then: 'active')}" style="padding-top:0 !important">
+                    <f:link.action title="Qualifikationszuordnung (Qualifikationen für alle Mitarbeiter gleichzeitig zuordnen)" class="nav-link" action="listVgs" controller="Qualifikation"><f:translate key="tx_staffm_domain_model_qualifikation" /></f:link.action>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0 mr-2">
+                <button class="btn btn-sm btn-default" type="button" onclick="buttonShow()">Info</button>
+            </form>            
+        </div>
+    </nav> 
+    <div id="infoBox" style="display:none;max-width: 400px; padding: 5px; background-color: white; border: 2px solid #CCCCCC;content:'?'">
+        <p>Hier können nur Mitarbeiter bearbeitet werden, die dem eingeloggten User in einer Kostenstelle (für die er verantwortlich ist) zugeordnet sind.</p><hr />
+        <p>Bei dem Button "Mitarbeiter" können auch andere Daten eines Mitarbeiters geändert werden.</p><hr />
+        <p>Bei dem Button "Qualifikationen" können bei allen Mitarbeitern die Qualifikationen gleichzeitig
+            zugeordnet werden.</p>
+        <p style="text-align: center; margin-top: 20px">
+            <button type="button" class="btn btn-default left" onclick="buttonHide()"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span> Schließen</button>
+        </p>
+    </div>
+    <div style="position:fixed;width:100%;display:block;box-sizing:border-box;z-index:999999999"><img style="display:block;margin-left:auto;margin-right:auto;max-height: 10px" src="typo3conf/ext/staffm/Resources/Public/Icons/loading-frame.gif" id="ladebild" /></div>        
+    <div id="ladediv" style="display:block;"></div><br />       
+    <f:render section="main" />  
+</div><br />
+<p style="text-align: right">&COPY; 2018 Markus Puffer</p>
+<script>    
+    window.onload = function() {
+        document.getElementById("ladebild").setAttribute("style", "display:none;");
+        //document.getElementById("ladediv").setAttribute("style", "width:100%;");
+    }
+    // Solange bis die die Seite vollständig geladen ist
+    window.onbeforeunload = function() {
+        document.getElementById("ladebild").setAttribute("style", "display:block;margin-left:auto;margin-right:auto;");
+        //document.getElementById("ladediv").setAttribute("style", "display:none;");
+        document.getElementById("ladedivall").setAttribute("style", "cursor:wait;");        
+    }
+    // Wenn Seite vollständig geladen
+    $(document).ready(function() {  
+        /* Excelexport Button
+         * Ladebilder nicht setzten, da sie sonst dauernd laufen
+         */
+        $( "#excelExport" ).click(function(){             
+            window.onbeforeunload = null;
+            document.getElementById("ladebild").setAttribute("style", "display:none;margin-left:auto;margin-right:auto;");
+            //document.getElementById("ladediv").setAttribute("style", "display:block;");
+            document.getElementById("ladedivall").setAttribute("style", "cursor:normal;"); 
+        });           
+    });
+    
+    // Zum Seitenanfang, langsames ein- und ausblenden
+    var gotop = document.getElementById('gotop');
+    var tableh = document.getElementById('tableheader');        
+    window.onscroll = function() {
+        //document.getElementById('tableheader').style.position = "fixed";       
+    };
+
+    function buttonShow() {
+        var info = document.getElementById("infoBox");
+        info.style.display = "none"; // Box ausblenden
+        info.style.position = "absolute";        
+        info.style.zIndex = 999;
+        // Entweder fix auf der Seite platziert
+        // info.style.left = "50px";
+        // info.style.top = "100px";
+        // Oder ein definiertes Stückchen unter dem Knopf
+        info.style.marginTop = "10px";
+        info.style.right = "5px";
+    
+        // Infobox anzeigen
+        info.style.display = "";
+    }
+    function buttonHide() {
+        var info = document.getElementById("infoBox");
+        // Infobox wieder ausblenden
+        info.style.display = "none";
+    }
+</script>

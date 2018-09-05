@@ -1,0 +1,176 @@
+<f:if condition="{mitarbeiter.image}">
+    <p class="tx-staffm bold">Profilbild:</p>
+    <div id="carouselExampleControls" class="carousel slide carouseldetailview" data-ride="carousel" style="max-width: 35%">
+        <div class="carousel-inner carouseldetailviewinner">
+            <f:for each="{mitarbeiter.image}" as="img" iteration="iterator">        
+                <f:if condition="{iterator.isFirst}">
+                    <f:then>
+                        <div class="carousel-item active">
+                            <a class="sd-lightbox lightboxRelAttribute = sd-lightbox[2] lightboxEnabled = 1" href="{f:uri.image(src:'{img.uid}', treatIdAsReference: 1, cropVariant: 'desktop')}" rel="lightbox[2]">
+                                <f:image src="{img.uid}" alt="" style="width:auto;max-width:100%;height: auto;max-height: 300px" treatIdAsReference="1" />     
+                            </a>
+                        </div>
+                    </f:then>
+                    <f:else>
+                        <div class="carousel-item" stlye="text-align:center">
+                            <a class="sd-lightbox lightboxRelAttribute = sd-lightbox[2] lightboxEnabled = 1" href="{f:uri.image(src:'{img.uid}', treatIdAsReference: 1, cropVariant: 'desktop')}" rel="lightbox[2]">
+                                <f:image src="{img.uid}" alt="" style="width:auto;max-width:100%;height: auto;max-height: 300px" treatIdAsReference="1" />     
+                            </a>
+                        </div>
+                    </f:else>
+                </f:if>
+            </f:for>        
+        </div>
+        <f:if condition="{mitarbeiter.image -> f:count()} > 1">
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </f:if>
+    </div>
+</f:if><br />
+<table class="tx_staffm table-left" >
+	<tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.personalnummer" />
+		</td>
+		<td>
+			{mitarbeiter.personalnummer}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.username" />
+		</td>
+		<td>
+			{mitarbeiter.username}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.date_of_birth" />
+		</td>
+                <td>
+                    <f:if condition="{mitarbeiter.dateOfBirthShow}!=0">
+                            {f:format.date(date: mitarbeiter.dateOfBirth, format: 'd.m.Y')}
+                    </f:if>	
+                </td>   
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.last_name" />
+		</td>
+		<td>
+			{mitarbeiter.lastName}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.first_name" />
+		</td>
+		<td>
+			{mitarbeiter.firstName}
+		</td>
+	</tr>
+        <tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.position" />
+		</td>
+		<td>			
+                    <f:link.action class="tx_staffm link" pluginName="Staffm" action="show" controller="Position" arguments="{mitarbeiter:mitarbeiter, key: 'vonMit', standardsearch:search}">
+			{mitarbeiter.position.bezeichnung}
+                    </f:link.action>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.telephone" />
+		</td>
+		<td>
+			{mitarbeiter.telephone}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.fax" />
+		</td>
+		<td>
+			{mitarbeiter.fax}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.handy" />
+		</td>
+		<td>
+			{mitarbeiter.handy}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.email" />
+		</td>
+		<td>
+			<f:link.email title="Email schreiben" class="tx_staffm link" email="{mitarbeiter.email}" />
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.title" />
+		</td>
+		<td>
+			{mitarbeiter.title}
+		</td>
+	</tr>
+        <tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.kostenstelle" />
+		</td>
+		<td>
+                    <f:link.action class="tx_staffm link" pluginName="Staffm" action="show" controller="Kostenstelle" arguments="{kostenstelle:mitarbeiter.kostenstelle,mitarbeiter:mitarbeiter, key: 'vonMit', standardsearch:search}">
+			{mitarbeiter.kostenstelle.nummer} {mitarbeiter.kostenstelle.bezeichnung}
+                    </f:link.action>
+		</td>
+	</tr>
+        <tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.firma" />
+		</td>
+		<td>
+                    <f:link.action class="tx_staffm link" pluginName="Staffm" action="show" controller="Firma" arguments="{mitarbeiter:mitarbeiter, key: 'vonMit', standardsearch:search, uid: mitarbeiter.firma.uid}">
+			{mitarbeiter.firma.bezeichnung}
+                    </f:link.action>
+		</td>
+	</tr>
+        <f:comment><tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.standort" />
+		</td>
+		<td>
+                    <f:link.action class="tx_staffm link" pluginName="Staffm" action="show" controller="Standort" arguments="{mitarbeiter:mitarbeiter, key: 'vonMit', standardsearch:search}">
+                        {mitarbeiter.standort.bezeichnung}
+                    </f:link.action>
+		</td>
+        </tr></f:comment>
+        <tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_qualifikation" />
+		</td>	
+                <td></td>
+	</tr>
+        <f:for each="{mitarbeiter.qualifikationen}" as="mitarbeiterqualifikation" iteration="it">
+            <tr>
+                <td style="text-align: right;">{it.cycle}</td>
+                <td>
+                    <f:link.action class="tx_staffm link" pluginName="Staffm" action="show" controller="Qualifikation" title="{mitarbeiterqualifikation.beschreibung}" arguments="{qualifikation:mitarbeiterqualifikation, mitarbeiter:mitarbeiter, key: 'vonMit', standardsearch:search}">
+                        {mitarbeiterqualifikation.bezeichnung}
+                    </f:link.action>
+                </td>
+            </tr>       
+        </f:for>
+</table>
+<br style="clear: both" />

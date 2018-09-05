@@ -1,0 +1,56 @@
+
+<div id="ladedivall" class="tx-staffm">  
+        <div id="seite"></div>    
+        <f:flashMessages />
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbarstaffm">
+            <f:link.action class="navbar-brand" action="list" controller="Mitarbeiter"><f:translate key="tx_staffm_domain_model_mitarbeiter" /></f:link.action>        
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">                    
+                    <li class="nav-item {f:if(condition: '{menuname} == \'Qualifikation\'', then: 'active')}" style="padding-top:0 !important">
+                                  <f:link.action class="nav-link" action="list" controller="Qualifikation"><f:translate key="tx_staffm_domain_model_qualifikation" /></f:link.action>
+                    </li>
+                    <li class="nav-item {f:if(condition: '{menuname} == \'Kostenstelle\'', then: 'active')}">
+                        <f:link.action class="nav-link" action="list" controller="Kostenstelle"><f:translate key="tx_staffm_domain_model_kostenstelle" /></f:link.action>
+                    </li>
+                    <li class="nav-item {f:if(condition: '{menuname} == \'Firma\'', then: 'active')}">
+                        <f:link.action class="nav-link" action="list" controller="Firma"><f:translate key="tx_staffm_domain_model_firma" /></f:link.action>
+                    </li>
+                    <li class="nav-item {f:if(condition: '{menuname} == \'Position\'', then: 'active')}">
+                        <f:link.action class="nav-link" action="list" controller="Position" title="z. B. Geschäftsführer, Leiter"><f:translate key="tx_staffm_domain_model_position" /></f:link.action>
+                    </li>
+                        <f:comment><f:link.action class="btn btn-default" action="list" controller="Standort"><f:translate key="tx_staffm_domain_model_standort" /></f:link.action></f:comment>                        
+                </ul>
+            </div>
+        </nav>
+        <div style="position:absolute;width:100%;display:block;box-sizing:border-box;z-index:999999999"><img style="display:block;margin-left:auto;margin-right:auto;max-height: 10px" src="typo3conf/ext/staffm/Resources/Public/Icons/loading-frame.gif" id="ladebild" /></div>        
+        <div id="ladediv" style="display:block;"></div>      
+	<f:render section="main" />          
+</div>
+<p style="text-align: right">&COPY; 2018 Markus Puffer</p>
+<script>    
+    window.onload = function() {
+        document.getElementById("ladebild").setAttribute("style", "display:none;");
+        //document.getElementById("ladediv").setAttribute("style", "width:100%;");
+    }
+    // Solange bis die die Seite vollständig geladen ist
+    window.onbeforeunload = function() {
+        document.getElementById("ladebild").setAttribute("style", "display:block;margin-left:auto;margin-right:auto;");
+        //document.getElementById("ladediv").setAttribute("style", "display:none;");
+        document.getElementById("ladedivall").setAttribute("style", "cursor:wait;");        
+    }
+    // Wenn Seite vollständig geladen
+    $(document).ready(function() {  
+        /* Excelexport Button
+         * Ladebilder nicht setzten, da sie sonst dauernd laufen
+         */
+        $( "#excelExport" ).click(function(){             
+            window.onbeforeunload = null;
+            document.getElementById("ladebild").setAttribute("style", "display:none;margin-left:auto;margin-right:auto;");
+            //document.getElementById("ladediv").setAttribute("style", "display:block;");
+            document.getElementById("ladedivall").setAttribute("style", "cursor:normal;"); 
+        });           
+    });
+</script>

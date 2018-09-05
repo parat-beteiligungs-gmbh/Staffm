@@ -1,0 +1,153 @@
+{namespace vh=Pmwebdesign\Staffm\ViewHelpers}
+<label class="tx-staffm bold">Profil-Bild</label><br />
+        <vh:form.multiupload property="image" resources="resources">
+            <ul style="list-style:none;padding:0">
+                <f:for each="{resources}" as="resource">
+                    <li>
+                        <label>
+                            <vh:form.multiupload.delete property="image" value="{resource}" />
+                            <f:image image="{resource}" alt="" width="250" height="auto" />
+                        </label>
+                    </li>
+                </f:for>
+            </ul>
+        </vh:form.multiupload>   
+<br style="clear:both"/>
+<label class="tx-staffm bold" for="personalnummer">
+	<f:translate key="tx_staffm_domain_model_mitarbeiter.personalnummer" />
+</label>
+	<f:form.textfield class="form-control" style="max-width:300px" property="personalnummer" /><br />        
+<label class="tx-staffm bold" for="username">
+	<f:translate key="tx_staffm_domain_model_mitarbeiter.username" />
+</label>
+	<f:form.textfield class="form-control" style="max-width:300px" title="AD-Name von IT" property="username" /><br />
+<label class="tx-staffm bold" for="dateOfBirthShow">
+	<f:translate key="tx_staffm_domain_model_mitarbeiter.date_of_birth_show" />        
+</label>     
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <f:form.radio title="Geburtsdatum im Intranet anzeigen" property="dateOfBirthShow" value="1" />&nbsp;Ja
+                </div>
+            </div>
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <f:form.radio title="Geburtsdatum nicht im Intranet anzeigen" property="dateOfBirthShow" value="0" />&nbsp;Nein
+                </div>
+            </div>            
+        </div><br />
+<label class="tx-staffm bold" for="dateOfBirth">
+	<f:translate key="tx_staffm_domain_model_mitarbeiter.date_of_birth" />        
+</label>  
+        <f:if condition="{mitarbeiter.dateOfBirthShow} == 1">
+            <f:then>
+                <f:if condition="{mitarbeiter.dateOfBirth}">
+                    <f:then>
+                        <f:form.textfield class="form-control" style="max-width:300px" id="dateb" value="{f:format.date(date: mitarbeiter.dateOfBirth, format: 'd.m.Y')}" title="Format: TT.MM.JJJJ" disabled="True" /><f:form.hidden id="dateInteger" property="dateOfBirth" /><br />
+                    </f:then>
+                    <f:else>
+                        <f:form.textfield class="form-control" style="max-width:300px" id="dateb" value="{f:format.date(date: mitarbeiter.dateOfBirth, format: 'd.m.Y')}" title="Format: TT.MM.JJJJ" /><f:form.hidden id="dateInteger" property="dateOfBirth" /><br />        
+                    </f:else>
+                </f:if>
+            </f:then>
+            <f:else>
+                <p><f:translate id="staffm.text.geburtsdatumausgabe" /></p><f:form.hidden id="dateInteger" property="dateOfBirth" />
+            </f:else>
+        </f:if>
+<label class="tx-staffm bold" for="lastName">
+	<f:translate key="tx_staffm_domain_model_mitarbeiter.last_name" />
+</label>
+	<f:form.textfield class="form-control" style="max-width:300px" property="lastName" /><br />
+<label class="tx-staffm bold" for="firstName">
+	<f:translate key="tx_staffm_domain_model_mitarbeiter.first_name" />
+</label>
+	<f:form.textfield class="form-control" style="max-width:300px" property="firstName" /><br />
+<label class="tx-staffm bold" for="telephone">
+	<f:translate key="tx_staffm_domain_model_mitarbeiter.telephone" />
+        <a href="../../../../../../../../../../../C:/Users/dvpm/AppData/Local/Temp/Mitarbeiter.URL"></a>
+</label>
+	<f:form.textfield class="form-control" style="max-width:300px" property="telephone" /><br />
+<label class="tx-staffm bold" for="fax">
+	<f:translate key="tx_staffm_domain_model_mitarbeiter.fax" />
+</label>
+	<f:form.textfield class="form-control" style="max-width:300px" property="fax" /><br />
+<label class="tx-staffm bold" for="handy">
+	<f:translate key="tx_staffm_domain_model_mitarbeiter.handy" />
+</label>
+	<f:form.textfield class="form-control" style="max-width:300px" property="handy" /><br />
+<label class="tx-staffm bold" for="email">
+	<f:translate key="tx_staffm_domain_model_mitarbeiter.email" />
+</label>
+	<f:form.textfield type="email" class="form-control" style="max-width:300px" property="email" /><br />
+<label class="tx-staffm bold" for="title">
+	<f:translate key="tx_staffm_domain_model_mitarbeiter.title" />
+</label>
+	<f:form.textfield class="form-control" style="max-width:300px" property="title" /><br />
+<f:if condition="{mitarbeiter}">
+    <label class="tx-staffm bold" for="kostenstelle">
+            <f:translate key="tx_staffm_domain_model_mitarbeiter.kostenstelle" />
+    </label>       
+            <f:form.hidden property="kostenstelle" />
+            <f:form.textfield class="form-control" style="max-width:300px" value="{mitarbeiter.kostenstelle.nummer} {mitarbeiter.kostenstelle.bezeichnung}" disabled="disabled" />
+            <div class="btn-group" role="group">
+                <f:link.action class="btn btn-default" action="list" controller="Kostenstelle" arguments="{mitarbeiter:mitarbeiter, kostenstelle:kostenstelle, key:'auswahl', kst:kst, standardsearch:search}"><f:translate id="staffm.choose" /></f:link.action>
+                <f:if condition="{mitarbeiter.kostenstelle}">
+                    <f:link.action class="btn btn-danger" action="deleteKst" controller="Kostenstelle" arguments="{mitarbeiter:mitarbeiter, kst:kst, search:search}"><f:translate id="staffm.remove" /></f:link.action>
+                </f:if>        
+            </div>
+            <br /><br />
+    <label class="tx-staffm bold" for="position">
+            <f:translate key="tx_staffm_domain_model_mitarbeiter.position" />
+    </label>
+            <f:form.hidden property="position" />
+            <f:form.textfield class="form-control" style="max-width:300px" disabled="disabled" value="{mitarbeiter.position.bezeichnung}" />
+            <div class="btn-group" role="group">
+                <f:link.action class="btn btn-default" action="list" controller="Position" arguments="{mitarbeiter:mitarbeiter, position:position, key:'auswahl', standardsearch:search}"><f:translate id="staffm.choose" /></f:link.action>
+                <f:if condition="{mitarbeiter.position}">
+                    <f:link.action class="btn btn-danger" action="deletePosition" controller="Position" arguments="{mitarbeiter:mitarbeiter}"><f:translate id="staffm.remove" /></f:link.action>
+                </f:if>
+            </div>
+            <br /><br />
+    <label class="tx-staffm bold" for="firma">
+            <f:translate key="tx_staffm_domain_model_mitarbeiter.firma" />
+    </label>
+            <f:form.hidden property="firma" />
+            <f:form.textfield class="form-control" style="max-width:300px" disabled="disabled" value="{mitarbeiter.firma.bezeichnung}" />
+            <div class="btn-group" role="group">
+                <f:link.action class="btn btn-default" action="list" controller="Firma" arguments="{mitarbeiter:mitarbeiter, firma:firma, key:'auswahl', standardsearch:search}"><f:translate id="staffm.choose" /></f:link.action>
+                <f:if condition="{mitarbeiter.firma}">
+                    <f:link.action class="btn btn-danger" action="deleteFirma" controller="Firma" arguments="{mitarbeiter:mitarbeiter}"><f:translate id="staffm.remove" /></f:link.action>
+                </f:if>
+            </div>
+            <br /><br />
+    <f:comment><label class="tx-staffm bold" for="standort">
+            <f:translate key="tx_staffm_domain_model_mitarbeiter.standort" />        
+    </label>
+            <f:form.hidden property="standort" />
+            <label>{mitarbeiter.standort.bezeichnung}</label>
+            <f:link.action class="btn btn-default" action="list" controller="Standort" arguments="{mitarbeiter:mitarbeiter, standort:standort, key:'auswahl'}"><f:translate id="staffm.choose" /></f:link.action>
+            <f:if condition="{mitarbeiter.standort}">
+                <f:link.action class="btn btn-danger" action="deleteStandort" controller="Standort" arguments="{mitarbeiter:mitarbeiter}"><f:translate id="staffm.delete" /></f:link.action>
+            </f:if>
+            <br /></f:comment>
+    <label class="tx-staffm bold" for="qualifikation">
+            <f:translate key="tx_staffm_domain_model_qualifikation" />        
+    </label><br />
+            <f:if condition="{mitarbeiter.qualifikationen}">
+                <f:then>
+                    <f:for each="{mitarbeiter.qualifikationen}" as="quali" iteration="qIteration">
+                        <f:form.textfield class="form-control" style="max-width:300px" disabled="disabled" value="{qIteration.cycle} - {quali.bezeichnung}" />
+                        <f:if condition="{qIteration.isLast}">
+                            <div class="btn-group" role="group">
+                                <f:link.action class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:'auswahl', standardsearch:search}"><f:translate id="staffm.choose" /></f:link.action>                    
+                                <f:link.action class="btn btn-danger" action="deleteQuali" arguments="{mitarbeiter:mitarbeiter}" title="Entfernt alle Qualifikationen!"><f:translate id="staffm.allremove" /></f:link.action>                    
+                            </div><br />
+                        </f:if>                        
+                    </f:for>
+                </f:then>
+                <f:else>                   
+                    <f:link.action style="float:left" class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:'auswahl'}"><f:translate id="staffm.choose" /></f:link.action><br />
+                    <br />
+                </f:else>
+            </f:if>
+</f:if>

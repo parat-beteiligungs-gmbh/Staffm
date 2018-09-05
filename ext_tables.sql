@@ -1,0 +1,469 @@
+#
+# Table structure for table 'fe_users'
+#
+CREATE TABLE fe_users (
+
+	personalnummer varchar(255) DEFAULT '' NOT NULL,
+	username varchar(255) DEFAULT '' NOT NULL,
+        date_of_birth_show int(11) DEFAULT '0' NOT NULL,
+	date_of_birth int(11) DEFAULT '0' NOT NULL,
+	last_name varchar(255) DEFAULT '' NOT NULL,
+	first_name varchar(255) DEFAULT '' NOT NULL,
+        position int(11) unsigned DEFAULT '0',
+	telephone varchar(255) DEFAULT '' NOT NULL,
+	fax varchar(255) DEFAULT '' NOT NULL,
+	handy varchar(255) DEFAULT '' NOT NULL,
+	email varchar(255) DEFAULT '' NOT NULL,
+	title varchar(255) DEFAULT '' NOT NULL,
+	kostenstelle int(11) unsigned DEFAULT '0',
+	firma int(11) unsigned DEFAULT '0',
+	standort int(11) unsigned DEFAULT '0',
+        qualifikationen int(11) unsigned DEFAULT '0',    
+        image INT UNSIGNED DEFAULT NULL, 
+        deleted tinyint(3) unsigned DEFAULT '0',
+	tx_extbase_type varchar(255) DEFAULT '' NOT NULL,
+
+);
+
+#
+# Table structure for table 'tx_staffm_domain_model_position'
+#
+CREATE TABLE tx_staffm_domain_model_position (
+
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,     
+   
+        nummer varchar(255) DEFAULT '' NOT NULL,  
+	bezeichnung varchar(255) DEFAULT '' NOT NULL,        
+
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+
+	t3ver_oid int(11) DEFAULT '0' NOT NULL,
+	t3ver_id int(11) DEFAULT '0' NOT NULL,
+	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
+	t3ver_label varchar(255) DEFAULT '' NOT NULL,
+	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
+	t3ver_stage int(11) DEFAULT '0' NOT NULL,
+	t3ver_count int(11) DEFAULT '0' NOT NULL,
+	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
+	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
+	sorting int(11) DEFAULT '0' NOT NULL,
+
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l10n_parent int(11) DEFAULT '0' NOT NULL,
+	l10n_diffsource mediumblob,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid),
+	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
+ KEY language (l10n_parent,sys_language_uid)
+
+);
+
+#
+# Table structure for table 'tx_staffm_domain_model_kostenstelle'
+#
+CREATE TABLE tx_staffm_domain_model_kostenstelle (
+
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+
+	nummer varchar(255) DEFAULT '' NOT NULL,
+	bezeichnung varchar(255) DEFAULT '' NOT NULL,
+	verantwortlicher int(11) unsigned DEFAULT '0',
+        images int(11) unsigned DEFAULT '0' NOT NULL,
+
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+
+	t3ver_oid int(11) DEFAULT '0' NOT NULL,
+	t3ver_id int(11) DEFAULT '0' NOT NULL,
+	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
+	t3ver_label varchar(255) DEFAULT '' NOT NULL,
+	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
+	t3ver_stage int(11) DEFAULT '0' NOT NULL,
+	t3ver_count int(11) DEFAULT '0' NOT NULL,
+	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
+	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
+	sorting int(11) DEFAULT '0' NOT NULL,
+
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l10n_parent int(11) DEFAULT '0' NOT NULL,
+	l10n_diffsource mediumblob,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid),
+	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
+ KEY language (l10n_parent,sys_language_uid)
+
+);
+
+#
+# Table structure for table 'tx_staffm_domain_model_taetigkeit'
+#
+CREATE TABLE tx_staffm_domain_model_taetigkeit (
+
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+
+	bezeichnung varchar(255) DEFAULT '' NOT NULL,
+
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+
+	t3ver_oid int(11) DEFAULT '0' NOT NULL,
+	t3ver_id int(11) DEFAULT '0' NOT NULL,
+	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
+	t3ver_label varchar(255) DEFAULT '' NOT NULL,
+	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
+	t3ver_stage int(11) DEFAULT '0' NOT NULL,
+	t3ver_count int(11) DEFAULT '0' NOT NULL,
+	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
+	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
+	sorting int(11) DEFAULT '0' NOT NULL,
+
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l10n_parent int(11) DEFAULT '0' NOT NULL,
+	l10n_diffsource mediumblob,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid),
+	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
+ KEY language (l10n_parent,sys_language_uid)
+
+);
+
+#
+# Table structure for table 'tx_staffm_domain_model_mitarbeitertaetigkeit'
+#
+CREATE TABLE tx_staffm_domain_model_mitarbeitertaetigkeit (
+
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+
+	mitarbeiter int(11) unsigned DEFAULT '0',
+	taetigkeit int(11) unsigned DEFAULT '0',
+
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+
+	t3ver_oid int(11) DEFAULT '0' NOT NULL,
+	t3ver_id int(11) DEFAULT '0' NOT NULL,
+	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
+	t3ver_label varchar(255) DEFAULT '' NOT NULL,
+	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
+	t3ver_stage int(11) DEFAULT '0' NOT NULL,
+	t3ver_count int(11) DEFAULT '0' NOT NULL,
+	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
+	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
+
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l10n_parent int(11) DEFAULT '0' NOT NULL,
+	l10n_diffsource mediumblob,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid),
+	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
+ KEY language (l10n_parent,sys_language_uid)
+
+);
+
+#
+# Table structure for table 'tx_staffm_domain_model_mitarbeiter_qualifikation_mm'
+#
+CREATE TABLE tx_staffm_domain_model_mitarbeiter_qualifikation_mm (
+        uid_local int(11) DEFAULT '0' NOT NULL,
+	uid_foreign int(11) DEFAULT '0' NOT NULL,
+	tablenames varchar(30) DEFAULT '' NOT NULL,
+	sorting int(11) DEFAULT '0' NOT NULL,
+	sorting_foreign int(11) DEFAULT '0' NOT NULL,
+	KEY uid_local (uid_local),
+	KEY uid_foreign (uid_foreign)
+);
+
+
+#
+# Table structure for table 'tx_staffm_domain_model_mitarbeiter_qualifikation'
+#
+CREATE TABLE tx_staffm_domain_model_mitarbeiter_qualifikation (
+
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+
+	mitarbeiter int(11) unsigned DEFAULT '0',
+	qualifikation int(11) unsigned DEFAULT '0',
+
+        tablenames varchar(30) DEFAULT '' NOT NULL,
+
+        sorting int(11) DEFAULT '0' NOT NULL,        
+        
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+-- 
+-- 	t3ver_oid int(11) DEFAULT '0' NOT NULL,
+-- 	t3ver_id int(11) DEFAULT '0' NOT NULL,
+-- 	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
+-- 	t3ver_label varchar(255) DEFAULT '' NOT NULL,
+-- 	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
+-- 	t3ver_stage int(11) DEFAULT '0' NOT NULL,
+-- 	t3ver_count int(11) DEFAULT '0' NOT NULL,
+-- 	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
+-- 	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
+
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l10n_parent int(11) DEFAULT '0' NOT NULL,
+	l10n_diffsource mediumblob,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid),
+-- 	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
+ KEY language (l10n_parent,sys_language_uid)
+
+);
+
+#
+# Table structure for table 'tx_staffm_domain_model_qualifikation'
+#
+CREATE TABLE tx_staffm_domain_model_qualifikation (
+
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+
+	bezeichnung varchar(255) DEFAULT '' NOT NULL,
+        beschreibung text NOT NULL,
+        mitarbeiters int(11) unsigned DEFAULT '0',
+        mitarbeiter int(11) unsigned DEFAULT '0',
+
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+
+	t3ver_oid int(11) DEFAULT '0' NOT NULL,
+	t3ver_id int(11) DEFAULT '0' NOT NULL,
+	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
+	t3ver_label varchar(255) DEFAULT '' NOT NULL,
+	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
+	t3ver_stage int(11) DEFAULT '0' NOT NULL,
+	t3ver_count int(11) DEFAULT '0' NOT NULL,
+	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
+	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
+	sorting int(11) DEFAULT '0' NOT NULL,
+
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l10n_parent int(11) DEFAULT '0' NOT NULL,
+	l10n_diffsource mediumblob,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid),
+	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
+ KEY language (l10n_parent,sys_language_uid)
+
+);
+
+#
+# Table structure for table 'tx_staffm_domain_model_qualilog'
+#
+CREATE TABLE tx_staffm_domain_model_qualilog (
+
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+        
+        qualifikation int(11) DEFAULT '0' NOT NULL,
+	bezeichnung varchar(255) DEFAULT '' NOT NULL,
+        beschreibung varchar(255) DEFAULT '' NOT NULL,
+        bearbeiter int(11) DEFAULT '0' NOT NULL,
+        status varchar(30) DEFAULT '' NOT NULL,
+
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+
+	t3ver_oid int(11) DEFAULT '0' NOT NULL,
+	t3ver_id int(11) DEFAULT '0' NOT NULL,
+	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
+	t3ver_label varchar(255) DEFAULT '' NOT NULL,
+	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
+	t3ver_stage int(11) DEFAULT '0' NOT NULL,
+	t3ver_count int(11) DEFAULT '0' NOT NULL,
+	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
+	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
+	sorting int(11) DEFAULT '0' NOT NULL,
+
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l10n_parent int(11) DEFAULT '0' NOT NULL,
+	l10n_diffsource mediumblob,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid),
+	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
+ KEY language (l10n_parent,sys_language_uid)
+
+);
+
+#
+# Table structure for table 'tx_staffm_domain_model_firma'
+#
+CREATE TABLE tx_staffm_domain_model_firma (
+
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+
+        nummer varchar(255) DEFAULT '' NOT NULL,
+	bezeichnung varchar(255) DEFAULT '' NOT NULL,
+        adresse varchar(255) DEFAULT '' NOT NULL,
+        plz varchar(255) DEFAULT '' NOT NULL,
+        ort varchar(255) DEFAULT '' NOT NULL,
+        ortszusatz varchar(255) DEFAULT '' NOT NULL,
+        land varchar(255) DEFAULT '' NOT NULL,
+        tel1 varchar(255) DEFAULT '' NOT NULL,
+        tel2 varchar(255) DEFAULT '' NOT NULL,
+        fax varchar(255) DEFAULT '' NOT NULL,        
+        images int(11) unsigned DEFAULT '0' NOT NULL,
+        files int(11) unsigned DEFAULT '0' NOT NULL,
+
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+
+	t3ver_oid int(11) DEFAULT '0' NOT NULL,
+	t3ver_id int(11) DEFAULT '0' NOT NULL,
+	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
+	t3ver_label varchar(255) DEFAULT '' NOT NULL,
+	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
+	t3ver_stage int(11) DEFAULT '0' NOT NULL,
+	t3ver_count int(11) DEFAULT '0' NOT NULL,
+	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
+	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
+	sorting int(11) DEFAULT '0' NOT NULL,
+
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l10n_parent int(11) DEFAULT '0' NOT NULL,
+	l10n_diffsource mediumblob,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid),
+	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
+ KEY language (l10n_parent,sys_language_uid)
+
+);
+
+#
+# Table structure for table 'tx_staffm_domain_model_standort'
+#
+CREATE TABLE tx_staffm_domain_model_standort (
+
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+
+	bezeichnung varchar(255) DEFAULT '' NOT NULL,
+
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+
+	t3ver_oid int(11) DEFAULT '0' NOT NULL,
+	t3ver_id int(11) DEFAULT '0' NOT NULL,
+	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
+	t3ver_label varchar(255) DEFAULT '' NOT NULL,
+	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
+	t3ver_stage int(11) DEFAULT '0' NOT NULL,
+	t3ver_count int(11) DEFAULT '0' NOT NULL,
+	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
+	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
+	sorting int(11) DEFAULT '0' NOT NULL,
+
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l10n_parent int(11) DEFAULT '0' NOT NULL,
+	l10n_diffsource mediumblob,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid),
+	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
+ KEY language (l10n_parent,sys_language_uid)
+
+);
+
+#
+# Table structure for table 'tx_staffm_domain_model_mitarbeitersoftware'
+#
+CREATE TABLE tx_staffm_domain_model_mitarbeitersoftware (
+
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+
+	mitarbeiter int(11) unsigned DEFAULT '0',
+	software int(11) unsigned DEFAULT '0',
+
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	starttime int(11) unsigned DEFAULT '0' NOT NULL,
+	endtime int(11) unsigned DEFAULT '0' NOT NULL,
+
+	t3ver_oid int(11) DEFAULT '0' NOT NULL,
+	t3ver_id int(11) DEFAULT '0' NOT NULL,
+	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
+	t3ver_label varchar(255) DEFAULT '' NOT NULL,
+	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
+	t3ver_stage int(11) DEFAULT '0' NOT NULL,
+	t3ver_count int(11) DEFAULT '0' NOT NULL,
+	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
+	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
+
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l10n_parent int(11) DEFAULT '0' NOT NULL,
+	l10n_diffsource mediumblob,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid),
+	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
+ KEY language (l10n_parent,sys_language_uid)
+
+);
+
+#
+# Table structure for table 'tx_staffm_domain_model_software'
+#
+CREATE TABLE tx_staffm_domain_model_software (
+
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+
+	bezeichnung varchar(255) DEFAULT '' NOT NULL,
+
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	starttime int(11) unsigned DEFAULT '0' NOT NULL,
+	endtime int(11) unsigned DEFAULT '0' NOT NULL,
+
+	t3ver_oid int(11) DEFAULT '0' NOT NULL,
+	t3ver_id int(11) DEFAULT '0' NOT NULL,
+	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
+	t3ver_label varchar(255) DEFAULT '' NOT NULL,
+	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
+	t3ver_stage int(11) DEFAULT '0' NOT NULL,
+	t3ver_count int(11) DEFAULT '0' NOT NULL,
+	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
+	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
+
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l10n_parent int(11) DEFAULT '0' NOT NULL,
+	l10n_diffsource mediumblob,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid),
+	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
+ KEY language (l10n_parent,sys_language_uid)
+
+);

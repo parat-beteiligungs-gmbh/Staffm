@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="de" target-language="en" datatype="plaintext" original="messages" date="2016-01-20T10:57:53Z" product-name="staffm">
+        <header/>
+        <body>
+            <trans-unit id="staffm.create">
+                <source>Erstellen</source>
+                <target state="translated">Create</target>
+            </trans-unit>
+            <trans-unit id="staffm.edit">
+                <source>Bearbeiten</source>
+                <target state="translated">Edit</target>
+            </trans-unit>
+            <trans-unit id="staffm.back">
+                <source>Zurück</source>
+                <target state="translated">Back</target>
+            </trans-unit>
+            <trans-unit id="staffm.save">
+                <source>Speichern</source>
+                <target state="translated">Save</target>
+            </trans-unit>
+            <trans-unit id="staffm.delete">
+                <source>Löschen</source>
+                <target state="translated">Delete</target>
+            </trans-unit>
+            <trans-unit id="staffm.choose">
+                <source>Auswahl</source>
+                <target state="translated">Choose</target>
+            </trans-unit>
+            <trans-unit id="staffm.renting">
+                <source>Ausgabe</source>
+                <target state="translated">Renting</target>
+            </trans-unit>
+            <trans-unit id="staffm.search">
+                <source>Suche</source>
+                <target state="translated">Search</target>
+            </trans-unit>
+            <trans-unit id="staffm.remove">
+                <source>Entfernen</source>
+                <target state="translated">Remove</target>
+            </trans-unit>
+            <trans-unit id="staffm.topage">
+                <source>Zur Seite</source>
+                <target state="translated">To the page</target>
+            </trans-unit>
+            <trans-unit id="staffm.allremove">
+                <source>Alle entfernen</source>
+                <target state="translated">Remove all</target>
+            </trans-unit>
+            <trans-unit id="staffm.call">
+                <source>Anrufen</source>
+                <target state="translated">Call</target>
+            </trans-unit>
+            <trans-unit id="staffm.mitarbeiter.new">
+                <source>Neuer Mitarbeiter</source>
+                <target state="translated">New employee</target>
+            </trans-unit>
+            <trans-unit id="staffm.mitarbeiter.list.headline">
+                <source>Mitarbeiterliste</source>
+                <target state="translated">List of employees</target>
+            </trans-unit>
+            <trans-unit id="staffm.mitarbeiter.edit.headline">
+                <source>Mitarbeiter bearbeiten</source>
+                <target state="translated">Edit employee</target>
+            </trans-unit>
+            <trans-unit id="staffm.mitarbeiter.show.headline">
+                <source>Mitarbeiter Details</source>
+                <target state="translated">Employee details</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter">
+                <source>Mitarbeiter</source>
+                <target state="translated">Employees</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.personalnummer">
+                <source>PNR</source>
+                <target state="translated">PN</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.username">
+                <source>Username</source>
+                <target state="translated">User name</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.lastName">
+                <source>Nachname</source>
+                <target state="translated">Last name</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.firstName">
+                <source>Vorname</source>
+                <target state="translated">First name</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.date_of_birth_show">
+                <source>Geburtsdatum anzeigen</source>
+                <target state="translated">Date of birth show</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.date_of_birth">
+                <source>Geburtsdatum</source>
+                <target state="translated">Date of birth</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.last_name">
+                <source>Nachname</source>
+                <target state="translated">Last name</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.first_name">
+                <source>Vorname</source>
+                <target state="translated">First name</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.position">
+                <source>Position</source>
+                <target state="translated">Position</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.telephone">
+                <source>Telefon</source>
+                <target state="translated">Telephone</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.fax">
+                <source>Fax</source>
+                <target state="translated">Fax</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.handy">
+                <source>Handy</source>
+                <target state="translated">Mobilephone</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.email">
+                <source>Email</source>
+                <target state="translated">Email</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.title">
+                <source>Titel</source>
+                <target state="translated">Title</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.kostenstelle">
+                <source>Kostenstelle</source>
+                <target state="translated">Cost centre</target>
+            </trans-unit>            
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.firma">
+                <source>Firma</source>
+                <target state="translated">Company</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.standort">
+                <source>Standort</source>
+                <target state="translated">Location</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.qualifikationen">
+                <source>Qualifikationen</source>
+                <target state="translated">Qualifications</target>
+            </trans-unit>
+            <trans-unit id="staffm.position.new">
+                <source>Neue Position</source>
+                <target state="translated">New position</target>
+            </trans-unit>
+            <trans-unit id="staffm.position.list.headline">
+                <source>Liste von Positionen</source>
+                <target state="translated">List of positions</target>
+            </trans-unit>
+            <trans-unit id="staffm.position.edit.headline">
+                <source>Position bearbeiten</source>
+                <target state="translated">Edit position</target>
+            </trans-unit>
+            <trans-unit id="staffm.position.show.headline">
+                <source>Position Details</source>
+                <target state="translated">Single view for position</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_position">
+                <source>Positionen</source>
+                <target state="translated">Positions</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_position.nummer">
+                <source>Nummer</source>
+                <target state="translated">Number</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_position.bezeichnung">
+                <source>Bezeichnung</source>
+                <target state="translated">Designation</target>
+            </trans-unit>
+            <trans-unit id="staffm.kostenstelle.new">
+                <source>Neue Kostenstelle</source>
+                <target state="translated">New cost centre</target>
+            </trans-unit>
+            <trans-unit id="staffm.kostenstelle.list.headline">
+                <source>Kostenstellenliste</source>
+                <target state="translated">List of cost centres</target>
+            </trans-unit>
+            <trans-unit id="staffm.kostenstelle.edit.headline">
+                <source>Kostenstelle bearbeiten</source>
+                <target state="translated">Edit cost centre</target>
+            </trans-unit>
+            <trans-unit id="staffm.kostenstelle.show.headline">
+                <source>Kostenstelle Details</source>
+                <target state="translated">Single view for cost centre</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_kostenstelle">
+                <source>Kostenstellen</source>
+                <target state="translated">Cost centres</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_kostenstelle.nummer">
+                <source>Nummer</source>
+                <target state="translated">Number</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_kostenstelle.bezeichnung">
+                <source>Bezeichnung</source>
+                <target state="translated">Designation</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_kostenstelle.verantwortlicher">
+                <source>Verantwortlicher</source>
+                <target state="translated">Responsible</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_kostenstelle.images">
+                <source>Bilder</source>
+                <target state="translated">Pictures</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_taetigkeit">
+                <source>Tätigkeit</source>
+                <target state="translated">Work</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_taetigkeit.bezeichnung">
+                <source>Bezeichnung</source>
+                <target state="translated">Designation</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeitertaetigkeit">
+                <source>Mitarbeitertätigkeit</source>
+                <target state="translated">Work of employee</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeitertaetigkeit.mitarbeiter">
+                <source>Mitarbeiter</source>
+                <target state="translated">Employee</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeitertaetigkeit.taetigkeit">
+                <source>Tätigkeit</source>
+                <target state="translated">Work</target>
+            </trans-unit>
+            <trans-unit id="staffm.qualifikation.new">
+                <source>Neue Qualifikation</source>
+                <target state="translated">New qualification</target>
+            </trans-unit>
+            <trans-unit id="staffm.qualifikation.list.headline">
+                <source>Liste von Qualifikationen</source>
+                <target state="translated">List of qualifications</target>
+            </trans-unit>
+            <trans-unit id="staffm.qualifikation.edit.headline">
+                <source>Qualifikation bearbeiten</source>
+                <target state="translated">Edit qualification</target>
+            </trans-unit>
+            <trans-unit id="staffm.qualifikation.show.headline">
+                <source>Qualifikation Details</source>
+                <target state="translated">Single view for qualification</target>
+            </trans-unit>
+            <trans-unit id="staffm.qualifikation.text.zuordnung">
+                <source>Qualifikationszuordnung speichern</source>
+                <target state="translated">Save assigned qualifications</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_qualifikation">
+                <source>Qualifikationen</source>
+                <target state="translated">Qualifications</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_qualifikation.bezeichnung">
+                <source>Bezeichnung</source>
+                <target state="translated">Designation</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_qualifikation.beschreibung">
+                <source>Beschreibung</source>
+                <target state="translated">Description</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_qualifikation.mitarbeiters">
+                <source>Mitarbeiter</source>
+                <target state="translated">Employees</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiterqualifikation">
+                <source>Mitarbeiterqualifikation</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiterqualifikation.mitarbeiter">
+                <source>Mitarbeiter</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiterqualifikation.qualifikation">
+                <source>Qualifikation</source>
+            </trans-unit>
+            <trans-unit id="staffm.firma.new">
+                <source>Neue Firma</source>
+                <target state="translated">New company</target>
+            </trans-unit>
+            <trans-unit id="staffm.firma.list.headline">
+                <source>Firmenliste</source>
+                <target state="translated">List of companies</target>
+            </trans-unit>
+            <trans-unit id="staffm.firma.edit.headline">
+                <source>Firma bearbeiten</source>
+                <target state="translated">Edit company</target>
+            </trans-unit>
+            <trans-unit id="staffm.firma.show.headline">
+                <source>Firma Details</source>
+                <target state="translated">Single view for company</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_firma">
+                <source>Firmen</source>
+                <target state="translated">Companies</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_firma.nummer">
+                <source>Nummer</source>
+                <target state="translated">Number</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_firma.bezeichnung">
+                <source>Bezeichnung</source>
+                <target state="translated">Designation</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_firma.adresse">
+                <source>Adresse</source>
+                <target state="translated">Address</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_firma.plz">                
+                <source>PLZ</source>
+                <target state="translated">Zip code</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_firma.ort">
+                <source>Ort</source>
+                <target state="translated">Place</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_firma.ortszusatz">
+                <source>Ortszusatz</source>
+                <target state="translated">Additional location</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_firma.land">
+                <source>Land</source>
+                <target state="translated">Country</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_firma.tel1">
+                <source>Telefon</source>
+                <target state="translated">Telephone</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_firma.tel2">
+                <source>Telefon</source>
+                <target state="translated">Telephone</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_firma.fax">
+                <source>Fax</source>
+                <target state="translated">Fax</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_firma.images">
+                <source>Bilder</source>
+                <target state="translated">Pictures</target>
+            </trans-unit>   
+            <trans-unit id="tx_staffm_domain_model_firma.files">
+                <source>Dateien</source>
+                <target state="translated">Files</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_standort">
+                <source>Standorte</source>
+                <target state="translated">Locations</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_standort.bezeichnung">
+                <source>Bezeichnung</source>
+                <target state="translated">Designation</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeitersoftware">
+                <source>Mitarbeitersoftware</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeitersoftware.mitarbeiter">
+                <source>Mitarbeiter</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeitersoftware.software">
+                <source>Software</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_software">
+                <source>Software</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_software.bezeichnung">
+                <source>Bezeichnung</source>
+            </trans-unit>
+            <trans-unit id="staffm.text.verantwortlicher.waehlen">
+                <source>Hier bitte den Verantwortlichen auswählen!</source>
+                <target state="translated">Please choose the Responsible!</target>
+            </trans-unit>
+            <trans-unit id="staffm.text.kstverantwortlicher.keinemitarbeiter">
+                <source>Keine Mitarbeiter gefunden für die Sie zuständig sind (Kst-Verantwortung)!</source>
+                <target state="translated">You have no employees for your cost centre responsibility!</target>
+            </trans-unit>
+            <trans-unit id="staffm.text.zugeordnete">
+                <source>Zugeordnete</source>
+                <target state="translated">Assigned</target>
+            </trans-unit>
+            <trans-unit id="staffm.text.uebergeben">
+                <source>übergeben</source>
+                <target state="translated">hand over</target>
+            </trans-unit>
+            <trans-unit id="staffm.text.geburtsdatumausgabe">
+                <source>Geburtsdatum wird nicht im Intranet angezeigt!</source>
+                <target state="translated">Date of birth is not displayed on the Intranet!</target>
+            </trans-unit>  
+            <trans-unit id="staffm.upoadpics">
+                <source>Bilder hochladen</source>
+                <target state="translated">Upload Pictures</target>
+            </trans-unit> 
+            <trans-unit id="staffm.more">
+                <source>Mehr...</source>
+                <target state="translated">More...</target>
+            </trans-unit>   
+        </body>
+    </file>
+</xliff>

@@ -1,0 +1,105 @@
+{namespace tv = Pmwebdesign\Staffm\ViewHelpers}
+<f:layout name="Default" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="main">
+    <h1><f:translate id="staffm.qualifikation.list.headline" /></h1>
+<f:flashMessages />
+<div style="position: relative;background-color: #ccff66;padding: 10px;border-style:solid;border-width: thin">
+    <b>INFO:</b>
+    <p style="color: red">Die Qualifikationen werden zur Zeit noch ermittelt/bearbeitet und sind daher noch nicht zugeordnet.
+        Es können deshalb noch keine Mitarbeiter mit Qualifikationen gefunden werden. Wir bitten Sie noch um etwas Geduld.</p>
+    <p style="color: red">Bei weiteren Fragen wenden Sie sich an die
+        <a style="text-decoration: underline" href="http://intranet/index.php?id=146&tx_staffm_staffm%5Bmitarbeiter%5D=190&tx_staffm_staffm%5Baction%5D=show&tx_staffm_staffm%5Bcontroller%5D=Mitarbeiter&cHash=de3657368c9102114580bcf5f6203871" >PA</a>,
+        oder an den <a style="text-decoration: underline" href="http://intranet/index.php?id=146&tx_staffm_staffm%5Bmitarbeiter%5D=467&tx_staffm_staffm%5Baction%5D=show&tx_staffm_staffm%5Bcontroller%5D=Mitarbeiter&cHash=0b4a067d2b05ddcf1ed0fd22364b4e89">Administrator</a> der Website.
+    </p>
+</div><br />
+    <f:if condition="{key} != 'auswahl'">  
+        <f:then>
+            <f:form action="list" arguments="{mitarbeiter:mitarbeiter, key:key}" additionalAttributes="{role: 'form'}">
+                <div class="row">
+                    <div class="col-lg-5">
+                        <div class="input-group">
+                            <f:security.ifHasRole role="Registrierte User">
+                                <span class="input-group-btn">
+                                    <f:link.action class="btn btn-default" action="new"><f:translate id="staffm.qualifikation.new" /></f:link.action>
+                                 </span>
+                            </f:security.ifHasRole>  
+                            <f:form.textfield class="form-control" title="Volltextsuche für Bezeichnung, oder einen Teil der Beschreibung einer Qualifikation" name="search" value="{search}" />
+                            <span class="input-group-btn">   
+                                <f:form.submit class="btn btn-default" value="{f:translate(id:'staffm.search')}" />
+                            </span>
+                        </div>
+                    </div>
+                </div>                  
+                <tv:widget.atoZNav objects="{qualifikations}" as="filteredQualifikations" property="bezeichnung" search="{search}" maid="{maid}">   
+                <tv:widget.sort objects="{filteredQualifikations}" as="sortedQualifikations" property="bezeichnung">                    
+                    <f:link.action id="excelExport" class="btn btn-default" action="export" arguments="{searching:'{search}'}" >
+                        <f:image class="tx_staffm icon" src="typo3conf/ext/staffm/Resources/Public/Icons/Excel.png" />
+                        Excel Export
+                    </f:link.action>
+                    <br />
+                    <br />
+                    <table  class="tx_staffm" >
+                            <tr>
+                                <th><f:translate key="tx_staffm_domain_model_qualifikation.bezeichnung" /></th>  
+                                <th><f:translate key="tx_staffm_domain_model_qualifikation.beschreibung" /></th> 
+                            </tr>
+                            <f:for each="{sortedQualifikations}" as="qualifikation">
+                                    <tr>            
+                                        <td><f:link.action action="show" arguments="{qualifikation : qualifikation}">{qualifikation.bezeichnung}</f:link.action></td>
+                                        <td width="200"><f:link.action action="show" arguments="{qualifikation : qualifikation}"><div class="tx_staffm tds">{qualifikation.beschreibung}</div></f:link.action></td>
+                                        <f:security.ifHasRole role="Registrierte User">
+                                            <td><f:link.action class="staffm-link" action="edit" arguments="{qualifikation : qualifikation}"><f:translate id="staffm.edit" /></f:link.action></td>
+                                            <td><f:link.action class="staffm-link" action="delete" arguments="{qualifikation : qualifikation}"><f:translate id="staffm.delete" /></f:link.action></td>                                           
+                                        </f:security.ifHasRole>
+                                    </tr>
+                            </f:for>
+                    </table>
+                </tv:widget.sort>
+                </tv:widget.atoZNav>
+            </f:form>
+        </f:then>
+        <f:else>
+            <f:form action="choose" controller="Mitarbeiterqualifikation" arguments="{mitarbeiter:mitarbeiter}" additionalAttributes="{role: 'form'}" >
+            <table>
+                <td class="tx-staffm bold">Name:&nbsp;</td><td>{mitarbeiter.LastName} {mitarbeiter.firstName}</td><br />
+            </table>            
+            <table  class="tx_staffm" >
+                <tr>
+                    <th><f:translate key="tx_staffm_domain_model_qualifikation.bezeichnung" /></th>                    
+                </tr>
+
+                <f:for each="{qualifikations}" as="qualifikation">
+                        <tr>                            
+                                <f:if condition="{key} == 'auswahl'">
+                                    <f:then>
+                                        <td>{qualifikation.bezeichnung}</td>
+                                        <td><f:form.checkbox name="qualifikationcb[]" value="{qualifikation.bezeichnung}" multiple="1" checked="{tv:quali(mq: mitarbeiter.mitarbeiterQualifikationen, qu: qualifikation)}" /></td>
+                                        <!-- <tv:quali mq="{mitarbeiter.mitarbeiterQualifikationen}" qu="{qualifikation}" /> -->
+                                    </f:then>                                
+                                    <f:else>
+                                        <td><f:link.action action="show" arguments="{qualifikation : qualifikation}">{qualifikation.bezeichnung}</f:link.action></td>
+                                        <td><f:link.action class="staffm-link" action="edit" arguments="{qualifikation : qualifikation}"><f:translate id="staffm.edit" /></f:link.action></td>
+                                        <td><f:link.action class="staffm-link" action="delete" arguments="{qualifikation : qualifikation}"><f:translate id="staffm.delete" /></f:link.action></td>
+                                    </f:else>
+                                </f:if>
+                        </tr>
+                </f:for>
+            </table>
+            <br />
+            <f:form.submit class="btn btn-default" value="Auswahl übergeben" /><f:link.action class="btn btn-default" action="edit" controller="Mitarbeiter" arguments="{mitarbeiter:mitarbeiter}"><f:translate id="staffm.back" /></f:link.action>
+            </f:form>
+        </f:else>
+    </f:if>  
+</f:section>

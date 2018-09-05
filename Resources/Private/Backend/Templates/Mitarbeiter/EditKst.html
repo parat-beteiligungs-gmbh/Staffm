@@ -1,0 +1,46 @@
+
+<f:layout name="Default" />
+
+This template displays a EDIT form for the current domain object.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        Edit.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="content">
+<h1>Mitarbeiter bearbeiten</h1>
+
+<f:flashMessages />
+
+<f:render partial="FormErrors" />
+
+<f:form enctype="multipart/form-data" action="update" name="mitarbeiter" arguments="{mitarbeiter:mitarbeiter}" object="{mitarbeiter}" >
+    <f:render partial="Mitarbeiter/FormFields" arguments="{mitarbeiter:mitarbeiter, images:images}" /><hr />
+    <div class="btn-group" role="group">
+        <f:if condition="{position}">
+            <f:link.action class="btn btn-default" controller="Position" action="show" arguments="{position:position}">Zurück</f:link.action>
+        </f:if>
+        <f:if condition="{kostenstelle}">
+            <f:link.action class="btn btn-default" section="ma{mitarbeiter.uid}" controller="Kostenstelle" action="show" arguments="{kostenstelle:kostenstelle}">Zurück</f:link.action>
+        </f:if>
+        <f:if condition="{firma}">
+            <f:link.action class="btn btn-default" controller="Firma" action="show" arguments="{firma:firma}">Zurück</f:link.action>
+        </f:if>
+        <f:if condition="{standort}">
+            <f:link.action class="btn btn-default" controller="Standort" action="show" arguments="{standort:standort}">Zurück</f:link.action>
+        </f:if>
+        <f:if condition="{qualifikation}">
+            <f:link.action class="btn btn-default" controller="Qualifikation" action="show" arguments="{qualifikation:qualifikation}">Zurück</f:link.action>
+        </f:if>
+        <f:form.submit class="btn btn-default" onclick="setDates()" value="Speichern" />
+    </div>
+</f:form>
+
+</f:section>
+
+

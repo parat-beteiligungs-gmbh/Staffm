@@ -1,0 +1,33 @@
+{namespace tv = Pmwebdesign\Staffm\ViewHelpers}
+<table class="tx_staffm table-left" >
+	<tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_kostenstelle.nummer" />
+		</td>
+		<td>
+			{kostenstelle.nummer}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_kostenstelle.bezeichnung" />
+		</td>
+		<td>
+			{kostenstelle.bezeichnung}
+		</td>
+	</tr>
+        <tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_kostenstelle.verantwortlicher" />
+		</td>
+		<td>                   
+                    <f:link.action controller="Mitarbeiter" action="showVeraKst" arguments="{kostenstelle:kostenstelle}">
+                        <f:if condition="{kostenstelle.verantwortlicher.image}">
+                            <f:image class="tx_staffm profilbild klein" src="uploads/tx_srfeuserregister/{tv:image(m: kostenstelle.verantwortlicher)}" />
+                        </f:if>  
+                        {kostenstelle.verantwortlicher.lastName} {kostenstelle.verantwortlicher.firstName}
+                    </f:link.action>
+                   
+		</td>
+	</tr>
+</table>

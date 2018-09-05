@@ -1,0 +1,50 @@
+
+<f:layout name="Default" />
+
+This template displays a EDIT form for the current domain object.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        Edit.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="main">
+    <h1><f:translate id="staffm.mitarbeiter.edit.headline" /></h1>
+
+<f:flashMessages />
+
+<f:render partial="FormErrors" />
+
+<f:form enctype="multipart/form-data" action="update" name="mitarbeiter" arguments="{mitarbeiter:mitarbeiter, maid:'maid', search:search, key:key, berechtigung:berechtigung}" object="{mitarbeiter}" >
+    <f:if condition="{berechtigung} == 'vonVorg'">
+        <f:then>
+            <f:render partial="Mitarbeiter/FormFieldsVorg" arguments="{mitarbeiter:mitarbeiter, search:search, berechtigung:berechtigung}" /><br />
+        </f:then>
+        <f:else>
+             <f:if condition="{key} == 'auswahlUsr'">
+                 <f:then>
+                     <f:render partial="Mitarbeiter/FormFieldsUser" arguments="{mitarbeiter:mitarbeiter, search:search, key:key}" /><br />
+                 </f:then>
+                 <f:else>
+                    <f:render partial="Mitarbeiter/FormFields" arguments="{mitarbeiter:mitarbeiter, search:search}" /><br />
+                 </f:else>
+             </f:if>
+        </f:else>
+    </f:if>
+    <div class="btn-group" role="group" aria-label="Mitarbeiter bearbeiten">        
+        <f:link.action section="ma{mitarbeiter.uid}" class="btn btn-secondary" action="list" arguments="{maid:'maid', search:search}"><f:translate id="staffm.back" /></f:link.action>
+        <f:form.submit class="btn btn-success" onclick="setDates()" value="{f:translate(id:'staffm.save')}" />    
+    </div>
+</f:form>
+<f:comment><!--
+    Just load Javascript in this content 
+    Javascript for date change to unix-stamp
+--></f:comment>  
+<script type="text/javascript" src="/typo3conf/ext/staffm/Resources/Public/js/staffm.js"></script>
+</f:section>
+
+
