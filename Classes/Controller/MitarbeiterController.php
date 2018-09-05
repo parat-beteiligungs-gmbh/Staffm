@@ -1,12 +1,4 @@
 <?php
-//require_once "PHPExcel.php"; -> Deprecated
-//$pfadjust = $_SERVER['DOCUMENT_ROOT'];
-//$pfadjust = substr($pfadjust, 0, strlen($pfadjust) - 4); // Einen Ordner zurück
-//require $pfadjust."/vendor/autoload.php"; // -> doesn´t run
-//require dirname(dirname(dirname(__FILE__))).$pfadjust."/vendor/autoload.php"; // -> doesn´t run
-//require_once $pfadjust."/vendor/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Spreadsheet.php";
-//require_once $pfadjust."/vendor/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Worksheet/Worksheet.php";
-//require_once $pfadjust."/vendor/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Writer/Xlsx.php";
 
 /***************************************************************
  *
@@ -122,7 +114,7 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 
     /**
      * action export 
-     * Mitarbeiter-Daten in Excel exportieren           
+     * Export employe data to Excel          
      * @return void
      */
     public function exportAction() {
@@ -130,7 +122,7 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
             $search = $this->request->getArgument('searching');
         }
 
-        // Abfrage ob Backenduser
+        // Backend User? 
 //        if ($GLOBALS['BE_USER']->beUserLogin = 1) {
 //            //$aktpfad = $_SERVER['SERVER_NAME']; Liest Servername aus -> intranet
 //            $aktpfad = $_SERVER['DOCUMENT_ROOT']; // Funktioniert liest htdocs aus
@@ -230,8 +222,7 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         
         // Clicked char?
         if ($this->request->hasArgument('@widget_0')) {
-            $widget = $this->request->getArgument('@widget_0');
-            //\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($widget);
+            $widget = $this->request->getArgument('@widget_0');            
             $char = $widget["char"];
         }  
         
@@ -299,14 +290,9 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         }            
        // Search field content delete?
         if ($this->request->hasArgument('searchstatus')) {            
-            $searchstatus = $this->request->getArgument('searchstatus');            
-            if ($searchstatus == 'delete') {
-                // TODO: test -> Funktioniert nur wenn auf "Suche" geklickt wird, nicht bei A-Z
-                //echo "Mit_list (suchstatus): ".$searchstatus;
-                // echo "Suchwort: ".$search; // Ist hier leer
-                //$search = "";
-            }
+            $searchstatus = $this->request->getArgument('searchstatus');  
         }
+        
         $this->view->assign('mitarbeiters', $mitarbeiters);
         $this->view->assign('kostenstelle', $kostenstelle);
         $this->view->assign('search', $search);        
@@ -346,19 +332,12 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
             $this->view->assign('key', $key);
         }
         
-        // Angemeldeten User ermitteln              
+        // Logged in user              
         $aktuser = $this->objectManager->
                 get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
                     findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);    
-        
-        // Wenn User angemeldet an View übergeben
         if ($aktuser != NULL) {
-            $this->view->assign('aktuser', $aktuser);            
-            // Kostenstellen des angemeldeten Users ermitteln            
-            /*$kostenstellen = $this->objectManager->
-                get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->
-                findByVerantwortlicher($GLOBALS['TSFE']->fe_user->user['uid']);
-            $this->view->assign('kostenstellen', $kostenstellen);            */
+            $this->view->assign('aktuser', $aktuser);    
         }
         
         $limit = 0;
@@ -401,7 +380,7 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 
     /**
      * action listChoose
-     * Liste von Mitarbeitern für Auswahl eines Verantwortlichen
+     * Liste of employees for choosing a responible for a cost center
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle
      * @return void
@@ -414,7 +393,7 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     
     /**
      * action listChooseQuali
-     * Listet die Mitarbeiterauswahl bei der Qualifikationsbearbeitung
+     * Choosing employees for a qualification
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualifikation
      */
@@ -426,7 +405,7 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 
     /**
      * action show
-     * Einzelansicht des Kstverantwortlichen
+     * Detail view of cost center responsible
      * 	
      * @param \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle
      * @return void
@@ -445,7 +424,7 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 
     /**
      * action show
-     * Einzelansicht des Mitarbeiters (von Kst-Liste gewählt)
+     * Detail view of employee from cost center list
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $ma
      * @param \Pmwebdesign\Staffm\Domain\Model\Position $position
@@ -702,8 +681,6 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
             $mitarbeiter->setQualifikationen($qualifikationen);   
         }
         
-        //\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($mitarbeiter);
-        
         $this->mitarbeiterRepository->update($mitarbeiter);      
         
         $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager')->persistAll();
@@ -782,7 +759,7 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         // Flashmessage
         $this->addFlashMessage('Mitarbeiter "'.$mitarbeiter->getFirstName().' '.$mitarbeiter->getLastName().'" wurde gelöscht!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
 
-        // Mitarbeiter auf gelöscht setzen
+        // Set employee as deleted
         $this->mitarbeiterRepository->remove($mitarbeiter);
         
         // Delete Caches
@@ -806,7 +783,7 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     
     /**
      * action deleteQuali
-     * Löscht die Qualifikationen eines Mitarbeiters
+     * Delete qualifications of an employee
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
      * @return void 
@@ -828,32 +805,6 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         $this->mitarbeiterRepository->update($mitarbeiter);
         $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager')->persistAll();
         $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'berechtigung' => $berechtigung)); 
-    }
-
-    /**
-     * delete image - deletes the actually picture from the database
-     * 
-     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
-     * @param string $image
-     */
-    public function deleteImagerAction(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter, $image) {
-        //unlink("../../uploads/tx_srfeuserregister/".$mitarbeiter->getImage()); -> Mitarbeiter können mehrere Images haben		
-        unlink("../../uploads/tx_srfeuserregister/" . $image);
-        $arrImages = explode(",", $mitarbeiter->getImage());
-        $i = 0;
-        foreach ($arrImages as $value) {
-            if ((string) $value != (string) $image) {
-                $arrdelete[$i] = $value;
-                $i++;
-            }
-        }
-        if (Count($arrdelete) == 0) {
-            $arrdelete[0] = "kein";
-        }
-        print_r($arrdelete);
-        $mitarbeiter->setImages($arrdelete);
-        $this->mitarbeiterRepository->update($mitarbeiter);
-        $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter));
     }
 
     /**
@@ -942,7 +893,7 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 //        $this->cache->initializeCache(\TYPO3\CMS\Core\Utility\GeneralUtility::camelCaseToLowerCaseUnderscored($this->extensionName));
 //        parent::initializeAction();
         
-        // Wenn ein Argument Mitarbeiter vorhanden
+        // If argument "mitarbeiter"
 //        if ($this->arguments->hasArgument('mitarbeiter')) {         
 //            //$this->arguments->getArgument('mitarbeiter')->getPropertyMappingConfiguration()->allowProperties('image');
 //            $this->arguments->getArgument('mitarbeiter')->getPropertyMappingConfiguration()->setTargetTypeForSubProperty('image', 'TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage<\\TYPO3\\CMS\Extbase\\Domain\\Model\\FileReference>'); // Image in Array umwandeln
