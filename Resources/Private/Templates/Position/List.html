@@ -15,7 +15,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
 <f:section name="main">
     <h1><f:translate id="staffm.position.list.headline" /></h1>
     <f:flashMessages />
-    <f:form action="list" arguments="{mitarbeiter:mitarbeiter, key:key, standardsearch:standardsearch}" additionalAttributes="{role: 'form'}">    
+    <f:form action="list" arguments="{mitarbeiter:mitarbeiter, key:key, standardsearch:standardsearch, cache: '{cache}'}" additionalAttributes="{role: 'form'}">    
     <tv:widget.atoZNav objects="{positions}" as="filteredPositions" property="bezeichnung" search="{search}" maid="{maid}"> 
     <f:if condition="{key} == 'auswahl'">  
         <p><b>Name:</b> {mitarbeiter.LastName} {mitarbeiter.firstName}</p>        

@@ -320,8 +320,7 @@
                 "object": {
                     "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
                     "doc": "Object, example {blog}",
-                    "type": "Object",
-                    "required": "true"
+                    "type": "Object"
                 },
                 "additionalAttributes": {
                     "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",

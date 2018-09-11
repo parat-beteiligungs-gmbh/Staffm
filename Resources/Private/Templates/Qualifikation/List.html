@@ -24,7 +24,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
 </div><br /></f:comment>
     <f:if condition="{key} == ''">  
         <f:then>
-            <f:form action="list" arguments="{mitarbeiter:mitarbeiter, key:key, berechtigung:berechtigung}" additionalAttributes="{role: 'form'}">                                  
+            <f:form action="list" arguments="{mitarbeiter:mitarbeiter, key:key, berechtigung:berechtigung, cache: '{cache}'}" additionalAttributes="{role: 'form'}">                                  
                 <tv:widget.atoZNav objects="{qualifikations}" as="filteredQualifikations" property="bezeichnung" search="{search}" maid="{maid}"> 
                     <div class="input-group">
                         <div class="input-group-prepend">
