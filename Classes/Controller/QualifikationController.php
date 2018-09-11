@@ -304,52 +304,60 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         if ($this->request->hasArgument('maid')) {
             $maid = $this->request->getArgument('maid');
         }
+        
+        // No caching?
+        if ($this->request->hasArgument('cache')) {
+            $cache = $this->request->getArgument('cache');            
+        } 
+        
+        // No cache flag? (Example qualification was deleted and the info message is shown in the list view)
+        if ($cache != "notcache") {
+            /* Caching Framework */
+            $speak = $GLOBALS['TSFE']->sys_language_uid; // Language Index
+            $cachename = $speak."listQualiIdentifier";
+            $keyforcache = array('normal');
+            // Char or employee id?
+            if ($char != "" || $maid == "maid") {
+                // All clicked?
+                if ($char == '%') {
+                    $search = "";
+                    $char = "All";
+                    $key = "all";
+                } elseif ($char <> '') {
+                    $search = "";
+                    // No, a other char is clicked
+                    $char = $char;
+                } elseif ($maid == "maid") {
+                    // A employee id was send
+                    $char = "All";
+                    $key = "all";
+                }
 
-        /* Caching Framework */
-        $speak = $GLOBALS['TSFE']->sys_language_uid; // Language Index
-        $cachename = $speak."listQualiIdentifier";
-        $keyforcache = array('normal');
-        // Char or employee id?
-        if ($char != "" || $maid == "maid") {
-            // All clicked?
-            if ($char == '%') {
-                $search = "";
-                $char = "All";
-                $key = "all";
-            } elseif ($char <> '') {
-                $search = "";
-                // No, a other char is clicked
-                $char = $char;
-            } elseif ($maid == "maid") {
-                // A employee id was send
-                $char = "All";
-                $key = "all";
+                $cachename = $cachename.$char;
+                $keyforcache = array('list', 'buchstabe', $char);
             }
 
-            $cachename = $cachename.$char;
-            $keyforcache = array('list', 'buchstabe', $char);
-        }
+            // Groups of User
+            $groups = $this->settings["admingroups"];        
+            if($groups == NULL) {
+                $admin = FALSE;
+            } else {
+                $userService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\UserService::class);
+                // User is admin?
+                $admin = $userService->isAdmin($groups);        
+            }
 
-        // Groups of User
-        $groups = $this->settings["admingroups"];        
-        if($groups == NULL) {
-            $admin = FALSE;
-        } else {
-            $userService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\UserService::class);
-            // User is admin?
-            $admin = $userService->isAdmin($groups);        
-        }
-        
-        // Cache of logged in user with admin authorization available?
-        if ((($output = $this->cache->get($cachename."Adm")) !== false) && $search == "" && $admin == TRUE) {   
-            // Yes, return Cache
-            return $output;
-        }
-        
-        // Cache for normal user available?        
-        if ((($output = $this->cache->get($cachename)) !== false) && $search == "" && $admin == FALSE) {   
-            // Yes, return Cache
-            return $output;
+            // Cache of logged in user with admin authorization available?
+            if ((($output = $this->cache->get($cachename."Adm")) !== false) && $search == "" && $admin == TRUE) {   
+                // Yes, return Cache
+                return $output;
+            }
+
+            // Cache for normal user available?        
+            if ((($output = $this->cache->get($cachename)) !== false) && $search == "" && $admin == FALSE) {   
+                // Yes, return Cache
+                return $output;
+            }
         }
 
         $limit = 0;
@@ -381,8 +389,9 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         }
         
         // Search exist?
-        if ($search <> "") {
+        if ($search <> "" || $cache == "notcache") {
             // Yes, no Cache is needed
+            $this->view->assign('cache', '');
         } else {            
             // No, set Cache
             $ouput = $this->view->render();
@@ -542,7 +551,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             );
         }
         $qualil->setStatus("angelegt");
-        //print_r($qualil->getBezeichnung()."<br />".$qualil->getBeschreibung()."<br />".$qualil->getBearbeiter()->getLastName());
+        
         $this->qualilogRepository->add($qualil);
 
         $this->addFlashMessage('Qualifikation angelegt!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
@@ -564,7 +573,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         $this->cache->remove("1listQualiIdentifierAllAdm");
         $this->cache->remove("1listQualiIdentifier".$char."Adm");
         
-        $this->redirect('list');
+        $this->redirect('list', 'Qualifikation', NULL, array('cache' => 'notcache'));
     }
 
     /**
@@ -728,7 +737,8 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
 
         $this->addFlashMessage('Qualifikation gelöscht!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
         $this->qualifikationRepository->remove($qualifikation);
-        $this->redirect('list');
+        
+        $this->redirect('list', 'Qualifikation', NULL, array('cache' => 'notcache'));
     }
 
     /**

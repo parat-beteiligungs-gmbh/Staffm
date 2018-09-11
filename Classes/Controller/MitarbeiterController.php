@@ -230,54 +230,63 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         if ($this->request->hasArgument('maid')) {
             $maid = $this->request->getArgument('maid');   
         }
+        
+        // No caching?
+        if ($this->request->hasArgument('cache')) {
+            $cache = $this->request->getArgument('cache');            
+        } 
+        
+        // No cache flag? (Example employee was deleted and the info message is shown in the list view)
+        if ($cache != "notcache") {
             
-        /* Caching Framework */     
-        $speak = $GLOBALS['TSFE']->sys_language_uid;
-        $cachename = $speak."listMitaIdentifier";
-        $keyforcache = array('list', 'normal');
-        // Char or employee id?
-        if ($char != "" || $maid == "maid") {
-            // All clicked?
-            if($char == '%') {
-                $search = "";
-                $char = "All";
-                $key = "all";      
-            // Char clicked?
-            } elseif ($char <> '') {
-                $search = "";
-                // No, a other char is clicked
-                $char = $char;                                
-            // Employee id?
-            } elseif ($maid == "maid") {
-                // A employee id was send
-                $char = "All";
-                $key = "all";                
+            /* Caching Framework */     
+            $speak = $GLOBALS['TSFE']->sys_language_uid;
+            $cachename = $speak."listMitaIdentifier";
+            $keyforcache = array('list', 'normal');
+            // Char or employee id?
+            if ($char != "" || $maid == "maid") {
+                // All clicked?
+                if($char == '%') {
+                    $search = "";
+                    $char = "All";
+                    $key = "all";      
+                // Char clicked?
+                } elseif ($char <> '') {
+                    $search = "";
+                    // No, a other char is clicked
+                    $char = $char;                                
+                // Employee id?
+                } elseif ($maid == "maid") {
+                    // A employee id was send
+                    $char = "All";
+                    $key = "all";                
+                }
+
+                $cachename = $cachename.$char;
+                $keyforcache = array('list', 'buchstabe', $char);
             }
-            
-            $cachename = $cachename.$char;
-            $keyforcache = array('list', 'buchstabe', $char);
-        }
-        
-        // Groups of User
-        $groups = $this->settings["admingroups"];        
-        if($groups == NULL) {
-            $admin = FALSE;
-        } else {
-            $userService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\UserService::class);
-            // User is admin?
-            $admin = $userService->isAdmin($groups);        
-        }
-        
-        // Cache of logged in user with admin authorization available?
-        if ((($output = $this->cache->get($cachename."Adm")) !== false) && $search == "" && $admin == TRUE) {   
-            // Yes, return Cache
-            return $output;
-        }
-        
-        // Cache for normal user available?        
-        if ((($output = $this->cache->get($cachename)) !== false) && $search == "" && $admin == FALSE) {   
-            // Yes, return Cache
-            return $output;
+
+            // Groups of User
+            $groups = $this->settings["admingroups"];        
+            if($groups == NULL) {
+                $admin = FALSE;
+            } else {
+                $userService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\UserService::class);
+                // User is admin?
+                $admin = $userService->isAdmin($groups);        
+            }
+
+            // Cache of logged in user with admin authorization available?
+            if ((($output = $this->cache->get($cachename."Adm")) !== false) && $search == "" && $admin == TRUE) {   
+                // Yes, return Cache
+                return $output;
+            }
+
+            // Cache for normal user available?        
+            if ((($output = $this->cache->get($cachename)) !== false) && $search == "" && $admin == FALSE) {   
+                // Yes, return Cache
+                return $output;
+            }
         }
 
         $limit = 0;
@@ -301,8 +310,9 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         }
 
         // Search exist?
-        if ($search <> "") {
+        if ($search <> "" || $cache == "notcache") {
             // Yes, no Cache is needed
+            $this->view->assign('cache', '');
         } else {            
             // No, set Cache
             $ouput = $this->view->render();
@@ -758,12 +768,20 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     public function deleteAction(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter) {
         // Flashmessage
         $this->addFlashMessage('Mitarbeiter "'.$mitarbeiter->getFirstName().' '.$mitarbeiter->getLastName().'" wurde gelöscht!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
-
+        
         // Set employee as deleted
         $this->mitarbeiterRepository->remove($mitarbeiter);
         
-        // Delete Caches
-        $char = strtoupper(substr($mitarbeiter->getLastName(), 0, 1));
+        // Delete Caches       
+        // If char is example 'Á'
+        $char = strtoupper(substr($mitarbeiter->getLastName(), 0, 2));
+        if ($char == 'Á') {              
+            $char = 'A';            
+        } else if ($char == 'Ó') {
+            $char = 'O';
+        } else {
+            $char = strtoupper(substr($mitarbeiter->getLastName(), 0, 1));
+        }
         $this->cache->remove("0listMitaIdentifier");
         $this->cache->remove("1listMitaIdentifier");
         $this->cache->remove("0listMitaIdentifierAll");
@@ -776,9 +794,8 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         $this->cache->remove("1listMitaIdentifierAllAdm");
         $this->cache->remove("0listMitaIdentifier".$char."Adm");    
         $this->cache->remove("1listMitaIdentifier".$char."Adm");    
-
-        // Listenview aufrufen
-        $this->redirect('list');
+        
+        $this->redirect('list', 'Mitarbeiter', NULL, array('cache' => 'notcache'));
     }
     
     /**
@@ -808,7 +825,7 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     }
 
     /**
-     * Adds a MitarbeiterQualifikation
+     * Add a MitarbeiterQualifikation
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter 	
      * @return void
@@ -854,7 +871,7 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     }
     
     /**
-     *
+     * Configuration for Image Upload
      */
     protected function setTypeConverterConfigurationForImageUpload($argumentName)
     {
