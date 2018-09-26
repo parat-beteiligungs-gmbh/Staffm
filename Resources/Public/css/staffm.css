@@ -262,19 +262,19 @@ table.tx_staffm td .staffm-link {
     white-space: nowrap;
     overflow: hidden;    
     text-overflow: ellipsis;
-    width: 400px;
+    max-width: 400px;
 }
 .tx_staffm.tds250 {
     white-space: nowrap;
     overflow: hidden;    
     text-overflow: ellipsis;
-    width: 250px;
+    max-width: 250px;
 }
 .tx_staffm.tds150 {
     white-space: nowrap;
     overflow: hidden;    
     text-overflow: ellipsis;
-    width: 150px;
+    max-width: 150px;
 }
 
 /* Markieren */
