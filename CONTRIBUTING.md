@@ -32,7 +32,7 @@ Replace the `|TAG|` with your information.
 /***************************************************************
  * Copyright notice
  *
- * (c) |CURRENTYEAR| pm-webdesign.eu and the following authors:
+ * (c) |CURRENTYEAR| Markus Puffer pm-webdesign.eu and the following authors:
  * |FIRST_NAME| |LAST_NAME| <|YOUR_EMAIL|>
  *
  * All rights reserved
