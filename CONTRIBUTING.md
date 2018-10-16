@@ -1,6 +1,6 @@
 # Contributing
 
-* Strictly follow the code-guidelines PSR-2 in document "PSR-2-coding-guidelines.md"
+* Strictly follow the code-guidelines PSR-2 in document "PSR-2-coding-guidlines.md"
 * Use certain tags in commit messages.
     * [BUGFIX] Change a Bug, but not behavior or code style
     * [CLEANUP] Remove Files or Code that are not used anymore
@@ -29,8 +29,10 @@
 Replace the `|TAG|` with your information.
 
 ```
-/*
- * Copyright (C) |CURRENTYEAR| pm-webdesign.eu
+/***************************************************************
+ * Copyright notice
+ *
+ * (c) |CURRENTYEAR| pm-webdesign.eu and the following authors:
  * |FIRST_NAME| |LAST_NAME| <|YOUR_EMAIL|>
  *
  * All rights reserved
@@ -50,4 +52,4 @@ Replace the `|TAG|` with your information.
  * GNU General Public License for more details.
  *
  * This copyright notice MUST APPEAR in all copies of the script!
- */
+ ***************************************************************/
