@@ -6,33 +6,29 @@ if (!defined('TYPO3_MODE')) {
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 	'Pmwebdesign.' . $_EXTKEY,
 	'Staffm',   // Plugin
-	array(
+	[ // Cacheable actions
 		'Mitarbeiter' => 'list, listChoose, listChooseQuali, choose, show, new, edit, editUser, create, editKst, update, delete, deleteQuali, showKst, showVeraKst, deleteImage, export',
 		'Position' => 'list, show, choose, export, new, edit, create, update, delete, deletePosition',
 		'Kostenstelle' => 'list, show, choose, export, new, edit, create, update, delete, deleteKst, deleteKstVerantwortlicher',
-		'Firma' => 'list, show, choose, export, new, edit, create, update, delete, deleteFirma',
-		'Standort' => 'list, show, choose, new, edit, create, update, delete, deleteStandort',		
+		'Firma' => 'list, show, choose, export, new, edit, create, update, delete, deleteFirma',				
 		'Qualifikation' => 'list, show, choose, edit, new, create, update, delete, export',
-		'Qualilog' => 'list, show, choose, edit, new, create, update, delete',
-		'Mitarbeiterqualifikation' => 'list, show, choose, deleteQuali'
-	),
-	// non-cacheable actions
-	array(
+		'Qualilog' => 'list, show, choose, edit, new, create, update, delete'
+	],	
+	[ // Non-cacheable actions
 		'Mitarbeiter' => 'list, listChoose, listChooseQuali, choose, show, new, edit, editUser, create, editKst, update, delete, deleteQuali, deleteImage, export',
 		'Position' => 'list, show, choose, export, new, edit, create, update, delete, deletePosition',
 		'Kostenstelle' => 'list, show, choose, export, new, edit, create, update, delete, deleteKst, deleteKstVerantwortlicher',
 		'Firma' => 'list, show, choose, export, new, edit, create, update, delete, deleteFirma',
 		'Standort' => 'list, show, choose, new, edit, create, update, delete, deleteStandort',		
 		'Qualifikation' => 'list, show, choose, create, update, delete',
-		'Qualilog' => 'choose, create, update, delete',
-		'Mitarbeiterqualifikation' => 'choose, deleteQuali'
-	)
+		'Qualilog' => 'choose, create, update, delete'
+	]
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 	'Pmwebdesign.' . $_EXTKEY,
 	'Staffmvorg',
-	array( // cacheable actions
+	[ // Cacheable actions
 		'Mitarbeiter' => 'listVgs, show, edit, editKst, update, showKst, showVeraKst, deleteImage, deleteQuali, export',
                 'Position' => 'list, show, choose',
 		'Kostenstelle' => 'list, show, choose, export',
@@ -40,8 +36,8 @@ if (!defined('TYPO3_MODE')) {
 		'Qualifikation' => 'list, listVgs, show, choose, chooselist, edit, new, create, update, delete, export',
 		'Qualilog' => 'list, show, choose, edit, new, create, update, delete',
 		'Mitarbeiterqualifikation' => 'list, show, choose, chooselist'
-	),	
-	array( // non-cacheable actions
+	],	
+	[ // Non-cacheable actions
 		'Mitarbeiter' => 'listVgs, show, edit, editKst, update, showKst, showVeraKst, deleteImage, deleteQuali, export',	
                 'Position' => 'list, show, choose',
 		'Kostenstelle' => 'list, show, choose, export',
@@ -49,18 +45,18 @@ if (!defined('TYPO3_MODE')) {
 		'Qualifikation' => 'choose, chooselist, create, update, delete',
 		'Qualilog' => 'choose, create, update, delete',
 		'Mitarbeiterqualifikation' => 'choose'
-	)
+	]
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 	'Pmwebdesign.' . $_EXTKEY,
 	'Staffmcustom',
-	array( // cacheable actions
+	[ // Cacheable actions
 		'Mitarbeiter' => 'listCustom, showCustom',             
-	),	
-	array( // non-cacheable actions
+	],	
+	[ // Non-cacheable actions
 		'Mitarbeiter' => 'listCustom, showCustom',
-	)
+	]
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerTypeConverter('Pmwebdesign\\Staffm\\Property\\TypeConverter\\UploadedFileReferenceConverter');

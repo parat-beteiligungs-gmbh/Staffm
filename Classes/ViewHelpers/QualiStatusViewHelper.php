@@ -26,30 +26,31 @@
 namespace Pmwebdesign\Staffm\ViewHelpers;
 
 /**
- * Check employee qualification
+ * Check status in qualification of employee
  */
-class QualiViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper 
+class QualiStatusViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
-	/**
-	 * 
-	 * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $m
-	 * @param \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qu
-	 * @return int 
-	 */
-	public function render(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $m = NULL, \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qu = null) 
-        {
-            if($m != NULL) {
-		$pruefe = 0;                
-		foreach ($m->getEmployeequalifications() as $q) {                        
-			if ($q->getQualification() === $qu) {
-				$pruefe = 1;
-			}			
-		}
-                
-            } else {
-		//$pruefe = 0;
-		$pruefe = 0;
+
+    /**
+     * 
+     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
+     * @param \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualifikation
+     * @return int 
+     */
+    public function render(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter = NULL, \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualifikation = null)
+    {
+        if ($mitarbeiter != NULL) {
+            $pruefe = 0;
+            foreach ($mitarbeiter->getEmployeequalifications() as $q) {
+                if ($q->getQualification() === $qualifikation) {
+                    $pruefe = $q->getStatus();
+                }
             }
-            return $pruefe;
-	}
+        } else {
+            //$pruefe = 0;
+            $pruefe = 0;
+        }
+        return $pruefe;
+    }
+
 }

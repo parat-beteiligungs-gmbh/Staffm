@@ -72,7 +72,8 @@
                     "doc": "Iterate throug an object array.",
                     "type": "objectArray",
                     "required": "true"
-                }
+                },
+                "key": {}
             }
         },
         "f:security.ifHasRole": {
@@ -276,6 +277,7 @@
                     "doc": "name of the controller where the action should start.",
                     "type": "String"
                 },
+                "pluginName": {},
                 "action": {
                     "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
                     "doc": "name from an action of the current controller or named controller if set.",

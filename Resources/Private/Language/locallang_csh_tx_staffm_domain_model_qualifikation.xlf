@@ -9,6 +9,9 @@
                         <trans-unit id="beschreibung.description">
 				<source>Beschreibung</source>
 			</trans-unit>
+                        <trans-unit id="employeequalifications.description">
+				<source>Mitarbeiter Qualifikationen</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

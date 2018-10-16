@@ -139,9 +139,9 @@
                 <source>Standort</source>
                 <target state="translated">Location</target>
             </trans-unit>
-            <trans-unit id="tx_staffm_domain_model_mitarbeiter.qualifikationen">
-                <source>Qualifikationen</source>
-                <target state="translated">Qualifications</target>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.employeequalifications">
+                <source>Mitarbeiter Qualifikationen</source>
+                <target state="translated">Employee qualifications</target>
             </trans-unit>
             <trans-unit id="staffm.position.new">
                 <source>Neue Position</source>
@@ -206,27 +206,7 @@
             <trans-unit id="tx_staffm_domain_model_kostenstelle.images">
                 <source>Bilder</source>
                 <target state="translated">Pictures</target>
-            </trans-unit>
-            <trans-unit id="tx_staffm_domain_model_taetigkeit">
-                <source>Tätigkeit</source>
-                <target state="translated">Work</target>
-            </trans-unit>
-            <trans-unit id="tx_staffm_domain_model_taetigkeit.bezeichnung">
-                <source>Bezeichnung</source>
-                <target state="translated">Designation</target>
-            </trans-unit>
-            <trans-unit id="tx_staffm_domain_model_mitarbeitertaetigkeit">
-                <source>Mitarbeitertätigkeit</source>
-                <target state="translated">Work of employee</target>
-            </trans-unit>
-            <trans-unit id="tx_staffm_domain_model_mitarbeitertaetigkeit.mitarbeiter">
-                <source>Mitarbeiter</source>
-                <target state="translated">Employee</target>
-            </trans-unit>
-            <trans-unit id="tx_staffm_domain_model_mitarbeitertaetigkeit.taetigkeit">
-                <source>Tätigkeit</source>
-                <target state="translated">Work</target>
-            </trans-unit>
+            </trans-unit>            
             <trans-unit id="staffm.qualifikation.new">
                 <source>Neue Qualifikation</source>
                 <target state="translated">New qualification</target>
@@ -248,8 +228,8 @@
                 <target state="translated">Save assigned qualifications</target>
             </trans-unit>
             <trans-unit id="tx_staffm_domain_model_qualifikation">
-                <source>Qualifikationen</source>
-                <target state="translated">Qualifications</target>
+                <source>Qualifikation</source>
+                <target state="translated">Qualification</target>
             </trans-unit>
             <trans-unit id="tx_staffm_domain_model_qualifikation.bezeichnung">
                 <source>Bezeichnung</source>
@@ -259,18 +239,33 @@
                 <source>Beschreibung</source>
                 <target state="translated">Description</target>
             </trans-unit>
-            <trans-unit id="tx_staffm_domain_model_qualifikation.mitarbeiters">
-                <source>Mitarbeiter</source>
-                <target state="translated">Employees</target>
+            <trans-unit id="tx_staffm_domain_model_qualifikation.employeequalifications">
+                <source>Mitarbeiter Qualifikationen</source>
+                <target state="translated">Employee qualifications</target>
             </trans-unit>
-            <trans-unit id="tx_staffm_domain_model_mitarbeiterqualifikation">
-                <source>Mitarbeiterqualifikation</source>
+            <trans-unit id="tx_staffm_domain_model_employeequalification">
+                <source>Mitarbeiter Qualifikation</source>
+                <target state="translated">Employee qualification</target>
             </trans-unit>
-            <trans-unit id="tx_staffm_domain_model_mitarbeiterqualifikation.mitarbeiter">
-                <source>Mitarbeiter</source>
-            </trans-unit>
-            <trans-unit id="tx_staffm_domain_model_mitarbeiterqualifikation.qualifikation">
+            <trans-unit id="tx_staffm_domain_model_employeequalification.qualification">
                 <source>Qualifikation</source>
+                <target state="translated">Qualification</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_employeequalification.status">
+                <source>Status</source>
+                <target state="translated">Status</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_employeequalification.employee">
+                <source>Mitarbeiter</source>
+                <target state="translated">Employee</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_employeequalification.note">
+                <source>Notiz</source>
+                <target state="translated">Notiz</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_employeequalification.histories">
+                <source>Historie</source>
+                <target state="translated">History</target>
             </trans-unit>
             <trans-unit id="staffm.firma.new">
                 <source>Neue Firma</source>
@@ -340,28 +335,29 @@
                 <source>Dateien</source>
                 <target state="translated">Files</target>
             </trans-unit>
-            <trans-unit id="tx_staffm_domain_model_standort">
-                <source>Standorte</source>
-                <target state="translated">Locations</target>
+            <trans-unit id="tx_staffm_domain_model_history">
+                <source>Historie</source>
+                <target state="translated">History</target>
             </trans-unit>
-            <trans-unit id="tx_staffm_domain_model_standort.bezeichnung">
-                <source>Bezeichnung</source>
-                <target state="translated">Designation</target>
+            <trans-unit id="tx_staffm_domain_model_history.status">
+                <source>Status</source>
+                <target state="translated">Status</target>
             </trans-unit>
-            <trans-unit id="tx_staffm_domain_model_mitarbeitersoftware">
-                <source>Mitarbeitersoftware</source>
+            <trans-unit id="tx_staffm_domain_model_history.date_from">
+                <source>Datum von</source>
+                <target state="translated">Date from</target>
             </trans-unit>
-            <trans-unit id="tx_staffm_domain_model_mitarbeitersoftware.mitarbeiter">
-                <source>Mitarbeiter</source>
+            <trans-unit id="tx_staffm_domain_model_history.date_to">
+                <source>Datum bis</source>
+                <target state="translated">Date to</target>
             </trans-unit>
-            <trans-unit id="tx_staffm_domain_model_mitarbeitersoftware.software">
-                <source>Software</source>
+            <trans-unit id="tx_staffm_domain_model_histor.reminder_date">
+                <source>Erinnerungsdatum</source>
+                <target state="translated">Reminder date</target>
             </trans-unit>
-            <trans-unit id="tx_staffm_domain_model_software">
-                <source>Software</source>
-            </trans-unit>
-            <trans-unit id="tx_staffm_domain_model_software.bezeichnung">
-                <source>Bezeichnung</source>
+            <trans-unit id="tx_staffm_domain_model_history.assessor">
+                <source>Beurteiler</source>
+                <target state="translated">Assessor</target>
             </trans-unit>
             <trans-unit id="staffm.text.verantwortlicher.waehlen">
                 <source>Hier bitte den Verantwortlichen auswählen!</source>

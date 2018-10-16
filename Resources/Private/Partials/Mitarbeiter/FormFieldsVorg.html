@@ -101,31 +101,7 @@
             <f:form.hidden property="firma" />
             <f:form.textfield class="form-control" style="max-width:300px" disabled="disabled" value="{mitarbeiter.firma.bezeichnung}" />            
             <br /><br />
-    <f:comment><label class="tx-staffm bold" for="standort">
-            <f:translate key="tx_staffm_domain_model_mitarbeiter.standort" />        
-    </label>
-            <f:form.hidden property="standort" />
-            <label>{mitarbeiter.standort.bezeichnung}</label>            
-            <br /></f:comment>
-    <label class="tx-staffm bold" for="qualifikation">
-            <f:translate key="tx_staffm_domain_model_qualifikation" />        
-    </label><br />
-            <f:if condition="{mitarbeiter.qualifikationen}">
-                <f:then>
-                    <f:for each="{mitarbeiter.qualifikationen}" as="quali" iteration="qIteration">
-                        <f:form.textfield class="form-control" style="max-width:300px" disabled="disabled" value="{qIteration.cycle} - {quali.bezeichnung}" />
-                        <f:if condition="{qIteration.isLast}">                            
-                            <div class="btn-group" role="group">
-                                <f:link.action class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:'auswahl', search:search, berechtigung:berechtigung}"><f:translate id="staffm.choose" /></f:link.action>                    
-                                <f:link.action class="btn btn-danger" action="deleteQuali" arguments="{mitarbeiter:mitarbeiter, search:search, berechtigung:berechtigung}" title="Entfernt alle Qualifikationen!"><f:translate id="staffm.allremove" /></f:link.action>                    
-                            </div>                          
-                            <br />
-                        </f:if>                        
-                    </f:for>
-                </f:then>
-                <f:else>  
-                    <f:link.action style="float:left" class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:'auswahl', search:search, berechtigung:berechtigung}"><f:translate id="staffm.choose" /></f:link.action><br />                        
-                    <br />
-                </f:else>
-            </f:if>
+    <f:comment><!-- Qualifications --></f:comment>
+    <f:render partial="Mitarbeiter/Qualification/ListFormFields" arguments="{_all}" />
+    <br />
 </f:if>

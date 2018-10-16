@@ -1,0 +1,15 @@
+{namespace vhs = FluidTYPO3\Vhs\ViewHelpers}
+<table class="tx_staffm">
+    <tr>
+        <th><f:translate key="tx_staffm_domain_model_qualifikation" /></th>
+        <th><f:translate key="tx_staffm_domain_model_employeequalification.status" /></th>
+        <th><f:translate key="tx_staffm_domain_model_employeequalification.note" /></th>    
+    </tr>
+    <f:for each="{mitarbeiter.employeequalifications -> vhs:iterator.sort(sortBy: 'qualification.bezeichnung')}" as="employeequalification">        
+        <tr>
+            <td><f:link.action class="tx_staffm link" pluginName="Staffm" action="show" controller="Qualifikation" title="{employeequalification.qualification.beschreibung}" arguments="{qualifikation:employeequalification.qualification, mitarbeiter:mitarbeiter, key:key, standardsearch:search}">{employeequalification.qualification.bezeichnung}</f:link.action></td>
+            <td><f:link.action class="tx_staffm link" pluginName="Staffm" action="show" controller="Qualifikation" title="{employeequalification.qualification.beschreibung}" arguments="{qualifikation:employeequalification.qualification, mitarbeiter:mitarbeiter, key:key, standardsearch:search}">{employeequalification.status} - {employeequalification.qualification.status.{employeequalification.status}}</f:link.action></td>
+            <td><f:link.action class="tx_staffm link" pluginName="Staffm" action="show" controller="Qualifikation" title="{employeequalification.qualification.beschreibung}" arguments="{qualifikation:employeequalification.qualification, mitarbeiter:mitarbeiter, key:key, standardsearch:search}">{employeequalification.note}</f:link.action></td>
+        </tr>
+    </f:for>
+</table>

@@ -15,110 +15,99 @@ if (!defined('TYPO3_MODE')) {
 }
 
 // Configure new fields 
-$fields = array(
-    'personalnummer' => array(
+$fields = [
+    'personalnummer' => [
         'exclude' => 1,
         'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_mitarbeiter.personalnummer',
-        'config' => array(
+        'config' => [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim'
-        ),
-    ),
-    'handy' => array(
+        ],
+    ],
+    'handy' => [
         'exclude' => 1,
         'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_mitarbeiter.handy',
-        'config' => array(
+        'config' => [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim'
-        ),
-    ),
-    'date_of_birth_show' => array(
+        ],
+    ],
+    'date_of_birth_show' => [
         'exclude' => 1,
         'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_mitarbeiter.date_of_birth_show',
-        'config' => array(
+        'config' => [
                 'type' => 'input',
                 'size' => 1,
                 'eval' => 'trim',
                 'checkbox' => 1,
                 'default' => 0
-        ),
-    ),
-    'date_of_birth' => array(
+        ],
+    ],
+    'date_of_birth' => [
         'exclude' => 1,      
         'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_mitarbeiter.date_of_birth',
-        'config' => array(
+        'config' => [
                 'type' => 'input', 
                 'renderType' => 'inputDateTime',
                 'size' => 13,                
                 'eval' => 'datetime',
                 'checkbox' => 0,
                 'default' => 0,
-                'range' => array(
+                'range' => [
                         'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y'))
-                ),
+                ],
                 'allowLanguageSynchronization' => true,
-        ),
-    ),
-    'kostenstelle' => array(
+        ],
+    ],
+    'kostenstelle' => [
         'exclude' => 1,        
         'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_mitarbeiter.kostenstelle',
-        'config' => array(
+        'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'tx_staffm_domain_model_kostenstelle',
                 'minitems' => 0,
                 'maxitems' => 1,
-        ),
-    ),
-    'firma' => array(
+        ],
+    ],
+    'firma' => [
         'exclude' => 1,        
         'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_mitarbeiter.firma',
-        'config' => array(
+        'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'tx_staffm_domain_model_firma',
                 'minitems' => 0,
                 'maxitems' => 1,
-        ),
-    ),
-    'position' => array(
+        ],
+    ],
+    'position' => [
         'exclude' => 1,        
         'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_mitarbeiter.position',
-        'config' => array(
+        'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'tx_staffm_domain_model_position',
                 'minitems' => 0,
                 'maxitems' => 1,
-        ),
-    ),
-    'qualifikationen' => array(
-        //'exclude' => 1,        
-        'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_mitarbeiter.qualifikationen',
-        'config' => array(
-                'type' => 'select',
-                'renderType' => 'selectMultipleSideBySide',
-                'multiple' => 1,
-                'foreign_table' => 'tx_staffm_domain_model_qualifikation',            
-                'MM' => 'tx_staffm_domain_model_mitarbeiter_qualifikation_mm',                
-                'foreign_table_where' => ' AND tx_staffm_domain_model_qualifikation.pid=###CURRENT_PID### ORDER BY tx_staffm_domain_model_qualifikation.bezeichnung ',
-                'multiple' => 1,
+        ],
+    ],
+    'employeequalifications' => [
+        'exclude' => 0,        
+        'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_mitarbeiter.employeequalifications',
+        'config' => [
+                'type' => 'inline',                                
+                'foreign_table' => 'tx_staffm_domain_model_employeequalification',                
+                'foreign_field' => 'employee',
+                'foreign_label' => 'qualification',            
+                //'foreign_sortby' => 'qualification.bezeichnung', // TODO: Error - Unknown column 'qualification.bezeichnung' by choosing qualifications in edit form of employee, in show and list it´s ok                
+                //'foreign_default_sortby' => 'qualification',
                 'minitems' => 0,
                 'maxitems' => 1000,                
-        ),
-    ),
-//    'qualifikationen' => array(
-//        //'exclude' => 1,        
-//        'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_mitarbeiter.qualifikationen',
-//        'config' => array(
-//                'type' => 'inline',
-//                'foreign_table' => 'tx_staffm_domain_model_mitarbeiter_qualifikation',
-//                'foreign_field' => 'mitarbeiter',                
-//                'foreign_label' => 'qualifikation',
-//        ),
-//    ),
+        ],
+    ],
     'image' => [
         'exclude' => 0,
         'label' => 'LLL:EXT:Staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_mitarbeiter.image',
@@ -168,20 +157,18 @@ $fields = array(
             ]
         ], $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'])
     ]
-);
+];
 
 // Add new fields to fe_users
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('fe_users', $fields);
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('fe_users', $fields, 1);
       
 // Make fields visible in the TCEforms:
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
   'fe_users', // Table name
-  '--palette--;LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_mitarbeiter.personalnummer;tx_staffm', // Field list to add
-  '1', // List of specific types to add the field list to. (If empty, all type entries are affected)
-  'after:nav_title' // Insert fields before (default) or after one, or replace a field
+  'employeequalifications;;;;1-1-1'
 );
   
 // Add the new palette:
-//$GLOBALS['TCA']['pages']['palettes']['tx_pagesaddfields'] = array(
+//$GLOBALS['TCA']['pages']['palettes']['tx_pagesaddfields'] = [
 //  'showitem' => 'tx_pagesaddfields_customcheckbox,tx_pagesaddfields_customtext'
 //);

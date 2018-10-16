@@ -63,8 +63,7 @@
 </label>
 	<f:form.textfield class="form-control" style="max-width:300px" property="firstName" /><br />
 <label class="tx-staffm bold" for="telephone">
-	<f:translate key="tx_staffm_domain_model_mitarbeiter.telephone" />
-        <a href="../../../../../../../../../../../C:/Users/dvpm/AppData/Local/Temp/Mitarbeiter.URL"></a>
+	<f:translate key="tx_staffm_domain_model_mitarbeiter.telephone" />       
 </label>
 	<f:form.textfield class="form-control" style="max-width:300px" property="telephone" /><br />
 <label class="tx-staffm bold" for="fax">
@@ -119,35 +118,8 @@
                     <f:link.action class="btn btn-danger" action="deleteFirma" controller="Firma" arguments="{mitarbeiter:mitarbeiter}"><f:translate id="staffm.remove" /></f:link.action>
                 </f:if>
             </div>
-            <br /><br />
-    <f:comment><label class="tx-staffm bold" for="standort">
-            <f:translate key="tx_staffm_domain_model_mitarbeiter.standort" />        
-    </label>
-            <f:form.hidden property="standort" />
-            <label>{mitarbeiter.standort.bezeichnung}</label>
-            <f:link.action class="btn btn-default" action="list" controller="Standort" arguments="{mitarbeiter:mitarbeiter, standort:standort, key:'auswahl'}"><f:translate id="staffm.choose" /></f:link.action>
-            <f:if condition="{mitarbeiter.standort}">
-                <f:link.action class="btn btn-danger" action="deleteStandort" controller="Standort" arguments="{mitarbeiter:mitarbeiter}"><f:translate id="staffm.delete" /></f:link.action>
-            </f:if>
-            <br /></f:comment>
-    <label class="tx-staffm bold" for="qualifikation">
-            <f:translate key="tx_staffm_domain_model_qualifikation" />        
-    </label><br />
-            <f:if condition="{mitarbeiter.qualifikationen}">
-                <f:then>
-                    <f:for each="{mitarbeiter.qualifikationen}" as="quali" iteration="qIteration">
-                        <f:form.textfield class="form-control" style="max-width:300px" disabled="disabled" value="{qIteration.cycle} - {quali.bezeichnung}" />
-                        <f:if condition="{qIteration.isLast}">
-                            <div class="btn-group" role="group">
-                                <f:link.action class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:'auswahl', standardsearch:search}"><f:translate id="staffm.choose" /></f:link.action>                    
-                                <f:link.action class="btn btn-danger" action="deleteQuali" arguments="{mitarbeiter:mitarbeiter}" title="Entfernt alle Qualifikationen!"><f:translate id="staffm.allremove" /></f:link.action>                    
-                            </div><br />
-                        </f:if>                        
-                    </f:for>
-                </f:then>
-                <f:else>                   
-                    <f:link.action style="float:left" class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:'auswahl'}"><f:translate id="staffm.choose" /></f:link.action><br />
-                    <br />
-                </f:else>
-            </f:if>
+            <br /><br />    
+    <f:comment><!-- Qualifications --></f:comment>
+    <f:render partial="Mitarbeiter/Qualification/ListFormFields" arguments="{mitarbeiter:mitarbeiter, edit:'no', key:'auswahl'}" />
+    <br />
 </f:if>

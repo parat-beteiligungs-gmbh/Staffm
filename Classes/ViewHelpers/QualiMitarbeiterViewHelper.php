@@ -1,13 +1,32 @@
 <?php
-namespace Pmwebdesign\Staffm\ViewHelpers;
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+
+/*
+ * Copyright (C) 2018 pm-webdesign.eu 
+ * Markus Puffer <m.puffer@pm-webdesign.eu>
+ *
+ * All rights reserved
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The GNU General Public License can be found at
+ * http://www.gnu.org/copyleft/gpl.html.
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
  */
 
+namespace Pmwebdesign\Staffm\ViewHelpers;
+
 /**
- * 
+ * Check Qualification to employee
  */
 class QualiMitarbeiterViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper 
 {
@@ -21,8 +40,8 @@ class QualiMitarbeiterViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstra
         {
             if($qu != NULL) {
 		$pruefe = 0;                
-		foreach ($qu->getMitarbeiters() as $ma) {                        
-			if ($ma === $m) {
+		foreach ($qu->getEmployeequalifications() as $ma) {                        
+			if ($ma->getEmployee() === $m) {
 				$pruefe = 1;
 			}			
 		}

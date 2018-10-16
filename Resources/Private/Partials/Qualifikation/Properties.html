@@ -16,5 +16,15 @@
 			{qualifikation.beschreibung}
 		</td>
         </tr>
+        <tr>
+                <td>
+			<f:translate key="tx_staffm_domain_model_employeequalification.status" />
+		</td>
+		<td>                   
+                    <f:for each="{qualifikation.status}" as="status" key="index">                        
+                        {index} {status}<br />
+                    </f:for>
+		</td>
+        </tr>
 </table>
 <br style="clear: both" />

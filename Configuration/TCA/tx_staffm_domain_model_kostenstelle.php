@@ -1,6 +1,7 @@
 <?php
-return array(
-	'ctrl' => array(
+
+return [
+	'ctrl' => [
                     'title' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_kostenstelle',
                     'label' => 'bezeichnung',
                     'tstamp' => 'tstamp',
@@ -12,109 +13,95 @@ return array(
                     'transOrigPointerField' => 'l10n_parent',
                     'transOrigDiffSourceField' => 'l10n_diffsource',
                     //'delete' => 'deleted',
-                    'enablecolumns' => array(
+                    'enablecolumns' => [
                             /*'disabled' => 'hidden',
                             'starttime' => 'starttime',
                             'endtime' => 'endtime',*/
-                    ),
+                    ],
                     'searchFields' => 'nummer, bezeichnung, verantwortlicher',
                     'iconfile' => 'EXT:staffm/Resources/Public/Icons/tx_staffm_domain_model_kostenstelle.gif'
-        ),
-	'interface' => array(
+        ],
+	'interface' => [
 		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, nummer, bezeichnung, verantwortlicher, images',
-	),
-	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, nummer, bezeichnung, verantwortlicher, images'),
-	),
-	'palettes' => array(
-		'1' => array('showitem' => ''),
-	),
-	'columns' => array(
+	],
+	'types' => [
+		'1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, nummer, bezeichnung, verantwortlicher, images'],
+	],
+	'palettes' => [
+		'1' => ['showitem' => ''],
+	],
+	'columns' => [
 	
-		'sys_language_uid' => array(
+		'sys_language_uid' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
-			'config' => array(
+			'config' => [
 				'type' => 'select',
                                 'renderType' => 'selectSingle',
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
-				'items' => array(
-					array('LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1),
-					array('LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0)
-				),
-			),
-		),
-		'l10n_parent' => array(
+				'items' => [
+					['LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1],
+					['LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0]
+				],
+			],
+		],
+		'l10n_parent' => [
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
-			'config' => array(
+			'config' => [
 				'type' => 'select',
                                 'renderType' => 'selectSingle',
-				'items' => array(
-					array('', 0),
-				),
+				'items' => [
+					['', 0],
+				],
 				'foreign_table' => 'tx_staffm_domain_model_kostenstelle',
 				'foreign_table_where' => 'AND tx_staffm_domain_model_kostenstelle.pid=###CURRENT_PID### AND tx_staffm_domain_model_kostenstelle.sys_language_uid IN (-1,0)',
-			),
-		),
-		'l10n_diffsource' => array(
-			'config' => array(
+			],
+		],
+		'l10n_diffsource' => [
+			'config' => [
 				'type' => 'passthrough',
-			),
-		),
-
-		't3ver_label' => array(
+			],
+		],
+		't3ver_label' => [
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.versionLabel',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 30,
 				'max' => 255,
-			)
-		),
-
-		'nummer' => array(
+			]
+		],
+		'nummer' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_kostenstelle.nummer',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 30,
 				'eval' => 'trim'
-			),
-		),
-		'bezeichnung' => array(
+			],
+		],
+		'bezeichnung' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_kostenstelle.bezeichnung',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 30,
 				'eval' => 'trim'
-			),
-		),
-		'verantwortlicher' => array(
+			],
+		],
+		'verantwortlicher' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_kostenstelle.verantwortlicher',
-			'config' => array(
+			'config' => [
 				'type' => 'select',
                                 'renderType' => 'selectSingle',
 				'foreign_table' => 'fe_users',
 				'minitems' => 0,
 				'maxitems' => 1,
-			),
-		),
-//                'images' => [
-//                    'exclude' => true,
-//                    'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.image',
-//                    'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
-//                        'image',
-//                        [
-//                            'maxitems' => 99,
-//                            'minitems'=> 0
-//                        ],
-//                        $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
-//                    )
-//                ],
+			],
+		],
                 'images' => [
                     'exclude' => false,
                     'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_kostenstelle.images',
@@ -168,6 +155,6 @@ return array(
                         $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
                     ),
                 ],		
-	),
-);
+	],
+];
 ## EXTENSION BUILDER DEFAULTS END TOKEN - Everything BEFORE this line is overwritten with the defaults of the extension builder

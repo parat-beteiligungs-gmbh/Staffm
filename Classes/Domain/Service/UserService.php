@@ -1,7 +1,8 @@
 <?php
 
 /*
- * Copyright (C) 2018 Markus Puffer (m.puffer@pm-webdesign.eu)
+ * Copyright (C) 2018 pm-webdesign.eu 
+ * Markus Puffer <m.puffer@pm-webdesign.eu>
  *
  * All rights reserved
  *

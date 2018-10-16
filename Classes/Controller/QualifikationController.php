@@ -1,40 +1,39 @@
 <?php
 
-/* * *************************************************************
+/*
+ * Copyright (C) 2018 pm-webdesign.eu 
+ * Markus Puffer <m.puffer@pm-webdesign.eu>
  *
- *  Copyright notice
+ * All rights reserved
  *
- *  (c) 2018 Markus Puffer <m.puffer@pm-webdesign.eu>, PM-Webdesign
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
  *
- *  All rights reserved
+ * The GNU General Public License can be found at
+ * http://www.gnu.org/copyleft/gpl.html.
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
 
 namespace Pmwebdesign\Staffm\Controller;
 
 use PHPOffice\PhpSpreadsheet\Spreadsheet;
 use PHPOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PHPOffice\PhpSpreadsheet\Writer\Xlsx;
-
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * QualifikationController
+ * Qualification Controller
+ * 
+ * @author Markus Puffer (m.puffer@pm-webdesign.eu)
  */
 class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
@@ -622,27 +621,47 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
                     )
             );
         }
-        $qualil->setStatus("aktualisiert");
+        $qualil->setStatus("aktualisiert");        
+        $this->qualilogRepository->add($qualil);
         $this->objectManager->get(
                 'TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager'
         )->persistAll();
-        $this->qualilogRepository->add($qualil);
 
-        if ($this->request->hasArgument('mitarbeiters')) {
-            $mitarbeiters = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-
+        if ($this->request->hasArgument('mitarbeiters')) {            
+            $employeequalifications = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+                        
+            // Read checkboxes into array
             $ma = $this->request->getArgument('mitarbeiters');
-            // Ausgewählte Checkboxen auslesen in Array 
-            // Aktuelle Objekte suchen zu dem Text
-            foreach ($ma as $m) {
-                $mitarbeiter = $this->objectManager->get(
-                                'Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository'
-                        )->findOneByUid($m);
-                // Objekte in Array speichern
-                $mitarbeiters->attach($mitarbeiter);
+            
+            // Read status
+            if($this->request->hasArgument('qualificationsstatus')) {
+                $qualificationsstatus = $this->request->getArgument('qualificationsstatus');                
             }
-            $qualifikation->setMitarbeiters($mitarbeiters);
-            if (count($qualifikation->getMitarbeiters()) > 0) {
+            // Read notes
+            if($this->request->hasArgument('qualificationsnotes')) {
+                $qualificationsnotes = $this->request->getArgument('qualificationsnotes');
+            }
+            
+            // Set employees to array items
+            foreach ($ma as $m) {
+                $employeequalification = new \Pmwebdesign\Staffm\Domain\Model\Employeequalification();
+                $employee = $this->objectManager->get(
+                                'Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository'
+                        )->findOneByUid($m);                
+                $employeequalification->setEmployee($employee);
+                $employeequalification->setQualification($qualifikation);
+                $status = $qualificationsstatus[$employee->getUid()];
+                $note = $qualificationsnotes[$employee->getUid()];
+                if($status != null) {
+                    $employeequalification->setStatus($status);
+                }
+                if($note != null) {
+                    $employeequalification->setNote($note);
+                }
+                $employeequalifications->attach($employeequalification);
+            }
+            $qualifikation->setEmployeequalifications($employeequalifications);
+            if (count($qualifikation->getEmployeequalifications()) > 0) {
                 $this->addFlashMessage('Mitarbeiter wurden der Qualifikation "' . $qualifikation->getBezeichnung() . '" zugeordnet!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
             } else {
                 $this->addFlashMessage('Der Qualifikation "' . $qualifikation->getBezeichnung() . '" wurden keine Mitarbeiter zugeordnet!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);

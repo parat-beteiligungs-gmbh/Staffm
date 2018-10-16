@@ -1,44 +1,41 @@
 <?php
 
-/***************************************************************
+/*
+ * Copyright (C) 2018 pm-webdesign.eu 
+ * Markus Puffer <m.puffer@pm-webdesign.eu>
  *
- *  Copyright notice
+ * All rights reserved
  *
- *  (c) 2018 Markus Puffer <m.puffer@pm-webdesign.eu>, PM-Webdesign
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
  *
- *  All rights reserved
+ * The GNU General Public License can be found at
+ * http://www.gnu.org/copyleft/gpl.html.
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
 
 namespace Pmwebdesign\Staffm\Controller;
 
-// Klasse muss in composer.json unter ps4 eingetragen werden
-use PHPOffice\PhpSpreadsheet\Spreadsheet;
+use PHPOffice\PhpSpreadsheet\Spreadsheet; // Class must exist in composer.json under ps4
 use PHPOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PHPOffice\PhpSpreadsheet\Writer\Xlsx; 
-
 use Pmwebdesign\Staffm\Property\TypeConverter\UploadedFileReferenceConverter;
 use TYPO3\CMS\Extbase\Property\PropertyMappingConfiguration;
-
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * MitarbeiterController
+ * Employee Controller
+ * 
+ * @author Markus Puffer (m.puffer@pm-webdesign.eu)
  */
 class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
     
@@ -275,7 +272,7 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
                 // User is admin?
                 $admin = $userService->isAdmin($groups);        
             }
-
+            
             // Cache of logged in user with admin authorization available?
             if ((($output = $this->cache->get($cachename."Adm")) !== false) && $search == "" && $admin == TRUE) {   
                 // Yes, return Cache
@@ -495,6 +492,15 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
             }
         }   
         
+        // TODO: Test because user was logged out, after show a employee in list... | Logged in user?
+        $aktuser = new \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter();
+        $aktuser = $this->objectManager->
+                get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
+                findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);        
+        if ($aktuser != NULL) {
+            $this->view->assign('aktuser', $aktuser);
+        }
+        
         $this->view->assign('searchstatus', $searchstatus);
         $this->view->assign('search', $search);
         $this->view->assign('mitarbeiter', $mitarbeiter);
@@ -674,21 +680,40 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     public function updateAction(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter) { 
         $this->addFlashMessage('Mitarbeiter/in "'.$mitarbeiter->getFirstName().' '.$mitarbeiter->getLastName().'" wurde aktualisiert!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
         
-        if ($this->request->hasArgument('qualifikationen')) {   
-            $qualifikationen = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        if ($this->request->hasArgument('qualifikationen')) {              
+            $employeequalifications = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
             
-            // Read checkboxes in array
+            // Read checkboxes into array
             $qua = $this->request->getArgument('qualifikationen');
             
+            // Read status
+            if($this->request->hasArgument('qualificationsstatus')) {
+                $qualificationsstatus = $this->request->getArgument('qualificationsstatus');                
+            }
+            // Read notes
+            if($this->request->hasArgument('qualificationsnotes')) {
+                $qualificationsnotes = $this->request->getArgument('qualificationsnotes');
+            }
+            
             // Set qualifications to array items
-            foreach ($qua as $q) {                    
-                    $qualifikation = $this->objectManager->get(
-                            'Pmwebdesign\\Staffm\\Domain\\Repository\\QualifikationRepository'
-                    )->findOneByUid($q);                                        
-                    // Objekte in Array speichern
-                    $qualifikationen->attach($qualifikation);				
+            foreach ($qua as $q) {      
+                $employeequalification = new \Pmwebdesign\Staffm\Domain\Model\Employeequalification();
+                $qualification = $this->objectManager->get(
+                        'Pmwebdesign\\Staffm\\Domain\\Repository\\QualifikationRepository'
+                )->findOneByUid($q);    
+                $employeequalification->setEmployee($mitarbeiter);
+                $employeequalification->setQualification($qualification);
+                $status = $qualificationsstatus[$qualification->getUid()];
+                $note = $qualificationsnotes[$qualification->getUid()];
+                if($status != null) {
+                    $employeequalification->setStatus($status);
+                }
+                if($note != null) {
+                    $employeequalification->setNote($note);
+                }
+                $employeequalifications->attach($employeequalification);				
             }                     
-            $mitarbeiter->setQualifikationen($qualifikationen);   
+            $mitarbeiter->setEmployeequalifications($employeequalifications);   
         }
         
         $this->mitarbeiterRepository->update($mitarbeiter);      
@@ -816,8 +841,8 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         if($this->request->hasArgument('berechtigung')) {
             $berechtigung = $this->request->getArgument('berechtigung');
         }
-        
-        $mitarbeiter->deleteQualifikationen();
+        $employeequalifications = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $mitarbeiter->setEmployeequalifications($employeequalifications);
         //$mitarbeiter->setQualifikationen($qualifikationen);
         $this->mitarbeiterRepository->update($mitarbeiter);
         $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager')->persistAll();

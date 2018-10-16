@@ -145,32 +145,6 @@
 			{mitarbeiter.firma.bezeichnung}
                     </f:link.action>
 		</td>
-	</tr>
-        <f:comment><tr>
-		<td>
-			<f:translate key="tx_staffm_domain_model_mitarbeiter.standort" />
-		</td>
-		<td>
-                    <f:link.action class="tx_staffm link" pluginName="Staffm" action="show" controller="Standort" arguments="{mitarbeiter:mitarbeiter, key: 'vonMit', standardsearch:search}">
-                        {mitarbeiter.standort.bezeichnung}
-                    </f:link.action>
-		</td>
-        </tr></f:comment>
-        <tr>
-		<td>
-			<f:translate key="tx_staffm_domain_model_qualifikation" />
-		</td>	
-                <td></td>
-	</tr>
-        <f:for each="{mitarbeiter.qualifikationen}" as="mitarbeiterqualifikation" iteration="it">
-            <tr>
-                <td style="text-align: right;">{it.cycle}</td>
-                <td>
-                    <f:link.action class="tx_staffm link" pluginName="Staffm" action="show" controller="Qualifikation" title="{mitarbeiterqualifikation.beschreibung}" arguments="{qualifikation:mitarbeiterqualifikation, mitarbeiter:mitarbeiter, key: 'vonMit', standardsearch:search}">
-                        {mitarbeiterqualifikation.bezeichnung}
-                    </f:link.action>
-                </td>
-            </tr>       
-        </f:for>
-</table>
-<br style="clear: both" />
+	</tr>       
+</table><br />
+<f:render partial="Mitarbeiter/Qualification/ListProperties" arguments="{mitarbeiter:mitarbeiter, edit:'no', key:'vonMit'}" />

@@ -1,12 +1,8 @@
 <?php
 
-// Activates Type checking to input and output functions
-declare(strict_types=1);
-
-namespace Pmwebdesign\Staffm\Domain\Service;
-
 /*
- * Copyright (C) 2018 Markus Puffer (m.puffer@pm-webdesign.eu)
+ * Copyright (C) 2018 pm-webdesign.eu 
+ * Markus Puffer <m.puffer@pm-webdesign.eu>
  *
  * All rights reserved
  *
@@ -26,6 +22,11 @@ namespace Pmwebdesign\Staffm\Domain\Service;
  *
  * This copyright notice MUST APPEAR in all copies of the script!
  */
+
+// Activates Type checking to input and output functions
+declare(strict_types=1);
+
+namespace Pmwebdesign\Staffm\Domain\Service;
 
 /**
  * Description of GroupService

@@ -1,27 +1,8 @@
 {namespace tv = Pmwebdesign\Staffm\ViewHelpers}
 <f:layout name="Default" />
-
-This Template is responsible for creating a table of domain objects.
-
-If you modify this template, do not forget to change the overwrite settings
-in /Configuration/ExtensionBuilder/settings.yaml:
-  Resources:
-    Private:
-      Templates:
-        List.html: keep
-
-Otherwise your changes will be overwritten the next time you save the extension in the extension builder
-
 <f:section name="main">
     <h1><f:translate id="staffm.qualifikation.list.headline" /></h1>
 <f:flashMessages />
-<f:comment><div style="position: relative;background-color: #ccff66;padding: 10px;border-style:solid;border-width: thin">
-    <b>INFO:</b>
-    <p style="color: red">Die Zuordnung der Qualifikationen kann jetzt durch die Vorgesetzten erfolgen! 
-        Dazu in das Intranet einloggen und anschließend können die Mitarbeiter der Kostenstellen des Vorgesetzten, bearbeitet werden.</p>
-    <p style="color: red">Bei weiteren Fragen wenden Sie sich an den <a style="text-decoration: underline" href="http://intranet/index.php?id=146&tx_staffm_staffm%5Bmitarbeiter%5D=467&tx_staffm_staffm%5Baction%5D=show&tx_staffm_staffm%5Bcontroller%5D=Mitarbeiter&cHash=0b4a067d2b05ddcf1ed0fd22364b4e89">Administrator</a> der Website.
-    </p>
-</div><br /></f:comment>
     <f:if condition="{key} == ''">  
         <f:then>
             <f:form action="list" arguments="{mitarbeiter:mitarbeiter, key:key, berechtigung:berechtigung, cache: '{cache}'}" additionalAttributes="{role: 'form'}">                                  
@@ -54,21 +35,21 @@ Otherwise your changes will be overwritten the next time you save the extension 
                                         <td><div id="q{qualifikation.uid}" class="anchor"></div><div class="tx_staffm tds250"><f:link.action title="{qualifikation.bezeichnung}" action="show" arguments="{qualifikation : qualifikation, search:search}">{qualifikation.bezeichnung}</f:link.action></div></td>
                                         <td><div class="tx_staffm tds400"><f:link.action title="{qualifikation.beschreibung}" action="show" arguments="{qualifikation : qualifikation, search:search}">{qualifikation.beschreibung}</f:link.action></div></td>                                                                                   
                                         <td class="staffmmobilehidden">     
-                                            <f:for each="{qualifikation.mitarbeiters}" as="m" iteration="iteration">
+                                            <f:for each="{qualifikation.employeequalifications}" as="m" iteration="iteration" reverse="TRUE">
                                                 <f:if condition="{iteration.isFirst}">
                                                     <f:then>
-                                                        <p class="marksq" title="{m.telephone}"><f:link.action action="show" arguments="{qualifikation : qualifikation, search:search}"><span>{m.lastName} {m.firstName}</span></f:link.action>
-                                                            <f:if condition="{qualifikation.mitarbeiters -> f:count()} > 1">
+                                                        <p class="marksq" title="{m.employee.telephone}"><f:link.action action="show" arguments="{qualifikation : qualifikation, search:search}"><span>{m.employee.lastName} {m.employee.firstName} ({m.status})</span></f:link.action>
+                                                            <f:if condition="{qualifikation.employeequalifications -> f:count()} > 1">
                                                                 <a class="btn btn-secondary btn-sm" style="float:right" href="javascript:void(0)" id="q{qualifikation.uid}" onClick="getID(this);return false;"><span name="q{qualifikation.uid}glyphiconchange" id="q{qualifikation.uid}" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                                                                    <f:if condition="{qualifikation.mitarbeiters -> f:count()} < 10">
+                                                                    <f:if condition="{qualifikation.employeequalifications -> f:count()} < 10">
                                                                         0
                                                                     </f:if>
-                                                                    {qualifikation.mitarbeiters -> f:count()}</a>
+                                                                    {qualifikation.employeequalifications -> f:count()}</a>
                                                             </f:if>
                                                         </p>
                                                     </f:then>
                                                     <f:else>
-                                                        <p class="marksq q{qualifikation.uid}hidden" style="display:none" title="{m.telephone}"><f:link.action action="show" arguments="{qualifikation : qualifikation, search:search}">{m.lastName} {m.firstName}</f:link.action></p>                                            
+                                                        <p class="marksq q{qualifikation.uid}hidden" style="display:none" title="{m.employee.telephone}"><f:link.action action="show" arguments="{qualifikation : qualifikation, search:search}">{m.employee.lastName} {m.employee.firstName} ({m.status})</f:link.action></p>                                            
                                                     </f:else>
                                                 </f:if>                                            
                                             </f:for>
@@ -89,19 +70,35 @@ Otherwise your changes will be overwritten the next time you save the extension 
             </f:form>
         </f:then>
         <f:else>
-            <f:form action="update" controller="Mitarbeiter" arguments="{mitarbeiter:mitarbeiter, key:key, berechtigung:berechtigung}" additionalAttributes="{role: 'form'}" >
+            <f:comment><!-- Qualification selection for the employee --></f:comment>
+            <f:form action="update" controller="Mitarbeiter" arguments="{mitarbeiter:mitarbeiter, key:key, berechtigung:berechtigung}" additionalAttributes="{role: 'form'}" >  
                 <table>
                     <td class="tx-staffm bold">Name:&nbsp;</td><td>{mitarbeiter.LastName} {mitarbeiter.firstName}</td><br />
                 </table>            
                 <table  class="tx_staffm" >
-                    <tr>
-                        <th><f:translate key="tx_staffm_domain_model_qualifikation.bezeichnung" /></th>                    
+                    <tr>                        
+                        <th><f:translate key="tx_staffm_domain_model_qualifikation.bezeichnung" /></th> 
+                        <th><f:translate id="staffm.active" /></th>
+                        <th><f:translate key="tx_staffm_domain_model_employeequalification.status" /></th>
+                        <th><f:translate key="tx_staffm_domain_model_employeequalification.note" /></th>
                     </tr>
                     <f:for each="{qualifikations}" as="qualifikation">
-                            <tr>
-                                <td>{qualifikation.bezeichnung}</td>
-                                <td><f:form.checkbox name="qualifikationen" value="{qualifikation.uid}" multiple="1" checked="{tv:quali(m:mitarbeiter, qu: qualifikation)}" /></td>                                
-                            </tr>
+                        <tr>                            
+                            <f:if condition="{tv:quali(m:mitarbeiter, qu: qualifikation)} > 0">
+                                <f:then>                       
+                                    <td class="td{qualifikation.uid}" style="background-color: red">{qualifikation.bezeichnung}</td>                                         
+                                    <td class="td{qualifikation.uid}" style="background-color: red"><f:form.checkbox id="qualiCheck{qualifikation.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="qualifikationen" value="{qualifikation.uid}" multiple="1" checked="1" /></td>                                 
+                                    <td class="td{qualifikation.uid}" style="background-color: red"><f:form.select id="qualiSelect{qualifikation.uid}" name="qualificationsstatus[{qualifikation.uid}]" options="{qualifikation.status}" value="{tv:qualiStatus(mitarbeiter:mitarbeiter, qualifikation:qualifikation)}" /></td>                                 
+                                    <td class="td{qualifikation.uid}" style="background-color: red"><f:form.textarea id="qualiText{qualifikation.uid}" name="qualificationsnotes[{qualifikation.uid}]" value="{tv:qualiNote(mitarbeiter:mitarbeiter, qualifikation:qualifikation)}" /></td>                                 
+                                </f:then>
+                                <f:else>
+                                    <td class="td{qualifikation.uid}">{qualifikation.bezeichnung}</td>                                         
+                                    <td class="td{qualifikation.uid}"><f:form.checkbox id="qualiCheck{qualifikation.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="qualifikationen" value="{qualifikation.uid}" multiple="1" checked="0" /></td>                                 
+                                    <td class="td{qualifikation.uid}"><f:form.select id="qualiSelect{qualifikation.uid}" name="qualificationsstatus[{qualifikation.uid}]" options="{qualifikation.status}" value="" disabled="TRUE" /></td>
+                                    <td class="td{qualifikation.uid}"><f:form.textarea id="qualiText{qualifikation.uid}" name="qualificationsnotes[{qualifikation.uid}]" value="" disabled="TRUE" /></td>
+                                </f:else>
+                            </f:if>
+                        </tr>
                     </f:for>
                 </table>
                 <br />
@@ -139,6 +136,41 @@ Otherwise your changes will be overwritten the next time you save the extension 
                 } 
             }    
             
+        }
+        /**
+         * Checkbox 
+         * Set/unset checkboxes and enable/disable fields
+         * 
+         * @param string stat
+         * @return void
+         */
+        function setCheckbox(stat) {
+            var wholeid = stat.id;
+            var id = wholeid.substring(10);         
+            var cb = document.getElementById(wholeid);
+            var elem = document.getElementsByClassName("td" + id);
+            var elemSelect = document.getElementById("qualiSelect" + id);
+            var elemText = document.getElementById("qualiText" + id)
+            
+            if (cb.checked === true) {
+                cb.checked = true;                
+                for (var i = 0; i < elem.length; i++) {
+                    elem[i].style.backgroundColor = "red";                    
+                }
+                elemSelect.disabled = false;
+                elemSelect.value = 1;
+                elemText.disabled = false;
+            } else {
+                cb.checked = false;
+                for (var i = 0; i < elem.length; i++) {
+                   
+                    elem[i].style.backgroundColor = ""; 
+                }
+                elemSelect.disabled = true;
+                elemSelect.value = "";
+                elemText.disabled = true;
+                elemText.value = "";
+            }
         }
     </script>
 </f:section>

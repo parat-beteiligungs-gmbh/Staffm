@@ -1,6 +1,7 @@
 <?php
-return array(	
-        'ctrl' => array(
+
+return [	
+        'ctrl' => [
                     'title' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_firma',
                     'label' => 'bezeichnung',
                     'tstamp' => 'tstamp',
@@ -12,158 +13,158 @@ return array(
                     'transOrigPointerField' => 'l10n_parent',
                     'transOrigDiffSourceField' => 'l10n_diffsource',
                     //'delete' => 'deleted',
-                    'enablecolumns' => array(
+                    'enablecolumns' => [
                             /*'disabled' => 'hidden',
                             'starttime' => 'starttime',
                             'endtime' => 'endtime',*/
-                    ),
+                    ],
                     'searchFields' => 'bezeichnung, adresse, plz, ort, ortszusatz, land, tel1, tel2, fax',
                     //'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('staffm') . 'Resources/Public/Icons/tx_staffm_domain_model_firma.gif'
                     'iconfile' => 'EXT:staffm/Resources/Public/Icons/tx_staffm_domain_model_firma.gif'
-        ),
-	'interface' => array(
+        ],
+	'interface' => [
 		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, bezeichnung, adresse, plz, ort, ortszusatz, land, tel1, tel2, fax, images, files',
-	),
-	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, bezeichnung, adresse, plz, ort, ortszusatz, land, tel1, tel2, fax, images, files'),
-	),
-	'palettes' => array(
-		'1' => array('showitem' => ''),
-	),
-	'columns' => array(
+	],
+	'types' => [
+		'1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, bezeichnung, adresse, plz, ort, ortszusatz, land, tel1, tel2, fax, images, files'],
+	],
+	'palettes' => [
+		'1' => ['showitem' => ''],
+	],
+	'columns' => [
 	
-		'sys_language_uid' => array(
+		'sys_language_uid' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
-			'config' => array(
+			'config' => [
 				'type' => 'select',
                                 'renderType' => 'selectSingle',
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
-				'items' => array(
-					array('LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1),
-					array('LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0)
-				),
-			),
-		),
-		'l10n_parent' => array(
+				'items' => [
+					['LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1],
+					['LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0]
+				],
+			],
+		],
+		'l10n_parent' => [
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
-			'config' => array(
+			'config' => [
 				'type' => 'select',
                                 'renderType' => 'selectSingle',
-				'items' => array(
-					array('', 0),
-				),
+				'items' => [
+					['', 0],
+				],
 				'foreign_table' => 'tx_staffm_domain_model_firma',
 				'foreign_table_where' => 'AND tx_staffm_domain_model_firma.pid=###CURRENT_PID### AND tx_staffm_domain_model_firma.sys_language_uid IN (-1,0)',
-			),
-		),
-		'l10n_diffsource' => array(
-			'config' => array(
+			],
+		],
+		'l10n_diffsource' => [
+			'config' => [
 				'type' => 'passthrough',
-			),
-		),
+			],
+		],
 
-		't3ver_label' => array(
+		't3ver_label' => [
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.versionLabel',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 30,
 				'max' => 255,
-			)
-		),
-                'nummer' => array(
+			]
+		],
+                'nummer' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_firma.nummer',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 30,
 				'eval' => 'trim'
-			),
-		),
-		'bezeichnung' => array(
+			],
+		],
+		'bezeichnung' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_firma.bezeichnung',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 30,
 				'eval' => 'trim'
-			),
-		),
-                'adresse' => array(
+			],
+		],
+                'adresse' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_firma.adresse',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 30,
 				'eval' => 'trim'
-			),
-		),
-                'plz' => array(
+			],
+		],
+                'plz' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_firma.plz',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 30,
 				'eval' => 'trim'
-			),
-		),
-                'ort' => array(
+			],
+		],
+                'ort' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_firma.ort',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 30,
 				'eval' => 'trim'
-			),
-		),
-                'ortszusatz' => array(
+			],
+		],
+                'ortszusatz' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_firma.ortszusatz',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 30,
 				'eval' => 'trim'
-			),
-		),
-                'land' => array(
+			],
+		],
+                'land' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_firma.land',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 30,
 				'eval' => 'trim'
-			),
-		),
-                'tel1' => array(
+			],
+		],
+                'tel1' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_firma.tel1',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 30,
 				'eval' => 'trim'
-			),
-		),
-                'tel2' => array(
+			],
+		],
+                'tel2' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_firma.tel2',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 30,
 				'eval' => 'trim'
-			),
-		),
-                'fax' => array(
+			],
+		],
+                'fax' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_firma.fax',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 30,
 				'eval' => 'trim'
-			),
-		),
+			],
+		],
 		'images' => [
                     'exclude' => false,
                     'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_firma.images',
@@ -256,6 +257,6 @@ return array(
                         $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
                     ),
                 ],
-	),
-);
+	],
+];
 ## EXTENSION BUILDER DEFAULTS END TOKEN - Everything BEFORE this line is overwritten with the defaults of the extension builder

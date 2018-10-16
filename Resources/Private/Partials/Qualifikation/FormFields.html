@@ -17,13 +17,13 @@
  <label for="mitarbeiters">
 	<f:translate key="tx_staffm_domain_model_qualifikation.mitarbeiters" />
 </label><br />  
-<f:for each="{qualifikation.mitarbeiters}" as="mitarbeiter" iteration="iterator">
+<f:for each="{qualifikation.employeequalifications}" as="employeequalification" iteration="iterator">
     <f:if condition="{iterator.isLast}">
         <f:then>
-            {mitarbeiter.lastName} {mitarbeiter.firstName}
+            {employeequalification.employee.lastName} {employeequalification.employee.firstName}
         </f:then>
         <f:else>
-            {mitarbeiter.lastName} {mitarbeiter.firstName},
+            {employeequalification.employee.lastName} {employeequalification.employee.firstName},
         </f:else>
     </f:if>
 </f:for>

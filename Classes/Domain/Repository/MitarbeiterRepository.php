@@ -1,33 +1,32 @@
 <?php
+
+/*
+ * Copyright (C) 2018 pm-webdesign.eu 
+ * Markus Puffer <m.puffer@pm-webdesign.eu>
+ *
+ * All rights reserved
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The GNU General Public License can be found at
+ * http://www.gnu.org/copyleft/gpl.html.
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
 namespace Pmwebdesign\Staffm\Domain\Repository;
 
-/***************************************************************
- *
- *  Copyright notice
- *
- *  (c) 2018 Markus Puffer <m.puffer@pm-webdesign.eu>, PM-Webdesign
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
 /**
- * The repository for Mitarbeiters
+ * Employee Repository
  */
 class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository {	
 	protected $defaultOrderings = array('last_name' =>
@@ -39,25 +38,24 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
 	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface|Boolean
 	 */
 	public function findSearchForm($search, $limit) {                
-		// Wenn im Suchfeld ein Wert
+		// Search?
 		if ($search != NULL) {
-			// Falls mehrere Suchbegriffe eingegeben worden sind
+			// If more search words
 			$searchArr = str_getcsv($search, " ");
 			$query = $this->createQuery();
                         $quali = NULL;
 			$quali = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\QualifikationRepository')->findSearchForm($search, $limit);			
 						
-			// Qualifikationen ermitteln
-			//$qMit = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();	
+			// Employee Array (Employee uids)
 			$arrMit = [];	
                         
-			// Qualifikationen prüfen			
+			// Qualification?		
                         if($quali != NULL) {
                             foreach($quali as $q) {
-                                // Wenn Qualifikation gefunden in Array speichern
-                                foreach ($q->getMitarbeiters() as $mq) {
+                                // If qualification is found, save employee uid to array
+                                foreach ($q->getEmployeequalifications() as $mq) {
                                     if ($mq != NULL) {
-                                            array_push($arrMit, (int) $mq->getUid());							
+                                            array_push($arrMit, (int) $mq->getEmployee()->getUid());							
                                     }
                                 }
                             }
@@ -74,7 +72,7 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
 				$constraints[++$i] = $query->like('telephone', '%'.$value.'%');
                                 //$constraints[++$i] = $query->equals('deleted', 0); //-> funktioniert nicht
                                 
-				// Wenn Qualifikationen gefunden -> TODO: Set in next row
+				// If qualification is found -> TODO: Set in next row
 				if (count($arrMit) > 0) {
 					$constraints[++$i] = $query->in('uid', $arrMit);					
 				}
@@ -84,10 +82,9 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
                                         $query->logicalOr(
 						$constraints
 					)                                        
-                                )
-                                        
+                                )   
 			);			
-		// Wenn kein Wert im Suchfeld
+		// No Value in Search-Field
 		} else {
 			$query = $this->createQuery();
 			$query->matching (
@@ -96,14 +93,8 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
 						//$query->greaterThan('last_name', '')
 						//$query->greaterThan('tx_igldapssoauth_dn', '')
 					)
-			);				
-			//$limit = (int) $limit;
-			/*$limit = 50;
-			if ($limit > 0) {
-				$query->setLimit($limit);
-			}*/
+			);		
 		}
-		
 		
 		$query->setOrderings(array('last_name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING, 
                     'first_name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));

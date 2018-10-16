@@ -1,9 +1,8 @@
 <?php
 
-namespace Pmwebdesign\Staffm\Property\FlexForm;
-
 /*
- * Copyright (C) 2018 Markus Puffer (m.puffer@pm-webdesign.eu)
+ * Copyright (C) 2018 pm-webdesign.eu 
+ * Markus Puffer <m.puffer@pm-webdesign.eu>
  *
  * All rights reserved
  *
@@ -23,6 +22,8 @@ namespace Pmwebdesign\Staffm\Property\FlexForm;
  *
  * This copyright notice MUST APPEAR in all copies of the script!
  */
+
+namespace Pmwebdesign\Staffm\Property\FlexForm;
 
 /**
  * FlexFormUserFunc
