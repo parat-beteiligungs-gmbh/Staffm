@@ -31,6 +31,10 @@
                 <source>Ausgabe</source>
                 <target state="translated">Renting</target>
             </trans-unit>
+            <trans-unit id="staffm.show">
+                <source>Anzeigen</source>
+                <target state="translated">Show</target>
+            </trans-unit>
             <trans-unit id="staffm.search">
                 <source>Suche</source>
                 <target state="translated">Search</target>
@@ -239,6 +243,10 @@
                 <source>Beschreibung</source>
                 <target state="translated">Description</target>
             </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_qualifikation.status">
+                <source>Status</source>
+                <target state="translated">Status</target>
+            </trans-unit>
             <trans-unit id="tx_staffm_domain_model_qualifikation.employeequalifications">
                 <source>Mitarbeiter Qualifikationen</source>
                 <target state="translated">Employee qualifications</target>
@@ -261,7 +269,11 @@
             </trans-unit>
             <trans-unit id="tx_staffm_domain_model_employeequalification.note">
                 <source>Notiz</source>
-                <target state="translated">Notiz</target>
+                <target state="translated">Notice</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_employeequalification.reminder_date">
+                <source>Erinnerungsdatum</source>
+                <target state="translated">Reminder date</target>
             </trans-unit>
             <trans-unit id="tx_staffm_domain_model_employeequalification.histories">
                 <source>Historie</source>
@@ -350,10 +362,6 @@
             <trans-unit id="tx_staffm_domain_model_history.date_to">
                 <source>Datum bis</source>
                 <target state="translated">Date to</target>
-            </trans-unit>
-            <trans-unit id="tx_staffm_domain_model_histor.reminder_date">
-                <source>Erinnerungsdatum</source>
-                <target state="translated">Reminder date</target>
             </trans-unit>
             <trans-unit id="tx_staffm_domain_model_history.assessor">
                 <source>Beurteiler</source>

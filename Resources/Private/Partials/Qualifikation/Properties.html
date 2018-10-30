@@ -20,11 +20,29 @@
                 <td>
 			<f:translate key="tx_staffm_domain_model_employeequalification.status" />
 		</td>
-		<td>                   
-                    <f:for each="{qualifikation.status}" as="status" key="index">                        
-                        {index} {status}<br />
-                    </f:for>
+		<td>     
+                    <a class="btn btn-default btn-sm" onclick="showStatus();"><f:translate key="staffm.show" /></a><br />
+                    <div id="showStatus" style="display:none">
+                        <f:for each="{qualifikation.status}" as="status" key="index">                        
+                            {index} {status}<br />
+                        </f:for>
+                    </div>
 		</td>
         </tr>
 </table>
 <br style="clear: both" />
+<script>
+    /**
+     * Show all status
+     * 
+     * @return 
+     */
+    function showStatus() {
+        var elem = document.getElementById("showStatus");       
+        if (elem.style.display === 'none') {
+            elem.style.display = '';   
+        } else {
+            elem.style.display = 'none';
+        }       
+    }
+</script>

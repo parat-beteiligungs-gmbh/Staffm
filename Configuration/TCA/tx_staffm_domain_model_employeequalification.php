@@ -18,14 +18,14 @@ return [
           'starttime' => 'starttime',
           'endtime' => 'endtime', */
         ],
-        'searchFields' => 'qualification, status, employee, note',        
+        'searchFields' => 'qualification, status, employee, note, histories',
         'iconfile' => 'EXT:staffm/Resources/Public/Icons/tx_staffm_domain_model_employeequalification.gif'
     ],
     'interface' => [
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, qualification, status, employee, note',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, qualification, status, employee, note, histories',
     ],
     'types' => [
-        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, qualification, status, employee, note'],
+        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, qualification, status, employee, note, histories'],
     ],
     'palettes' => [
         '1' => ['showitem' => ''],
@@ -55,7 +55,7 @@ return [
                 'items' => [
                     ['', 0],
                 ],
-                'foreign_table' => 'tx_staffm_domain_model_firma',
+                'foreign_table' => 'tx_staffm_domain_model_employeequalification',
                 'foreign_table_where' => 'AND tx_staffm_domain_model_employeequalification.pid=###CURRENT_PID### AND tx_staffm_domain_model_employeequalification.sys_language_uid IN (-1,0)',
             ],
         ],
@@ -82,7 +82,7 @@ return [
                 'minitems' => 0,
                 'maxitems' => 1,
             ],
-        ],        
+        ],
         'status' => [
             'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_employeequalification.status',
             'config' => [
@@ -109,6 +109,26 @@ return [
                 'type' => 'text',
                 'cols' => 40,
                 'rows' => 15,
+            ],
+        ],
+        'reminder_date' => [
+            'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_history.reminder_date',
+            'config' => [
+                'dbType' => 'date',
+                'type' => 'input',
+                'renderType' => 'inputDateTime',
+                'eval' => 'date',
+            ],
+        ],
+        'histories' => [
+            //'exclude' => 1,        
+            'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_employeequalification.histories',
+            'config' => [
+                'type' => 'inline',
+                'foreign_table' => 'tx_staffm_domain_model_history',
+                'foreign_field' => 'employeequalification',                
+                'minitems' => 0,
+                'maxitems' => 1000,
             ],
         ],
     ],

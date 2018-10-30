@@ -2,7 +2,7 @@
 return [
 	'ctrl' => [
                     'title' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_history',
-                    'label' => 'bezeichnung',
+                    'label' => 'status',
                     'tstamp' => 'tstamp',
                     'crdate' => 'crdate',
                     'cruser_id' => 'cruser_id',
@@ -17,14 +17,14 @@ return [
                             'starttime' => 'starttime',
                             'endtime' => 'endtime',*/
                     ],
-                    'searchFields' => 'nummer, bezeichnung, verantwortlicher',
+                    'searchFields' => 'status, date_from, date_to, reminder_date, assessor',
                     'iconfile' => 'EXT:staffm/Resources/Public/Icons/tx_staffm_domain_model_history.gif'
         ],
 	'interface' => [
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, qualification, status, employee, date_from, date_to',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, status, date_from, date_to, reminder_date, assessor',
 	],
 	'types' => [
-		'1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, qualification, status, employee, date_from, date_to'],
+		'1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, status, date_from, date_to, reminder_date, assessor'],
 	],
 	'palettes' => [
 		'1' => ['showitem' => ''],
@@ -74,7 +74,7 @@ return [
 		],
 		'status' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_history.nummer',
+			'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_history.status',
 			'config' => [
 				'type' => 'input',
 				'size' => 1,
@@ -93,21 +93,13 @@ return [
                 'date_to' => [
                     'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_history.date_to',
                     'config' => [
+                        'dbType' => 'date',
                         'type' => 'input',
                         'renderType' => 'inputDateTime',
-                        'eval' => 'datetime',
+                        'eval' => 'date',
                     ],
-                ],
-                'reminder_date' => [
-                    'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_history.date_to',
-                    'config' => [
-                        'type' => 'input',
-                        'renderType' => 'inputDateTime',
-                        'eval' => 'datetime',
-                    ],
-                ],
-                'assessor' => [
-			'exclude' => 1,
+                ],                
+                'assessor' => [			
 			'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_history.assessor',
 			'config' => [
 				'type' => 'select',

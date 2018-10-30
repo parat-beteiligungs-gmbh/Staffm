@@ -1,14 +1,47 @@
+{namespace vhs = FluidTYPO3\Vhs\ViewHelpers}
 <table class="tx_staffm">
     <tr>
         <th><f:translate key="tx_staffm_domain_model_qualifikation" /></th>
         <th><f:translate key="tx_staffm_domain_model_employeequalification.status" /></th>
+        <th><f:translate key="tx_staffm_domain_model_employeequalification.reminder_date" /></th>
         <th><f:translate key="tx_staffm_domain_model_employeequalification.note" /></th>    
     </tr>
-        <f:for each="{mitarbeiter.employeequalifications}" as="employeequalification">        
+        <f:for each="{mitarbeiter.employeequalifications -> vhs:iterator.sort(sortBy: 'qualification.bezeichnung')}" as="employeequalification">        
             <tr>
-                <td><f:link.action class="tx_staffm link" pluginName="Staffm" action="show" controller="Qualifikation" title="{employeequalification.qualification.beschreibung}" arguments="{qualifikation:employeequalification.qualification, mitarbeiter:mitarbeiter, key: 'vonMit', standardsearch:search}">{employeequalification.qualification.bezeichnung}</f:link.action></td>
-                <td><f:link.action class="tx_staffm link" pluginName="Staffm" action="show" controller="Qualifikation" title="{employeequalification.qualification.beschreibung}" arguments="{qualifikation:employeequalification.qualification, mitarbeiter:mitarbeiter, key: 'vonMit', standardsearch:search}">{employeequalification.status} - {employeequalification.qualification.status.{employeequalification.status}}</f:link.action></td>
-                <td><f:link.action class="tx_staffm link" pluginName="Staffm" action="show" controller="Qualifikation" title="{employeequalification.qualification.beschreibung}" arguments="{qualifikation:employeequalification.qualification, mitarbeiter:mitarbeiter, key: 'vonMit', standardsearch:search}">{employeequalification.note}</f:link.action></td>
+                <td>{employeequalification.qualification.bezeichnung}</td>
+                <td>
+                    {employeequalification.status} - {employeequalification.qualification.status.{employeequalification.status}}
+                    <f:comment><!-- TODO: Button for showing history --></f:comment>
+                    <a id="employeequalification{employeequalification.uid}" class="btn btn-default btn-sm" onclick="showHistory(this);"><f:translate key="tx_staffm_domain_model_history" /></a><br />
+                    <f:if condition="{employeequalification.histories}">
+                        <table id="mapropertieshistory{employeequalification.uid}" style="display:none;border-spacing:0">
+                            <tr>
+                                <th><f:translate key="tx_staffm_domain_model_history.status" /></th>
+                                <th><f:translate key="tx_staffm_domain_model_history.date_from" /></th>
+                                <th><f:translate key="tx_staffm_domain_model_history.date_to" /></th>                            
+                                <th><f:translate key="tx_staffm_domain_model_history.assessor" /></th>
+                            </tr>
+                            <f:for each="{employeequalification.histories}" as="history">
+                                <tr>
+                                    <td title="{employeequalification.qualification.status.{history.status}}">{history.status}</td>
+                                    <td>{f:format.date(date: history.dateFrom, format: 'd.m.Y')}</td>
+                                    <td>
+                                        <f:if condition="{history.dateTo}">
+                                            {f:format.date(date: history.dateTo, format: 'd.m.Y')}
+                                        </f:if>
+                                    </td>                                
+                                    <td>{history.assessor.lastName} {history.assessor.firstName}</td>
+                                </tr>
+                            </f:for>
+                        </table>
+                    </f:if>
+                </td>
+                <td>
+                    <f:if condition="{employeequalification.reminderDate}">
+                        {f:format.date(date: employeequalification.reminderDate, format: 'd.m.Y')}
+                    </f:if>
+                </td>
+                <td>{employeequalification.note}</td>
             </tr>
         </f:for>
 </table>
@@ -21,8 +54,25 @@
     </f:then>
     <f:else>
         <f:security.ifHasRole role="PA">
-            <f:link.action style="float:left" class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:key}"><f:translate id="staffm.choose" /></f:link.action><br />                        
+            <f:link.action style="float:left" class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:key, standardsearch:search, cache:'notcache'}"><f:translate id="staffm.choose" /></f:link.action><br />                        
         </f:security.ifHasRole>
         <br />
     </f:else>
 </f:if>
+<script>
+    /**
+     * Show/hide the history
+     * 
+     * @returns {undefined}
+     */
+    function showHistory(stat) {
+        var fullid = stat.id;       
+        var id = fullid.substring(21);       
+        var elem = document.getElementById("mapropertieshistory" + id);
+        if (elem.style.display === "none") {
+            elem.style.display = "";
+        } else {
+            elem.style.display = "none";
+        }
+    }
+</script>

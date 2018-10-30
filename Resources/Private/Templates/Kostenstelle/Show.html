@@ -83,7 +83,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                     <f:then>
                         <td class="staffmmobilehidden nobackground">
                             <div class="btn-group">
-                                <f:link.action class="btn btn-secondary btn-sm" title="{ma.firstName} {ma.lastName} bearbeiten" controller="Mitarbeiter" action="edit" arguments="{mitarbeiter : ma}"><f:translate id="staffm.edit" /></f:link.action>
+                                <f:link.action class="btn btn-secondary btn-sm" title="{ma.firstName} {ma.lastName} bearbeiten" controller="Mitarbeiter" action="editKst" arguments="{ma : ma, kostenstelle:kostenstelle, key: 'auswahlKst', kst: 'kst', search:search}"><f:translate id="staffm.edit" /></f:link.action>
                                 <f:link.action class="btn btn-danger btn-sm" controller="Mitarbeiter" action="delete" arguments="{mitarbeiter : ma}"><f:translate id="staffm.delete" /></f:link.action>
                             </div>
                         </td>

@@ -11,13 +11,10 @@
             </trans-unit>
             <trans-unit id="date_to.description">
                 <source>Datum bis</source>
-            </trans-unit>
-            <trans-unit id="reminder_date.description">
-                <source>Erinnerungsdatum</source>
-            </trans-unit>
+            </trans-unit>            
             <trans-unit id="assessor.description">
                 <source>Beurteiler</source>
-            </trans-unit>           
+            </trans-unit>             
         </body>
     </file>
 </xliff>

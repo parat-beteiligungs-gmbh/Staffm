@@ -13,6 +13,7 @@
                 <th><f:translate key="tx_staffm_domain_model_mitarbeiter.position" /></th>
                 <th><f:translate id="staffm.active" /></th>
                 <th><f:translate key="tx_staffm_domain_model_employeequalification.status" /></th>
+                <th><f:translate key="tx_staffm_domain_model_employeequalification.reminder_date" /></th>
                 <th><f:translate key="tx_staffm_domain_model_employeequalification.note" /></th>            
             </tr>
             <f:for each="{mitarbeiters}" as="mitarbeiter">
@@ -24,6 +25,7 @@
                                 <td class="td{mitarbeiter.uid}" style="background-color: red">{mitarbeiter.position.bezeichnung}</td>
                                 <td class="td{mitarbeiter.uid}" style="background-color: red"><f:form.checkbox id="mitaCheck{mitarbeiter.uid}" name="mitarbeiters" value="{mitarbeiter.uid}" multiple="1" checked="1" additionalAttributes="{onClick: 'setCheckbox(this);'}" /></td>   
                                 <td class="td{mitarbeiter.uid}" style="background-color: red"><f:form.select id="mitaSelect{mitarbeiter.uid}" name="qualificationsstatus[{mitarbeiter.uid}]" options="{qualifikation.status}" value="{tv:qualiStatus(mitarbeiter:mitarbeiter, qualifikation:qualifikation)}" /></td>
+                                <td class="td{mitarbeiter.uid}" style="background-color: red"><f:form.textfield id="mitaReminderDate{mitarbeiter.uid}" name="qualificationsreminderdate[{mitarbeiter.uid}]" value="" additionalAttributes="{onclick: 'datepicker(this);'}" /></td>
                                 <td class="td{mitarbeiter.uid}" style="background-color: red"><f:form.textarea id="mitaText{mitarbeiter.uid}" name="qualificationsnotes[{mitarbeiter.uid}]" value="{tv:qualiNote(mitarbeiter:mitarbeiter, qualifikation:qualifikation)}" /></td>
                             </f:then>
                             <f:else>
@@ -45,6 +47,14 @@
         </div>
     </f:form>
     <script>
+        function datepicker(stat) {
+            alert("test");
+            var wholeid = stat.id;
+            alert(wholeid);
+            var elem = document.getElementById(wholeid);
+            elem.datepicker();
+        }
+        
         /**
          * Checkbox 
          * Set/unset checkboxes and enable/disable fields

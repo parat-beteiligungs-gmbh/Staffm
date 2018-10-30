@@ -127,6 +127,7 @@ CREATE TABLE tx_staffm_domain_model_employeequalification (
         status int(11) DEFAULT '0' NOT NULL,
 	employee int(11) unsigned DEFAULT '0',	
         note text NOT NULL,
+        reminder_date DATE DEFAULT '0000-00-00',
         histories int(11) unsigned DEFAULT '0',  
 
         tablenames varchar(30) DEFAULT '' NOT NULL,
@@ -294,9 +295,10 @@ CREATE TABLE tx_staffm_domain_model_history (
 
         status int(11) DEFAULT '0' NOT NULL,
         date_from DATE DEFAULT '0000-00-00' NOT NULL,
-        date_to DATE DEFAULT '0000-00-00' NOT NULL,
-        reminder_date DATE DEFAULT '0000-00-00' NOT NULL,
+        date_to DATE DEFAULT '0000-00-00',        
         assessor int(11) unsigned DEFAULT '0',
+
+        employeequalification int(11) unsigned DEFAULT '0',
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

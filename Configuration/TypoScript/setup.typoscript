@@ -66,18 +66,20 @@ module.tx_staffm {
 }
 
 page {
-      # Caching
-      noCache = 0 
+    # Caching
+    noCache = 0 
 
-      #config.cache.16 = tx_staffm_domain_model_mitarbeiter:42,tx_staffm_domain_model_kostenstelle:53
-      
-      includeCSS {        
+    #config.cache.16 = tx_staffm_domain_model_mitarbeiter:42,tx_staffm_domain_model_kostenstelle:53
+
+    includeCSS {        
         staffm = EXT:staffm/Resources/Public/css/jquery-ui.css
         staffm1 = EXT:staffm/Resources/Public/css/staffm.css
-      }
-      
-      includeJSFooter {
-          # Eigenes Javascript sofot mit kompletter Website laden
-          #staffmjs = EXT:staffm/Resources/Public/js/staffm.js
-      }
+    }
+
+    includeJSFooter {
+        # Eigenes Javascript sofot mit kompletter Website laden
+        #staffmjs = EXT:staffm/Resources/Public/js/staffm.js
+        jquery1 = EXT:staffm/Resources/Public/js/jquery-1.12.4.js
+        jquery2 = EXT:staffm/Resources/Public/js/jquery-ui.js
+    }
 }

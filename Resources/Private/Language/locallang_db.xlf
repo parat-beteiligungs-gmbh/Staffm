@@ -90,9 +90,9 @@
             <trans-unit id="tx_staffm_domain_model_qualifikation.beschreibung">
                 <source>Beschreibung</source>
             </trans-unit>
-            <trans-unit id="tx_staffm_domain_model_qualifikation.employeequalifications">
-                <source>Mitarbeiter Qualifikationen</source>
-            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_qualifikation.status">
+                <source>Status</source>
+            </trans-unit>            
             <trans-unit id="tx_staffm_domain_model_qualifikation.employeequalifications">
                 <source>Mitarbeiter Qualifikationen</source>
             </trans-unit>
@@ -110,6 +110,9 @@
             </trans-unit>
             <trans-unit id="tx_staffm_domain_model_employeequalification.note">
                 <source>Notiz</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_employeequalification.reminder_date">
+                <source>Erinnerungsdatum</source>
             </trans-unit>
             <trans-unit id="tx_staffm_domain_model_employeequalification.histories">
                 <source>Historie</source>
@@ -164,9 +167,6 @@
             </trans-unit>
             <trans-unit id="tx_staffm_domain_model_history.date_to">
                 <source>Datum bis</source>
-            </trans-unit>
-            <trans-unit id="tx_staffm_domain_model_histor.reminder_date">
-                <source>Erinnerungsdatum</source>
             </trans-unit>
             <trans-unit id="tx_staffm_domain_model_history.assessor">
                 <source>Beurteiler</source>
