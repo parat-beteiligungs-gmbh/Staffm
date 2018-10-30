@@ -42,7 +42,6 @@ class Caching {
      * Generate unique cache identifier from string
      *
      * @param string $token
-     *
      * @return string
      */
     public function calculateCacheIdentifierWithRandom($token) {

@@ -33,7 +33,7 @@ use TYPO3\CMS\Extbase\Property\PropertyMappingConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * KostenstelleController
+ * Cost Center Controller
  */
 class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
@@ -44,7 +44,7 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
     protected $cache;
 
     /**
-     * kostenstelleRepository
+     * Cost Center Repository
      * 
      * @var \Pmwebdesign\Staffm\Domain\Repository\KostenstelleRepository    
      */
@@ -107,20 +107,6 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         ];
         /** @var PropertyMappingConfiguration $newKostenstelleConfiguration */
         $newKostenstelleConfiguration = $this->arguments[$argumentName]->getPropertyMappingConfiguration();
-//        $newMitarbeiterConfiguration->forProperty('image')
-//            ->setTypeConverterOptions(
-//                'Pmwebdesign\\Staffm\\Property\\TypeConverter\\UploadedFileReferenceConverter',
-//                $uploadConfiguration
-//            );
-        
-        //$newKostenstelleConfiguration->allowAllProperties('images');
-        
-        // TODO: Does not work, just with 'images.0' -> Problem just the first Picture is set right
-//        $newKostenstelleConfiguration->forProperty('images.*')
-//                ->setTypeConverterOptions(
-//                    'Pmwebdesign\\Staffm\\Property\\TypeConverter\\UploadedFileReferenceConverter',
-//                    $uploadConfiguration
-//                );        
         for($i= 0; $i < 99; $i++) {
             $newKostenstelleConfiguration->forProperty('images.'.$i)
                 ->setTypeConverterOptions(
@@ -132,8 +118,7 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
     }
 
     /**
-     * action export 
-     * Daten in Excel exportieren           
+     * Export data to Excel
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle 
      * @return void
@@ -152,7 +137,7 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         $_oPHPExcel = new Spreadsheet();
         $_oExcelWriter = new Xlsx($_oPHPExcel);
 
-        // Prüfen ob Kostenstellen, oder Mitarbeiter ausgegeben werden sollen
+        // Show Cost centers?
         if ($kostenstelle == NULL) {
             $kostenstellen = $this->kostenstelleRepository->findSearchForm($search, $limit);
 
@@ -168,7 +153,7 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(1, 1, 'Kostenstelle');
             $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(2, 1, 'Bezeichnung');
             $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(3, 1, 'Verantwortlicher');
-            //$_oPHPExcel->getSheetByName("Test")->setCellValue('A1', 'Titel');
+            
             for ($i = 0; $i < count($kostenstellen); $i++) {
                 $kostenstelle = new \Pmwebdesign\Staffm\Domain\Model\Kostenstelle();
                 $kostenstelle = $kostenstellen[$i];
@@ -180,7 +165,7 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 }
             }
         } else {
-            // Mitarbeiter sollen ausgegeben werden
+            // Show employees
             $mitarbeiters = $kostenstelle->getMitarbeiters();
 
             // Create new Worksheet
@@ -207,13 +192,9 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(10, 4, 'Kostenstelle');
             $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(11, 4, 'KST_Bezeichnung');
             $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(12, 4, 'Firma');
-            //$_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(12, 4, 'Qualifikation');
-            //for ($i = 0; $i < count($mitarbeiters); $i++) { // funktioniert nicht!
+            
             $i = 0;
             foreach ($mitarbeiters as $mitarbeiter) {
-                //$mitarbeiter = new \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter();
-                //$mitarbeiter = $mitarbeiters[$i];    
-
                 $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(1, $i + 5, $mitarbeiter->getLastName());
                 $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(2, $i + 5, $mitarbeiter->getFirstName());
                 $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(3, $i + 5, (string) $mitarbeiter->getPersonalnummer());
@@ -229,38 +210,35 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 }
                 if ($mitarbeiter->getFirma() != null) {
                     $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(12, $i + 5, $mitarbeiter->getFirma()->getBezeichnung());
-                }
-                //$_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(12, $i + 5, $qualifikation->getBezeichnung());
+                }               
                 $i++;
             }
         }
 
-        // Excel-Datei auf Server sichern		
+        // Save Excel file on server	
         $_oExcelWriter->save($filePath);
         unset($_oExcelWriter);
         unset($_oPHPExcel);
 
-        // Speichern unter verfügbar machen für User
-        $size = filesize($filePath);
-        //header("Content-type: application/octet-stream"); 
+        // "Save us" for users
+        $size = filesize($filePath);        
         header("Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         header("Content-disposition: attachment; filename=\"export.xlsx\"");
         header("Content-Transfer-Encoding: binary");
-        header("Content-Length: $size");
-        /* header("Pragma: no-cache"); 
-          header("Expires: 0"); */
+        header("Content-Length: $size");        
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
-        ob_clean(); // Sehr wichtig sonst Fehler bei Excel-Datei
-        flush(); // Sehr wichtig sonst Fehler bei Excel-Datei
+        ob_clean(); // Very important for excel file
+        flush(); // Very important for excel file
         readfile($filePath);
 
-        // Excel-Datei auf Server löschen
+        // Delete Excel file on server
         unlink($filePath);
     }
 
     /**
-     * action list
+     * List Cost centers
+     * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
      * @return void
      */
@@ -273,14 +251,13 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         } else {
             $search = NULL;
         }
-        
-        // Überprüfen ob Argument gesetzt wurde
+       
         if ($this->request->hasArgument('key')) {
             $key = $this->request->getArgument('key');
             $this->view->assign('key', $key);            
         }
         
-        // Auswahl Kst von Kst-Mitarbeiter-Edit
+        // Choose cost center from cost center employee edit        
         if ($this->request->hasArgument('kst')) {
             $kst = $this->request->getArgument('kst');
             if ($kst == "kst") {
@@ -301,8 +278,7 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         
             // Clicked char?
             if ($this->request->hasArgument('@widget_0')) {
-                $widget = $this->request->getArgument('@widget_0');
-                //\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($widget);
+                $widget = $this->request->getArgument('@widget_0');                
                 $char = $widget["char"];
             }
             $maid = "";
@@ -367,7 +343,7 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 
             
 
-            // Ursprüngliche Suche vorhanden?
+            // Previous search?
             if ($this->request->hasArgument('standardsearch')) {
                 $standardsearch = $this->request->getArgument('standardsearch');
             }
@@ -392,13 +368,12 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                     $this->cache->set($cachename, $output, $keyforcache);
                 }
                 return $output;
-            }
-        
+            }        
         }
     }
 
     /**
-     * action show
+     * Single view for cost center
      * 
      * @param integer $kostenstelle
      * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
@@ -446,26 +421,26 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
     }
 
     /**
-     * action choose
-     * Ordnet den Mitarbeiter einer Kostenstelle zu
+     * Assign an employee to a cost center
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
      * @param \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle
-     * @return \Pmwebdesign\Staffm\Domain\Model\Kostenstelle
      */
-    public function chooseAction(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter, \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle)
+    public function chooseAction(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter, 
+            \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle)
     {
         $mitarbeiter->setKostenstelle($kostenstelle);
         $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->update($mitarbeiter);
-
+        
         if ($this->request->hasArgument('search')) {
             $search = $this->request->getArgument('search');
+        } else {
+            $search = "";
         }
-
-        // Mitarbeiter aus Kostenstellenliste bearbeitet?
+        
         if ($this->request->hasArgument('kst')) {
             $kst = $this->request->getArgument('kst');
-            // Mitarbeiter aus Kostenstellenliste bearbeitet?
+            // Employee edits from cost center list?
             if ($kst == "kst") {
                 // TODO: Delete Caches
 //                $char = strtoupper(substr($kostenstelle->getBezeichnung(), 0, 1));
@@ -481,17 +456,17 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 $this->forward('editKst', 'Mitarbeiter', NULL, array('ma' => $mitarbeiter,
                     'kst' => $kst, 'kostenstelle' => $kostenstelle));
             } else {
+                // TODO: Error -> Exception while property mapping at property path "": The source is not of type string, array, float, integer or boolean, but of type "object"
                 $this->addFlashMessage('Kostenstelle zugewiesen!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
-                $this->forward('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search));
+                $this->forward('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter->getUid(), 'search' => $search));
             }
         } else {
             $this->addFlashMessage('Kostenstelle zugewiesen!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
-            $this->forward('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search));
+            $this->forward('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter->getUid(), 'search' => $search));
         }
     }
 
     /**
-     * action deleteKst
      * Delete the cost center of an employee
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter	
@@ -509,7 +484,7 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
     }
 
     /**
-     * action new
+     * Form new for a cost center
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $newKostenstelle
      * @ignorevalidation $newKostenstelle
@@ -521,7 +496,7 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
     }
 
     /**
-     * action create
+     * Create the new cost center
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $newKostenstelle
      * @return void
@@ -551,7 +526,7 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
     }
 
     /**
-     * action edit
+     * Form edit for cost center
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle
      * @ignorevalidation $kostenstelle
@@ -563,59 +538,13 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
     }
 
     /**
-     * action update
+     * Update a cost center
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle
      * @return void
      */
     public function updateAction(\Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle)
-    {
-//        $newImagePath = 'kostenstellenbilder';
-//        
-//        if($this->request->hasArgument('images')) {
-//            $images = $this->request->getArgument('images');
-//        } else {
-//            $images = $this->request->getArguments();
-//        }
-//        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($images);
-        // TODO: Image handling
-//        if ($_FILES['tx_staffm_staffm']['name']['images'][0]) {
-//            echo "Fileupload";
-//
-//            //be careful - you should validate the file type! This is not included here       
-//            $tmpName = $_FILES['tx_staffm_staffm']['name']['images'][0];
-//            $tmpFile = $_FILES['tx_staffm_staffm']['tmp_name']['images'][0]; 
-//            
-//            //echo $originalFilePath;
-//
-//            $storageRepository = $this->objectManager->get('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
-//            $storage = $storageRepository->findByUid('1'); //this is the fileadmin storage
-//            //build the new storage folder
-//            //$targetFolder = $storage->createFolder($newImagePath); -> Error, if folder exists
-//            $targetFolder = $storage->getFolder($newImagePath);
-//
-//            //file name, be shure that this is unique
-//            $newFileName = $tmpName;
-//
-//            //build sys_file
-//            $movedNewFile = $storage->addFile($tmpFile, $targetFolder, $newFileName);
-//            $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager')->persistAll();
-//
-//            //now we build the file reference
-//            //see private function anotiations!
-//            $this->buildRelations($kostenstelle->getUid(), $movedNewFile, 'images', 'tx_staffm_domain_model_kostenstelle', $kostenstelle->getPid());
-//            
-//        } else {
-//            
-//            if(!empty($kostenstelle->getImages())){
-//                $resourceFactory = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\ResourceFactory');
-//                foreach ($kostenstelle->getImages() as $image) {
-//                    $fileReferenceObject = $resourceFactory->getFileReferenceObject($image->getUid());
-//                    $fileWasDeleted = $fileReferenceObject->getOriginalFile()->delete();
-//                }                
-//            }
-//        }
-        //\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($kostenstelle);
+    {        
         $this->addFlashMessage('Kostenstelle aktualisiert!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
         $this->kostenstelleRepository->update($kostenstelle);   
         
@@ -634,40 +563,12 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         $this->cache->remove("0listKstIdentifier".$char."Adm");
         $this->cache->remove("1listKstIdentifier".$char."Adm");
         
-        $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager')->persistAll();
-        //$this->redirect('edit', 'Kostenstelle', NULL, array('kostenstelle' => $kostenstelle, 'tmpfile' => $tmpFile));
+        $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager')->persistAll();       
         $this->redirect('edit', 'Kostenstelle', NULL, array('kostenstelle' => $kostenstelle));
     }
 
     /**
-     * Build relations for FAL
-     * 
-     * @param int    $newStorageUid //The UID of the  model
-     * @param array  $file //The file model of the image
-     * @param string $field //the name of the relation field
-     * @param string $table //the table of the model
-     */
-    private function buildRelations($newStorageUid, $file, $field, $table, $storagePid)
-    {
-        $data = array();
-        $data['sys_file_reference']['NEW1234'] = array(
-            'uid_local' => $file->getUid(),
-            'uid_foreign' => $newStorageUid, // uid of your content record or own model
-            'tablenames' => $table, //tca table name
-            'fieldname' => $field, //see tca for fieldname
-            'pid' => $storagePid,
-            'table_local' => 'sys_file',
-        );
-        $data[$table][$newStorageUid] = array('image' => 'NEW1234'); //this is needed, i dont know why :( but not stored in tables
-
-        /** @var \TYPO3\CMS\Core\DataHandling\DataHandler $tce */
-        $tce = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler'); // create TCE instance
-        $tce->start($data, array());
-        $tce->process_datamap();
-    }
-
-    /**
-     * action delete
+     * Delete a cost center
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle
      * @return void
@@ -704,7 +605,7 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
     }
 
     /**
-     * action deleteKstVerantwortlicher
+     * Delete the cost center responsible
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle
      * @return void
@@ -734,5 +635,4 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 
         $this->redirect('edit', 'Kostenstelle', NULL, array('kostenstelle' => $kostenstelle));
     }
-
 }

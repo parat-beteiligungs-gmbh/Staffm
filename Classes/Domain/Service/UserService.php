@@ -25,12 +25,14 @@
 
 namespace Pmwebdesign\Staffm\Domain\Service;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
- * Description of UserService
+ * User Services
  *
  * @author Markus Puffer (m.puffer@pm-webdesign.eu)
  */
-class UserService extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+class UserService
 {  
     /**
      * Return the logged in User
@@ -39,7 +41,7 @@ class UserService extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function getLoggedInUser() 
     {     
-        $user = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager')->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
+        $user = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager')->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
         return $user;       
     }
     
@@ -49,10 +51,11 @@ class UserService extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * @param String $gruppenEintragS Group authorizations
      * @return bool
      */
-    public function isAdmin(String $gruppenEintragS) : bool
-    {        
-        $gruppenUser = $GLOBALS['TSFE']->fe_user->groupData['uid'];        
-        //$gruppenEintragS = $this->settings["admingroups"]; // TODO: $this->settings does not run  
+    public function isAdmin() : bool
+    { 
+        $gruppenUser = $this->getGroupsOfLoggedInUser();        
+        $settingsUtility = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Utility\SettingsUtility::class);
+        $gruppenEintragS = $settingsUtility->getAdmingroups();        
         $gruppenEintrag = explode(",", $gruppenEintragS);       
         $admin = FALSE;
         foreach ($gruppenUser as $group) {
@@ -73,7 +76,7 @@ class UserService extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function getSettingUsers(String $settingusers) 
     {
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
        
         $users = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
         $aUsers = explode(",", $settingusers);
@@ -82,5 +85,15 @@ class UserService extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $users->attach($user);
         }
         return $users;
+    }
+    
+    /**
+     * Get assigned groups of logged in user
+     * 
+     * @return string
+     */
+    public function getGroupsOfLoggedInUser()
+    {        
+        return $GLOBALS['TSFE']->fe_user->groupData['uid']; 
     }
 }

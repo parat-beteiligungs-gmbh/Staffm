@@ -62,6 +62,13 @@ class Employeequalification extends \TYPO3\CMS\Extbase\DomainObject\AbstractEnti
     protected $note = "";
     
     /**
+     * Reminder date
+     *
+     * @var \DateTime
+     */
+    protected $reminderDate = NULL;
+    
+    /**
      * Histories of qualifications and status
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\History>
@@ -69,6 +76,14 @@ class Employeequalification extends \TYPO3\CMS\Extbase\DomainObject\AbstractEnti
      * @cascade remove
      */
     protected $histories = NULL;
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->histories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+    }
     
     /**
      * Get the Qualification
@@ -109,7 +124,26 @@ class Employeequalification extends \TYPO3\CMS\Extbase\DomainObject\AbstractEnti
     {
         return $this->note;
     }
-
+    
+    /**
+     * 
+     * @return \DateTime|NULL
+     */
+    public function getReminderDate()
+    {
+        return $this->reminderDate;
+    }
+    
+    /**
+     * Get the histories
+     * 
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\History>
+     */
+    public function getHistories()
+    {
+        return $this->histories;
+    }
+    
     /**
      * Set the qualification
      * 
@@ -148,5 +182,24 @@ class Employeequalification extends \TYPO3\CMS\Extbase\DomainObject\AbstractEnti
     public function setNote($note)
     {
         $this->note = $note;
+    }    
+    
+    /**
+     * 
+     * @param $reminderDate
+     */
+    public function setReminderDate($reminderDate)
+    {
+        $this->reminderDate = $reminderDate;
+    }
+    
+    /**
+     * Set the histories
+     * 
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\History> $histories
+     */
+    public function setHistories(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $histories)
+    {
+        $this->histories = $histories;
     }
 }

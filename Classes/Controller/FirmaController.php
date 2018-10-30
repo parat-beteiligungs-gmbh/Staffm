@@ -47,14 +47,14 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     protected $cache;
 
     /**
-     * firmaRepository
+     * Company repository
      * 
      * @var \Pmwebdesign\Staffm\Domain\Repository\FirmaRepository	
      */
     protected $firmaRepository = NULL;
 
     /**
-     * mitarbeiterRepository
+     * Employee repository
      * 
      * @var \Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository	 
      */
@@ -160,7 +160,7 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     /**
      * action export 
-     * Daten in Excel exportieren           
+     * Export data to excel         
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Firma $firma
      * @return void
@@ -179,9 +179,9 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $_oPHPExcel = new Spreadsheet();
         $_oExcelWriter = new Xlsx($_oPHPExcel);
 
-        // Prüfen ob Qualifikationen, oder Mitarbeiter ausgegeben werden sollen
+        // Show companies?
         if ($firma == NULL) {
-            // Qualifikationen sollen ausgegeben werden
+            // Yes, show companies
             $firmen = $this->firmaRepository->findSearchForm($search, $limit);
 
             // Create new Worksheet
@@ -201,7 +201,7 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 $i++;
             }
         } else {
-            // Mitarbeiter sollen ausgegeben werden
+            // Show employees
             $mitarbeiters = $firma->getMitarbeiters();
 
             // Create new Worksheet
@@ -254,12 +254,12 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             }
         }
 
-        // Excel-Datei auf Server sichern		
+        // Save excel file on server
         $_oExcelWriter->save($filePath);
         unset($_oExcelWriter);
         unset($_oPHPExcel);
 
-        // Speichern unter verfügbar machen für User
+        // Save as for user
         $size = filesize($filePath);
         //header("Content-type: application/octet-stream"); 
         header("Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
@@ -270,11 +270,11 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         //header("Expires: 0");
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
-        ob_clean(); // Sehr wichtig sonst Fehler bei Excel-Datei
-        flush(); // Sehr wichtig sonst Fehler bei Excel-Datei
+        ob_clean(); // Very important otherwise a error occurs in the Excel-File
+        flush(); // Very important otherwise a error occurs in the Excel-File
         readfile($filePath);
 
-        // Excel-Datei auf Server löschen
+        // Delete excel file on server
         unlink($filePath);
     }
 
@@ -293,14 +293,17 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         }
 
         // Clicked char?
+        $char = "";
         if ($this->request->hasArgument('@widget_0')) {
-            $widget = $this->request->getArgument('@widget_0');
-            //\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($widget);
+            $widget = $this->request->getArgument('@widget_0');            
             $char = $widget["char"];
-        }
+            $search = "";
+        }  
+        
+        // Memorized id?
         $maid = "";
         if ($this->request->hasArgument('maid')) {
-            $maid = $this->request->getArgument('maid');
+            $maid = $this->request->getArgument('maid');   
         }
         
         // No caching?
@@ -308,54 +311,13 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $cache = $this->request->getArgument('cache');            
         } 
         
-        // No cache flag? (Example company was deleted and the info message is shown in the list view)
-        if ($cache != "notcache") {
-            /* Caching Framework */  
-            $speak = $GLOBALS['TSFE']->sys_language_uid; // Language Index
-            $cachename = $speak."listFirmIdentifier";
-            $keyforcache = array('list', 'normal');
-            // Char or employee id?
-            if ($char != "" || $maid == "maid") {
-                // All clicked?
-                if($char == '%') {
-                    $search = "";
-                    $char = "All";
-                    $key = "all";      
-                // Char clicked?
-                } elseif ($char <> '') {
-                    $search = "";
-                    // No, a other char is clicked
-                    $char = $char;                                
-                // Employee id?
-                } elseif ($maid == "maid") {
-                    // A employee id was send
-                    $char = "All";
-                    $key = "all";                
-                }
-
-                $cachename = $cachename.$char;
-                $keyforcache = array('list', 'buchstabe', $char);
-            }
-
-            // Groups of User
-            $groups = $this->settings["admingroups"];        
-            if($groups == NULL) {
-                $admin = FALSE;
-            } else {
-                $userService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\UserService::class);
-                // User is admin?
-                $admin = $userService->isAdmin($groups);        
-            }
-
-            // Cache of logged in user with admin authorization available?
-            if ((($output = $this->cache->get($cachename."Adm")) !== false) && $search == "" && $admin == TRUE) {   
-                // Yes, return Cache
-                return $output;
-            }
-
-            // Cache for normal user available?        
-            if ((($output = $this->cache->get($cachename)) !== false) && $search == "" && $admin == FALSE) {   
-                // Yes, return Cache
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
+                
+        // No cache flag? (Example employee was deleted and the info message is shown in the list view)       
+        if ($cache != "notcache" && $search == "") { 
+            // Cache exist?       
+            if(($output = $cacheService->getCache($this->request->getControllerActionName(), $this->request->getControllerName(), $char, $maid, 0)) != NULL) {
+                // Show Cache-Page
                 return $output;
             }
         }
@@ -385,13 +347,17 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         if ($search <> "" || $cache == "notcache") {
             // Yes, no Cache is needed
             $this->view->assign('cache', '');
+            $this->view->assign('search', $search);   
         } else {            
             // No, set Cache
             $ouput = $this->view->render();
             if($admin == TRUE) {
                 $this->cache->set($cachename."Adm", $ouput, $keyforcache);
             } else {
-                $this->cache->set($cachename, $ouput, $keyforcache);
+                // No, set Cache
+                $output = $this->view->render();
+                $cacheService->setCache($this->request->getControllerActionName(), $this->request->getControllerName(), $output, $char, $maid, 0);
+                return $output;
             }
             return $ouput;
         }
@@ -401,63 +367,48 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * action show
      *   
      * @param integer $firma 
-     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
+     * @param integer $mitarbeiter
      * @return void
      */
-    public function showAction($firma = 0, \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter = NULL)
-    {
-        $speak = $GLOBALS['TSFE']->sys_language_uid; // Language Index
+    public function showAction($firma = 0, $mitarbeiter = 0)
+    {        
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
         
         // Employee?        
-        if ($mitarbeiter != NULL) {     
+        if ($mitarbeiter != 0) {    
+            // Cache exist?       
+            if(($output = $cacheService->getCache($this->request->getControllerActionName(), "Mitarbeiter".$this->request->getControllerName(), "", "", $mitarbeiter)) != NULL) {                
+                // Show Cache-Page
+                return $output; 
+            }    
+            $mitarbeiter = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findOneByUid($mitarbeiter);
             $firma = $mitarbeiter->getFirma(); 
             $key = $this->request->getArgument('key');
             $this->view->assign('key', $key);        
-            $namecache = $speak."showMitaFirmaIdentifier".$mitarbeiter->getUid();  
         } else {
-            $namecache = $speak."showFirmIdentifier".$firma;  
+            if(($output = $cacheService->getCache($this->request->getControllerActionName(), $this->request->getControllerName(), "", "", $firma)) != NULL) {
+                // Show Cache-Page
+                return $output;
+            }
             $firma = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\FirmaRepository')->findOneByUid($firma); 
         }
-        
-        // Groups of User
-        $groups = $this->settings["admingroups"];        
-        if($groups == NULL) {
-            $admin = FALSE;
-        } else {
-            $userService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\UserService::class);
-            // User is admin?
-            $admin = $userService->isAdmin($groups);        
-        }
-        
-        /* Caching Framework */
-        // Cache of logged in user with admin authorization available?
-        if ((($output = $this->cache->get($namecache."Adm")) !== false) && $admin == TRUE) {   
-            // Yes, return Cache
-            return $output;
-        }
-        
-        // Cache for normal user available?
-        if ((($output = $this->cache->get($namecache)) !== false) && $admin == FALSE) {     
-            // Yes, return Cache
-            return $output;
-        }
 
-        // Ursprüngliche Suche?
+        // Previous search?
         if ($this->request->hasArgument('standardsearch')) {
             $standardsearch = $this->request->getArgument('standardsearch');
             $this->view->assign('standardsearch', $standardsearch);
-        }     
-        
+        }  
         $this->view->assign('mitarbeiter', $mitarbeiter);
         $this->view->assign('firma', $firma);
+        
         // Set Cache
-        $output = $this->view->render(); // Render view
-        if($admin == TRUE) {
-            $this->cache->set($namecache."Adm", $output);
+        $output = $this->view->render();
+        if ($mitarbeiter != NULL && $mitarbeiter != 0) {
+            $cacheService->setCache($this->request->getControllerActionName(), "Mitarbeiter".$this->request->getControllerName(), $output, "", "", $mitarbeiter->getUid());
         } else {
-            $this->cache->set($namecache, $output);
-        }        
-        return $output;        
+            $cacheService->setCache($this->request->getControllerActionName(), $this->request->getControllerName(), $output, "", "", $firma->getUid());
+        }
+        return $output;      
     }
 
     /**
@@ -472,7 +423,7 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $mitarbeiter->setFirma($firma);
         $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->update($mitarbeiter);
 
-        // Ursprüngliche Suche?
+        // Previous search?
         if ($this->request->hasArgument('search')) {
             $search = $this->request->getArgument('search');
         }
@@ -481,8 +432,7 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * action deleteFirma
-     * Löscht die Firma eines Mitarbeiters
+     * Deletes the company of an employee
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter	
      */
@@ -494,7 +444,7 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * action new
+     * New company form
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Firma $newFirma
      * @ignorevalidation $newFirma
@@ -506,7 +456,7 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * action create
+     * Create a new company
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Firma $newFirma
      * @return void
@@ -515,26 +465,16 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     {
         $this->addFlashMessage('Firma angelegt!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
         $this->firmaRepository->add($newFirma);
-        
+       
         // Delete Caches
-        $char = strtoupper(substr($newFirma->getBezeichnung(), 0, 1));
-        $this->cache->remove("0listFirmIdentifier");
-        $this->cache->remove("1listFirmIdentifier");
-        $this->cache->remove("0listFirmIdentifierAll");
-        $this->cache->remove("1listFirmIdentifierAll");
-        $this->cache->remove("0listFirmIdentifier".$char);
-        $this->cache->remove("1listFirmIdentifier".$char);
-        $this->cache->remove("0listFirmIdentifierAdm");
-        $this->cache->remove("1listFirmIdentifierAdm");
-        $this->cache->remove("0listFirmIdentifierAllAdm");
-        $this->cache->remove("1listFirmIdentifierAllAdm");
-        $this->cache->remove("0listFirmIdentifier".$char."Adm");
-        $this->cache->remove("1listFirmIdentifier".$char."Adm");
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
+        $cacheService->deleteCaches($newFirma->getBezeichnung(), "list", $this->request->getControllerName(), 0);
+       
         $this->redirect('list', 'Firma', NULL, array('cache' => 'notcache'));
     }
 
     /**
-     * action edit
+     * Edit the company
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Firma $firma
      * @ignorevalidation $firma
@@ -546,7 +486,7 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * action update
+     * Update a company
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Firma $firma
      * @return void
@@ -555,25 +495,11 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     {
         $this->addFlashMessage('Die Firma "' . $firma->getBezeichnung() . '" wurde aktualisiert!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
         $this->firmaRepository->update($firma);
-        
+                
         // Delete Caches
-        $char = strtoupper(substr($firma->getBezeichnung(), 0, 1));
-        $this->cache->remove("0listFirmIdentifier");
-        $this->cache->remove("1listFirmIdentifier");
-        $this->cache->remove("0listFirmIdentifierAll");
-        $this->cache->remove("1listFirmIdentifierAll");
-        $this->cache->remove("0listFirmIdentifier".$char);
-        $this->cache->remove("1listFirmIdentifier".$char);
-        $this->cache->remove("0listFirmIdentifierAdm");
-        $this->cache->remove("1listFirmIdentifierAdm");
-        $this->cache->remove("0listFirmIdentifierAllAdm");
-        $this->cache->remove("1listFirmIdentifierAllAdm");
-        $this->cache->remove("0listFirmIdentifier".$char."Adm");
-        $this->cache->remove("1listFirmIdentifier".$char."Adm");
-        $this->cache->remove("0showFirmIdentifier".$firma->getUid());
-        $this->cache->remove("1showFirmIdentifier".$firma->getUid());
-        $this->cache->remove("0showFirmIdentifier".$firma->getUid()."Adm");
-        $this->cache->remove("1showFirmIdentifier".$firma->getUid()."Adm");
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
+        $cacheService->deleteCaches($firma->getBezeichnung(), "list", $this->request->getControllerName(), 0);
+        $cacheService->deleteCaches($firma->getBezeichnung(), "show", $this->request->getControllerName(), $firma->getUid());
                 
         $this->redirect('edit', 'Firma', NULL, array('firma' => $firma));
     }
@@ -586,7 +512,7 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function deleteAction(\Pmwebdesign\Staffm\Domain\Model\Firma $firma)
     {
-        // Firma löschen von den Mitarbeitern
+        // Delete this company from all assigned employees
         foreach ($this->mitarbeiterRepository->findFirmaMitarbeiter($firma) as $m) {
             $m->setFirma(NULL);
             $this->mitarbeiterRepository->update($m);
@@ -596,25 +522,10 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $this->firmaRepository->remove($firma);
         
         // Delete Caches
-        $char = strtoupper(substr($firma->getBezeichnung(), 0, 1));
-        $this->cache->remove("0listFirmIdentifier");
-        $this->cache->remove("1listFirmIdentifier");
-        $this->cache->remove("0listFirmIdentifierAll");
-        $this->cache->remove("1listFirmIdentifierAll");
-        $this->cache->remove("0listFirmIdentifier".$char);
-        $this->cache->remove("1listFirmIdentifier".$char);
-        $this->cache->remove("0listFirmIdentifierAdm");
-        $this->cache->remove("1listFirmIdentifierAdm");
-        $this->cache->remove("0listFirmIdentifierAllAdm");
-        $this->cache->remove("1listFirmIdentifierAllAdm");
-        $this->cache->remove("0listFirmIdentifier".$char."Adm");
-        $this->cache->remove("1listFirmIdentifier".$char."Adm");
-        $this->cache->remove("0showFirmIdentifier".$firma->getUid());
-        $this->cache->remove("1showFirmIdentifier".$firma->getUid());
-        $this->cache->remove("0showFirmIdentifier".$firma->getUid()."Adm");
-        $this->cache->remove("1showFirmIdentifier".$firma->getUid()."Adm");
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
+        $cacheService->deleteCaches($firma->getBezeichnung(), "list", $this->request->getControllerName(), 0);
+        $cacheService->deleteCaches($firma->getBezeichnung(), "show", $this->request->getControllerName(), $firma->getUid());
         
         $this->redirect('list', 'Firma', NULL, array('cache' => 'notcache'));
     }
-
 }
