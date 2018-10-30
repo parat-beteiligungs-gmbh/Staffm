@@ -26,10 +26,7 @@
 namespace Pmwebdesign\Staffm\ViewHelpers\Widget\Controller;
 
 /** AtoZNavController
- * Controller für A-Z Suche
- *
- * @author dvpm
- * @version 1.0
+ * Controller for A-Z Search 
  */
 class AtoZNavController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetController {
     /**
@@ -52,10 +49,8 @@ class AtoZNavController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetContr
                         $this->widgetConfiguration['as'] =>$this->objects
                 ));
                 $key = "suche";
-                $this->view->assign('key', $key);    
-                //echo "WidgetKey-suche: ".$key;
-        } else {
-                // TODO: search leeren funktioniert noch nicht
+                $this->view->assign('key', $key);                    
+        } else {                
                 $search = $this->widgetConfiguration['search'];
                 
                 if ($this->widgetConfiguration['search'] != "") {                    
@@ -65,18 +60,19 @@ class AtoZNavController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetContr
                 $this->view->assign('searchstatus', $search); 
 
                 $query = $this->objects->getQuery();		
-                // Nur Objekte mit dem konfigurierten Anfangsbuchstaben char
+                
+                // Only objects with the configured initial character char
                 $query->matching($query->like($this->widgetConfiguration['property'],$char.'%'));
 
                 if ($key == 'alle' || $key == 'buchs') {
-                        // Keine Suchanzahlbegrenzung					
+                        // No search limit				
                         $this->view->assign('key', $key);
                         $search = "";
                         $this->view->assign('search', $search); 
                 } else {
-                        // Anzahl wg. Performance beschränken
+                        // Limit number due to performance
                         if ($this->widgetConfiguration['maid'] != "") {
-                            // Nichts beschränken da Mitarbeiter ausgewählt
+                            // Nothing to restrict if employee is selected
                             $key = 'alle';
                             $this->view->assign('key', $key);
                         } else {
@@ -96,7 +92,7 @@ class AtoZNavController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetContr
 
         }
         
-        // Erstelle ein Array mit allen Buchstaben von A bis Z
+        // Create an array of A to Z letters
         foreach (range('A', 'Z') as $letter) {
             $letters[] = $letter;
         }
@@ -105,4 +101,3 @@ class AtoZNavController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetContr
         $this->view->assign('char', $char);        
     }
 }
-?>

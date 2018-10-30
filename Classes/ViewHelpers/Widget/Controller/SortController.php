@@ -27,9 +27,6 @@ namespace Pmwebdesign\Staffm\ViewHelpers\Widget\Controller;
 
 /** 
  * Controller for Sorting
- *
- * @author dvpm
- * @version 1.0
  */
 class SortController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetController {
     /**
@@ -42,12 +39,12 @@ class SortController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetControll
     }
     
     /**
-     * @param string $order wird als Action-Link übergeben 
-     * @param int $countmit Zähler für Elemente
+     * @param string $order Is passed as an action link
+     * @param int $countmit counter for elements
      */
     public function indexAction($order =
-            "Z", $countmit = 0) {
-        // Prüfung auf welchen Wert $order gerade steht und dementsprechend geändert
+            "Z", $countmit = 0) {        
+        // Check value of $order and change it accordingly
         $order = ($order == 
                 "Z") ?
                 "A" :
@@ -55,7 +52,7 @@ class SortController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetControll
 				       
 		if ($order == "Z") {
 			$arrNeu = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-			// Array drehen
+			// Turn array
 			for ($i = count($this->objects) -1; $i >= 0; $i--) {
 				$arrNeu->attach($this->objects[$i]);
 			}
@@ -65,16 +62,14 @@ class SortController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetControll
 		}
 		
 		$countmit = count($modifiedObjects);		
-        
-        // Umsortierte Objekte über Bezeichner contentArguments an die View übergeben
+                
+        // Transfer resorted Objects via contentArguments to the view
         $this->view->assign('contentArguments', array(
             $this->widgetConfiguration['as'] => $modifiedObjects
         ));
         
-        // Sortier-Reihenfolge als order
+        // Set order as order
         $this->view->assign('order', $order);
         $this->view->assign('countmit', $countmit);
-        //$this->view->assign('char', $char); // TODO: Test
     }
 }
-?>

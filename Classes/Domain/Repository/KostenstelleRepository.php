@@ -40,7 +40,7 @@ class KostenstelleRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		$searchArr = str_getcsv($search, " ");
 		$s = $search;
 		
-		foreach ($searchArr as $s) { // TODO: Hier Fehler wenn nach Verantwortlichen mit nur einem Suchbegriff gesucht wird.	
+		foreach ($searchArr as $s) { 
 			$constraints[] = $query->like('nummer', '%' . $s . '%');
 			$constraints[] = $query->like('bezeichnung', '%' . $s . '%');	
 			$verant = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findSearchFormKst($s);			
@@ -54,7 +54,7 @@ class KostenstelleRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 					$constraints					
 				)
 		);
-		//\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($constraints); // Für SQL-Debug-Ausgabe
+		//\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($constraints); // SQL-Debug-Output
 		
 		$query->setOrderings(array('bezeichnung' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
 		$limits = (int) $limit;

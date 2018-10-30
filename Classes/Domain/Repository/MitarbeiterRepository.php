@@ -72,7 +72,7 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
 				$constraints[++$i] = $query->like('telephone', '%'.$value.'%');
                                 //$constraints[++$i] = $query->equals('deleted', 0); //-> funktioniert nicht
                                 
-				// If qualification is found -> TODO: Set in next row
+				// Qualification?
 				if (count($arrMit) > 0) {
 					$constraints[++$i] = $query->in('uid', $arrMit);					
 				}

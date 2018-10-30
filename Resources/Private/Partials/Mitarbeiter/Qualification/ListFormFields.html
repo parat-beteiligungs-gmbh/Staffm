@@ -11,7 +11,7 @@
                 <td>{employeequalification.qualification.bezeichnung}</td>
                 <td>
                     {employeequalification.status} - {employeequalification.qualification.status.{employeequalification.status}}
-                    <f:comment><!-- TODO: Button for showing history --></f:comment>
+                    <f:comment><!-- Button for showing history --></f:comment>
                     <a id="employeequalification{employeequalification.uid}" class="btn btn-default btn-sm" onclick="showHistory(this);"><f:translate key="tx_staffm_domain_model_history" /></a><br />
                     <f:if condition="{employeequalification.histories}">
                         <table id="mapropertieshistory{employeequalification.uid}" style="display:none;border-spacing:0">
