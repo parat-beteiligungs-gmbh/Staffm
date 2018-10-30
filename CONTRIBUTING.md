@@ -29,10 +29,8 @@
 Replace the `|TAG|` with your information.
 
 ```
-/***************************************************************
- * Copyright notice
- *
- * (c) |CURRENTYEAR| pm-webdesign.eu and the following authors:
+/*
+ * Copyright (C) |CURRENTYEAR| pm-webdesign.eu
  * |FIRST_NAME| |LAST_NAME| <|YOUR_EMAIL|>
  *
  * All rights reserved
@@ -52,4 +50,4 @@ Replace the `|TAG|` with your information.
  * GNU General Public License for more details.
  *
  * This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ */

@@ -1,15 +1,13 @@
 # Staffm Change Log
 
-8.7.18:
+2.0.0:
 
+- [BUGFIX] Change TCA in Employeequalification, because it occurs a database error in the backend.
+- [UPDATE] Add Class History for employee qualifications.
 - [CLEANUP] Remove some Files and Testing Code lines.
 - [FEATURE] Add extended qualification management with qualification status and memory function.
 
-8.7.17:
+1.0.0:
 
-- [CLEANUP] Remove some Files and Testing Code lines.
-
-8.7.16
-
-- [PREPARATION] Improve Caching Mechanism.
+- [FEATURE] Extension for employee management.
 
