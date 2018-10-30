@@ -31,20 +31,20 @@ use PHPOffice\PhpSpreadsheet\Writer\Xlsx;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * PositionController
+ * Position Controller
  */
 class PositionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
 
     /**
-     * positionRepository
+     * Position Repository
      * 
      * @var \Pmwebdesign\Staffm\Domain\Repository\PositionRepository	 
      */
     protected $positionRepository = NULL;
 
     /**
-     * mitarbeiterRepository
+     * Employee Repository
      * 
      * @var \Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository	
      */
@@ -90,8 +90,7 @@ class PositionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
     }
 
     /**
-     * action export 
-     * Export data to Microsoft Excel        
+     * Export data to Excel        
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Position $position
      * @return void
@@ -157,8 +156,7 @@ class PositionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
             $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(10, 4, 'Kostenstelle');
             $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(11, 4, 'KST_Bezeichnung');
             $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(12, 4, 'Firma');
-
-            //for ($i = 0; $i < count($mitarbeiters); $i++) { // funktioniert nicht!
+           
             $i = 0;
             foreach ($mitarbeiters as $mitarbeiter) {
                 $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(1, $i + 5, $mitarbeiter->getLastName());
@@ -186,15 +184,12 @@ class PositionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         unset($_oExcelWriter);
         unset($_oPHPExcel);
 
-        // Save at for users
-        $size = filesize($filePath);
-        //header("Content-type: application/octet-stream"); 
+        // "Save at" for users
+        $size = filesize($filePath);        
         header("Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         header("Content-disposition: attachment; filename=\"export.xlsx\"");
         header("Content-Transfer-Encoding: binary");
-        header("Content-Length: $size");
-        //header("Pragma: no-cache"); 
-        //header("Expires: 0");
+        header("Content-Length: $size");        
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
         ob_clean(); // Very important, otherwise a error occurs on the excel file
@@ -206,7 +201,8 @@ class PositionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
     }
 
     /**
-     * action list
+     * List of Positions
+     * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
      * @return void
      */
@@ -236,54 +232,13 @@ class PositionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
             $cache = $this->request->getArgument('cache');            
         } 
         
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
+        
         // No cache flag? (Example position was deleted and the info message is shown in the list view)
-        if ($cache != "notcache") {        
-            /* Caching Framework */    
-            $speak = $GLOBALS['TSFE']->sys_language_uid; // Language Index
-            $cachename = $speak."listPosIdentifier";
-            $keyforcache = array('list', 'normal');
-            // Char or employee id?
-            if ($char != "" || $maid == "maid") {
-                // All clicked?
-                if($char == '%') {
-                    $search = "";
-                    $char = "All";
-                    $key = "all";      
-                // Char clicked?
-                } elseif ($char <> '') {
-                    $search = "";
-                    // No, a other char is clicked
-                    $char = $char;                                
-                // Employee id?
-                } elseif ($maid == "maid") {
-                    // A employee id was send
-                    $char = "All";
-                    $key = "all";                
-                }
-
-                $cachename = $cachename.$char;
-                $keyforcache = array('list', 'buchstabe', $char);
-            }
-
-            // Groups of User
-            $groups = $this->settings["admingroups"];        
-            if($groups == NULL) {
-                $admin = FALSE;
-            } else {
-                $userService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\UserService::class);
-                // User is admin?
-                $admin = $userService->isAdmin($groups);        
-            }
-
-            // Cache of logged in user with admin authorization available?
-            if ((($output = $this->cache->get($cachename."Adm")) !== false) && $search == "" && $admin == TRUE) {   
-                // Yes, return Cache
-                return $output;
-            }
-
-            // Cache for normal user available?        
-            if ((($output = $this->cache->get($cachename)) !== false) && $search == "" && $admin == FALSE) {   
-                // Yes, return Cache
+        if ($cache != "notcache" && $search == "") {
+            // Cache exist?       
+            if (($output = $cacheService->getCache($this->request->getControllerActionName(), $this->request->getControllerName(), $char, $maid, 0)) != NULL) {
+                // Show Cache-Page
                 return $output;
             }
         }
@@ -304,7 +259,7 @@ class PositionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 
         $this->view->assign('positions', $positions);
         $this->view->assign('mitarbeiter', $mitarbeiter);
-        $this->view->assign('search', $search);
+        
         if ($maid != "") {
             $this->view->assign('maid', $maid);
         }
@@ -313,20 +268,17 @@ class PositionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         if ($search <> "" || $cache == "notcache") {
             // Yes, no Cache is needed
             $this->view->assign('cache', '');
+            $this->view->assign('search', $search);
         } else {            
             // No, set Cache
-            $ouput = $this->view->render();
-            if($admin == TRUE) {
-                $this->cache->set($cachename."Adm", $ouput, $keyforcache);
-            } else {
-                $this->cache->set($cachename, $ouput, $keyforcache);
-            }
-            return $ouput;
+            $output = $this->view->render();
+            $cacheService->setCache($this->request->getControllerActionName(), $this->request->getControllerName(), $output, $char, $maid, 0);
+            return $output;
         }
     }
 
     /**
-     * action show
+     * Single view of position
      * 
      * @param integer $position
      * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
@@ -343,7 +295,7 @@ class PositionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
             $position = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\PositionRepository')->findOneByUid($position);
         }
 
-        // Ursprüngliche Suche?
+        // Previous search?
         if ($this->request->hasArgument('standardsearch')) {
             $standardsearch = $this->request->getArgument('standardsearch');
             $this->view->assign('standardsearch', $standardsearch);
@@ -353,7 +305,7 @@ class PositionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
     }
 
     /**
-     * action choose
+     * Select a position for an employee
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
      * @param \Pmwebdesign\Staffm\Domain\Model\Position $position
@@ -364,29 +316,38 @@ class PositionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         $mitarbeiter->setPosition($position);
         $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->update($mitarbeiter);
 
-        // Ursprüngliche Suche?
+        // Previous search?
         if ($this->request->hasArgument('search')) {
             $search = $this->request->getArgument('search');
         }
+        
+        // Delete Cache from position
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);        
+        $cacheService->deleteCaches($position->getBezeichnung(), "show", $this->request->getControllerName(), $position->getUid());
 
         $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search));
     }
 
     /**
-     * action deletePosition
-     * Löscht die Position eines Mitarbeiters
+     * Delete position of an employee
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter	
      */
     public function deletePositionAction(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter)
     {
+        $position = $mitarbeiter->getPosition();
         $mitarbeiter->setPosition(NULL);
         $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->update($mitarbeiter);
+        
+        // Delete Cache from position
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);        
+        $cacheService->deleteCaches($position->getBezeichnung(), "show", $this->request->getControllerName(), $position->getUid());
+        
         $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter));
     }
 
     /**
-     * action new
+     * New form for position
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Position $newPosition
      * @ignorevalidation $newPosition
@@ -398,7 +359,7 @@ class PositionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
     }
 
     /**
-     * action create
+     * Create a new position
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Position $newPosition
      * @return void
@@ -407,27 +368,16 @@ class PositionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
     {
         $this->addFlashMessage('Position angelegt!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
         $this->positionRepository->add($newPosition);
-        
+               
         // Delete Caches
-        $char = strtoupper(substr($position->getBezeichnung(), 0, 1));
-        $this->cache->remove("0listPosIdentifier");
-        $this->cache->remove("1listPosIdentifier");
-        $this->cache->remove("0listPosIdentifierAll");
-        $this->cache->remove("1listPosIdentifierAll");
-        $this->cache->remove("0listPosIdentifier".$char);
-        $this->cache->remove("1listPosIdentifier".$char);
-        $this->cache->remove("0listPosIdentifierAdm");
-        $this->cache->remove("1listPosIdentifierAdm");
-        $this->cache->remove("0listPosIdentifierAllAdm");
-        $this->cache->remove("1listPosIdentifierAllAdm");
-        $this->cache->remove("0listPosIdentifier".$char."Adm");       
-        $this->cache->remove("1listPosIdentifier".$char."Adm");       
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
+        $cacheService->deleteCaches($newPosition->getBezeichnung(), "list", $this->request->getControllerName(), 0);        
         
         $this->redirect('list', 'Position', NULL, array('cache' => 'notcache'));
     }
 
     /**
-     * action edit
+     * Edit form for position
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Position $position
      * @ignorevalidation $position
@@ -439,7 +389,7 @@ class PositionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
     }
 
     /**
-     * action update
+     * Update a position
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Position $position
      * @return void
@@ -450,32 +400,22 @@ class PositionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         $this->positionRepository->update($position);
         
         // Delete Caches
-        $char = strtoupper(substr($position->getBezeichnung(), 0, 1));
-        $this->cache->remove("0listPosIdentifier");
-        $this->cache->remove("1listPosIdentifier");
-        $this->cache->remove("0listPosIdentifierAll");
-        $this->cache->remove("1listPosIdentifierAll");
-        $this->cache->remove("0listPosIdentifier".$char);
-        $this->cache->remove("1listPosIdentifier".$char);
-        $this->cache->remove("0listPosIdentifierAdm");
-        $this->cache->remove("1listPosIdentifierAdm");
-        $this->cache->remove("0listPosIdentifierAllAdm");
-        $this->cache->remove("1listPosIdentifierAllAdm");
-        $this->cache->remove("0listPosIdentifier".$char."Adm");
-        $this->cache->remove("1listPosIdentifier".$char."Adm");
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
+        $cacheService->deleteCaches($position->getBezeichnung(), "list", $this->request->getControllerName(), 0);
+        $cacheService->deleteCaches($position->getBezeichnung(), "show", $this->request->getControllerName(), $position->getUid());
         
         $this->redirect('edit', 'Position', NULL, array('position' => $position));
     }
 
     /**
-     * action delete
+     * Delete a position
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Position $position
      * @return void
      */
     public function deleteAction(\Pmwebdesign\Staffm\Domain\Model\Position $position)
     {
-        // Position löschen von den Mitarbeitern
+        // Delete positions of employees
         foreach ($this->mitarbeiterRepository->findPositionMitarbeiter($position) as $m) {
             $m->setPosition(NULL);
             $this->mitarbeiterRepository->update($m);
@@ -485,20 +425,9 @@ class PositionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         $this->positionRepository->remove($position);
         
         // Delete Caches
-        $char = strtoupper(substr($position->getBezeichnung(), 0, 1));
-        $this->cache->remove("0listPosIdentifier");
-        $this->cache->remove("0listPosIdentifierAll");
-        $this->cache->remove("0listPosIdentifier".$char);
-        $this->cache->remove("0listPosIdentifierAdm");
-        $this->cache->remove("0listPosIdentifierAllAdm");
-        $this->cache->remove("0listPosIdentifier".$char."Adm");    
-        
-        $this->cache->remove("1listPosIdentifier");
-        $this->cache->remove("1listPosIdentifierAll");
-        $this->cache->remove("1listPosIdentifier".$char);
-        $this->cache->remove("1listPosIdentifierAdm");
-        $this->cache->remove("1listPosIdentifierAllAdm");
-        $this->cache->remove("1listPosIdentifier".$char."Adm");       
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
+        $cacheService->deleteCaches($position->getBezeichnung(), "list", $this->request->getControllerName(), 0);
+        $cacheService->deleteCaches($position->getBezeichnung(), "show", $this->request->getControllerName(), $position->getUid());
         
         $this->redirect('list', 'Position', NULL, array('cache' => 'notcache'));
     }

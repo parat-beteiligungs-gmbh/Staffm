@@ -286,54 +286,13 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 $maid = $this->request->getArgument('maid');
             }
             
-            // No cache flag? (Example cost center was deleted and the info message is shown in the list view)
-            if ($cache != "notcache") {
-                /* Caching Framework */    
-                $speak = $GLOBALS['TSFE']->sys_language_uid; // Language Index
-                $cachename = $speak."listKstIdentifier";
-                $keyforcache = array('list', 'normal');
-                // Char or employee id?
-                if ($char != "" || $maid == "maid") {
-                    // All clicked?
-                    if($char == '%') {
-                        $search = "";
-                        $char = "All";
-                        $key = "all";      
-                    // Char clicked?
-                    } elseif ($char <> '') {
-                        $search = "";
-                        // No, a other char is clicked
-                        $char = $char;                                
-                    // Employee id?
-                    } elseif ($maid == "maid") {
-                        // A employee id was send
-                        $char = "All";
-                        $key = "all";                
-                    }
+            $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
 
-                    $cachename = $cachename.$char;
-                    $keyforcache = array('list', 'buchstabe', $char);
-                }
-
-                // Groups of User
-                $groups = $this->settings["admingroups"];        
-                if($groups == NULL) {
-                    $admin = FALSE;
-                } else {
-                    $userService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\UserService::class);
-                    // User is admin?
-                    $admin = $userService->isAdmin($groups);        
-                }
-
-                // Cache of logged in user with admin authorization available?
-                if ((($output = $this->cache->get($cachename."Adm")) !== false) && $search == "" && $admin == TRUE) {   
-                    // Yes, return Cache
-                    return $output;
-                }
-
-                // Cache for normal user available?        
-                if ((($output = $this->cache->get($cachename)) !== false) && $search == "" && $admin == FALSE) {   
-                    // Yes, return Cache
+            // No cache flag? (Example cost center was deleted and the info message is shown in the list view)       
+            if ($cache != "notcache" && $search == "") {
+                // Cache exist?       
+                if (($output = $cacheService->getCache($this->request->getControllerActionName(), $this->request->getControllerName(), $char, $maid, 0)) != NULL) {
+                    // Show Cache-Page
                     return $output;
                 }
             }
@@ -359,14 +318,11 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             if ($search <> "" || $cache == "notcache") {
                 // Yes, no Cache is needed
                 $this->view->assign('cache', '');
+                $this->view->assign('search', $search);
             } else {            
                 // No, set Cache
                 $output = $this->view->render();
-                if($admin == TRUE) {
-                    $this->cache->set($cachename."Adm", $output, $keyforcache);
-                } else {
-                    $this->cache->set($cachename, $output, $keyforcache);
-                }
+                $cacheService->setCache($this->request->getControllerActionName(), $this->request->getControllerName(), $output, $char, $maid, 0);
                 return $output;
             }        
         }
@@ -405,13 +361,13 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         
         $kostenstelle = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->findOneByUid($kostenstelle); 
 
-        // Suchwort?
+        // Search word?
         if ($this->request->hasArgument('search')) {
             $search = $this->request->getArgument('search');
             $this->view->assign('search', $search);
         }
 
-        // Ursprüngliche Suche?
+        // Previous search?
         if ($this->request->hasArgument('standardsearch')) {
             $standardsearch = $this->request->getArgument('standardsearch');
             $this->view->assign('standardsearch', $standardsearch);
@@ -431,7 +387,11 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
     {
         $mitarbeiter->setKostenstelle($kostenstelle);
         $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->update($mitarbeiter);
-        
+          
+        // Delete Cache from cost center
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);        
+        $cacheService->deleteCaches($kostenstelle->getBezeichnung(), "show", $this->request->getControllerName(), $kostenstelle->getUid());
+                
         if ($this->request->hasArgument('search')) {
             $search = $this->request->getArgument('search');
         } else {
@@ -440,23 +400,13 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         
         if ($this->request->hasArgument('kst')) {
             $kst = $this->request->getArgument('kst');
-            // Employee edits from cost center list?
+            // Employee edits from cost center single view and choose a cost center?
             if ($kst == "kst") {
-                // TODO: Delete Caches
-//                $char = strtoupper(substr($kostenstelle->getBezeichnung(), 0, 1));
-//                $this->cache->remove("listKstIdentifier");
-//                $this->cache->remove("listKstIdentifierAll");
-//                $this->cache->remove("listKstIdentifier".$char);
-//                $this->cache->remove("listKstIdentifierAdm");
-//                $this->cache->remove("listKstIdentifierAllAdm");
-//                $this->cache->remove("listKstIdentifier".$char."Adm");
-//                $this->cache->remove("showKstIdentifier".$kostenstelle->getUid());
-                
                 $this->addFlashMessage('Kostenstellenverantwortlichen zugewiesen!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
                 $this->forward('editKst', 'Mitarbeiter', NULL, array('ma' => $mitarbeiter,
                     'kst' => $kst, 'kostenstelle' => $kostenstelle));
-            } else {
-                // TODO: Error -> Exception while property mapping at property path "": The source is not of type string, array, float, integer or boolean, but of type "object"
+            } else {  
+                // Cost center selection in Employee Edit Form
                 $this->addFlashMessage('Kostenstelle zugewiesen!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
                 $this->forward('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter->getUid(), 'search' => $search));
             }
@@ -508,19 +458,8 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager')->persistAll();
         
         // Delete Caches
-        $char = strtoupper(substr($newKostenstelle->getBezeichnung(), 0, 1));
-        $this->cache->remove("0listKstIdentifier");
-        $this->cache->remove("1listKstIdentifier");
-        $this->cache->remove("0listKstIdentifierAll");
-        $this->cache->remove("1listKstIdentifierAll");
-        $this->cache->remove("0listKstIdentifier".$char);
-        $this->cache->remove("1listKstIdentifier".$char);
-        $this->cache->remove("0listKstIdentifierAdm");
-        $this->cache->remove("1listKstIdentifierAdm");
-        $this->cache->remove("0listKstIdentifierAllAdm");
-        $this->cache->remove("1listKstIdentifierAllAdm");
-        $this->cache->remove("0listKstIdentifier".$char."Adm");
-        $this->cache->remove("1listKstIdentifier".$char."Adm");
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
+        $cacheService->deleteCaches($newKostenstelle->getBezeichnung(), "list", $this->request->getControllerName(), 0);        
         
         $this->redirect('edit', 'Kostenstelle', NULL, array('kostenstelle' => $newKostenstelle));
     }
@@ -549,19 +488,9 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         $this->kostenstelleRepository->update($kostenstelle);   
         
         // Delete Caches
-        $char = strtoupper(substr($kostenstelle->getBezeichnung(), 0, 1));        
-        $this->cache->remove("0listKstIdentifier");
-        $this->cache->remove("1listKstIdentifier");
-        $this->cache->remove("0listKstIdentifierAll");
-        $this->cache->remove("1listKstIdentifierAll");
-        $this->cache->remove("0listKstIdentifier".$char);
-        $this->cache->remove("1listKstIdentifier".$char);
-        $this->cache->remove("0listKstIdentifierAdm");
-        $this->cache->remove("1listKstIdentifierAdm");
-        $this->cache->remove("0listKstIdentifierAllAdm");
-        $this->cache->remove("1listKstIdentifierAllAdm");
-        $this->cache->remove("0listKstIdentifier".$char."Adm");
-        $this->cache->remove("1listKstIdentifier".$char."Adm");
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
+        $cacheService->deleteCaches($kostenstelle->getBezeichnung(), "list", $this->request->getControllerName(), 0);
+        $cacheService->deleteCaches($kostenstelle->getBezeichnung(), "show", $this->request->getControllerName(), $kostenstelle->getUid());
         
         $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager')->persistAll();       
         $this->redirect('edit', 'Kostenstelle', NULL, array('kostenstelle' => $kostenstelle));
@@ -578,29 +507,17 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         // Delete cost center of employees
         foreach ($this->mitarbeiterRepository->findKostenstellenMitarbeiter($kostenstelle) as $m) {
             $m->setKostenstelle(NULL);
-            $this->mitarbeiterRepository->update($m);
-            // Delete Caches from employee
-            $this->cache->remove("0showMitaIdentifier".$m->getUid());
-            $this->cache->remove("1showMitaIdentifier".$m->getUid());            
+            $this->mitarbeiterRepository->update($m);            
         }
-        
-        // Delete Caches
-        $char = strtoupper(substr($kostenstelle->getBezeichnung(), 0, 1));
-        $this->cache->remove("0listKstIdentifier");
-        $this->cache->remove("1listKstIdentifier");
-        $this->cache->remove("0listKstIdentifierAll");
-        $this->cache->remove("1listKstIdentifierAll");
-        $this->cache->remove("0listKstIdentifier".$char);
-        $this->cache->remove("1listKstIdentifier".$char);
-        $this->cache->remove("0listKstIdentifierAdm");
-        $this->cache->remove("1listKstIdentifierAdm");
-        $this->cache->remove("0listKstIdentifierAllAdm");
-        $this->cache->remove("1listKstIdentifierAllAdm");
-        $this->cache->remove("0listKstIdentifier".$char."Adm");
-        $this->cache->remove("1listKstIdentifier".$char."Adm");
 
         $this->addFlashMessage('Kostenstelle gelöscht!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
         $this->kostenstelleRepository->remove($kostenstelle);
+        
+        // Delete Caches
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
+        $cacheService->deleteCaches($kostenstelle->getBezeichnung(), "list", $this->request->getControllerName(), 0);
+        $cacheService->deleteCaches($kostenstelle->getBezeichnung(), "show", $this->request->getControllerName(), $kostenstelle->getUid());
+        
         $this->redirect('list', 'Kostenstelle', NULL, array('cache' => 'notcache'));
     }
 
@@ -617,21 +534,9 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager')->persistAll();
         
         // Delete Caches
-        $char = strtoupper(substr($kostenstelle->getBezeichnung(), 0, 1));
-        $this->cache->remove("0listKstIdentifier");
-        $this->cache->remove("1listKstIdentifier");
-        $this->cache->remove("0listKstIdentifierAll");
-        $this->cache->remove("1listKstIdentifierAll");
-        $this->cache->remove("0listKstIdentifier".$char);
-        $this->cache->remove("1listKstIdentifier".$char);
-        $this->cache->remove("0listKstIdentifierAdm");
-        $this->cache->remove("1listKstIdentifierAdm");
-        $this->cache->remove("0listKstIdentifierAllAdm");
-        $this->cache->remove("1listKstIdentifierAllAdm");
-        $this->cache->remove("0listKstIdentifier".$char."Adm");
-        $this->cache->remove("1listKstIdentifier".$char."Adm");
-        $this->cache->remove("0showKstIdentifier".$kostenstelle->getUid());
-        $this->cache->remove("1showKstIdentifier".$kostenstelle->getUid());
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
+        $cacheService->deleteCaches($kostenstelle->getBezeichnung(), "list", $this->request->getControllerName(), 0);
+        $cacheService->deleteCaches($kostenstelle->getBezeichnung(), "show", $this->request->getControllerName(), $kostenstelle->getUid());
 
         $this->redirect('edit', 'Kostenstelle', NULL, array('kostenstelle' => $kostenstelle));
     }

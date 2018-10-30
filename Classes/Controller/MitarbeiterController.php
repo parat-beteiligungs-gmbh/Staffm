@@ -201,8 +201,8 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
           header("Expires: 0"); */
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
-        ob_clean(); // important otherwise there is a mistake at Excel file
-        flush(); // very important otherwise there is a mistake at Excel file
+        ob_clean(); // Very important otherwise there is a mistake at Excel file
+        flush(); // Very important otherwise there is a mistake at Excel file
         readfile($filePath);
 
         // Delete Excel file at the server
@@ -210,7 +210,8 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     }
 
     /**
-     * action list
+     * List employees
+     * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle
      * @return void
      */
@@ -438,8 +439,7 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 
         // Search status?
         if ($this->request->hasArgument('searchstatus')) {
-            $searchstatus = $this->request->getArgument('searchstatus');
-            // TODO: Suchstatus delete wird nicht übertragen
+            $searchstatus = $this->request->getArgument('searchstatus');            
             if ($searchstatus == "delete") {
                 $search = "";
             }
@@ -480,11 +480,12 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
      */
     public function chooseAction(\Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle, \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter)
     {
+        $this->addFlashMessage('Kostenstellenverantwortlichen "'.$mitarbeiter->getLastName().' '.$mitarbeiter->getFirstName().'" zugewiesen!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
         $kostenstelle->setVerantwortlicher($mitarbeiter);
         $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->update($kostenstelle);
         $this->persistenceManager->persistAll();
 
-        // TODO: Test -> Delete Caches
+        // Delete Caches
         $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
         $cacheService->deleteCaches($kostenstelle->getBezeichnung(), "list", "Kostenstelle", 0);
         $cacheService->deleteCaches($kostenstelle->getBezeichnung(), "show", "Kostenstelle", $kostenstelle->getUid());

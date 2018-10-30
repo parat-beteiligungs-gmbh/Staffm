@@ -44,29 +44,25 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
     protected $cache;
 
     /**
-     * qualifikationRepository
+     * Qualification Repository
      * 
      * @var \Pmwebdesign\Staffm\Domain\Repository\QualifikationRepository	
      */
     protected $qualifikationRepository = NULL;
 
     /**
-     * qualilogRepository
+     * Qualilog Repository
      * 
      * @var \Pmwebdesign\Staffm\Domain\Repository\QualilogRepository	
      */
     protected $qualilogRepository = NULL;
 
     /**
+     * Employee Repository
      *
      * @var \Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository	
      */
     protected $mitarbeiterRepository = NULL;
-
-    /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\MitarbeiterQualifiaktion>
-     */
-    protected $arrMitarbeiterQualifikation = NULL;
 
     /**
      * 
@@ -122,8 +118,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
     }
 
     /**
-     * action export 
-     * Daten in Excel exportieren           
+     * Export data to Excel          
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualifikation
      * @return void
@@ -142,10 +137,8 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         $_oPHPExcel = new Spreadsheet();
         $_oExcelWriter = new Xlsx($_oPHPExcel);
 
-        // Prüfen ob Qualifikationen, oder Mitarbeiter ausgegeben werden sollen
+        // Show qualifications?
         if ($qualifikation == NULL) {
-
-            // Qualifikationen sollen ausgegeben werden
             $qualifikationen = $this->qualifikationRepository->findSearchForm($search, $limit);
 
 
@@ -163,14 +156,14 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(3, 1, 'Verantwortlicher');
             $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(4, 1, 'Anzahl Mitarbeiter');
             $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(5, 1, 'Zugeordnete Mitarbeiter');
-            //$_oPHPExcel->getSheetByName("Test")->setCellValue('A1', 'Titel');
+            
             for ($i = 0; $i < count($qualifikationen); $i++) {
                 $qualifikation = new \Pmwebdesign\Staffm\Domain\Model\Qualifikation();
                 $qualifikation = $qualifikationen[$i];
                 $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(1, $i + 2, $qualifikation->getBezeichnung());
                 echo $qualifikation->getBezeichnung() . " ";
                 $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(2, $i + 2, $qualifikation->getBeschreibung());
-                // Letzten Bearbeiter ermitteln
+                // Last editor
                 $qualil = new \Pmwebdesign\Staffm\Domain\Model\Qualilog();
                 $qualilogs = $qualifikation->getQualilogs();
 
@@ -178,7 +171,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
                     $qualil = $value;
                     break;
                 }
-                // Mitarbeiter gelöscht?
+                // Deleted editor?
                 if ($qualil->getBearbeiter() != NULL) {
                     $bearbeiter = $qualil->getBearbeiter()->getLastName() . " " . $qualil->getBearbeiter()->getFirstName();
                 } else {
@@ -201,7 +194,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
                 echo "<br />";
             }
         } else {
-            // Mitarbeiter sollen ausgegeben werden
+            // Show employees
             $mitarbeiters = $qualifikation->getMitarbeiters();
 
             // Create new Worksheet
@@ -227,13 +220,9 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(10, 4, 'Kostenstelle');
             $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(11, 4, 'KST_Bezeichnung');
             $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(12, 4, 'Firma');
-            //$_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(12, 4, 'Qualifikation');
-            //for ($i = 0; $i < count($mitarbeiters); $i++) { // funktioniert nicht!
+            
             $i = 0;
             foreach ($mitarbeiters as $mitarbeiter) {
-                //$mitarbeiter = new \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter();
-                //$mitarbeiter = $mitarbeiters[$i];    
-
                 $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(1, $i + 5, $mitarbeiter->getLastName());
                 $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(2, $i + 5, $mitarbeiter->getFirstName());
                 $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(3, $i + 5, (string) $mitarbeiter->getPersonalnummer());
@@ -250,37 +239,34 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
                 if ($mitarbeiter->getFirma() != null) {
                     $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(12, $i + 5, $mitarbeiter->getFirma()->getBezeichnung());
                 }
-                //$_oPHPExcel->getSheetByName("Mitarbeiter")->setCellValueByColumnAndRow(12, $i + 5, $qualifikation->getBezeichnung());
                 $i++;
             }
         }
 
-        // Excel-Datei auf Server sichern		
+        // Save Excel file at server
         $_oExcelWriter->save($filePath);
         unset($_oExcelWriter);
         unset($_oPHPExcel);
 
-        // Speichern unter verfügbar machen für User
-        $size = filesize($filePath);
-        //header("Content-type: application/octet-stream"); 
+        // "Save at" for users
+        $size = filesize($filePath);        
         header("Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         header("Content-disposition: attachment; filename=\"export.xlsx\"");
         header("Content-Transfer-Encoding: binary");
         header("Content-Length: $size");
-        //header("Pragma: no-cache"); 
-        //header("Expires: 0");
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
-        ob_clean(); // Sehr wichtig sonst Fehler bei Excel-Datei
-        flush(); // Sehr wichtig sonst Fehler bei Excel-Datei
+        ob_clean(); // Very important otherwise there is a mistake at Excel file
+        flush(); // Very important otherwise there is a mistake at Excel file
         readfile($filePath);
 
-        // Excel-Datei auf Server löschen
+        // Delete Excel file at server
         unlink($filePath);
     }
 
     /**
-     * action list
+     * List qualifications
+     * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
      * @return void
      */
@@ -296,7 +282,6 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         // Clicked char?
         if ($this->request->hasArgument('@widget_0')) {
             $widget = $this->request->getArgument('@widget_0');
-            //\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($widget);
             $char = $widget["char"];
         }
         $maid = "";
@@ -309,69 +294,22 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             $cache = $this->request->getArgument('cache');            
         } 
         
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
+        
         // No cache flag? (Example qualification was deleted and the info message is shown in the list view)
-        if ($cache != "notcache") {
-            /* Caching Framework */
-            $speak = $GLOBALS['TSFE']->sys_language_uid; // Language Index
-            $cachename = $speak."listQualiIdentifier";
-            $keyforcache = array('normal');
-            // Char or employee id?
-            if ($char != "" || $maid == "maid") {
-                // All clicked?
-                if ($char == '%') {
-                    $search = "";
-                    $char = "All";
-                    $key = "all";
-                } elseif ($char <> '') {
-                    $search = "";
-                    // No, a other char is clicked
-                    $char = $char;
-                } elseif ($maid == "maid") {
-                    // A employee id was send
-                    $char = "All";
-                    $key = "all";
-                }
-
-                $cachename = $cachename.$char;
-                $keyforcache = array('list', 'buchstabe', $char);
-            }
-
-            // Groups of User
-            $groups = $this->settings["admingroups"];        
-            if($groups == NULL) {
-                $admin = FALSE;
-            } else {
-                $userService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\UserService::class);
-                // User is admin?
-                $admin = $userService->isAdmin($groups);        
-            }
-
-            // Cache of logged in user with admin authorization available?
-            if ((($output = $this->cache->get($cachename."Adm")) !== false) && $search == "" && $admin == TRUE) {   
-                // Yes, return Cache
-                return $output;
-            }
-
-            // Cache for normal user available?        
-            if ((($output = $this->cache->get($cachename)) !== false) && $search == "" && $admin == FALSE) {   
-                // Yes, return Cache
+        if ($cache != "notcache" && $search == "") {
+            // Cache exist?       
+            if (($output = $cacheService->getCache($this->request->getControllerActionName(), $this->request->getControllerName(), $char, $maid, 0)) != NULL) {
+                // Show Cache-Page
                 return $output;
             }
         }
 
         $limit = 0;
         $qualifikations = $this->qualifikationRepository->findSearchForm($search, $limit);
-        
-        // Prüft ob eine Qualifikationsauwahl erfolgt (bei Mitarbeiterzuordnung)
+                
         if ($this->request->hasArgument('key')) {
-            $key = $this->request->getArgument('key');
-            if ($key == 'auswahl') {
-                // Ja, Qualifikationsauswahl
-                // Qualifikationen abfragen sonst nicht zugeordnet
-                //$mq = $this->mitarbeiterqualifikationRepository->findSearchForm($mitarbeiter->getUid());
-                //$mitarbeiter->setMitarbeiterQualifikationen($mq);			
-                //echo "<script> alert('Key: ".$key."'); </script>";			
-            }
+            $key = $this->request->getArgument('key');        
             $this->view->assign('key', $key);
         }        
 
@@ -391,22 +329,17 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         if ($search <> "" || $cache == "notcache") {
             // Yes, no Cache is needed
             $this->view->assign('cache', '');
+            $this->view->assign('search', $search);
         } else {            
             // No, set Cache
-            $ouput = $this->view->render();
-            if($admin == TRUE) {
-                $this->cache->set($cachename."Adm", $ouput, $keyforcache);
-            } else {
-                $this->cache->set($cachename, $ouput, $keyforcache);
-            }
-            return $ouput;
+            $output = $this->view->render();
+            $cacheService->setCache($this->request->getControllerActionName(), $this->request->getControllerName(), $output, $char, $maid, 0);
+            return $output;
         }
     }
 
     /**
-     * action list
-     * Listet die Mitarbeiter des Vorgesetzten auf anhand der Kst, für die
-     * er verantwortlich ist
+     * List view of employees for supervisors (employees from his cost centers)
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
      * @return void
@@ -422,25 +355,21 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         $limit = 0;
         $qualifikations = $this->qualifikationRepository->findSearchForm($search, $limit);
 
-        // Überprüfen ob Argument gesetzt wurde
-        /* Gelöst: Bringt Fehler bei Suchbegriffen im Frontend! 2016-09-01
-          Gelöst: if($key == 'auswahl') eingefügt */
-        // Prüft ob eine Qualifikationsauwahl erfolgt (bei Mitarbeiterzuordnung)
         if ($this->request->hasArgument('key')) {
             $key = $this->request->getArgument('key');
             $this->view->assign('key', $key);
         }
 
-        // Angemeldeten User ermitteln
+        // Get logged in User
         $aktuser = new \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter();
         $aktuser = $this->objectManager->
                 get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
                 findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
-        // Wenn User angemeldet an View übergeben
+        // transfer user to view
         if ($aktuser != NULL) {
             $this->view->assign('aktuser', $aktuser);
 
-            // Mitarbeiter des Kostenstellenverantwortlichen ermitteln
+            // Employees of cost center responsible
             $mitarbeiter = $this->mitarbeiterRepository->findMitarbeiterVonVorgesetzten(Null, $aktuser);
 
             $this->view->assign('mitarbeiters', $mitarbeiter);
@@ -448,7 +377,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             $this->view->assign('mitarbeiter', $mitarbeiter);
         }
 
-        // MAID zum zurückkehren der vorher ausgewählten Qualifikation
+        // Back to id
         if ($this->request->hasArgument('maid')) {
             $maid = $this->request->getArgument('maid');
             $this->view->assign('maid', $maid);
@@ -459,7 +388,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
     }
 
     /**
-     * action show
+     * Single View of the qualification
      * 
      * @param integer $qualifikation	
      * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
@@ -472,7 +401,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             $this->view->assign('key', $key);
             $this->view->assign('mitarbeiter', $mitarbeiter);
         }
-        // Angemeldeten User ermitteln
+        // Get logged in user
         $aktuser = new \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter();
         $aktuser = $this->objectManager->
                 get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
@@ -480,21 +409,21 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         // Wenn User angemeldet an View übergeben
         if ($aktuser != NULL) {
             $this->view->assign('aktuser', $aktuser);
-            //echo "<script> alert('User: ".$aktuser->getLastName()."'); </script>";
-            // Kostenstellen des angemeldeten Users ermitteln            
+            
+            // Cost Centers from the responsible logged in user
             $kostenstellen = $this->objectManager->
                     get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->
                     findByVerantwortlicher($GLOBALS['TSFE']->fe_user->user['uid']);
             $this->view->assign('kostenstellen', $kostenstellen);
         }
 
-        // Suchwort?
+        // Search word?
         if ($this->request->hasArgument('search')) {
             $search = $this->request->getArgument('search');
             $this->view->assign('search', $search);
         }
 
-        // Ursprüngliche Suche?
+        // Previous search?
         if ($this->request->hasArgument('standardsearch')) {
             $standardsearch = $this->request->getArgument('standardsearch');
             $this->view->assign('standardsearch', $standardsearch);
@@ -504,7 +433,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
     }
 
     /**
-     * action new
+     * New form for qualification
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Qualifikation $newQualifikation
      * @ignorevalidation $newQualifikation
@@ -516,24 +445,24 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
     }
 
     /**
-     * action create
+     * Create a qualification
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Qualifikation $newQualifikation
      * @return void
      */
     public function createAction(\Pmwebdesign\Staffm\Domain\Model\Qualifikation $newQualifikation)
     {
-        // Log erzeugen
+        // Create Log
         $qualil = new \Pmwebdesign\Staffm\Domain\Model\Qualilog();
         $qualil->setQualifikation($newQualifikation);
         $qualil->setBezeichnung($newQualifikation->getBezeichnung());
         $qualil->setBeschreibung($newQualifikation->getBeschreibung());
 
-        // Bearbeitenden User ermitteln		
+        // Get Editor	
         $userid = $GLOBALS['TSFE']->fe_user->user['uid'];
         // Frontend-User?
         if ($userid != null) {
-            // Wenn Frontend-User
+            // Yes, frontend user
             $qualil->setBearbeiter($this->objectManager->get(
                             'Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository'
                     )->findOneByUid(
@@ -541,7 +470,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
                     )
             );
         } else {
-            // Wenn Backend-User
+            // No, backend user
             $qualil->setBearbeiter($this->objectManager->get(
                             'Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository'
                     )->findOneByUsername(
@@ -556,27 +485,15 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         $this->addFlashMessage('Qualifikation angelegt!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
         $this->qualifikationRepository->add($newQualifikation);
         
-         // Delete Caches
-        $char = strtoupper(substr($newQualifikation->getBezeichnung(), 0, 1));
-        $this->cache->remove("0listQualiIdentifier");
-        $this->cache->remove("0listQualiIdentifierAll");
-        $this->cache->remove("0listQualiIdentifier".$char);
-        $this->cache->remove("0listQualiIdentifierAdm");
-        $this->cache->remove("0listQualiIdentifierAllAdm");
-        $this->cache->remove("0listQualiIdentifier".$char."Adm");
-        
-        $this->cache->remove("1listQualiIdentifier");
-        $this->cache->remove("1listQualiIdentifierAll");
-        $this->cache->remove("1listQualiIdentifier".$char);
-        $this->cache->remove("1listQualiIdentifierAdm");
-        $this->cache->remove("1listQualiIdentifierAllAdm");
-        $this->cache->remove("1listQualiIdentifier".$char."Adm");
+        // Delete Caches
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
+        $cacheService->deleteCaches($newQualifikation->getBezeichnung(), "list", $this->request->getControllerName(), 0); 
         
         $this->redirect('list', 'Qualifikation', NULL, array('cache' => 'notcache'));
     }
 
     /**
-     * action edit
+     * Edit form for qualification
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualifikation
      * @ignorevalidation $qualifikation
@@ -588,24 +505,24 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
     }
 
     /**
-     * action update
+     * Update a qualification
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualifikation
      * @return void
      */
     public function updateAction(\Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualifikation)
     {
-        // Log erzeugen
+        // Create log
         $qualil = new \Pmwebdesign\Staffm\Domain\Model\Qualilog();
         $qualil->setQualifikation($qualifikation);
         $qualil->setBezeichnung($qualifikation->getBezeichnung());
         $qualil->setBeschreibung($qualifikation->getBeschreibung());
-        //$mitarbeiter = new \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter();
-        // Bearbeitenden User ermitteln		
+                        
+        // Get Editor
         $userid = $GLOBALS['TSFE']->fe_user->user['uid'];
         // Frontend-User?
         if ($userid != null) {
-            // Wenn Frontend-User
+            // Yes, frontend user
             $qualil->setBearbeiter($this->objectManager->get(
                             'Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository'
                     )->findOneByUid(
@@ -613,7 +530,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
                     )
             );
         } else {
-            // Wenn Backend-User
+            // No, Backend-User
             $qualil->setBearbeiter($this->objectManager->get(
                             'Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository'
                     )->findOneByUsername(
@@ -627,6 +544,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
                 'TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager'
         )->persistAll();
 
+        // TODO: Implement QualificationService
         if ($this->request->hasArgument('mitarbeiters')) {            
             $employeequalifications = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
                         
@@ -672,43 +590,32 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         $this->qualifikationRepository->update($qualifikation);
         
         // Delete Caches
-        $char = strtoupper(substr($qualifikation->getBezeichnung(), 0, 1));
-        $this->cache->remove("0listQualiIdentifier");
-        $this->cache->remove("0listQualiIdentifierAll");
-        $this->cache->remove("0listQualiIdentifier".$char);
-        $this->cache->remove("0listQualiIdentifierAdm");
-        $this->cache->remove("0listQualiIdentifierAllAdm");
-        $this->cache->remove("0listQualiIdentifier".$char."Adm");       
-        
-        $this->cache->remove("1listQualiIdentifier");
-        $this->cache->remove("1listQualiIdentifierAll");
-        $this->cache->remove("1listQualiIdentifier".$char);
-        $this->cache->remove("1listQualiIdentifierAdm");
-        $this->cache->remove("1listQualiIdentifierAllAdm");
-        $this->cache->remove("1listQualiIdentifier".$char."Adm");     
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
+        $cacheService->deleteCaches($qualifikation->getBezeichnung(), "list", $this->request->getControllerName(), 0); 
+        $cacheService->deleteCaches($qualifikation->getBezeichnung(), "show", $this->request->getControllerName(), $qualifikation->getUid());
         
         $this->redirect('edit', 'Qualifikation', NULL, array('qualifikation' => $qualifikation, 'search' => $search, 'berechtigung' => $berechtigung));
     }
 
     /**
-     * action delete
+     * Delete a qualification
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualifikation
      * @return void
      */
     public function deleteAction(\Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualifikation)
     {
-        // Log erzeugen
+        // Create log
         $qualil = new \Pmwebdesign\Staffm\Domain\Model\Qualilog();
         $qualil->setQualifikation($qualifikation);
         $qualil->setBezeichnung($qualifikation->getBezeichnung());
         $qualil->setBeschreibung($qualifikation->getBeschreibung());
 
-        // Bearbeitenden User ermitteln		
+        // Get Editor
         $userid = $GLOBALS['TSFE']->fe_user->user['uid'];
         // Frontend-User?
         if ($userid != null) {
-            // Wenn Frontend-User
+            // Yes, Frontend-User
             $qualil->setBearbeiter($this->objectManager->get(
                             'Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository'
                     )->findOneByUid(
@@ -716,7 +623,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
                     )
             );
         } else {
-            // Wenn Backend-User
+            // No, Backend-User
             $qualil->setBearbeiter($this->objectManager->get(
                             'Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository'
                     )->findOneByUsername(
@@ -730,7 +637,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         )->persistAll();
         $this->qualilogRepository->add($qualil);
 
-        // Qualifikation von den zugehörigen Mitarbeitern entfernen
+        // Delete qualifications of assigned employees
         $qualifikation->deleteMitarbeiters();
         $this->qualifikationRepository->update($qualifikation);
 
@@ -738,31 +645,19 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
                 'TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager'
         )->persistAll();
         
-        // Delete Caches
-        $char = strtoupper(substr($qualifikation->getBezeichnung(), 0, 1));
-        $this->cache->remove("0listQualiIdentifier");
-        $this->cache->remove("0listQualiIdentifierAll");
-        $this->cache->remove("0listQualiIdentifier".$char);
-        $this->cache->remove("0listQualiIdentifierAdm");
-        $this->cache->remove("0listQualiIdentifierAllAdm");
-        $this->cache->remove("0listQualiIdentifier".$char."Adm");        
-        
-        $this->cache->remove("1listQualiIdentifier");
-        $this->cache->remove("1listQualiIdentifierAll");
-        $this->cache->remove("1listQualiIdentifier".$char);
-        $this->cache->remove("1listQualiIdentifierAdm");
-        $this->cache->remove("1listQualiIdentifierAllAdm");
-        $this->cache->remove("1listQualiIdentifier".$char."Adm");      
-
         $this->addFlashMessage('Qualifikation gelöscht!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
         $this->qualifikationRepository->remove($qualifikation);
         
+        // Delete Caches
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
+        $cacheService->deleteCaches($qualifikation->getBezeichnung(), "list", $this->request->getControllerName(), 0); 
+        $cacheService->deleteCaches($qualifikation->getBezeichnung(), "show", $this->request->getControllerName(), $qualifikation->getUid());
+        
         $this->redirect('list', 'Qualifikation', NULL, array('cache' => 'notcache'));
     }
-
+    
     /**
-     * action choose
-     * Auswahl der Qualifikationen für den Mitarbeiter
+     * TODO: Select qualifications for employee
      * 	
      * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter 
      * @return \Pmwebdesign\Staffm\Domain\Repository\Mitarbeiterqualifikation
@@ -770,20 +665,17 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
     public function chooseAction(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter = NULL)
     {
         if ($this->request->hasArgument('mitarbeiter')) {
-            // Ausgewählte Checkboxen auslesen in Array
+            // Read checkboxes in array
             $qua = $this->request->getArgument('qualifikationen');
             $arrMitarbeiterQualifikation = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-            // Aktuelle Objekte suchen zu dem Text
+            
             foreach ($qua as $q) {
-
                 $mitarbeiterQualifikation = $this->objectManager->get(
                                 'Pmwebdesign\\Staffm\\Domain\\Repository\\QualifikationRepository'
                         )->findOneByUid($q);
-                // Objekte in Array speichern
+                // Save objects in array
                 $arrMitarbeiterQualifikation->attach($mitarbeiterQualifikation);
             }
-
-
 
             $mitarbeiter->setMitarbeiterQualifikationen($arrMitarbeiterQualifikation);
             $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->update($mitarbeiter);
@@ -795,38 +687,36 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
     }
 
     /**
-     * action choose
-     * Massenuswahl der Qualifikationen für den Mitarbeiter, können nur
-     * Vorgesetzte ausführen
+     * TODO: Multi selection of qualifications and employees
+     * Only for cost center responsibles
      * 	
      * @return \Pmwebdesign\Staffm\Domain\Repository\Mitarbeiterqualifikation
      */
     public function chooselistAction()
     {        
-        // Element Checkbox vorhanden?
+        // Checkboxes?
         if ($this->request->hasArgument('qualifikationen')) {            
-            // Ausgewählte Checkboxen auslesen in Array
+            // Read checkboxes in array
             $qua = $this->request->getArgument('qualifikationen');    
-            //\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($qua); // TODO: Test Ok
-            // Alle "vorherigen" Mitarbeiterqualifikationen der Kst Mitarbeiter auslesen
-            // Angemeldeten User ermitteln            
+            
+            // Get logged in user
             $aktuser = $this->objectManager->
                     get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
                     findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
-            // Wenn User angemeldet an View übergeben
+            
             if ($aktuser != NULL) {
                 // Mitarbeiter des Kostenstellenverantwortlichen ermitteln
                 $mitarbeiters = $this->mitarbeiterRepository->findMitarbeiterVonVorgesetzten(Null, $aktuser);
             }
 
-            // Alle Qualifikationen durchlaufen, $q = Qualifikation, $value = Array von Mitarbeitern
+            // All qualifications, $q = Qualification, $value = Array of employees
             foreach ($qua as $q => $value) {
-                // Qualifikation über id ($q) ermitteln                    
+                // Get qualification about id ($q)
                 $qualifikation = $this->objectManager->get(
                                 'Pmwebdesign\\Staffm\\Domain\\Repository\\QualifikationRepository'
                         )->findOneByUid($q);
 
-                // Mitarbeiterarray durchlaufen
+                // Employee-Array
                 $arrMitarbeiter = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
                 // Employees exist in Qualification?
                 if($value != "") {
@@ -847,5 +737,4 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         //$this->forward('listVgs', 'Qualifikation', NULL, NULL); 
         $this->redirect('listVgs', 'Qualifikation', NULL, array('qualifikations' => $qualifikationen));
     }
-
 }

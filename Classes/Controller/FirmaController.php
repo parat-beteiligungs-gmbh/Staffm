@@ -35,7 +35,7 @@ use TYPO3\CMS\Extbase\Property\PropertyMappingConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * FirmaController
+ * Company Controller
  */
 class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
@@ -159,7 +159,6 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * action export 
      * Export data to excel         
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Firma $firma
@@ -249,7 +248,6 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 if ($mitarbeiter->getFirma() != null) {
                     $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(12, $i + 5, $mitarbeiter->getFirma()->getBezeichnung());
                 }
-                //$_oPHPExcel->getSheetByName("Mitarbeiter")->setCellValueByColumnAndRow(12, $i + 5, $qualifikation->getBezeichnung());
                 $i++;
             }
         }
@@ -261,13 +259,10 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
         // Save as for user
         $size = filesize($filePath);
-        //header("Content-type: application/octet-stream"); 
         header("Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         header("Content-disposition: attachment; filename=\"export.xlsx\"");
         header("Content-Transfer-Encoding: binary");
         header("Content-Length: $size");
-        //header("Pragma: no-cache"); 
-        //header("Expires: 0");
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
         ob_clean(); // Very important otherwise a error occurs in the Excel-File
@@ -324,13 +319,13 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
         $limit = 0;
         $firmas = $this->firmaRepository->findSearchForm($search, $limit);
-        // Überprüfen ob Argument gesetzt wurde
+        
         if ($this->request->hasArgument('key')) {
             $key = $this->request->getArgument('key');
             $this->view->assign('key', $key);
         }
 
-        // Ursprüngliche Suche?
+        // Previous search?
         if ($this->request->hasArgument('standardsearch')) {
             $standardsearch = $this->request->getArgument('standardsearch');
             $this->view->assign('standardsearch', $standardsearch);
@@ -412,7 +407,7 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * action choose
+     * Select a company to employee
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
      * @param \Pmwebdesign\Staffm\Domain\Model\Firma $firma
@@ -422,6 +417,10 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     {
         $mitarbeiter->setFirma($firma);
         $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->update($mitarbeiter);
+        
+        // Delete Cache from cost center
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);        
+        $cacheService->deleteCaches($firma->getBezeichnung(), "show", $this->request->getControllerName(), $firma->getUid());
 
         // Previous search?
         if ($this->request->hasArgument('search')) {
@@ -438,8 +437,14 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function deleteFirmaAction(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter)
     {
+        $firma = $mitarbeiter->getFirma();
         $mitarbeiter->setFirma(NULL);
         $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->update($mitarbeiter);
+        
+        // Delete Cache from cost center
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);        
+        $cacheService->deleteCaches($firma->getBezeichnung(), "show", $this->request->getControllerName(), $firma->getUid());
+        
         $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter));
     }
 
