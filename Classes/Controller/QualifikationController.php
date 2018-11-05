@@ -141,7 +141,6 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         if ($qualifikation == NULL) {
             $qualifikationen = $this->qualifikationRepository->findSearchForm($search, $limit);
 
-
             // Create new Worksheet
             $myWorkSheet = new Worksheet($_oPHPExcel, 'Qualifikationen');
             $_oPHPExcel->addSheet($myWorkSheet, 0);
@@ -265,7 +264,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
     }
 
     /**
-     * List qualifications
+     * List of qualifications
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
      * @return void
@@ -277,18 +276,17 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             $search = $this->request->getArgument('search');
         } else {
             $search = NULL;
-        }
-        
+        }        
         // Clicked char?
         if ($this->request->hasArgument('@widget_0')) {
             $widget = $this->request->getArgument('@widget_0');
             $char = $widget["char"];
         }
+        // Id?
         $maid = "";
         if ($this->request->hasArgument('maid')) {
             $maid = $this->request->getArgument('maid');
-        }
-        
+        }        
         // No caching?
         if ($this->request->hasArgument('cache')) {
             $cache = $this->request->getArgument('cache');            
@@ -360,8 +358,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             $this->view->assign('key', $key);
         }
 
-        // Get logged in User
-        $aktuser = new \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter();
+        // Get logged in User        
         $aktuser = $this->objectManager->
                 get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
                 findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
@@ -401,12 +398,11 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             $this->view->assign('key', $key);
             $this->view->assign('mitarbeiter', $mitarbeiter);
         }
-        // Get logged in user
-        $aktuser = new \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter();
+        // Get logged in user        
         $aktuser = $this->objectManager->
                 get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
                 findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
-        // Wenn User angemeldet an View übergeben
+        
         if ($aktuser != NULL) {
             $this->view->assign('aktuser', $aktuser);
             
@@ -517,68 +513,23 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         $qualil->setQualifikation($qualifikation);
         $qualil->setBezeichnung($qualifikation->getBezeichnung());
         $qualil->setBeschreibung($qualifikation->getBeschreibung());
-                        
-        // Get Editor
-        $userid = $GLOBALS['TSFE']->fe_user->user['uid'];
-        // Frontend-User?
-        if ($userid != null) {
-            // Yes, frontend user
-            $qualil->setBearbeiter($this->objectManager->get(
-                            'Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository'
-                    )->findOneByUid(
-                            $GLOBALS['TSFE']->fe_user->user['uid']
-                    )
-            );
-        } else {
-            // No, Backend-User
-            $qualil->setBearbeiter($this->objectManager->get(
-                            'Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository'
-                    )->findOneByUsername(
-                            $GLOBALS['BE_USER']->user['username']
-                    )
-            );
-        }
+        
+        // Get actually user
+        $userService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\UserService::class);
+        $qualil->setBearbeiter($userService->getLoggedInUser());
+        
         $qualil->setStatus("aktualisiert");        
         $this->qualilogRepository->add($qualil);
         $this->objectManager->get(
                 'TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager'
         )->persistAll();
 
-        // TODO: Implement QualificationService
-        if ($this->request->hasArgument('mitarbeiters')) {            
+        // Get assigned employees
+        if ($this->request->hasArgument('mitarbeiters')) {     
+            $qualificationService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\QualificationService::class);
             $employeequalifications = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-                        
-            // Read checkboxes into array
-            $ma = $this->request->getArgument('mitarbeiters');
+            $qualifikation->setEmployeequalifications($qualificationService->getEmployeequalificationsFromQualification($this->request, $this->objectManager, $qualifikation));
             
-            // Read status
-            if($this->request->hasArgument('qualificationsstatus')) {
-                $qualificationsstatus = $this->request->getArgument('qualificationsstatus');                
-            }
-            // Read notes
-            if($this->request->hasArgument('qualificationsnotes')) {
-                $qualificationsnotes = $this->request->getArgument('qualificationsnotes');
-            }
-            
-            // Set employees to array items
-            foreach ($ma as $m) {
-                $employeequalification = new \Pmwebdesign\Staffm\Domain\Model\Employeequalification();
-                $employee = $this->objectManager->get(
-                                'Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository'
-                        )->findOneByUid($m);                
-                $employeequalification->setEmployee($employee);
-                $employeequalification->setQualification($qualifikation);
-                $status = $qualificationsstatus[$employee->getUid()];
-                $note = $qualificationsnotes[$employee->getUid()];
-                if($status != null) {
-                    $employeequalification->setStatus($status);
-                }
-                if($note != null) {
-                    $employeequalification->setNote($note);
-                }
-                $employeequalifications->attach($employeequalification);
-            }
-            $qualifikation->setEmployeequalifications($employeequalifications);
             if (count($qualifikation->getEmployeequalifications()) > 0) {
                 $this->addFlashMessage('Mitarbeiter wurden der Qualifikation "' . $qualifikation->getBezeichnung() . '" zugeordnet!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
             } else {

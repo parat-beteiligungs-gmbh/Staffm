@@ -41,7 +41,15 @@ class UserService
      */
     public function getLoggedInUser() 
     {     
-        $user = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager')->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
+        $uid = $GLOBALS['TSFE']->fe_user->user['uid'];
+        // Frontend User?
+        if ($uid != null) {
+            // Yes, Frontend User
+            $user = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager')->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findOneByUid($uid);
+        } else {
+            // No, Backend User
+            $user = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager')->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findOneByUsername($GLOBALS['BE_USER']->user['username']);
+        }
         return $user;       
     }
     

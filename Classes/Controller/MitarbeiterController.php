@@ -608,12 +608,19 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
      */
     public function updateAction(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter)
     {
-        $this->addFlashMessage('Mitarbeiter/in "' . $mitarbeiter->getFirstName() . ' ' . $mitarbeiter->getLastName() . '" wurde aktualisiert!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
-
         // Get assigned qualifications
         if ($this->request->hasArgument('qualifikationen')) {
+            // QualificationService
             $qualificationService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\QualificationService::class);
-            $mitarbeiter->setEmployeequalifications($qualificationService->getEmployeequalifications($this->request, $this->objectManager, $mitarbeiter));
+            $mitarbeiter->setEmployeequalifications($qualificationService->getEmployeequalificationsFromEmployee($this->request, $this->objectManager, $mitarbeiter));
+            
+            if (count($mitarbeiter->getEmployeequalifications()) > 0) {
+                $this->addFlashMessage('Qualifikationen wurden dem Mitarbeiter "'.$mitarbeiter->getFirstName().' '.$mitarbeiter->getLastName().'" zugeordnet!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
+            } else {
+                $this->addFlashMessage('Dem Mitarbeiter "'.$mitarbeiter->getFirstName().' '.$mitarbeiter->getLastName().'" wurden keine Qualifikationen zugeordnet!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
+            }
+        } else {
+            $this->addFlashMessage('Der Mitarbeiter "'.$mitarbeiter->getFirstName().' '.$mitarbeiter->getLastName().'" wurde aktualisiert!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
         }
 
         $this->mitarbeiterRepository->update($mitarbeiter);

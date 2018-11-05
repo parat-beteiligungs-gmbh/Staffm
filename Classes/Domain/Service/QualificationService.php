@@ -42,7 +42,7 @@ class QualificationService
      * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
      * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Employeequalification>
      */
-    public function getEmployeequalifications(\TYPO3\CMS\Extbase\Mvc\Request $request, \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager, \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter)
+    public function getEmployeequalificationsFromEmployee(\TYPO3\CMS\Extbase\Mvc\Request $request, \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager, \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter)
     {
         if ($request->hasArgument('qualifikationen')) {              
             $employeequalifications = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
@@ -126,6 +126,140 @@ class QualificationService
                 if($prevStatus == FALSE) {
                     // No, set new employeequalification
                     $employeequalification->setEmployee($mitarbeiter);
+                    $employeequalification->setQualification($qualification);
+                    // Status?
+                    if($status != null) {
+                        $employeequalification->setStatus($status);
+                    }
+                    // Notice?
+                    if($note != null) {
+                        $employeequalification->setNote($note);
+                    }
+                    // Reminder date?
+                    if($reminderDate != null) {
+                        $employeequalification->setReminderDate($reminderDate);
+                    }
+                    // Add new history               
+                    $newHistory = new \Pmwebdesign\Staffm\Domain\Model\History();
+                    $newHistory->setStatus($status);
+                    $newHistory->setDateFrom(new \DateTime());                    
+                    $newHistory->setAssessor($assessor);
+                    $histories->attach($newHistory);
+                    $employeequalification->setHistories($histories);
+                    $employeequalifications->attach($employeequalification);				
+                } else {
+                    // Yes, update previous employeequalification                    
+                    // Notice?
+                    if($note != null) {
+                        $prevEmployeequalification->setNote($note);
+                    } else {
+                        $prevEmployeequalification->setNote("");
+                    }
+                    // Reminder date?
+                    if($reminderDate != null) {
+                        $prevEmployeequalification->setReminderDate($reminderDate);
+                    } else {
+                        $prevEmployeequalification->setReminderDate(NULL);
+                    }
+                    $employeequalifications->attach($prevEmployeequalification);				
+                }
+            }                     
+            return $employeequalifications;
+        }
+    }
+    
+    /**
+     * Check assigned employees with status and notes for employees
+     * 
+     * @param \TYPO3\CMS\Extbase\Mvc\Request $request
+     * @param \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager
+     * @param \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualification
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Employeequalification>
+     */
+    public function getEmployeequalificationsFromQualification(\TYPO3\CMS\Extbase\Mvc\Request $request, \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager, \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualification)
+    {
+        if ($request->hasArgument('mitarbeiters')) {              
+            $employeequalifications = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+            
+            // Read checkboxes into array
+            $ma = $request->getArgument('mitarbeiters');            
+            
+            // Read previous qualifications of employee            
+            $prevEmployeequalifications = $qualification->getEmployeequalifications();
+                        
+            // Read status
+            if($request->hasArgument('qualificationsstatus')) {
+                $qualificationsstatus = $request->getArgument('qualificationsstatus');                
+            }
+            // Read notes
+            if($request->hasArgument('qualificationsnotes')) {
+                $qualificationsnotes = $request->getArgument('qualificationsnotes');
+            }
+            // Read reminder dates
+            if($request->hasArgument('qualificationsreminderdate')) {
+                $qualificationsreminderdate = $request->getArgument('qualificationsreminderdate');
+            }
+            
+            // Get logged in user
+            $userService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\UserService::class);
+            $assessor = $userService->getLoggedInUser();
+            
+            // Set qualifications to array items
+            foreach ($ma as $m) {    
+                $prevStatus = FALSE;
+                $employeequalification = new \Pmwebdesign\Staffm\Domain\Model\Employeequalification();
+                $employee = $objectManager->get(
+                        'Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository'
+                )->findOneByUid($m);   
+                $status = $qualificationsstatus[$employee->getUid()];
+                $note = $qualificationsnotes[$employee->getUid()];
+                $reminderDate = $qualificationsreminderdate[$employee->getUid()];
+                
+                // Check if previous qualification exist
+                $histories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+                foreach ($prevEmployeequalifications as $prevEmployeequalification) {
+                    if($prevEmployeequalification->getEmployee() === $employee) {
+                        $prevStatus = TRUE;
+                        // Employee exist, just update
+                        if($status != null) {
+                            $histories = $prevEmployeequalification->getHistories();                            
+                            // Status changed or no histories?
+                            if($prevEmployeequalification->getStatus() <> $status || count($histories) <= 0) {                                
+                                // Status has changed?
+                                if($prevEmployeequalification->getStatus() <> $status) {                                   
+                                    // Yes, status has changed   
+                                    // Check history
+                                    foreach ($histories as $history) {
+                                        // Old status?
+                                        if($history->getStatus() == $prevEmployeequalification->getStatus()) {
+                                            // Set End Date                                        
+                                            $history->setDateTo(new \DateTime());                                            
+                                        }
+                                    }
+                                    // Set new status
+                                    $prevEmployeequalification->setStatus($status);      
+                                }                               
+                                // Add new history
+                                $newHistory = new \Pmwebdesign\Staffm\Domain\Model\History();
+                                $newHistory->setStatus($status);
+                                $newHistory->setDateFrom(new \DateTime());
+                                
+                                $newHistory->setAssessor($assessor);
+                                $histories->attach($newHistory);
+                                $prevEmployeequalification->setHistories($histories);
+                            }                            
+                        }
+                        if($note != null) {
+                            $prevEmployeequalification->setNote($note);
+                        }                        
+                        break;
+                    }
+                }
+                
+                // Previous employeequalification found?   
+                if($prevStatus == FALSE) {
+                    // No, set new employeequalification
+                    $employeequalification->setEmployee($employee);
                     $employeequalification->setQualification($qualification);
                     // Status?
                     if($status != null) {
