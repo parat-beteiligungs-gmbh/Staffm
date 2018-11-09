@@ -35,7 +35,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class QualificationService
 {
     /**
-     * Check assigned qualifications with status and notes for employees
+     * Check assigned qualifications with status and notes for an employee
      * 
      * @param \TYPO3\CMS\Extbase\Mvc\Request $request
      * @param \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager
@@ -169,7 +169,7 @@ class QualificationService
     }
     
     /**
-     * Check assigned employees with status and notes for employees
+     * Check assigned employees with status and notes for a qualification
      * 
      * @param \TYPO3\CMS\Extbase\Mvc\Request $request
      * @param \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager
