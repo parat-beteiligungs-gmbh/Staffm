@@ -358,6 +358,30 @@
                     "required": "true"
                 }
             }
+        },
+        "tv:widget.sort": {
+            "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+            "doc": "This ViewHelper Widget sorts from A to Z, or Z to A",
+            "attributes": {
+                "objects": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Given objects",
+                    "type": "ObjectArray",
+                    "required": "true"
+                },
+                "as": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "New name for returned, sorted objects",
+                    "type": "ObjectArray",
+                    "required": "true"
+                },                
+                "property": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Keyword/Variable for sorting",
+                    "type": "Variable\/String",
+                    "required": "true"
+                }
+            }
         }
     },
     "attributes": {

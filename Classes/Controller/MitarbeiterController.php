@@ -23,27 +23,42 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  */
 
-namespace Pmwebdesign\Staffm\Controller;
+namespace Pmwebdesign\Staffm\Controller; // Class must exist in composer.json under ps4
 
-use PHPOffice\PhpSpreadsheet\Spreadsheet; // Class must exist in composer.json under ps4
+use PHPOffice\PhpSpreadsheet\Spreadsheet;
 use PHPOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PHPOffice\PhpSpreadsheet\Writer\Xlsx;
+use Pmwebdesign\Staffm\Domain\Model\Firma;
+use Pmwebdesign\Staffm\Domain\Model\Kostenstelle;
+use Pmwebdesign\Staffm\Domain\Model\Mitarbeiter;
+use Pmwebdesign\Staffm\Domain\Model\Position;
+use Pmwebdesign\Staffm\Domain\Model\Qualifikation;
+use Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository;
+use Pmwebdesign\Staffm\Domain\Repository\QualifikationRepository;
+use Pmwebdesign\Staffm\Domain\Service\CacheService;
+use Pmwebdesign\Staffm\Domain\Service\QualificationService;
+use Pmwebdesign\Staffm\Domain\Service\UserService;
 use Pmwebdesign\Staffm\Property\TypeConverter\UploadedFileReferenceConverter;
-use TYPO3\CMS\Extbase\Property\PropertyMappingConfiguration;
+use TYPO3\CMS\Core\Cache\CacheManager;
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+use TYPO3\CMS\Extbase\Property\PropertyMappingConfiguration;
 
 /**
  * Employee Controller
  * 
  * @author Markus Puffer (m.puffer@pm-webdesign.eu)
  */
-class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+class MitarbeiterController extends ActionController
 {
 
     /**
      * Caching Framework
      *
-     * @var \TYPO3\CMS\Core\Cache\CacheManager     
+     * @var CacheManager     
      */
     protected $cache;
 
@@ -55,7 +70,7 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     /**
      * mitarbeiterRepository
      * 
-     * @var \Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository     
+     * @var MitarbeiterRepository     
      */
     protected $mitarbeiterRepository = NULL;
 
@@ -75,9 +90,9 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 
     /**
      * 
-     * @param \Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository $mitarbeiterRepository
+     * @param MitarbeiterRepository $mitarbeiterRepository
      */
-    public function injectMitarbeiterRepository(\Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository $mitarbeiterRepository)
+    public function injectMitarbeiterRepository(MitarbeiterRepository $mitarbeiterRepository)
     {
         $this->mitarbeiterRepository = $mitarbeiterRepository;
     }
@@ -86,30 +101,27 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
      * 
      * @param \Pmwebdesign\Staffm\Domain\Repository\MitarbeiterqualifikationRepository $mitarbeiterqualifikationRepository
      */
-    public function injectQualifikationRepository(\Pmwebdesign\Staffm\Domain\Repository\QualifikationRepository $qualifikationRepository)
+    public function injectQualifikationRepository(QualifikationRepository $qualifikationRepository)
     {
         $this->qualifikationRepository = $qualifikationRepository;
     }
 
     /**
      * 
-     * @param \TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view
+     * @param ViewInterface $view
      * @return void
      */
-    public function initializeView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view)
+    public function initializeView(ViewInterface $view)
     {
         $pluginName = $this->request->getPluginName(); // PluginName ermitteln
-        // Plugin = Vorgesetzter?
+        // Plugin = Supervisor?
         if ($pluginName == "Staffmvorg") {
             $this->view->setLayoutPathAndFilename('typo3conf/ext/staffm/Resources/Private/Layouts/LoginLayout.html');
         } elseif ($pluginName == "Staffmcustom") {
             $this->view->setLayoutPathAndFilename('typo3conf/ext/staffm/Resources/Private/Layouts/Staffmcustom.html');
         }
 
-        $this->view->assign('menuname', 'Mitarbeiter');
-        /* if($this->view->assign('list', $this->actionMethodName)) {
-          echo $this->actionMethodName;
-          } */
+        $this->view->assign('menuname', 'Mitarbeiter');   
     }
 
     /**
@@ -162,10 +174,9 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(9, 1, 'Email');
         $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(10, 1, 'Kostenstelle');
         $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(11, 1, 'KST_Bezeichnung');
-        $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(12, 1, 'Firma');
-        //$_oPHPExcel->getSheetByName("Test")->setCellValue('A1', 'Titel');
+        $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(12, 1, 'Firma');        
         for ($i = 0; $i < count($mitarbeiters); $i++) {
-            $mitarbeiter = new \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter();
+            $mitarbeiter = new Mitarbeiter();
             $mitarbeiter = $mitarbeiters[$i];
             $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(1, $i + 2, $mitarbeiter->getLastName());
             $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(2, $i + 2, $mitarbeiter->getFirstName());
@@ -175,10 +186,10 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
             $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(6, $i + 2, $mitarbeiter->getTelephone());
             $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(7, $i + 2, $mitarbeiter->getHandy());
             $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(8, $i + 2, $mitarbeiter->getFax());
-            $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(9, $i + 2, $mitarbeiter->getEmail());
-            if ($mitarbeiter->getKostenstelle() != null) {
-                $_oPHPExcel->getSheetByName("Mitarbeiter")->setCellValueByColumnAndRow(10, $i + 2, $mitarbeiter->getKostenstelle()->getNummer());
-                $_oPHPExcel->getSheetByName("Mitarbeiter")->setCellValueByColumnAndRow(11, $i + 2, $mitarbeiter->getKostenstelle()->getBezeichnung());
+            $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(9, $i + 2, $mitarbeiter->getEmail());            
+            if ($mitarbeiter->getKostenstelle() != NULL) {
+                $_oPHPExcel->getSheetByName("Mitarbeiter")->setCellValueByColumnAndRow(10, $i + 2, $mitarbeiter->getKostenstelle()->getNummer());  
+                $_oPHPExcel->getSheetByName("Mitarbeiter")->setCellValueByColumnAndRow(11, $i + 2, $mitarbeiter->getKostenstelle()->getBezeichnung());                
             }
             if ($mitarbeiter->getFirma() != null) {
                 $_oPHPExcel->getSheetByName("Mitarbeiter")->setCellValueByColumnAndRow(12, $i + 2, $mitarbeiter->getFirma()->getBezeichnung());
@@ -191,14 +202,11 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         unset($_oPHPExcel);
 
         // "Save as" as Download for users
-        $size = filesize($filePath);
-        //header("Content-type: application/octet-stream"); 
+        $size = filesize($filePath);        
         header("Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         header("Content-disposition: attachment; filename=\"export.xlsx\"");
         header("Content-Transfer-Encoding: binary");
-        header("Content-Length: $size");
-        /* header("Pragma: no-cache"); 
-          header("Expires: 0"); */
+        header("Content-Length: $size");        
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
         ob_clean(); // Very important otherwise there is a mistake at Excel file
@@ -210,12 +218,12 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     }
 
     /**
-     * List employees
+     * List of employees
      * 
-     * @param \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle
+     * @param Kostenstelle $kostenstelle
      * @return void
      */
-    public function listAction(\Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle = NULL)
+    public function listAction(Kostenstelle $kostenstelle = NULL)
     {
         // Search exist?
         if ($this->request->hasArgument('search')) {
@@ -240,9 +248,10 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         if ($this->request->hasArgument('cache')) {
             $cache = $this->request->getArgument('cache');
         }
-
-        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
-
+                
+        /** @var CacheService $cacheService */
+        $cacheService = GeneralUtility::makeInstance(CacheService::class);    
+                                        
         // No cache flag? (Example employee was deleted and the info message is shown in the list view)       
         if ($cache != "notcache" && $search == "") {
             // Cache exist?       
@@ -294,12 +303,12 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     }
 
     /**
-     * action list
+     * List of employees for supervisors
      * 
-     * @param \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle
+     * @param Kostenstelle $kostenstelle
      * @return void
      */
-    public function listVgsAction(\Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle = NULL)
+    public function listVgsAction(Kostenstelle $kostenstelle = NULL)
     {
         if ($this->request->hasArgument('search')) {
             $search = $this->request->getArgument('search');
@@ -329,14 +338,15 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     }
 
     /**
-     * action list custom    
+     * List of employees who choosed in Backend
+     *     
      * @return void
      */
     public function listCustomAction()
     {
         $limit = 0;
 
-        $userService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\UserService::class);
+        $userService = GeneralUtility::makeInstance(UserService::class);
         $mitarbeiters = $userService->getSettingUsers($this->settings["choosedusers"]);
         $templateart = $this->settings['chooseview'];
         $this->view->assign('mitarbeiters', $mitarbeiters);
@@ -346,10 +356,10 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     /**
      * List of employees for choosing a responible for a cost center
      * 
-     * @param \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle
+     * @param Kostenstelle $kostenstelle
      * @return void
      */
-    public function listChooseAction(\Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle)
+    public function listChooseAction(Kostenstelle $kostenstelle)
     {
         $mitarbeiters = $this->mitarbeiterRepository->findAll();
         $this->view->assign('mitarbeiters', $mitarbeiters);
@@ -359,9 +369,9 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     /**
      * Choosing employees for a qualification
      * 
-     * @param \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualifikation
+     * @param Qualifikation $qualifikation
      */
-    public function listChooseQualiAction(\Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualifikation)
+    public function listChooseQualiAction(Qualifikation $qualifikation)
     {
         $mitarbeiters = $this->mitarbeiterRepository->findSearchForm('', 0);
         $this->view->assign('mitarbeiters', $mitarbeiters);
@@ -371,14 +381,14 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     /**
      * Detail view of cost center responsible
      * 	
-     * @param \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle
+     * @param Kostenstelle $kostenstelle
      * @return void
      */
-    public function showVeraKstAction(\Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle)
+    public function showVeraKstAction(Kostenstelle $kostenstelle)
     {
         $mitarbeiter = $kostenstelle->getVerantwortlicher();
 
-        // Suchwort?
+        // Search word?
         if ($this->request->hasArgument('search')) {
             $search = $this->request->getArgument('search');
             $this->view->assign('search', $search);
@@ -390,18 +400,18 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     /**
      * Detail view of employee from cost center list
      * 
-     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $ma
-     * @param \Pmwebdesign\Staffm\Domain\Model\Position $position
-     * @param \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle
-     * @param \Pmwebdesign\Staffm\Domain\Model\Firma $firma
+     * @param Mitarbeiter $ma
+     * @param Position $position
+     * @param Kostenstelle $kostenstelle
+     * @param Firma $firma
      * @param \Pmwebdesign\Staffm\Domain\Model\Standort $standort
-     * @param \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualifikation
+     * @param Qualifikation $qualifikation
      * @return void
      */
-    public function showKstAction(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $ma = NULL, \Pmwebdesign\Staffm\Domain\Model\Position $position = NULL, \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle = NULL, \Pmwebdesign\Staffm\Domain\Model\Firma $firma = NULL, \Pmwebdesign\Staffm\Domain\Model\Standort $standort = NULL, \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualifikation = NULL)
+    public function showKstAction(Mitarbeiter $ma = NULL, Position $position = NULL, Kostenstelle $kostenstelle = NULL, Firma $firma = NULL, \Pmwebdesign\Staffm\Domain\Model\Standort $standort = NULL, Qualifikation $qualifikation = NULL)
     {
         if ($ma == NULL) {
-            $ma = new \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter();
+            $ma = new Mitarbeiter();
             $ma = $kostenstelle->getVerantwortlicher();
         }
 
@@ -446,7 +456,7 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         }
 
         // TODO: Test because user was logged out, after show a employee in list... | Logged in user?
-        $aktuser = new \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter();
+        $aktuser = new Mitarbeiter();
         $aktuser = $this->objectManager->
                 get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
                 findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
@@ -474,19 +484,19 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     /**
      * Assign a responsible to a cost center
      * 
-     * @param \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle
-     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
-     * @return \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter
+     * @param Kostenstelle $kostenstelle
+     * @param Mitarbeiter $mitarbeiter
+     * @return Mitarbeiter
      */
-    public function chooseAction(\Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle, \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter)
+    public function chooseAction(Kostenstelle $kostenstelle, Mitarbeiter $mitarbeiter)
     {
-        $this->addFlashMessage('Kostenstellenverantwortlichen "'.$mitarbeiter->getLastName().' '.$mitarbeiter->getFirstName().'" zugewiesen!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
+        $this->addFlashMessage('Kostenstellenverantwortlichen "'.$mitarbeiter->getLastName().' '.$mitarbeiter->getFirstName().'" zugewiesen!', '', AbstractMessage::OK);
         $kostenstelle->setVerantwortlicher($mitarbeiter);
         $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->update($kostenstelle);
         $this->persistenceManager->persistAll();
 
         // Delete Caches
-        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
+        $cacheService = GeneralUtility::makeInstance(CacheService::class);
         $cacheService->deleteCaches($kostenstelle->getBezeichnung(), "list", "Kostenstelle", 0);
         $cacheService->deleteCaches($kostenstelle->getBezeichnung(), "show", "Kostenstelle", $kostenstelle->getUid());
 
@@ -496,11 +506,11 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     /**
      * New employee form
      * 
-     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $newMitarbeiter
+     * @param Mitarbeiter $newMitarbeiter
      * @ignorevalidation $newMitarbeiter
      * @return void
      */
-    public function newAction(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $newMitarbeiter = NULL)
+    public function newAction(Mitarbeiter $newMitarbeiter = NULL)
     {
         $this->view->assign('newMitarbeiter', $newMitarbeiter);
     }
@@ -508,17 +518,17 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     /**
      * Creates the new employee
      * 
-     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $newMitarbeiter
+     * @param Mitarbeiter $newMitarbeiter
      * @return void
      */
-    public function createAction(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $newMitarbeiter)
+    public function createAction(Mitarbeiter $newMitarbeiter)
     {
-        $this->addFlashMessage('Mitarbeiter angelegt!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
+        $this->addFlashMessage('Mitarbeiter angelegt!', '', AbstractMessage::OK);
         $this->mitarbeiterRepository->add($newMitarbeiter);
         $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager')->persistAll();
 
         // Delete Caches        
-        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
+        $cacheService = GeneralUtility::makeInstance(CacheService::class);
         $cacheService->deleteCaches($newMitarbeiter->getLastName(), $this->request->getControllerActionName(), $this->request->getControllerName(), 0);
 
         $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $newMitarbeiter));
@@ -553,11 +563,11 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     /**
      * Form edit for employee
      * 
-     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
+     * @param Mitarbeiter $mitarbeiter
      * @ignorevalidation $mitarbeiter
      * @return void
      */
-    public function editUserAction(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter)
+    public function editUserAction(Mitarbeiter $mitarbeiter)
     {
         // Search exist?
         if ($this->request->hasArgument('search')) {
@@ -576,15 +586,15 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     /**
      * Form edit for employee
      * 
-     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $ma
-     * @param \Pmwebdesign\Staffm\Domain\Model\Position $position
-     * @param \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle
-     * @param \Pmwebdesign\Staffm\Domain\Model\Firma $firma
+     * @param Mitarbeiter $ma
+     * @param Position $position
+     * @param Kostenstelle $kostenstelle
+     * @param Firma $firma
      * @param \Pmwebdesign\Staffm\Domain\Model\Standort $standort
-     * @param \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualifikation
+     * @param Qualifikation $qualifikation
      * @return void
      */
-    public function editKstAction(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $ma, \Pmwebdesign\Staffm\Domain\Model\Position $position = NULL, \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle = NULL, \Pmwebdesign\Staffm\Domain\Model\Firma $firma = NULL, \Pmwebdesign\Staffm\Domain\Model\Standort $standort = NULL, \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualifikation = NULL)
+    public function editKstAction(Mitarbeiter $ma, Position $position = NULL, Kostenstelle $kostenstelle = NULL, Firma $firma = NULL, \Pmwebdesign\Staffm\Domain\Model\Standort $standort = NULL, Qualifikation $qualifikation = NULL)
     {
 
         if ($this->request->hasArgument('kst')) {
@@ -603,24 +613,24 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     /**
      * Update an employee
      * 
-     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter	 
+     * @param Mitarbeiter $mitarbeiter	 
      * @return void
      */
-    public function updateAction(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter)
+    public function updateAction(Mitarbeiter $mitarbeiter)
     {
         // Get assigned qualifications
         if ($this->request->hasArgument('qualifikationen')) {
             // QualificationService
-            $qualificationService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\QualificationService::class);
+            $qualificationService = GeneralUtility::makeInstance(QualificationService::class);
             $mitarbeiter->setEmployeequalifications($qualificationService->getEmployeequalificationsFromEmployee($this->request, $this->objectManager, $mitarbeiter));
             
             if (count($mitarbeiter->getEmployeequalifications()) > 0) {
-                $this->addFlashMessage('Qualifikationen wurden dem Mitarbeiter "'.$mitarbeiter->getFirstName().' '.$mitarbeiter->getLastName().'" zugeordnet!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
+                $this->addFlashMessage('Qualifikationen wurden dem Mitarbeiter "'.$mitarbeiter->getFirstName().' '.$mitarbeiter->getLastName().'" zugeordnet!', '', AbstractMessage::OK);
             } else {
-                $this->addFlashMessage('Dem Mitarbeiter "'.$mitarbeiter->getFirstName().' '.$mitarbeiter->getLastName().'" wurden keine Qualifikationen zugeordnet!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
+                $this->addFlashMessage('Dem Mitarbeiter "'.$mitarbeiter->getFirstName().' '.$mitarbeiter->getLastName().'" wurden keine Qualifikationen zugeordnet!', '', AbstractMessage::ERROR);
             }
         } else {
-            $this->addFlashMessage('Der Mitarbeiter "'.$mitarbeiter->getFirstName().' '.$mitarbeiter->getLastName().'" wurde aktualisiert!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
+            $this->addFlashMessage('Der Mitarbeiter "'.$mitarbeiter->getFirstName().' '.$mitarbeiter->getLastName().'" wurde aktualisiert!', '', AbstractMessage::OK);
         }
 
         $this->mitarbeiterRepository->update($mitarbeiter);
@@ -628,7 +638,7 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager')->persistAll();
 
         // Delete Caches        
-        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
+        $cacheService = GeneralUtility::makeInstance(CacheService::class);
         $cacheService->deleteCaches($mitarbeiter->getLastName(), $this->request->getControllerActionName(), $this->request->getControllerName(), 0);
 
         if ($this->request->hasArgument('key')) {
@@ -662,18 +672,18 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     /**
      * Deletes an employee
      * 
-     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
+     * @param Mitarbeiter $mitarbeiter
      * @return void
      */
-    public function deleteAction(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter)
+    public function deleteAction(Mitarbeiter $mitarbeiter)
     {
-        $this->addFlashMessage('Mitarbeiter "' . $mitarbeiter->getFirstName() . ' ' . $mitarbeiter->getLastName() . '" wurde gelöscht!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
+        $this->addFlashMessage('Mitarbeiter "' . $mitarbeiter->getFirstName() . ' ' . $mitarbeiter->getLastName() . '" wurde gelöscht!', '', AbstractMessage::ERROR);
 
         // Set employee as deleted
         $this->mitarbeiterRepository->remove($mitarbeiter);
 
         // Delete Caches        
-        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
+        $cacheService = GeneralUtility::makeInstance(CacheService::class);
         $cacheService->deleteCaches($mitarbeiter->getLastName(), $this->request->getControllerName());
 
         $this->redirect('list', 'Mitarbeiter', NULL, array('cache' => 'notcache'));
@@ -682,12 +692,12 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     /**
      * Delete qualifications of an employee
      * 
-     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
+     * @param Mitarbeiter $mitarbeiter
      * @return void 
      */
-    public function deleteQualiAction(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter)
+    public function deleteQualiAction(Mitarbeiter $mitarbeiter)
     {
-        $this->addFlashMessage('Alle Qualifikationen vom Mitarbeiter "' . $mitarbeiter->getFirstName() . ' ' . $mitarbeiter->getLastName() . '" wurden gelöscht!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
+        $this->addFlashMessage('Alle Qualifikationen vom Mitarbeiter "' . $mitarbeiter->getFirstName() . ' ' . $mitarbeiter->getLastName() . '" wurden gelöscht!', '', AbstractMessage::ERROR);
 
         if ($this->request->hasArgument('search')) {
             $search = $this->request->getArgument('search');
@@ -696,7 +706,7 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         if ($this->request->hasArgument('berechtigung')) {
             $berechtigung = $this->request->getArgument('berechtigung');
         }
-        $employeequalifications = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $employeequalifications = new ObjectStorage();
         $mitarbeiter->setEmployeequalifications($employeequalifications);
         $this->mitarbeiterRepository->update($mitarbeiter);
         $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager')->persistAll();
@@ -750,6 +760,6 @@ class MitarbeiterController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         parent::initializeAction();
 
         /* Caching Framework */
-        $this->cache = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->getCache('staffm_mycache');
+        $this->cache = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->getCache('staffm_mycache');
     }
 }

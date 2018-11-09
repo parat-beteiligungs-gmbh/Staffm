@@ -26,27 +26,29 @@
 namespace Pmwebdesign\Staffm\Domain\Model;
 
 /**
- * Kostenstelle
+ * Cost Center
+ * 
+ * @author Markus Puffer (m.puffer@pm-webdesign.eu)
  */
 class Kostenstelle extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
 
     /**
-     * nummer
+     * Cost center number
      * 
      * @var string
      */
     protected $nummer = '';
 
     /**
-     * bezeichnung
+     * Designation
      * 
      * @var string
      */
     protected $bezeichnung = '';
 
     /**
-     * Kostenstellen mit Verantwortlichen
+     * Responsible of cost center
      * 
      * @var \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter
      * @lazy
@@ -54,7 +56,7 @@ class Kostenstelle extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $verantwortlicher = NULL;
 
     /**
-     * mitarbeiterRepository
+     * Employee repository
      * 
      * @var \Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository
      * @inject
@@ -62,6 +64,7 @@ class Kostenstelle extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $mitarbeiterRepository = NULL;
 
     /**
+     * Employees of cost center
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter>
      * @lazy
@@ -69,6 +72,7 @@ class Kostenstelle extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $mitarbeiters = NULL;
 
     /**
+     * Images
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
      * @cascade remove
@@ -80,7 +84,7 @@ class Kostenstelle extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function __construct()
     {
-        $this->initStorageObjects();
+        $this->initStorageObjects();      
     }
 
     /**
@@ -193,6 +197,7 @@ class Kostenstelle extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
     
     /**
+     * TODO: Add a image
      * 
      * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $image
      */
