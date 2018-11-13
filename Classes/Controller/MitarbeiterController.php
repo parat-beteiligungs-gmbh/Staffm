@@ -35,7 +35,6 @@ use Pmwebdesign\Staffm\Domain\Model\Position;
 use Pmwebdesign\Staffm\Domain\Model\Qualifikation;
 use Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository;
 use Pmwebdesign\Staffm\Domain\Repository\QualifikationRepository;
-use Pmwebdesign\Staffm\Domain\Service\CacheService;
 use Pmwebdesign\Staffm\Domain\Service\QualificationService;
 use Pmwebdesign\Staffm\Domain\Service\UserService;
 use Pmwebdesign\Staffm\Property\TypeConverter\UploadedFileReferenceConverter;
@@ -250,7 +249,7 @@ class MitarbeiterController extends ActionController
         }
                 
         /** @var CacheService $cacheService */
-        $cacheService = GeneralUtility::makeInstance(CacheService::class);    
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);    
                                         
         // No cache flag? (Example employee was deleted and the info message is shown in the list view)       
         if ($cache != "notcache" && $search == "") {
@@ -454,8 +453,7 @@ class MitarbeiterController extends ActionController
                 $search = "";
             }
         }
-
-        // TODO: Test because user was logged out, after show a employee in list... | Logged in user?
+        
         $aktuser = new Mitarbeiter();
         $aktuser = $this->objectManager->
                 get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
@@ -528,7 +526,7 @@ class MitarbeiterController extends ActionController
         $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager')->persistAll();
 
         // Delete Caches        
-        $cacheService = GeneralUtility::makeInstance(CacheService::class);
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
         $cacheService->deleteCaches($newMitarbeiter->getLastName(), $this->request->getControllerActionName(), $this->request->getControllerName(), 0);
 
         $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $newMitarbeiter));
@@ -637,9 +635,10 @@ class MitarbeiterController extends ActionController
 
         $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager')->persistAll();
 
-        // Delete Caches        
-        $cacheService = GeneralUtility::makeInstance(CacheService::class);
-        $cacheService->deleteCaches($mitarbeiter->getLastName(), $this->request->getControllerActionName(), $this->request->getControllerName(), 0);
+        // Delete Caches   
+        /* @var $cacheService \Pmwebdesign\Staffm\Domain\Service\CacheService */
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
+        $cacheService->deleteCaches($mitarbeiter->getLastName(), "list", $this->request->getControllerName(), 0);                
 
         if ($this->request->hasArgument('key')) {
             $key = $this->request->getArgument('key');
@@ -683,8 +682,9 @@ class MitarbeiterController extends ActionController
         $this->mitarbeiterRepository->remove($mitarbeiter);
 
         // Delete Caches        
-        $cacheService = GeneralUtility::makeInstance(CacheService::class);
-        $cacheService->deleteCaches($mitarbeiter->getLastName(), $this->request->getControllerName());
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
+        $cacheService->deleteCaches($mitarbeiter->getLastName(), "list", $this->request->getControllerName(), 0);
+        $cacheService->deleteCaches($mitarbeiter->getLastName(), "show", $this->request->getControllerName(), $mitarbeiter->getUid());
 
         $this->redirect('list', 'Mitarbeiter', NULL, array('cache' => 'notcache'));
     }
