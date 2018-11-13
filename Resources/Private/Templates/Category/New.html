@@ -13,14 +13,14 @@ in /Configuration/ExtensionBuilder/settings.yaml:
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
 <f:section name="main">
-<h1><f:translate id="staffm.position.new" /></h1>
+<h1><f:translate id="staffm.category.new" /></h1>
 
 <f:flashMessages />
 
 <f:render partial="FormErrors" />
 
-<f:form action="create"  name="newPosition" object="{newPosition}">
-<f:render partial="Position/FormFields" />
+<f:form action="create"  name="newCategory" object="{newCategory}">
+<f:render partial="Category/FormFields" />
     <div class="btn-group">
 	<f:link.action class="btn btn-secondary" action="list"><f:translate id="staffm.back" /></f:link.action>
         <f:form.submit class="btn btn-success" value="{f:translate(id:'staffm.create')}" />

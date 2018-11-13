@@ -1,5 +1,12 @@
 # Staffm Change Log
 
+2.1.0:
+
+Supports Typo3 8.7.0 - 8.7.99
+
+- [FEATURE] Add Categories to qualification, for a better usage.
+- [BUGFIX] Fixed caching bug, by changing name (Mitarbeiter update action) who was send to cache class.
+
 2.0.0:
 
 Supports Typo3 8.7.0 - 8.7.99
@@ -26,4 +33,3 @@ Supports Typo3 8.7.0 - 8.7.99
 Supports Typo3 8.7.0 - 8.7.99
 
 - [FEATURE] Extension for employee management.
-

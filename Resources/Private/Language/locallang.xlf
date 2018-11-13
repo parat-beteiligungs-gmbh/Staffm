@@ -109,7 +109,7 @@
                 <source>Standort</source>
             </trans-unit>
             <trans-unit id="tx_staffm_domain_model_mitarbeiter.employeequalifications">
-                <source>Mitarbeiter Qualifikationen</source>
+                <source>Qualifikationen</source>
             </trans-unit>
             <trans-unit id="staffm.position.new">
                 <source>Neue Position</source>
@@ -188,6 +188,9 @@
             </trans-unit>
             <trans-unit id="tx_staffm_domain_model_qualifikation.employeequalifications">
                 <source>Mitarbeiter Qualifikationen</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_qualifikation.categories">
+                <source>Kategorien</source>
             </trans-unit>
             <trans-unit id="tx_staffm_domain_model_employeequalification">
                 <source>Mitarbeiter Qualifikation</source>
@@ -275,6 +278,27 @@
             </trans-unit>            
             <trans-unit id="tx_staffm_domain_model_history.assessor">
                 <source>Beurteiler</source>
+            </trans-unit>
+            <trans-unit id="staffm.category.new">
+                <source>Neue Kategorie</source>
+            </trans-unit>
+            <trans-unit id="staffm.category.list.headline">
+                <source>Liste von Kategorien</source>
+            </trans-unit>
+            <trans-unit id="staffm.category.edit.headline">
+                <source>Kategorie bearbeiten</source>
+            </trans-unit>
+            <trans-unit id="staffm.category.show.headline">
+                <source>Kategorie Details</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_category">
+                <source>Kategorie</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_category.name">
+                <source>Bezeichnung</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_category.qualifications">
+                <source>Qualifikationen</source>
             </trans-unit>
             <trans-unit id="staffm.text.verantwortlicher.waehlen">
                 <source>Hier bitte den Verantwortlichen auswählen!</source>

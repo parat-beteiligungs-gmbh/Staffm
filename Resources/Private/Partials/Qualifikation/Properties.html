@@ -17,6 +17,14 @@
 		</td>
         </tr>
         <tr>
+            <td>
+                        <f:translate key="tx_staffm_domain_model_qualifikation.categories" />
+            </td>
+            <td>
+                        <f:render partial="Qualifikation/Category/QualificationCategories" arguments="{qualification:qualifikation, label:'no'}" />
+            </td>
+        </tr>
+        <tr>
                 <td>
 			<f:translate key="tx_staffm_domain_model_employeequalification.status" />
 		</td>
@@ -28,7 +36,7 @@
                         </f:for>
                     </div>
 		</td>
-        </tr>
+        </tr>        
 </table>
 <br style="clear: both" />
 <script>

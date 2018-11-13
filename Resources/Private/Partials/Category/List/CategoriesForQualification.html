@@ -1,0 +1,79 @@
+{namespace tv = Pmwebdesign\Staffm\ViewHelpers}
+
+<h1><f:translate id="staffm.category.list.headline" /></h1>
+<f:flashMessages />
+    <f:form action="update" controller="Qualifikation" arguments="{qualifikation:qualification, key:key, standardsearch:standardsearch, cache: '{cache}'}" additionalAttributes="{role: 'form'}">  
+    <tv:widget.atoZNav objects="{categories}" as="filteredCategories" property="name" search="{search}" maid="{maid}">  
+        <p><b><f:translate key="tx_staffm_domain_model_qualifikation" />:</b> {qualification.bezeichnung}</p> 
+        <div class="input-group">  
+            <div class="input-group-prepend">
+                <f:link.action class="btn btn-default left" action="edit" controller="Qualifikation" arguments="{qualifikation:qualification, search:standardsearch}"><f:translate id="staffm.back" /></f:link.action>
+            </div>
+            <f:form.textfield placeholder="Suchwort..." class="form-control" name="search" value="{search}" />
+            <div class="input-group-append">                    
+                <button type="submit" class="btn btn-default"><f:translate id="staffm.search" /></button>
+            </div>           
+        </div>
+        <tv:widget.sort objects="{filteredCategories}" as="sortedCategories" property="name">
+            <table  class="tx_staffm" >
+                <tr>
+                    <th><f:translate key="tx_staffm_domain_model_category.name" /></th>
+                    <th></th>
+                </tr>
+                <f:for each="{sortedCategories}" as="category">
+                    <tr>                              
+                        <f:if condition="{tv:categoryQualification(c:category, qu: qualification)} > 0">
+                            <f:then>                       
+                                <td class="td{category.uid}" style="background-color: red">{category.name}</td>                                         
+                                <td class="td{category.uid}" style="background-color: red"><f:form.checkbox id="categoryCheck{category.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="categories" value="{category.uid}" multiple="1" checked="1" /></td>                                                    
+                            </f:then>
+                            <f:else>
+                                <td class="td{category.uid}">{category.name}</td>                                         
+                                <td class="td{category.uid}"><f:form.checkbox id="categoryCheck{category.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="categories" value="{category.uid}" multiple="1" checked="0" /></td>                                                    
+                            </f:else>
+                        </f:if>          
+                    </tr>
+                </f:for>
+            </table>
+            <br />
+            <div class="btn-group" role="group">
+                <f:link.action class="btn btn-secondary" action="edit" controller="Qualifikation" arguments="{qualifikation:qualification, berechtigung:berechtigung}"><f:translate id="staffm.back" /></f:link.action>
+                <button class="btn btn-success" type="submit"><f:translate id="staffm.choose" /> <f:translate id="staffm.text.uebergeben" /></button>
+            </div><br />
+        </tv:widget.sort>
+    </tv:widget.atoZNav>
+</f:form>
+<script>
+/**
+     * Checkbox 
+     * Set/unset checkboxes and enable/disable fields
+     * 
+     * @param string stat
+     * @return void
+     */
+    function setCheckbox(stat) {
+        var wholeid = stat.id;
+        var id = wholeid.substring(13);            
+        var cb = document.getElementById(wholeid);
+        var elem = document.getElementsByClassName("td" + id);
+        var elemSelect = document.getElementById("categorySelect" + id);
+
+        if (cb.checked === true) {
+            cb.checked = true;
+            for (var i = 0; i < elem.length; i++) {
+                elem[i].style.backgroundColor = "red";
+            }
+            elemSelect.disabled = false;
+            elemSelect.value = 1;               
+        } else {
+            cb.checked = false;
+            for (var i = 0; i < elem.length; i++) {
+
+                elem[i].style.backgroundColor = "";
+            }
+            elemSelect.disabled = true;
+            elemSelect.value = "";              
+        }
+    }
+</script>
+

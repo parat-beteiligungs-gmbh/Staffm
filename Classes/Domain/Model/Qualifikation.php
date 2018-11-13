@@ -74,6 +74,15 @@ class Qualifikation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @cascade remove
      */
     protected $employeequalifications = NULL;
+    
+    /**
+     * Categories
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Category>
+     * @lazy
+     * @cascade remove
+     */
+    protected $categories = NULL;
 
     /**
      *
@@ -90,11 +99,14 @@ class Qualifikation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
+     * Initialize Storage objects
+     * 
      * @return void 
      */
     protected function initStorageObjects()
     {   
         $this->employeequalifications = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->categories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
 
     /**
@@ -162,7 +174,27 @@ class Qualifikation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->employeequalifications = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
+    
+    /**     * 
+     * Get categories
+     * 
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Category>
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
 
+    /**
+     * Set categories
+     * 
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Category> $categories
+     */
+    public function setCategories(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $categories)
+    {
+        $this->categories = $categories;
+    }
+    
     /**
      * 
      * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Qualilog> $qualilogs

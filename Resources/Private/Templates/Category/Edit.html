@@ -1,0 +1,17 @@
+
+<f:layout name="Default" />
+<f:section name="main">
+    <h1><f:translate id="staffm.category.list.headline" /></h1>
+
+    <f:flashMessages />
+
+    <f:render partial="FormErrors" />
+
+    <f:form action="update" name="category" object="{category}" >
+        <f:render partial="Category/FormFields" arguments="{category:category}" />
+        <div class="btn-group" role="group" aria-label="Kategory bearbeiten">
+            <f:link.action class="btn btn-secondary" action="list"><f:translate id="staffm.back" /></f:link.action>
+            <f:form.submit class="btn btn-success" value="{f:translate(id:'staffm.save')}" />
+        </div>
+    </f:form>
+</f:section>

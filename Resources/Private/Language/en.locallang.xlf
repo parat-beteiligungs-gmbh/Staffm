@@ -144,8 +144,8 @@
                 <target state="translated">Location</target>
             </trans-unit>
             <trans-unit id="tx_staffm_domain_model_mitarbeiter.employeequalifications">
-                <source>Mitarbeiter Qualifikationen</source>
-                <target state="translated">Employee qualifications</target>
+                <source>Qualifikationen</source>
+                <target state="translated">Qualifications</target>
             </trans-unit>
             <trans-unit id="staffm.position.new">
                 <source>Neue Position</source>
@@ -250,6 +250,10 @@
             <trans-unit id="tx_staffm_domain_model_qualifikation.employeequalifications">
                 <source>Mitarbeiter Qualifikationen</source>
                 <target state="translated">Employee qualifications</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_qualifikation.categories">
+                <source>Kategorien</source>
+                <target state="translated">Categories</target>
             </trans-unit>
             <trans-unit id="tx_staffm_domain_model_employeequalification">
                 <source>Mitarbeiter Qualifikation</source>
@@ -366,6 +370,34 @@
             <trans-unit id="tx_staffm_domain_model_history.assessor">
                 <source>Beurteiler</source>
                 <target state="translated">Assessor</target>
+            </trans-unit>
+            <trans-unit id="staffm.category.new">
+                <source>Neue Kategorie</source>
+                <target state="translated">New category</target>
+            </trans-unit>
+            <trans-unit id="staffm.category.list.headline">
+                <source>Liste von Kategorien</source>
+                <target state="translated">List of categories</target>
+            </trans-unit>
+            <trans-unit id="staffm.category.edit.headline">
+                <source>Kategorie bearbeiten</source>
+                <target state="translated">Edit category</target>
+            </trans-unit>
+            <trans-unit id="staffm.category.show.headline">
+                <source>Kategorie Details</source>
+                <target state="translated">Dategory details</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_category">
+                <source>Kategorie</source>
+                <target state="translated">Category</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_category.name">
+                <source>Bezeichnung</source>
+                <target state="translated">Designation</target>
+            </trans-unit>
+             <trans-unit id="tx_staffm_domain_model_category.qualifications">
+                <source>Qualifikationen</source>
+                <target state="translated">Qualifications</target>
             </trans-unit>
             <trans-unit id="staffm.text.verantwortlicher.waehlen">
                 <source>Hier bitte den Verantwortlichen auswählen!</source>

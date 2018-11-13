@@ -1,31 +1,39 @@
+{namespace vhs = FluidTYPO3\Vhs\ViewHelpers}
+
 <label for="qualilog">
     Letzter Bearbeiter:&nbsp;
 </label>	
-        <f:for each="{qualifikation.qualilogs}" as="qualilog" iteration="itemIterator">
-            <f:if condition="{itemIterator.index} == 0">
-                <f:link.action action="show" arguments="{qualifikation : qualifikation}">{qualilog.bearbeiter.lastName} {qualilog.bearbeiter.firstName}</f:link.action>
-            </f:if>
-        </f:for><br />
-<label for="bezeichnung">
-	<f:translate key="tx_staffm_domain_model_qualifikation.bezeichnung" />
-</label><br />
-	<f:form.textfield class="form-control" property="bezeichnung" /><br />
-<label for="beschreibung">
-	<f:translate key="tx_staffm_domain_model_qualifikation.beschreibung" />
-</label><br />
-	<f:form.textarea class="form-control" rows="5" property="beschreibung" /><br />
- <label for="mitarbeiters">
-	<f:translate key="tx_staffm_domain_model_qualifikation.mitarbeiters" />
-</label><br />  
-<f:for each="{qualifikation.employeequalifications}" as="employeequalification" iteration="iterator">
-    <f:if condition="{iterator.isLast}">
-        <f:then>
-            {employeequalification.employee.lastName} {employeequalification.employee.firstName}
-        </f:then>
-        <f:else>
-            {employeequalification.employee.lastName} {employeequalification.employee.firstName},
-        </f:else>
+<f:for each="{qualifikation.qualilogs}" as="qualilog" iteration="itemIterator">
+    <f:if condition="{itemIterator.index} == 0">
+        <f:link.action action="show" arguments="{qualifikation : qualifikation}">{qualilog.bearbeiter.lastName} {qualilog.bearbeiter.firstName}</f:link.action>
     </f:if>
-</f:for>
-<br />
-<f:link.action class="btn btn-default" action="listChooseQuali" controller="Mitarbeiter" arguments="{qualifikation:qualifikation, key:'auswahl', standardsearch:search}">Auswahl</f:link.action><br /><br />
+</f:for><br />
+<label for="bezeichnung">
+    <f:translate key="tx_staffm_domain_model_qualifikation.bezeichnung" />
+</label><br />
+<f:form.textfield class="form-control" property="bezeichnung" /><br />
+<label for="beschreibung">
+    <f:translate key="tx_staffm_domain_model_qualifikation.beschreibung" />
+</label><br />
+<f:form.textarea class="form-control" rows="5" property="beschreibung" /><br />
+<f:if condition="{qualifikation}">    
+    <label for="categories">
+        <f:translate key="tx_staffm_domain_model_qualifikation.categories" />
+    </label><br />      
+    <f:for each="{qualifikation.categories -> vhs:iterator.sort(sortBy: 'category.name')}" as="category" iteration="iterator">       
+        <f:if condition="{iterator.isLast}">
+            <f:then>
+                {category.name}
+            </f:then>
+            <f:else>
+                {category.name},
+            </f:else>
+        </f:if>
+    </f:for>
+    <br />
+    <f:link.action class="btn btn-default" action="list" controller="Category" arguments="{qualification:qualifikation, key:'chooseCategoryForQuali', standardsearch:search, cache:'notcache'}"><f:translate id="staffm.choose" /></f:link.action><br /><br />
+    <f:render partial="Qualifikation/Mitarbeiter/EmployeeQualifications" arguments="{qualifikation:qualifikation, edit:'no'}" />
+    <br />
+    <f:link.action class="btn btn-default" action="listChooseQuali" controller="Mitarbeiter" arguments="{qualifikation:qualifikation, key:'auswahl', standardsearch:search}"><f:translate id="staffm.choose" /></f:link.action><br /><br />
+    <br />
+</f:if>

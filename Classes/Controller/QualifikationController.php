@@ -267,9 +267,11 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
      * List of qualifications
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
+     * @param \Pmwebdesign\Staffm\Domain\Model\Category $category
      * @return void
      */
-    public function listAction(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter = NULL)
+    public function listAction(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter = NULL,
+            \Pmwebdesign\Staffm\Domain\Model\Category $category = NULL)
     {
         // Search word?
         if ($this->request->hasArgument('search')) {
@@ -309,6 +311,12 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         if ($this->request->hasArgument('key')) {
             $key = $this->request->getArgument('key');        
             $this->view->assign('key', $key);
+            // Assign qualification for users?
+            if($key == 'auswahl') {
+                // Yes, show categories
+                $categories = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\CategoryRepository::class)->findAll();
+                $this->view->assign('categories', $categories);
+            }
         }        
 
         if ($this->request->hasArgument('berechtigung')) {
@@ -318,6 +326,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
 
         $this->view->assign('qualifikations', $qualifikations);
         $this->view->assign('mitarbeiter', $mitarbeiter);
+        $this->view->assign('category', $category);
         $this->view->assign('search', $search);
         if ($maid != "") {
             $this->view->assign('maid', $maid);
@@ -529,16 +538,19 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             $qualificationService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\QualificationService::class);
             $employeequalifications = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
             $qualifikation->setEmployeequalifications($qualificationService->getEmployeequalificationsFromQualification($this->request, $this->objectManager, $qualifikation));
-            
-            if (count($qualifikation->getEmployeequalifications()) > 0) {
-                $this->addFlashMessage('Mitarbeiter wurden der Qualifikation "' . $qualifikation->getBezeichnung() . '" zugeordnet!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
-            } else {
-                $this->addFlashMessage('Der Qualifikation "' . $qualifikation->getBezeichnung() . '" wurden keine Mitarbeiter zugeordnet!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
-            }
-        } else {
-            $this->addFlashMessage('Die Qualifikation "' . $qualifikation->getBezeichnung() . '" wurde aktualisiert!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
+        } 
+        
+        // Get assigned categories
+        if ($this->request->hasArgument('categories')) {     
+            /* @var $qualificationService \Pmwebdesign\Staffm\Domain\Service\QualificationService */
+            $qualificationService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\QualificationService::class);
+            $categories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+            $qualifikation->setCategories($qualificationService->getCategories($this->request, $this->objectManager));
         }
+        
         $this->qualifikationRepository->update($qualifikation);
+        
+        $this->addFlashMessage('Die Qualifikation "' . $qualifikation->getBezeichnung() . '" wurde aktualisiert!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
         
         // Delete Caches
         $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);

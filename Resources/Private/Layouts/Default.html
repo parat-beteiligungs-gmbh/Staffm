@@ -1,4 +1,4 @@
-
+{namespace tv = Pmwebdesign\Staffm\ViewHelpers}
 <div id="ladedivall" class="tx-staffm">  
         <div id="seite"></div>    
         <f:flashMessages />
@@ -10,8 +10,14 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">                    
                     <li class="nav-item {f:if(condition: '{menuname} == \'Qualifikation\'', then: 'active')}" style="padding-top:0 !important">
-                                  <f:link.action class="nav-link" action="list" controller="Qualifikation"><f:translate key="tx_staffm_domain_model_qualifikation" /></f:link.action>
+                                  <f:link.action class="nav-link" action="list" controller="Qualifikation"><f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></f:link.action>
                     </li>
+                    <f:comment><!-- Check Admin authorization --></f:comment>
+                    <f:if condition="{tv:isAdmin()} == TRUE">
+                        <li class="nav-item {f:if(condition: '{menuname} == \'Category\'', then: 'active')}">
+                            <f:link.action class="nav-link" action="list" controller="Category"><f:translate key="tx_staffm_domain_model_qualifikation.categories" /></f:link.action>
+                        </li>                        
+                    </f:if>
                     <li class="nav-item {f:if(condition: '{menuname} == \'Kostenstelle\'', then: 'active')}">
                         <f:link.action class="nav-link" action="list" controller="Kostenstelle"><f:translate key="tx_staffm_domain_model_kostenstelle" /></f:link.action>
                     </li>
@@ -20,8 +26,7 @@
                     </li>
                     <li class="nav-item {f:if(condition: '{menuname} == \'Position\'', then: 'active')}">
                         <f:link.action class="nav-link" action="list" controller="Position" title="z. B. Geschäftsführer, Leiter"><f:translate key="tx_staffm_domain_model_position" /></f:link.action>
-                    </li>
-                        <f:comment><f:link.action class="btn btn-default" action="list" controller="Standort"><f:translate key="tx_staffm_domain_model_standort" /></f:link.action></f:comment>                        
+                    </li>                         
                 </ul>
             </div>
         </nav>

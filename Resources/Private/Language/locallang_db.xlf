@@ -96,6 +96,9 @@
             <trans-unit id="tx_staffm_domain_model_qualifikation.employeequalifications">
                 <source>Mitarbeiter Qualifikationen</source>
             </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_qualifikation.categories">
+                <source>Kategorien</source>
+            </trans-unit>
             <trans-unit id="tx_staffm_domain_model_employeequalification">
                 <source>Mitarbeiter Qualifikation</source>
             </trans-unit>
@@ -170,6 +173,15 @@
             </trans-unit>
             <trans-unit id="tx_staffm_domain_model_history.assessor">
                 <source>Beurteiler</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_category">
+                <source>Kategorie</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_category.name">
+                <source>Bezeichnung</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_category.qualifications">
+                <source>Qualifikationen</source>
             </trans-unit>
         </body>
     </file>

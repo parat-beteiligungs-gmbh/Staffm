@@ -47,7 +47,7 @@ class CacheService
      */
     public function __construct()
     {
-        $this->cache = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->getCache('staffm_mycache');
+        $this->cache = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->getCache('staffm_mycache');
     }
 
     /**
@@ -59,14 +59,14 @@ class CacheService
      * @param integer $uid
      */
     public function deleteCaches($designation, $actionname, $identifier, $uid)
-    {
+    {        
         // Get first char
         $char = $this->getFirstChar($designation);
         // For all languages
         for ($i = 0; $i <= LanguageUtility::getLastLanguageIndex(); $i++) {
-            if($actionname != "show") {
+            if($actionname != "show") {                            
                 $this->cache->remove($i.$actionname.$identifier);
-                $this->cache->remove($i.$actionname.$identifier . "All");
+                $this->cache->remove($i.$actionname.$identifier."All");
                 $this->cache->remove($i.$actionname.$identifier.$char);
                 $this->cache->remove($i.$actionname.$identifier."Adm");
                 $this->cache->remove($i.$actionname.$identifier."AllAdm");

@@ -1,0 +1,15 @@
+<f:if condition="{label} != 'no'">
+    <label for="qualifications">
+        <f:translate key="tx_staffm_domain_model_category.qualifications" />
+    </label><br />      
+</f:if>
+<f:for each="{category.qualifications -> vhs:iterator.sort(sortBy: 'qualifikation.bezeichnung')}" as="qualification" iteration="iterator">       
+    <f:if condition="{iterator.isLast}">
+        <f:then>
+            {qualification.bezeichnung}
+        </f:then>
+        <f:else>
+            {qualification.bezeichnung},
+        </f:else>
+    </f:if>
+</f:for>

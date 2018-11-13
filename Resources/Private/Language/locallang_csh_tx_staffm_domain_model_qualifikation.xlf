@@ -12,6 +12,9 @@
                         <trans-unit id="employeequalifications.description">
 				<source>Mitarbeiter Qualifikationen</source>
 			</trans-unit>
+                        <trans-unit id="categories.description">
+				<source>Kategorien</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

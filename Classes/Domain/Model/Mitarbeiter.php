@@ -29,7 +29,7 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
  * Employee
- * user from fe_users table of typo3 (frontend user)
+ * User from fe_users table of typo3 (frontend user)
  *  
  * @author Markus Puffer (m.puffer@pm-webdesign.eu)
  */
@@ -111,14 +111,7 @@ class Mitarbeiter extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
     protected $firma = NULL;
 
     /**
-     * Place
-     * 
-     * @var \Pmwebdesign\Staffm\Domain\Model\Standort
-     * @lazy
-     */
-    protected $standort = NULL;      
-
-    /**
+     * Qualifications
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Employeequalification>	
      * @lazy
@@ -128,7 +121,7 @@ class Mitarbeiter extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
     
      /**
      * objectManager
-     * Wird für den Bild/DateiUpload benötigt
+     * Required for picture upload
      * @var \TYPO3\CMS\Extbase\Object\ObjectManager
      * @inject
      */
@@ -151,6 +144,7 @@ class Mitarbeiter extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
     }
 
     /**
+     * Get position
      * 
      * @return \Pmwebdesign\Staffm\Domain\Model\Position $position
      */
@@ -160,6 +154,7 @@ class Mitarbeiter extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
     }
 
     /**
+     * Set position
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Position $position
      */
@@ -334,27 +329,6 @@ class Mitarbeiter extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
     public function setFirma(\Pmwebdesign\Staffm\Domain\Model\Firma $firma = NULL)
     {
         $this->firma = $firma;
-    }
-
-    /**
-     * Returns the standort
-     * 
-     * @return \Pmwebdesign\Staffm\Domain\Model\Standort $standort
-     */
-    public function getStandort()
-    {
-        return $this->standort;
-    }
-
-    /**
-     * Sets the standort
-     * 
-     * @param \Pmwebdesign\Staffm\Domain\Model\Standort $standort
-     * @return void
-     */
-    public function setStandort(\Pmwebdesign\Staffm\Domain\Model\Standort $standort = NULL)
-    {
-        $this->standort = $standort;
     }
    
     /**
