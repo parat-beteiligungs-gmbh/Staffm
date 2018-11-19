@@ -4,6 +4,7 @@
 
 Supports Typo3 8.7.0 - 8.7.99
 
+- [FEATURE] Add a selection menue for qualifications with category buttons.
 - [FEATURE] Add Categories to qualification, for a better usage.
 - [BUGFIX] Fixed caching bug, by changing name (Mitarbeiter update action) who was send to cache class.
 
