@@ -1,11 +1,11 @@
 {namespace tv = Pmwebdesign\Staffm\ViewHelpers}
 
-<f:form action="update" controller="Qualifikation" arguments="{qualifikation:qualification, key:key, standardsearch:standardsearch, cache: '{cache}'}" additionalAttributes="{role: 'form'}">  
+<f:form action="update" controller="Mitarbeiter" arguments="{mitarbeiter:employee, key:key, standardsearch:standardsearch, cache: '{cache}'}" additionalAttributes="{role: 'form'}">  
     <tv:widget.atoZNav objects="{categories}" as="filteredCategories" property="name" search="{search}" maid="{maid}">  
-        <p><b><f:translate key="tx_staffm_domain_model_qualifikation" />:</b> {qualification.bezeichnung}</p> 
+        <p><b><f:translate key="tx_staffm_domain_model_mitarbeiter" />:</b> {employee.lastName} {employee.firstName}</p> 
         <div class="input-group">  
             <div class="input-group-prepend">
-                <f:link.action class="btn btn-default left" action="edit" controller="Qualifikation" arguments="{qualifikation:qualification, search:standardsearch}"><f:translate id="staffm.back" /></f:link.action>
+                <f:link.action class="btn btn-default left" action="edit" controller="Mitarbeiter" arguments="{mitarbeiter:employee, search:standardsearch}"><f:translate id="staffm.back" /></f:link.action>
             </div>
             <f:form.textfield placeholder="Suchwort..." class="form-control" name="search" value="{search}" />
             <div class="input-group-append">                    
@@ -20,7 +20,7 @@
                 </tr>
                 <f:for each="{sortedCategories}" as="category">
                     <tr>                              
-                        <f:if condition="{tv:categoryQualification(c:category, qu: qualification)} > 0">
+                        <f:if condition="{tv:categoryEmployee(c:category, ma: employee)} > 0">
                             <f:then>                       
                                 <td class="td{category.uid}" style="background-color: red">{category.name}</td>                                         
                                 <td class="td{category.uid}" style="background-color: red"><f:form.checkbox id="categoryCheck{category.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="categories" value="{category.uid}" multiple="1" checked="1" /></td>                                                    
@@ -35,7 +35,7 @@
             </table>
             <br />
             <div class="btn-group" role="group">
-                <f:link.action class="btn btn-secondary" action="edit" controller="Qualifikation" arguments="{qualifikation:qualification, berechtigung:berechtigung}"><f:translate id="staffm.back" /></f:link.action>
+                <f:link.action class="btn btn-secondary" action="edit" controller="Mitarbeiter" arguments="{mitarbeiter:employee, berechtigung:berechtigung}"><f:translate id="staffm.back" /></f:link.action>
                 <button class="btn btn-success" type="submit"><f:translate id="staffm.choose" /> <f:translate id="staffm.text.uebergeben" /></button>
             </div><br />
         </tv:widget.sort>
@@ -74,4 +74,3 @@
         }
     }
 </script>
-

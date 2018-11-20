@@ -8,6 +8,14 @@
 			{category.name}
 		</td>
 	</tr>
+        <tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_category.description" />
+		</td>
+		<td>
+			{category.description}
+		</td>
+	</tr>
         <tr>  
             <td>
                 <f:translate key="tx_staffm_domain_model_category.qualifications" />
@@ -16,5 +24,22 @@
                 <f:render partial="Category/Qualification/CategoryQualifications" arguments="{category:category, label:'no'}" />
             </td>
         </tr>
+        <tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_category.employees" />
+		</td>
+		<td>
+                    <f:for each="{category.employees}" as="employee" iteration="iterator">
+                        <f:if condition="{iterator.isLast}">
+                            <f:then>
+                                {employee.lastName} {employee.firstName}
+                            </f:then>
+                            <f:else>
+                                {employee.lastName} {employee.firstName},
+                            </f:else>
+                        </f:if>
+                    </f:for>
+		</td>
+	</tr>
 </table>
 <br style="clear: both" />

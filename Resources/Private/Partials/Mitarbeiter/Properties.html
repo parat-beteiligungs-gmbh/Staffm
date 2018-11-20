@@ -145,6 +145,25 @@
 			{mitarbeiter.firma.bezeichnung}
                     </f:link.action>
 		</td>
-	</tr>       
+	</tr>
+        <tr>
+		<td>
+			<f:translate key="tx_staffm_domain_model_mitarbeiter.categories" />
+		</td>
+		<td>                    
+                    <f:for each="{mitarbeiter.categories}" as="category" iteration="iterator">
+                        <f:link.action title="{category.description}" class="tx_staffm link" pluginName="Staffm" action="show" controller="Category" arguments="{employee:mitarbeiter, key: 'vonMit', standardsearch:search, category:category.uid}">
+                            <f:if condition="{iterator.isLast}">
+                                <f:then>
+                                    {category.name}
+                                </f:then>
+                                <f:else>
+                                    {category.name},
+                                </f:else>
+                            </f:if>
+                        </f:link.action>
+                    </f:for>                    
+		</td>
+	</tr>    
 </table><br />
 <f:render partial="Mitarbeiter/Qualification/ListProperties" arguments="{mitarbeiter:mitarbeiter, edit:'no', key:'vonMit'}" />

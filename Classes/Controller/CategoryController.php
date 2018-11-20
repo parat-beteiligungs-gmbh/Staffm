@@ -187,10 +187,12 @@ class CategoryController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
     /**
      * List of Categories
      * 
+     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee
      * @param \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualification
      * @return void
      */
-    public function listAction(\Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualification = NULL)
+    public function listAction(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee = NULL,
+            \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualification = NULL)
     {
         // Search exist?
         if ($this->request->hasArgument('search')) {
@@ -243,6 +245,7 @@ class CategoryController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 
         $this->view->assign('categories', $categories);
         $this->view->assign('qualification', $qualification);
+        $this->view->assign('employee', $employee);
         
         if ($maid != "") {
             $this->view->assign('maid', $maid);
@@ -265,26 +268,19 @@ class CategoryController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
      * Single view of category
      * 
      * @param integer $category
-     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
+     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee
      * @return void
      */
-    public function showAction($category = 0, \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter = NULL)
+    public function showAction($category = 0, \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee = NULL)
     {
-        if ($mitarbeiter != NULL) {
-            $key = $this->request->getArgument('key');
-            $this->view->assign('key', $key);
-            $category = $mitarbeiter->getCategory();
-            $this->view->assign('mitarbeiter', $mitarbeiter);
-        } else {
-            $category = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\CategoryRepository')->findOneByUid($category);
-        }
-
+        $category = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\CategoryRepository')->findOneByUid($category);
+        
         // Previous search?
         if ($this->request->hasArgument('standardsearch')) {
             $standardsearch = $this->request->getArgument('standardsearch');
             $this->view->assign('standardsearch', $standardsearch);
-        }
-
+        }        
+        $this->view->assign('employee', $employee);
         $this->view->assign('category', $category);
     }
 
@@ -384,22 +380,21 @@ class CategoryController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
     public function updateAction(\Pmwebdesign\Staffm\Domain\Model\Category $category)
     {    
         // Get assigned qualifications
-        if ($this->request->hasArgument('qualifikationen')) {
-            \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($this->request->getArgument('qualifikationen'));
+        if ($this->request->hasArgument('qualifikationen')) {            
              // QualificationService
             $qualificationService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\QualificationService::class);
             $category->setQualifications($qualificationService->getQualifications($this->request, $this->objectManager));
-            
-            if (count($category->getQualifications()) > 0) {
-                $this->addFlashMessage('Qualifikationen wurden der Kategorie "'.$category->getName().'" zugeordnet!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
-            } else {
-                $this->addFlashMessage('Der Kategorie "'.$category->getName().'" wurden keine Qualifikationen zugeordnet!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
-            }
-        } else {            
-            $this->addFlashMessage('Die Kategorie "'.$category->getName().'" wurde aktualisiert!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
+        }
+        
+        // Get assigned employees
+        if ($this->request->hasArgument('employees')) {            
+             /* @var $userService \Pmwebdesign\Staffm\Domain\Service\UserService */
+            $userService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\UserService::class);
+            $category->setEmployees($userService->getEmployeesOfCheckBoxes($this->request, $this->objectManager));
         }
         
         $this->categoryRepository->update($category);
+        $this->addFlashMessage('Die Kategorie "'.$category->getName().'" wurde aktualisiert!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
         
         // Delete Caches
         $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);

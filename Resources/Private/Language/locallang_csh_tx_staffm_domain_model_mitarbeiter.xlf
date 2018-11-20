@@ -42,6 +42,9 @@
 			<trans-unit id="firma.description">
 				<source>Firma</source>
 			</trans-unit>
+                        <trans-unit id="categories.description">
+				<source>Kategorien</source>
+			</trans-unit>
                         <trans-unit id="employeequalifications.description">
 				<source>Mitarbeiter Qualifikationen</source>
 			</trans-unit>

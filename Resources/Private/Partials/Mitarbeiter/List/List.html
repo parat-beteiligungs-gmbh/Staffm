@@ -1,0 +1,200 @@
+
+<f:form action="list" id="searchform" name="searchform" arguments="{kostenstelle:kostenstelle, key:'suche', char:'{char}', cache:'{cache}'}" additionalAttributes="{role: 'form'}">        
+    <tv:widget.atoZNav objects="{mitarbeiters}" as="filteredMitarbeiters" property="lastName" search="{search}" maid="{maid}">  
+        <div id="testappend" class="input-group"> 
+            <div class="input-group-prepend">
+                <f:security.ifHasRole role="PA">                                                
+                    <f:link.action class="btn btn-default" title="Zum Formular für Mitarbeiter anlegen" action="new"><f:translate id="staffm.mitarbeiter.new" /></f:link.action>                    
+                </f:security.ifHasRole>                
+                <f:link.action title="Die Liste in Excel ausgeben" id="excelExport" class="btn btn-default" action="export" arguments="{searching:'{search}'}" name="excelExport" >
+                    <f:image class="tx_staffm icon" src="typo3conf/ext/staffm/Resources/Public/Icons/Excel.png" />
+                    Excel Export
+                </f:link.action> 
+            </div>
+            <f:form.textfield type="search" id="search" class="form-control" placeholder="Suchwort..." title="Volltextsuche: mehrere Begriffe, oder Teilbegriffe möglich (z. B. Tätigkeit: \"Eink\" für Einkauf, Qualifikationen: \"Intranet\")" name="search" value="{f:if(condition: '{searchstatus} != \'delete\'', then: '{search}', else: '')}" />                                
+            <div class="input-group-append">               
+                <button type="submit" class="btn btn-default"><f:translate id="staffm.search" /></button>
+            </div>            
+        </div>  
+        <tv:widget.sort objects="{filteredMitarbeiters}" as="sortedMitarbeiters" property="lastName">     
+            <table class="tx_staffm">     
+                <tr>
+                    <th></th>
+                    <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.personalnummer" /></th>
+                    <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.username" /></th>
+                    <th><f:translate key="tx_staffm_domain_model_mitarbeiter.last_name" /></th>
+                    <th><f:translate key="tx_staffm_domain_model_mitarbeiter.first_name" /></th>
+                    <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.title" /></th>
+                    <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.telephone" /></th>	    
+                    <f:comment><!-- Search condition, for qualifications (more performance) --></f:comment>
+                    <f:if condition="{search}">
+                        <th><f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></th>                    
+                    </f:if>                    
+                    </tr>
+                    <f:for each="{sortedMitarbeiters}" as="mitarbeiter">            
+                        <tr>
+                            <td>
+                        <f:if condition="{mitarbeiter.image}">   
+                            <f:for each="{mitarbeiter.image}" as="img" key="key" iteration="iterator">        
+                                <f:if condition="{iterator.isFirst}">
+                                    <f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, search:search}"><f:image class="tx_staffm profilbild klein" src="{img.uid}" treatIdAsReference="1" /></f:link.action>                                            
+                                </f:if>
+                            </f:for>                                                                           
+                        </f:if>                        
+                        </td>
+                        <td class="staffmmobilehidden"><div id="ma{mitarbeiter.uid}" class="anchor"></div><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, search:search, char:char}"> {mitarbeiter.personalnummer}</f:link.action></td>
+                        <td class="staffmmobilehidden"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, search:search}"> {mitarbeiter.username}</f:link.action></td>
+                        <td><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, search:search}"> {mitarbeiter.lastName}</f:link.action></td>
+                        <td><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, search:search}"> {mitarbeiter.firstName}</f:link.action></td>
+                        <td class="staffmmobilehidden"><div class="tx_staffm tds150"><f:link.action title="{mitarbeiter.title}" action="show" arguments="{mitarbeiter : mitarbeiter, search:search}"> {mitarbeiter.title}</f:link.action></div></td>
+                        <td class="staffmmobilehidden"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, search:search}"> {mitarbeiter.telephone}</f:link.action></td>                               
+                        <f:comment><!-- Search condition, for more performance (Qualification just by search) --></f:comment>
+                        <f:if condition="{search}">
+                            <td>     
+                            <f:for each="{mitarbeiter.employeequalifications -> vhs:iterator.sort(sortBy: 'qualification.bezeichnung')}" as="employeequalification" iteration="iteration">
+                                <f:if condition="{iteration.isFirst}">
+                                    <f:then>
+                                        <p class="marksq" title="{employeequalification.qualification.beschreibung}"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, search:search}"><span>{employeequalification.qualification.bezeichnung} ({employeequalification.status})</span></f:link.action>
+                                        <f:if condition="{mitarbeiter.employeequalifications -> f:count()} > 1">
+                                            <a class="btn btn-secondary btn-sm" style="float:right" href="javascript:void(0)" id="q{mitarbeiter.uid}" onClick="getID(this);return false;"><span name="q{mitarbeiter.uid}glyphiconchange" id="q{mitarbeiter.uid}" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                                                <f:if condition="{mitarbeiter.employeequalifications -> f:count()} < 10">
+                                                    0
+                                                </f:if>
+                                                {mitarbeiter.employeequalifications -> f:count()}</a>
+                                        </f:if>
+                                        </p>
+                                    </f:then>
+                                    <f:else>
+                                        <p class="marksq q{mitarbeiter.uid}hidden" style="display:none" title="{employeequalification.qualification.beschreibung}"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, search:search}">{employeequalification.qualification.bezeichnung} ({employeequalification.status})</f:link.action></p>                                            
+                                    </f:else>
+                                </f:if>                                            
+                            </f:for>
+                            </td>
+                        </f:if>
+                        <f:security.ifHasRole role="PA">                               
+                            <td class="staffmmobilehidden nobackground">
+                                <div class="btn-group">
+                                    <f:link.action class="btn btn-secondary btn-sm" title="{mitarbeiter.firstName} {mitarbeiter.lastName} bearbeiten" action="edit" arguments="{mitarbeiter : mitarbeiter}"><f:translate id="staffm.edit" /></f:link.action>
+                                    <f:link.action pluginName="Staffm" class="btn btn-danger btn-sm" action="delete" arguments="{mitarbeiter : mitarbeiter}"><f:translate id="staffm.delete" /></f:link.action>
+                                </div>
+                            </td>
+                        </f:security.ifHasRole>
+                    </tr>               	
+                </f:for>
+            </table>
+        </tv:widget.sort>
+    </tv:widget.atoZNav>
+</f:form>
+<script>
+    function getID(stat) {
+        // ID of clicked employee qualification
+        //var objEvt;
+        //var objEvt = (window.event)? window.event: objEvt;
+        //var objSrc = (objEvt.target)? objEvt.target : objEvt.srcElement;        
+        //var id = objSrc.id;      
+        var id = stat.id;
+
+
+        // Get classes of employee qualifications
+        var list = document.getElementsByClassName(id + "hidden");
+        // Hide or show
+        for (var i = 0; i < list.length; i++) {
+            /*(list[i].style.display == 'none') ? list[i].style.display = ''
+             : list[i].style.display = 'none';*/
+
+            var elem = document.getElementsByName(id + 'glyphiconchange');
+            if (list[i].style.display == 'none') {
+                list[i].style.display = '';
+                for (var ii = 0; ii < elem.length; ii++) {
+                    elem[ii].setAttribute('class', 'glyphicon glyphicon-triangle-top');
+                }
+            } else {
+                list[i].style.display = 'none';
+                //elem.setAttribute('class', 'glyphicon glyphicon-triangle-bottom');
+                for (var ii = 0; ii < elem.length; ii++) {
+                    elem[ii].setAttribute('class', 'glyphicon glyphicon-triangle-bottom');
+                }
+
+            }
+        }
+
+    }
+
+    // On click at All, or A-Z, the code comes after the widget view
+    function getIDsearch(stat) {
+        // ID of clicked employee qualification            
+        var id = stat.id;
+
+        //sleepFor(2000);
+
+        //document.getElementById('search').value = "";
+        //alert(document.getElementById('search').value);
+        //document.getElementById('searchstatus').value = "delete";
+        //document.search.reset();
+
+
+        // Load page
+        //window.location.reload();
+
+        // Send Form
+        //alert("Suchformular nochmal senden");
+        //var status = document.searchform.submit(); 
+        //document.searchform.reset();
+        //document.forms["searchform"].submit();
+
+        var searchstatus = "";
+        var search = "";
+        searchstatus = document.getElementById('searchstatus').value;
+        search = document.getElementById('search').value;
+        //alert("Searchstatus: " + searchstatus);
+        //alert("Suche mit " + search);
+
+        if (searchstatus == "delete") {            
+            //document.getElementById('searchform').reset();            
+            //var suche = document.getElementById('search');
+            // document.getElementById('search').value = "";
+            //suche.innerHTML = "delete";           
+        }
+
+        //document.getElementById('searchform').submit();
+        //document.searchform.submit();
+        //alert(document.getElementById('search').value);
+    }
+
+    // On run a Form
+    document.getElementById('searchform').onsubmit = function (evt) {
+        /*var input = document.getElementById('search').value;
+         if (input == 'delete') {
+         //msg.innerHTML = '»Name« bitte ausfüllen';
+         //alert('input');
+         //return false;
+         }  */
+        var searchstatus = "";
+        var search = "";
+        searchstatus = document.getElementById('searchstatus').value;
+        search = document.getElementById('search').value;
+        //alert("Searchstatus: " + searchstatus);
+        //alert("Suche mit " + search);
+
+        if (searchstatus == "delete") {
+            //alert("Suchbegriff löschen");
+            document.getElementById('search').value = "";
+        }
+    }
+
+    // On run a Form
+    //document.getElementById('searchform').onsubmit = setTimeout("document.searchform.reset();", 3000);    
+
+    /**
+     * Sleep-Timer
+     * Break code for a certain time
+     * 
+     * @param {int} sleepDuration
+     * @returns {undefined}
+     */
+    function sleepFor(sleepDuration) {
+        var now = new Date().getTime();
+        while (new Date().getTime() < now + sleepDuration) { /* do nothing */
+        }
+    }
+</script>

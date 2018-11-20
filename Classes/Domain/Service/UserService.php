@@ -104,4 +104,31 @@ class UserService
     {        
         return $GLOBALS['TSFE']->fe_user->groupData['uid']; 
     }
+    
+    /**
+     * Check assigned employees
+     * 
+     * @param \TYPO3\CMS\Extbase\Mvc\Request $request
+     * @param \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager  
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter>
+     */
+    public function getEmployeesOfCheckBoxes(\TYPO3\CMS\Extbase\Mvc\Request $request, \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager)
+    {
+        if ($request->hasArgument('employees')) {           
+            $employees = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+
+            // Read checkboxes into array
+            $emp = $request->getArgument('employees');
+
+            // Set employees to array items
+            foreach ($emp as $e) {
+                /* @var $employee \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter */
+                $employee = $objectManager->get(
+                                'Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository'
+                        )->findOneByUid($e);                
+                $employees->attach($employee);
+            }
+            return $employees;
+        }
+    }
 }

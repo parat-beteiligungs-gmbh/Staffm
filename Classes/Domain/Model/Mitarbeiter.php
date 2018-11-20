@@ -119,6 +119,15 @@ class Mitarbeiter extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      */
     protected $employeequalifications = NULL;
     
+    /**
+     * Categories
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Category>
+     * @lazy
+     * @cascade remove
+     */
+    protected $categories = NULL;
+    
      /**
      * objectManager
      * Required for picture upload
@@ -141,6 +150,7 @@ class Mitarbeiter extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
     protected function initStorageObjects()
     {   
         $this->employeequalifications = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->categories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
 
     /**
@@ -349,5 +359,25 @@ class Mitarbeiter extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
     public function setEmployeequalifications(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $employeequalifications)
     {
         $this->employeequalifications = $employeequalifications;
+    }
+    
+    /**      
+     * Get categories
+     * 
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Category>
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+    
+    /**
+     * Set categories
+     * 
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Category> $categories
+     */
+    public function setCategories(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $categories)
+    {
+        $this->categories = $categories;
     }
 }

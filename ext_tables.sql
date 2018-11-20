@@ -19,6 +19,7 @@ CREATE TABLE fe_users (
 	firma int(11) unsigned DEFAULT '0',
 	standort int(11) unsigned DEFAULT '0',        
         employeequalifications int(11) unsigned DEFAULT '0',  
+        categories int(11) unsigned DEFAULT '0',
         image INT UNSIGNED DEFAULT NULL, 
         deleted tinyint(3) unsigned DEFAULT '0',
 	tx_extbase_type varchar(255) DEFAULT '' NOT NULL,
@@ -114,6 +115,18 @@ CREATE TABLE tx_staffm_domain_model_qualifikation_category_mm (
 	KEY uid_foreign (uid_foreign)
 );
 
+#
+# Table structure for table 'tx_staffm_domain_model_employee_category_mm'
+#
+CREATE TABLE tx_staffm_domain_model_employee_category_mm (
+        uid_local int(11) DEFAULT '0' NOT NULL,
+	uid_foreign int(11) DEFAULT '0' NOT NULL,
+	tablenames varchar(30) DEFAULT '' NOT NULL,
+	sorting int(11) DEFAULT '0' NOT NULL,
+	sorting_foreign int(11) DEFAULT '0' NOT NULL,
+	KEY uid_local (uid_local),
+	KEY uid_foreign (uid_foreign)
+);
 
 #
 # Table structure for table 'tx_staffm_domain_model_employeequalification'
@@ -336,7 +349,9 @@ CREATE TABLE tx_staffm_domain_model_category (
 	pid int(11) DEFAULT '0' NOT NULL,  
         
 	name varchar(255) DEFAULT '' NOT NULL,  
-        qualifications int(11) unsigned DEFAULT '0',        
+        description text NOT NULL,
+        qualifications int(11) unsigned DEFAULT '0',
+        employees int(11) unsigned DEFAULT '0',
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

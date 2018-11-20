@@ -156,6 +156,22 @@ $fields = [
                 ]
             ]
         ], $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'])
+    ],
+    'categories' => [
+        //'exclude' => 1,        
+        'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_mitarbeiter.categories',
+        'config' => [
+            'type' => 'select',
+            'renderType' => 'selectMultipleSideBySide',
+            'multiple' => 1,
+            'foreign_table' => 'tx_staffm_domain_model_category',
+            'MM' => 'tx_staffm_domain_model_employee_category_mm',
+            'MM_opposite_field' => 'category',
+            'foreign_table_where' => ' AND tx_staffm_domain_model_category.pid=###CURRENT_PID### ORDER BY tx_staffm_domain_model_category.name ',
+            'multiple' => 1,
+            'minitems' => 0,
+            'maxitems' => 1000,
+        ],
     ]
 ];
 

@@ -219,10 +219,12 @@ class MitarbeiterController extends ActionController
     /**
      * List of employees
      * 
+     * @param \Pmwebdesign\Staffm\Domain\Model\Category $category
      * @param Kostenstelle $kostenstelle
      * @return void
      */
-    public function listAction(Kostenstelle $kostenstelle = NULL)
+    public function listAction(\Pmwebdesign\Staffm\Domain\Model\Category $category = NULL,
+            Kostenstelle $kostenstelle = NULL)
     {
         // Search exist?
         if ($this->request->hasArgument('search')) {
@@ -284,6 +286,7 @@ class MitarbeiterController extends ActionController
         }
         $this->view->assign('mitarbeiters', $mitarbeiters);
         $this->view->assign('kostenstelle', $kostenstelle);
+        $this->view->assign('category', $category);
         if ($maid != "") {
             $this->view->assign('maid', $maid);
         }
@@ -437,6 +440,7 @@ class MitarbeiterController extends ActionController
     public function showAction($mitarbeiter)
     {
         $mitarbeiter = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findOneByUid($mitarbeiter);
+        
         if ($this->request->hasArgument('key')) {
             $key = $this->request->getArgument('key');
             $this->view->assign('key', $key);
@@ -630,6 +634,14 @@ class MitarbeiterController extends ActionController
         } else {
             $this->addFlashMessage('Der Mitarbeiter "'.$mitarbeiter->getFirstName().' '.$mitarbeiter->getLastName().'" wurde aktualisiert!', '', AbstractMessage::OK);
         }
+        
+        // Get assigned categories
+        if ($this->request->hasArgument('categories')) {     
+            /* @var $categoryService \Pmwebdesign\Staffm\Domain\Service\CategoryService */
+            $categoryService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CategoryService::class);
+            $categories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+            $mitarbeiter->setCategories($categoryService->getCategories($this->request, $this->objectManager));
+        }
 
         $this->mitarbeiterRepository->update($mitarbeiter);
 
@@ -711,6 +723,26 @@ class MitarbeiterController extends ActionController
         $this->mitarbeiterRepository->update($mitarbeiter);
         $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager')->persistAll();
         $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'berechtigung' => $berechtigung));
+    }
+    
+    /**
+     * Delete categories of an employee
+     * 
+     * @param Mitarbeiter $employee
+     */
+    public function deleteCategoriesAction(Mitarbeiter $employee)
+    {
+        if ($this->request->hasArgument('search')) {
+            $search = $this->request->getArgument('search');
+        }
+
+        if ($this->request->hasArgument('berechtigung')) {
+            $berechtigung = $this->request->getArgument('berechtigung');
+        }
+        $employee->setCategories(new ObjectStorage());
+        $this->mitarbeiterRepository->update($employee);
+        $this->addFlashMessage('Alle Kategorien vom Mitarbeiter "' . $employee->getFirstName() . ' ' . $employee->getLastName() . '" wurden gelöscht!', '', AbstractMessage::ERROR);
+        $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $employee, 'search' => $search, 'berechtigung' => $berechtigung));
     }
 
     /**

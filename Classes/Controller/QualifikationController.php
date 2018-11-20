@@ -542,10 +542,10 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         
         // Get assigned categories
         if ($this->request->hasArgument('categories')) {     
-            /* @var $qualificationService \Pmwebdesign\Staffm\Domain\Service\QualificationService */
-            $qualificationService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\QualificationService::class);
+            /* @var $categoryService \Pmwebdesign\Staffm\Domain\Service\CategoryService */
+            $categoryService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CategoryService::class);
             $categories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-            $qualifikation->setCategories($qualificationService->getCategories($this->request, $this->objectManager));
+            $qualifikation->setCategories($categoryService->getCategories($this->request, $this->objectManager));
         }
         
         $this->qualifikationRepository->update($qualifikation);

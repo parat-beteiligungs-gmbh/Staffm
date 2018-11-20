@@ -7,7 +7,7 @@ if (!defined('TYPO3_MODE')) {
 	'Pmwebdesign.' . $_EXTKEY,
 	'Staffm',   // Plugin
 	[ // Cacheable actions
-		'Mitarbeiter' => 'list, listChoose, listChooseQuali, choose, show, new, edit, editUser, create, editKst, update, delete, deleteQuali, showKst, showVeraKst, deleteImage, export',
+		'Mitarbeiter' => 'list, listChoose, listChooseQuali, choose, show, new, edit, editUser, create, editKst, update, delete, deleteQuali, deleteCategories, showKst, showVeraKst, deleteImage, export',
 		'Position' => 'list, show, choose, export, new, edit, create, update, delete, deletePosition',
 		'Kostenstelle' => 'list, show, choose, export, new, edit, create, update, delete, deleteKst, deleteKstVerantwortlicher',
 		'Firma' => 'list, show, choose, export, new, edit, create, update, delete, deleteFirma',				
@@ -16,7 +16,7 @@ if (!defined('TYPO3_MODE')) {
                 'Category' => 'list, show, new, edit, create, update, delete'
 	],	
 	[ // Non-cacheable actions
-		'Mitarbeiter' => 'list, listChoose, listChooseQuali, choose, show, new, edit, editUser, create, editKst, update, delete, deleteQuali, deleteImage, export',
+		'Mitarbeiter' => 'list, listChoose, listChooseQuali, choose, show, new, edit, editUser, create, editKst, update, delete, deleteQuali, deleteCategories, deleteImage, export',
 		'Position' => 'list, show, choose, export, new, edit, create, update, delete, deletePosition',
 		'Kostenstelle' => 'list, show, choose, export, new, edit, create, update, delete, deleteKst, deleteKstVerantwortlicher',
 		'Firma' => 'list, show, choose, export, new, edit, create, update, delete, deleteFirma',

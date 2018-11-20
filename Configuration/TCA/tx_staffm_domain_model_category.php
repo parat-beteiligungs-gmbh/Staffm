@@ -79,6 +79,16 @@ return [
                 'eval' => 'trim'
             ],
         ],
+        'description' => [
+            'exclude' => 0,
+            'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_category.description',
+            'config' => [
+                'type' => 'text',
+                'cols' => 30,
+                'rows' => 5,
+                'defaultExtras' => 'richtext[*]',
+            ],
+        ],
         'qualifications' => [
             //'exclude' => 1,        
             'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_category.qualifications',
@@ -94,7 +104,24 @@ return [
                     'minitems' => 0,
                     'maxitems' => 1000,
             ],
-        ],        
+        ],       
+        // TODO: TCA employees
+        'employees' => [
+            //'exclude' => 1,        
+            'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_category.employees',
+            'config' => [
+                    'type' => 'select',
+                    'renderType' => 'selectMultipleSideBySide',
+                    'foreign_table' => 'fe_users',
+                    'MM' => 'tx_staffm_domain_model_employee_category_mm',
+                    //'MM_opposite_field' => 'category',
+                    'foreign_table_where' => ' AND fe_users.pid=###CURRENT_PID### ORDER BY fe_users.last_name ', 
+                    //'foreign_sortby' => 'sorting',
+                    'multiple' => 1,
+                    'minitems' => 0,
+                    'maxitems' => 1000,
+            ],
+        ],       
     ],
 ];
 ## EXTENSION BUILDER DEFAULTS END TOKEN - Everything BEFORE this line is overwritten with the defaults of the extension builder

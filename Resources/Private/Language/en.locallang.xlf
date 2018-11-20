@@ -139,10 +139,10 @@
                 <source>Firma</source>
                 <target state="translated">Company</target>
             </trans-unit>
-            <trans-unit id="tx_staffm_domain_model_mitarbeiter.standort">
-                <source>Standort</source>
-                <target state="translated">Location</target>
-            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.categories">
+                <source>Kategorien</source>
+                <target state="translated">Categories</target>
+            </trans-unit>            
             <trans-unit id="tx_staffm_domain_model_mitarbeiter.employeequalifications">
                 <source>Qualifikationen</source>
                 <target state="translated">Qualifications</target>
@@ -394,6 +394,14 @@
             <trans-unit id="tx_staffm_domain_model_category.name">
                 <source>Bezeichnung</source>
                 <target state="translated">Designation</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_category.employees">
+                <source>Mitarbeiter</source>
+                <target state="translated">Employees</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_category.description">
+                <source>Beschreibung</source>
+                <target state="translated">Description</target>
             </trans-unit>
              <trans-unit id="tx_staffm_domain_model_category.qualifications">
                 <source>Qualifikationen</source>

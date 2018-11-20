@@ -175,7 +175,7 @@ class Qualifikation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->employeequalifications = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
     
-    /**     * 
+    /**      
      * Get categories
      * 
      * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Category>

@@ -5,11 +5,12 @@
     <h1><f:translate id="staffm.category.list.headline" /></h1>
     <f:flashMessages />
     <f:if condition="{key} == 'chooseCategoryForQuali'">
-        <f:then>
-            <f:render partial="Category/List/CategoriesForQualification" arguments="{_all}" />
-        </f:then>
-        <f:else>
-            <f:render partial="Category/List/List" arguments="{_all}" />
-        </f:else>
+        <f:render partial="Category/List/CategoriesForQualification" arguments="{_all}" />
+    </f:if>
+    <f:if condition="{key} == 'chooseCategoryForEmployee'">
+        <f:render partial="Category/List/CategoryForEmployee" arguments="{_all}" />
+    </f:if>
+    <f:if condition="{key} == ''">
+        <f:render partial="Category/List/List" arguments="{_all}" />
     </f:if>
 </f:section>

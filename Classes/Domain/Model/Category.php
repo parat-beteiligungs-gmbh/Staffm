@@ -40,6 +40,13 @@ class Category extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $name = "";
     
     /**
+     * Description
+     *
+     * @var string
+     */
+    protected $description = "";
+    
+    /**
      * Qualifications
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Qualifikation>
@@ -47,6 +54,15 @@ class Category extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @cascade remove
      */
     protected $qualifications = NULL;
+    
+    /**
+     * Employees
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter>
+     * @lazy
+     * @cascade remove
+     */
+    protected $employees = NULL;
 
     /**
      * Constructor
@@ -87,6 +103,26 @@ class Category extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
     
     /**
+     * Get description
+     * 
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set description
+     * 
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+        
+    /**
      * Get qualifications
      * 
      * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Qualifikation>
@@ -105,5 +141,26 @@ class Category extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setQualifications(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $qualifications)
     {
         $this->qualifications = $qualifications;
+    }
+    
+    /**
+     * Get employees
+     * 
+     * @return @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter>
+     */
+    public function getEmployees()
+    {
+        return $this->employees;
+    }
+
+    /**
+     * Set employees
+     * 
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter> $employees
+     * @return void
+     */
+    public function setEmployees(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $employees)
+    {
+        $this->employees = $employees;
     }
 }

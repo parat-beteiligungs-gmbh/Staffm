@@ -4,8 +4,29 @@
     <f:translate key="tx_staffm_domain_model_category.name" />
 </label><br />
 <f:form.textfield class="form-control" property="name" /><br />
+<label class="tx-staffm bold" for="description">
+    <f:translate key="tx_staffm_domain_model_category.description" />
+</label><br />
+<f:form.textfield class="form-control" property="description" /><br />
 <f:if condition="{category}">
     <f:render partial="Category/Qualification/CategoryQualifications" arguments="{category:category}" />
     <br />
-    <f:link.action class="btn btn-default" action="list" controller="Qualifikation" arguments="{category:category, key:'chooseQualiForCategory', standardsearch:search, cache:'notcache'}"><f:translate id="staffm.choose" /></f:link.action><br /><br />
+    <f:link.action class="btn btn-default" action="list" controller="Qualifikation" arguments="{category:category, key:'chooseQualiForCategory', standardsearch:search, cache:'notcache'}"><f:translate id="staffm.choose" /></f:link.action>
+    <br /><br />
+    <label class="tx-staffm bold" for="employees">
+        <f:translate key="tx_staffm_domain_model_category.employees" />
+    </label><br />
+    <f:for each="{category.employees}" as="employee" iteration="iterator">
+        <f:if condition="{iterator.isLast}">
+            <f:then>
+                {employee.lastName} {employee.firstName}
+            </f:then>
+            <f:else>
+                {employee.lastName} {employee.firstName},
+            </f:else>
+        </f:if>
+    </f:for>
+    <br />
+    <f:link.action class="btn btn-default" action="list" controller="Mitarbeiter" arguments="{category:category, key:'chooseEmployeeForCategory', standardsearch:search, cache:'notcache'}"><f:translate id="staffm.choose" /></f:link.action>
+    <br /><br />
 </f:if>

@@ -330,30 +330,4 @@ class QualificationService
             return $qualifications;
         }
     }
-    /**
-     * Check assigned categories for a qualification
-     * 
-     * @param \TYPO3\CMS\Extbase\Mvc\Request $request
-     * @param \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager  
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Category>
-     */
-    public function getCategories(\TYPO3\CMS\Extbase\Mvc\Request $request, \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager)
-    {
-        if ($request->hasArgument('categories')) {           
-            $categories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-
-            // Read checkboxes into array
-            $cat = $request->getArgument('categories');
-
-            // Set categories to array items
-            foreach ($cat as $c) {
-                /* @var $category \Pmwebdesign\Staffm\Domain\Model\Category */
-                $category = $objectManager->get(
-                                'Pmwebdesign\\Staffm\\Domain\\Repository\\CategoryRepository'
-                        )->findOneByUid($c);                
-                $categories->attach($category);
-            }
-            return $categories;
-        }
-    }
 }

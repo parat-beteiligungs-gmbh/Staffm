@@ -105,9 +105,9 @@
             <trans-unit id="tx_staffm_domain_model_mitarbeiter.firma">
                 <source>Firma</source>
             </trans-unit>
-            <trans-unit id="tx_staffm_domain_model_mitarbeiter.standort">
-                <source>Standort</source>
-            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.categories">
+                <source>Kategorien</source>
+            </trans-unit>            
             <trans-unit id="tx_staffm_domain_model_mitarbeiter.employeequalifications">
                 <source>Qualifikationen</source>
             </trans-unit>
@@ -296,6 +296,12 @@
             </trans-unit>
             <trans-unit id="tx_staffm_domain_model_category.name">
                 <source>Bezeichnung</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_category.description">
+                <source>Beschreibung</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_category.employees">
+                <source>Mitarbeiter</source>
             </trans-unit>
             <trans-unit id="tx_staffm_domain_model_category.qualifications">
                 <source>Qualifikationen</source>

@@ -6,8 +6,14 @@
             <trans-unit id="name.description">
                 <source>Bezeichnung</source>
             </trans-unit>
+            <trans-unit id="description.description">
+                <source>Beschreibung</source>
+            </trans-unit>
             <trans-unit id="qualifications.description">
                 <source>Qualifikationen</source>
+            </trans-unit>
+            <trans-unit id="employees.description">
+                <source>Mitarbeiter</source>
             </trans-unit>
         </body>
     </file>

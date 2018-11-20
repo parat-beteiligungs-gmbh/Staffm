@@ -1,7 +1,5 @@
 
-<h1><f:translate id="staffm.category.list.headline" /></h1>
-<f:flashMessages />   
-    <f:form action="list" arguments="{qualifikation:qualification, key:key, standardsearch:standardsearch, cache: '{cache}'}" additionalAttributes="{role: 'form'}"> 
+<f:form action="list" arguments="{qualifikation:qualification, key:key, standardsearch:standardsearch, cache: '{cache}'}" additionalAttributes="{role: 'form'}"> 
     <tv:widget.atoZNav objects="{categories}" as="filteredCategories" property="name" search="{search}" maid="{maid}"> 
         <div class="input-group">  
             <div class="input-group-prepend">                       
@@ -22,11 +20,13 @@
             <table  class="tx_staffm" >
                 <tr>
                     <th><f:translate key="tx_staffm_domain_model_category.name" /></th>
+                    <th><f:translate key="tx_staffm_domain_model_category.description" /></th>
                     <th></th>
                 </tr>
                 <f:for each="{sortedCategories}" as="category">
                     <tr> 
-                        <td><div id="cat{category.uid}" class="anchor"></div><f:link.action action="show" arguments="{category:category, search:search}"> {category.name}</f:link.action></td>
+                        <td><div id="cat{category.uid}" class="anchor"></div><f:link.action action="show" arguments="{category:category, search:search}">{category.name}</f:link.action></td>
+                        <td><f:link.action action="show" arguments="{category:category, search:search}">{category.description}</f:link.action></td>
                         <f:security.ifHasRole role="PA">
                             <td class="staffmobilehidden nobackground">
                                 <div class="btn-group">
