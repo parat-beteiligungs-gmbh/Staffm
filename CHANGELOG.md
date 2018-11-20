@@ -1,5 +1,11 @@
 # Staffm Change Log
 
+2.1.1:
+
+Supports Typo3 8.7.0 - 8.7.99
+
+- [BUGFIX] Fixed Qualification Excel Export.
+
 2.1.0:
 
 Supports Typo3 8.7.0 - 8.7.99
