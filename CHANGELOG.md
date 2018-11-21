@@ -4,6 +4,8 @@
 
 Supports Typo3 8.7.0 - 8.7.99
 
+- [DOCS] Update Changelog.
+- [UPDATE] Update Cache deletes in class Mitarbeiter.
 - [BUGFIX] Fixed the Cost Center Responsible Bug #7.
 - [BUGFIX] Fixed the Qualification Excel Export #6.
 
