@@ -4,7 +4,8 @@
 
 Supports Typo3 8.7.0 - 8.7.99
 
-- [BUGFIX] Fixed Qualification Excel Export.
+- [BUGFIX] Fixed the Cost Center Responsible Bug #7.
+- [BUGFIX] Fixed the Qualification Excel Export #6.
 
 2.1.0:
 
