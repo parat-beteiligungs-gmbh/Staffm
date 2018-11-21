@@ -178,13 +178,14 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
                 }
 
                 $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(3, $i + 2, $bearbeiter);
-                $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(4, $i + 2, count($qualifikation->getMitarbeiters()));
+                $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(4, $i + 2, count($qualifikation->getEmployeequalifications()));
                 $stringMitarbeiter = "";
-                $mitarbeiterliste = $qualifikation->getMitarbeiters();
-                if ($mitarbeiterliste != NULL) {
-                    foreach ($mitarbeiterliste as $m) {
-                        if ($m != NULL) {
-                            $mit = "" . $m->getLastName() . " " . $m->getFirstName() . ",";
+                $employeequalifications = $qualifikation->getEmployeequalifications();
+                if ($employeequalifications != NULL) {
+                    foreach ($employeequalifications as $employeequalification) {
+                        $employee = $employeequalification->getEmployee();
+                        if ($employee != NULL) {
+                            $mit = "" . $employee->getLastName() . " " . $employee->getFirstName() . ",";
                             $stringMitarbeiter = $stringMitarbeiter . $mit;
                         }
                     }
@@ -194,7 +195,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             }
         } else {
             // Show employees
-            $mitarbeiters = $qualifikation->getMitarbeiters();
+            $employeequalifications = $qualifikation->getEmployeequalifications();
 
             // Create new Worksheet
             $myWorkSheet = new Worksheet($_oPHPExcel, 'Qualifikationen');
@@ -221,7 +222,8 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(12, 4, 'Firma');
             
             $i = 0;
-            foreach ($mitarbeiters as $mitarbeiter) {
+            foreach ($employeequalifications as $employeequalification) {
+                $mitarbeiter = $employeequalification->getEmployee();
                 $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(1, $i + 5, $mitarbeiter->getLastName());
                 $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(2, $i + 5, $mitarbeiter->getFirstName());
                 $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(3, $i + 5, (string) $mitarbeiter->getPersonalnummer());

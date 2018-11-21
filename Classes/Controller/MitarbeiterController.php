@@ -41,6 +41,7 @@ use Pmwebdesign\Staffm\Property\TypeConverter\UploadedFileReferenceConverter;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Pmwebdesign\Staffm\Utility\ClassUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
@@ -498,7 +499,7 @@ class MitarbeiterController extends ActionController
         $this->persistenceManager->persistAll();
 
         // Delete Caches
-        $cacheService = GeneralUtility::makeInstance(CacheService::class);
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
         $cacheService->deleteCaches($kostenstelle->getBezeichnung(), "list", "Kostenstelle", 0);
         $cacheService->deleteCaches($kostenstelle->getBezeichnung(), "show", "Kostenstelle", $kostenstelle->getUid());
 
@@ -625,32 +626,27 @@ class MitarbeiterController extends ActionController
             // QualificationService
             $qualificationService = GeneralUtility::makeInstance(QualificationService::class);
             $mitarbeiter->setEmployeequalifications($qualificationService->getEmployeequalificationsFromEmployee($this->request, $this->objectManager, $mitarbeiter));
-            
-            if (count($mitarbeiter->getEmployeequalifications()) > 0) {
-                $this->addFlashMessage('Qualifikationen wurden dem Mitarbeiter "'.$mitarbeiter->getFirstName().' '.$mitarbeiter->getLastName().'" zugeordnet!', '', AbstractMessage::OK);
-            } else {
-                $this->addFlashMessage('Dem Mitarbeiter "'.$mitarbeiter->getFirstName().' '.$mitarbeiter->getLastName().'" wurden keine Qualifikationen zugeordnet!', '', AbstractMessage::ERROR);
-            }
-        } else {
-            $this->addFlashMessage('Der Mitarbeiter "'.$mitarbeiter->getFirstName().' '.$mitarbeiter->getLastName().'" wurde aktualisiert!', '', AbstractMessage::OK);
-        }
-        
+        }         
         // Get assigned categories
         if ($this->request->hasArgument('categories')) {     
             /* @var $categoryService \Pmwebdesign\Staffm\Domain\Service\CategoryService */
-            $categoryService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CategoryService::class);
-            $categories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+            $categoryService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CategoryService::class);           
             $mitarbeiter->setCategories($categoryService->getCategories($this->request, $this->objectManager));
         }
 
         $this->mitarbeiterRepository->update($mitarbeiter);
+        $this->addFlashMessage('Der Mitarbeiter "'.$mitarbeiter->getFirstName().' '.$mitarbeiter->getLastName().'" wurde aktualisiert!', '', AbstractMessage::OK);
 
         $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager')->persistAll();
 
         // Delete Caches   
         /* @var $cacheService \Pmwebdesign\Staffm\Domain\Service\CacheService */
         $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
-        $cacheService->deleteCaches($mitarbeiter->getLastName(), "list", $this->request->getControllerName(), 0);                
+        $cacheService->deleteCaches($mitarbeiter->getLastName(), "list", $this->request->getControllerName(), 0);  
+        /* @var $employeequalification \Pmwebdesign\Staffm\Domain\Model\Employeequalification */
+        foreach ($mitarbeiter->getEmployeequalifications() as $employeequalification) {    
+            $cacheService->deleteCaches($employeequalification->getQualification()->getBezeichnung(), "list", ClassUtility::getShortClassNameFromObject($employeequalification->getQualification()), 0);  
+        }        
 
         if ($this->request->hasArgument('key')) {
             $key = $this->request->getArgument('key');
@@ -697,6 +693,10 @@ class MitarbeiterController extends ActionController
         $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
         $cacheService->deleteCaches($mitarbeiter->getLastName(), "list", $this->request->getControllerName(), 0);
         $cacheService->deleteCaches($mitarbeiter->getLastName(), "show", $this->request->getControllerName(), $mitarbeiter->getUid());
+        /* @var $employeequalification \Pmwebdesign\Staffm\Domain\Model\Employeequalification */
+        foreach ($mitarbeiter->getEmployeequalifications() as $employeequalification) {    
+            $cacheService->deleteCaches($employeequalification->getQualification()->getBezeichnung(), "list", ClassUtility::getShortClassNameFromObject($employeequalification->getQualification()), 0);  
+        }  
 
         $this->redirect('list', 'Mitarbeiter', NULL, array('cache' => 'notcache'));
     }
@@ -721,6 +721,12 @@ class MitarbeiterController extends ActionController
         $employeequalifications = new ObjectStorage();
         $mitarbeiter->setEmployeequalifications($employeequalifications);
         $this->mitarbeiterRepository->update($mitarbeiter);
+        
+        /* @var $employeequalification \Pmwebdesign\Staffm\Domain\Model\Employeequalification */
+        foreach ($mitarbeiter->getEmployeequalifications() as $employeequalification) {    
+            $cacheService->deleteCaches($employeequalification->getQualification()->getBezeichnung(), "list", ClassUtility::getShortClassNameFromObject($employeequalification->getQualification()), 0);  
+        }  
+        
         $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager')->persistAll();
         $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'berechtigung' => $berechtigung));
     }
