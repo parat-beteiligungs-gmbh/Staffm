@@ -1,4 +1,4 @@
-/.projectKnowledge/
-/.vscode/
-/Tests/
+.projectKnowledge
+.vscode
+Tests
 ExtensionBuilder.json
