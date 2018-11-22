@@ -4,6 +4,8 @@
 
 Supports Typo3 8.7.0 - 8.7.99
 
+- [DOCS] Update Changelog.
+- [GIT] Update gitignore file.
 - [CLEANUP] Remove unused code in qualification.
 - [UPDATE] Improve Caching after update an employee.
 
