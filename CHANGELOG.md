@@ -1,6 +1,6 @@
 # Staffm Change Log
 
-##2.1.2:
+## 2.1.2:
 
 Supports Typo3 8.7.0 - 8.7.99
 
@@ -9,7 +9,7 @@ Supports Typo3 8.7.0 - 8.7.99
 - [CLEANUP] Remove unused code in qualification.
 - [UPDATE] Improve Caching after update an employee.
 
-##2.1.1:
+## 2.1.1:
 
 Supports Typo3 8.7.0 - 8.7.99
 
@@ -18,7 +18,7 @@ Supports Typo3 8.7.0 - 8.7.99
 - [BUGFIX] Fixed the Cost Center Responsible Bug #7.
 - [BUGFIX] Fixed the Qualification Excel Export #6.
 
-##2.1.0:
+## 2.1.0:
 
 Supports Typo3 8.7.0 - 8.7.99
 
@@ -27,7 +27,7 @@ Supports Typo3 8.7.0 - 8.7.99
 - [FEATURE] Add Categories to qualification, for a better usage.
 - [BUGFIX] Fixed caching bug, by changing name (Mitarbeiter update action) who was send to cache class.
 
-##2.0.0:
+## 2.0.0:
 
 Supports Typo3 8.7.0 - 8.7.99
 
@@ -48,7 +48,7 @@ Supports Typo3 8.7.0 - 8.7.99
 - [CLEANUP] Remove some Files and Testing Code lines.
 - [FEATURE] Add extended qualification management with qualification status and memory function.
 
-##1.0.0:
+## 1.0.0:
 
 Supports Typo3 8.7.0 - 8.7.99
 
