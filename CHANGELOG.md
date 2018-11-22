@@ -1,5 +1,11 @@
 # Staffm Change Log
 
+2.1.2:
+
+Supports Typo3 8.7.0 - 8.7.99
+
+- [UPDATE] Improve Caching after update an employee.
+
 2.1.1:
 
 Supports Typo3 8.7.0 - 8.7.99

@@ -599,7 +599,6 @@ class MitarbeiterController extends ActionController
      */
     public function editKstAction(Mitarbeiter $ma, Position $position = NULL, Kostenstelle $kostenstelle = NULL, Firma $firma = NULL, \Pmwebdesign\Staffm\Domain\Model\Standort $standort = NULL, Qualifikation $qualifikation = NULL)
     {
-
         if ($this->request->hasArgument('kst')) {
             $kst = $this->request->getArgument('kst');
             $this->view->assign('kst', $kst);
@@ -622,10 +621,12 @@ class MitarbeiterController extends ActionController
     public function updateAction(Mitarbeiter $mitarbeiter)
     {
         // Get assigned qualifications
+        $changestatusQualifications = FALSE;
         if ($this->request->hasArgument('qualifikationen')) {
             // QualificationService
             $qualificationService = GeneralUtility::makeInstance(QualificationService::class);
             $mitarbeiter->setEmployeequalifications($qualificationService->getEmployeequalificationsFromEmployee($this->request, $this->objectManager, $mitarbeiter));
+            $changestatusQualifications = TRUE;
         }         
         // Get assigned categories
         if ($this->request->hasArgument('categories')) {     
@@ -633,20 +634,29 @@ class MitarbeiterController extends ActionController
             $categoryService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CategoryService::class);           
             $mitarbeiter->setCategories($categoryService->getCategories($this->request, $this->objectManager));
         }
-
+        
+        /* @var $userService \Pmwebdesign\Staffm\Domain\Service\UserService */
+        $userService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\UserService::class);
+        // Check if list fields have changed
+        $changestatusList = $userService->getChangeStatus($mitarbeiter);
+        
         $this->mitarbeiterRepository->update($mitarbeiter);
         $this->addFlashMessage('Der Mitarbeiter "'.$mitarbeiter->getFirstName().' '.$mitarbeiter->getLastName().'" wurde aktualisiert!', '', AbstractMessage::OK);
 
         $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager')->persistAll();
 
-        // Delete Caches   
-        /* @var $cacheService \Pmwebdesign\Staffm\Domain\Service\CacheService */
-        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
-        $cacheService->deleteCaches($mitarbeiter->getLastName(), "list", $this->request->getControllerName(), 0);  
-        /* @var $employeequalification \Pmwebdesign\Staffm\Domain\Model\Employeequalification */
-        foreach ($mitarbeiter->getEmployeequalifications() as $employeequalification) {    
-            $cacheService->deleteCaches($employeequalification->getQualification()->getBezeichnung(), "list", ClassUtility::getShortClassNameFromObject($employeequalification->getQualification()), 0);  
+        // Delete Caches           
+        if($changestatusList == TRUE) {           
+            /* @var $cacheService \Pmwebdesign\Staffm\Domain\Service\CacheService */
+            $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
+            $cacheService->deleteCaches($mitarbeiter->getLastName(), "list", $this->request->getControllerName(), 0);  
         }        
+        if($changestatusQualifications == TRUE) {
+            /* @var $employeequalification \Pmwebdesign\Staffm\Domain\Model\Employeequalification */
+            foreach ($mitarbeiter->getEmployeequalifications() as $employeequalification) {    
+                $cacheService->deleteCaches($employeequalification->getQualification()->getBezeichnung(), "list", ClassUtility::getShortClassNameFromObject($employeequalification->getQualification()), 0);  
+            }    
+        }
 
         if ($this->request->hasArgument('key')) {
             $key = $this->request->getArgument('key');

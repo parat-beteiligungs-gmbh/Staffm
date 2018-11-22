@@ -26,6 +26,7 @@
 namespace Pmwebdesign\Staffm\Domain\Service;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Pmwebdesign\Staffm\Utility\ArrayUtility;
 
 /**
  * User Services
@@ -130,5 +131,34 @@ class UserService
             }
             return $employees;
         }
+    }
+    
+    /**
+     * Check changes of updated employee
+     * 
+     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee
+     * @return boolean True if employee has changes
+     */
+    public function getChangeStatus(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee)
+    {       
+        $state = FALSE;
+        if($employee->_isDirty("personalnummer") == TRUE)
+            $state = TRUE;
+        if($employee->_isDirty("username") == TRUE)
+            $state = TRUE;        
+        if($employee->_isDirty("lastName") == TRUE)
+            $state = TRUE;
+        if($employee->_isDirty("firstName") == TRUE)
+            $state = TRUE;
+        if($employee->_isDirty("title") == TRUE)
+            $state = TRUE;
+        if($employee->_isDirty("telephone") == TRUE)
+            $state = TRUE;
+        // Verifies that images have been changed after a Controller action.
+        $imageState = ArrayUtility::checkImageCollections($employee->getImage(), $employee->_getCleanProperty("image"));
+        if ($imageState == TRUE)
+            $state = TRUE;    
+        
+        return $state;
     }
 }
