@@ -11,7 +11,7 @@ if (!defined('TYPO3_MODE')) {
 		'Position' => 'list, show, choose, export, new, edit, create, update, delete, deletePosition',
 		'Kostenstelle' => 'list, show, choose, export, new, edit, create, update, delete, deleteKst, deleteKstVerantwortlicher',
 		'Firma' => 'list, show, choose, export, new, edit, create, update, delete, deleteFirma',				
-		'Qualifikation' => 'list, show, choose, edit, new, create, update, delete, export',
+		'Qualifikation' => 'list, show, edit, new, create, update, delete, export',
 		'Qualilog' => 'list, show, choose, edit, new, create, update, delete',
                 'Category' => 'list, show, new, edit, create, update, delete'
 	],	
@@ -21,7 +21,7 @@ if (!defined('TYPO3_MODE')) {
 		'Kostenstelle' => 'list, show, choose, export, new, edit, create, update, delete, deleteKst, deleteKstVerantwortlicher',
 		'Firma' => 'list, show, choose, export, new, edit, create, update, delete, deleteFirma',
 		'Standort' => 'list, show, choose, new, edit, create, update, delete, deleteStandort',		
-		'Qualifikation' => 'list, show, choose, create, update, delete',
+		'Qualifikation' => 'list, show, create, update, delete',
 		'Qualilog' => 'choose, create, update, delete',
                 'Category' => 'list, show, new, edit, create, update, delete'
 	]
@@ -35,17 +35,17 @@ if (!defined('TYPO3_MODE')) {
                 'Position' => 'list, show, choose',
 		'Kostenstelle' => 'list, show, choose, export',
 		'Firma' => 'list, show, choose, export',
-		'Qualifikation' => 'list, listVgs, show, choose, chooselist, edit, new, create, update, delete, export',
+		'Qualifikation' => 'list, listVgs, show, chooselist, edit, new, create, update, delete, export',
 		'Qualilog' => 'list, show, choose, edit, new, create, update, delete',		
                 'Category' => 'list, show, new, edit, create, update, delete'
 	],	
 	[ // Non-cacheable actions
-		'Mitarbeiter' => 'listVgs, show, edit, editKst, update, showKst, showVeraKst, deleteImage, deleteQuali, export',	
+		'Mitarbeiter' => 'listVgs, show, edit, editKst, update, showKst, showVeraKst, deleteImage, deleteQuali, export',
                 'Position' => 'list, show, choose',
 		'Kostenstelle' => 'list, show, choose, export',
 		'Firma' => 'list, show, choose, export',
-		'Qualifikation' => 'choose, chooselist, create, update, delete',
-		'Qualilog' => 'choose, create, update, delete',		
+		'Qualifikation' => 'list, listVgs, show, chooselist, edit, new, create, update, delete, export',
+		'Qualilog' => 'list, show, choose, edit, new, create, update, delete',		
                 'Category' => 'list, show, new, edit, create, update, delete'
 	]
 );
