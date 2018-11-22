@@ -620,36 +620,6 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         
         $this->redirect('list', 'Qualifikation', NULL, array('cache' => 'notcache'));
     }
-    
-    /**
-     * TODO: Select qualifications for employee
-     * 	
-     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter 
-     * @return \Pmwebdesign\Staffm\Domain\Repository\Mitarbeiterqualifikation
-     */
-    public function chooseAction(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter = NULL)
-    {
-        if ($this->request->hasArgument('mitarbeiter')) {
-            // Read checkboxes in array
-            $qua = $this->request->getArgument('qualifikationen');
-            $arrMitarbeiterQualifikation = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-            
-            foreach ($qua as $q) {
-                $mitarbeiterQualifikation = $this->objectManager->get(
-                                'Pmwebdesign\\Staffm\\Domain\\Repository\\QualifikationRepository'
-                        )->findOneByUid($q);
-                // Save objects in array
-                $arrMitarbeiterQualifikation->attach($mitarbeiterQualifikation);
-            }
-
-            $mitarbeiter->setMitarbeiterQualifikationen($arrMitarbeiterQualifikation);
-            $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->update($mitarbeiter);
-            $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager')->persistAll();
-
-            $this->addFlashMessage('Die Qualifikationen des Mitarbeiters wurden aktualisiert!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
-            $this->forward('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter));
-        }
-    }
 
     /**
      * TODO: Multi selection of qualifications and employees
