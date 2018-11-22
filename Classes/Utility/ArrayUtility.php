@@ -52,4 +52,38 @@ class ArrayUtility {
 		}
 		return $result;
 	}
+        
+        /**
+         * Verifies that images have been changed after a Controller action.
+         * 
+         * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $newImages
+         * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $oldImages
+         * @return boolean Return true if the images have changed
+         */
+        static public function checkImageCollections(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $newImages = NULL, \TYPO3\CMS\Extbase\Persistence\ObjectStorage $oldImages = NULL)
+        {
+            $state = FALSE;
+            $i = 0;
+            
+            // Number has changed?
+            if(count($newImages) != count($oldImages)) {
+                $state = TRUE;
+            } else {            
+                // New images
+                foreach ($newImages as $newImage) {
+                    $i2 = 0;
+                    // Old images
+                    foreach ($oldImages as $oldImage) {                    
+                        if($i == $i2) {
+                            if ($newImage->getUid() != $oldImage->getUid()) {
+                                $state = TRUE;
+                            }
+                        }
+                        $i2++;
+                    }
+                    $i++;
+                }
+            }
+            return $state;
+        }
 }
