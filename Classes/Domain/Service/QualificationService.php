@@ -302,6 +302,106 @@ class QualificationService
             return $employeequalifications;
         }
     }
+    
+    /**
+     * Check assigned qualification with status for employees
+     * 
+     * @param \TYPO3\CMS\Extbase\Mvc\Request $request
+     * @param \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager    
+     * @return void
+     */
+    public function setEmployeequalificationsFromQualifications(\TYPO3\CMS\Extbase\Mvc\Request $request, \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager)
+    {
+        if ($request->hasArgument('mitarbeiters')) {
+            // Read request into array
+            $ma = $request->getArgument('mitarbeiters');
+
+            // Get logged in user
+            $userService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\UserService::class);
+            $assessor = $userService->getLoggedInUser();
+
+            // Set qualifications to array items
+            foreach ($ma as $m => $arrVals) {                               
+                $prevStatus = FALSE;
+                
+                /* @var $employee \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter */
+                $employee = $objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository::class)->findOneByUid($m);
+                
+                // Read previous qualifications of employee  
+                $prevEmployeequalifications = $employee->getEmployeequalifications();
+                
+                // Read aktually qualifications of employee
+                $aktEmployeequalifications = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+                foreach ($arrVals as $qualificationuid => $statusuid) {
+                    // Status 0?
+                    if($statusuid != 0) {
+                        $aktEmployeequalification = new \Pmwebdesign\Staffm\Domain\Model\Employeequalification();
+                        $aktEmployeequalification->setEmployee($employee);
+                        $qualification = $objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\QualifikationRepository::class)->findOneByUid($qualificationuid);
+                        $aktEmployeequalification->setQualification($qualification);
+                        $aktEmployeequalification->setStatus($statusuid);                        
+                        
+                        // Check if previous qualification exist
+                        $histories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+                        foreach ($prevEmployeequalifications as $prevEmployeequalification) {
+                            if ($prevEmployeequalification->getEmployee() === $employee && $prevEmployeequalification->getQualification() === $qualification) {
+                                $prevStatus = TRUE;
+                                // Employee exist, just update
+                                if ($aktEmployeequalification->getStatus() != null) {
+                                    $histories = $prevEmployeequalification->getHistories();
+                                    // Status changed or no histories?
+                                    if ($prevEmployeequalification->getStatus() <> $aktEmployeequalification->getStatus() || count($histories) <= 0) {
+                                        // Status has changed?
+                                        if ($prevEmployeequalification->getStatus() <> $aktEmployeequalification->getStatus()) {
+                                            // Yes, status has changed   
+                                            // Check history
+                                            foreach ($histories as $history) {
+                                                // Old status?
+                                                if ($history->getStatus() == $prevEmployeequalification->getStatus()) {
+                                                    // Set End Date                                        
+                                                    $history->setDateTo(new \DateTime());
+                                                }
+                                            }
+                                            // Set new status
+                                            $prevEmployeequalification->setStatus($aktEmployeequalification->getStatus());
+                                        }
+                                        // Add new history
+                                        $newHistory = new \Pmwebdesign\Staffm\Domain\Model\History();
+                                        $newHistory->setStatus($aktEmployeequalification->getStatus());
+                                        $newHistory->setDateFrom(new \DateTime());
+
+                                        $newHistory->setAssessor($assessor);
+                                        $histories->attach($newHistory);
+                                        $prevEmployeequalification->setHistories($histories);
+                                    }
+                                }                                
+                                break;
+                            }
+                        }
+
+                        // Previous employeequalification found?   
+                        if ($prevStatus == FALSE) {
+                            // No, set new employeequalification                            
+                            // Add new history               
+                            $newHistory = new \Pmwebdesign\Staffm\Domain\Model\History();
+                            $newHistory->setStatus($aktEmployeequalification->getStatus());
+                            $newHistory->setDateFrom(new \DateTime());
+                            $newHistory->setAssessor($assessor);
+                            $histories->attach($newHistory);
+                            $aktEmployeequalification->setHistories($histories);
+                            $aktEmployeequalifications->attach($aktEmployeequalification);                            
+                        } else {
+                            // Yes, update previous employeequalification                                    
+                            $aktEmployeequalifications->attach($prevEmployeequalification);
+                        }
+                    }                     
+                }
+                $employee->setEmployeequalifications($aktEmployeequalifications);                
+                $objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository::class)->update($employee);      
+            } 
+            $objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class)->persistAll();
+        }
+    }
 
     /**
      * Check assigned qualifications for a category

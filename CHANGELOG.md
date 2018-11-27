@@ -1,5 +1,11 @@
 # Staffm Change Log
 
+## 2.2.0:
+
+Supports Typo3 8.7.0 - 8.7.99
+
+- [FEATURE] New Templates for supervisors to edit their employees.
+
 ## 2.1.2:
 
 Supports Typo3 8.7.0 - 8.7.99

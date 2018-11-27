@@ -1,4 +1,5 @@
 {namespace vh=Pmwebdesign\Staffm\ViewHelpers}
+
 <label class="tx-staffm bold">Profil-Bild</label><br />
         <vh:form.multiupload property="image" resources="resources">
             <ul style="list-style:none;padding:0">
@@ -88,19 +89,39 @@
     </label>       
             <f:form.hidden property="kostenstelle" />
             <f:form.textfield class="form-control" style="max-width:300px" value="{mitarbeiter.kostenstelle.nummer} {mitarbeiter.kostenstelle.bezeichnung}" disabled="disabled" />            
-            <br /><br />
+            <br />
     <label class="tx-staffm bold" for="position">
             <f:translate key="tx_staffm_domain_model_mitarbeiter.position" />
     </label>
             <f:form.hidden property="position" />
             <f:form.textfield class="form-control" style="max-width:300px" disabled="disabled" value="{mitarbeiter.position.bezeichnung}" />            
-            <br /><br />
+            <br />
     <label class="tx-staffm bold" for="firma">
             <f:translate key="tx_staffm_domain_model_mitarbeiter.firma" />
     </label>
             <f:form.hidden property="firma" />
             <f:form.textfield class="form-control" style="max-width:300px" disabled="disabled" value="{mitarbeiter.firma.bezeichnung}" />            
-            <br /><br />
+            <br />
+    <label class="tx-staffm bold" for="categories">
+        <f:translate key="tx_staffm_domain_model_mitarbeiter.categories" />
+    </label><br />            
+    <f:for each="{mitarbeiter.categories}" as="category" iteration="iterator">
+        <f:if condition="{iterator.isLast}">
+            <f:then>
+                {category.name}
+            </f:then>
+            <f:else>
+                {category.name},
+            </f:else>
+        </f:if>
+    </f:for><br />
+    <div class="btn-group" role="group">
+        <f:link.action class="btn btn-default" action="list" controller="Category" arguments="{employee:mitarbeiter, key:'chooseCategoryForEmployee', standardsearch:search, cache:'notcache'}"><f:translate id="staffm.choose" /></f:link.action>
+        <f:if condition="{mitarbeiter.categories}">
+            <f:link.action class="btn btn-danger" action="deleteCategories" arguments="{employee:mitarbeiter}"><f:translate id="staffm.remove" /></f:link.action>
+        </f:if>
+    </div>
+    <br /><br />
     <f:comment><!-- Qualifications --></f:comment>
     <f:render partial="Mitarbeiter/Qualification/ListFormFields" arguments="{_all}" />
     <br />
