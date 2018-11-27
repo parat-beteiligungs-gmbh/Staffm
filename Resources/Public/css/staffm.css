@@ -1,11 +1,28 @@
 /*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
+Copyright (C) 2018 pm-webdesign.eu 
+Markus Puffer <m.puffer@pm-webdesign.eu>
+
+All rights reserved
+
+This script is part of the TYPO3 project. The TYPO3 project is
+free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+The GNU General Public License can be found at
+http://www.gnu.org/copyleft/gpl.html.
+
+This script is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+This copyright notice MUST APPEAR in all copies of the script!
 */
 /* 
-    Created on : 11.01.2016, 12:36:10
-    Author     : Markus Puffer <mpuffer@parat.eu>
+    Created on : 23.11.2018, 10:26:08
+    Author     : Markus Puffer <m.puffer@pm-webdesign.eu>
 */
 
 /** Navbar */
@@ -17,9 +34,6 @@ and open the template in the editor.
 input {
     min-height: 21px;
 }
-.tx-staffm a {
-    /*color: #000000;*/
-}
 .tx-staffm a:hover {
     text-decoration: none;
 }
@@ -30,11 +44,6 @@ input {
 }
 
 /** Table */
-.tx_staffm a {
-    /*color: #000;*/
-    /*color: #555;*/
-}
-
 .tx_staffm.link {
     color: #0000cc;
 }
@@ -87,12 +96,6 @@ input {
     float: right;
 }
 
-#typo3-inner-docbody {
-    /*max-width: 800px;
-    max-height: 400px;
-    overflow: scroll;*/
-}
-
 table.tx_staffm {
     width: 100%;
     margin-left: 0;
@@ -106,64 +109,39 @@ table.tx_staffm.table-left {
 table.tx_staffm td a {    
     text-decoration: none;
 }
-
-table.tx_staffm a:hover {
-    /*color: #C9234A;*/
-    /*color: #000;*/
-}
-
 table.tx_staffm th {
     text-align: left;
     padding: 5px;
-    /*border-left-style: solid;
-        border-bottom-style: solid;
-    border-width: 0.5px;
-    border-color: #000;*/
     background-color: #343a40;    
     color: #fff;
 } 
-
 table.tx_staffm td {    
     padding: 2px 5px;
-    /*border-left-style: solid;*/
-    /*border-right-style: solid;*/
-    /*border-width: 1px 0.5px 1px 0.5px;*/
     border-width: 0.5px; 
     border-color: #000;
     background-color: #fff;  
     vertical-align: top;
 }
 
-table.tx_staffm p {
-    
-}
-
-/* Jede zweite Tabellenzeile färben */
+/* Color every second table line */
 table.tx_staffm tr:nth-child(odd) td {
     background-color: #d3d3d3;
 }
-
-table.tx_staffm td a {
-    /*color: #000;*/
-}
-
 table.tx_staffm.table-left tr:nth-child(even) td {
     /*background-color: #fff;*/
 }
-
 table.tx_staffm.table-left td:nth-child(odd) {
     background-color: #343a40;
     color: #fff;
     font-weight: bold;
 }
-
 table.tx_staffm td .staffm-link {
     color: #666666;
 }
 
-/** A-Z Suche */
+/** A-Z Search */
 .pagination-staffm {
-    
+
 }
 .pagination-staffm .page-item.active .page-link {    
     background-color: #C9234A;
@@ -176,22 +154,16 @@ table.tx_staffm td .staffm-link {
     color: #C9234A;
     background-color: #e9ecef !important;
 }
-/*.pagination li a:hover, .pagination li.active {
-    background-color: #C9234A;    
-    color: #000;
-}*/
 
 .width0 {
     width: 0;
 }
 
-/* Button Sortierung ändern */
+/* Button change sort */
 #btn-sm {    
     clear: both;
     float: left;
     padding-top: 7px;
-    /*margin-left: 35px;*/
-    /*margin-left: calc(100% / 2 - 120px);*/    
 }
 
 #elem {    
@@ -201,10 +173,9 @@ table.tx_staffm td .staffm-link {
 
 #excelExport {
     float: left;  
-    /*margin-left: 20px;*/
 }
 
-/* Profilbild */
+/* Profil picture */
 .tx_staffm.profilbild {
     width: auto;    
     height: 300px;    
@@ -234,7 +205,7 @@ table.tx_staffm td .staffm-link {
     text-align: center;
 }
 
-/* Dateiicon */
+/* File-icon */
 .tx_staffm.icon {    
     max-height: 16px;
     width: auto;  
@@ -243,15 +214,12 @@ table.tx_staffm td .staffm-link {
 
 .tx_staffm.bilderrahmen { 
     position: relative;
-    box-sizing: border-box;    
-    /*border: 1px solid #000;
-    margin: 0 0 10px 0;
-    box-shadow: 3px -3px 20px #000;*/
+    box-sizing: border-box; 
     width: 100%;
     height: auto;
 }
 
-/* Text auf bestimmte Pixel beschränken */
+/* Restrict text to specific pixels */
 .tds {
     white-space: nowrap;
     overflow: hidden;    
@@ -277,55 +245,9 @@ table.tx_staffm td .staffm-link {
     max-width: 150px;
 }
 
-/* Markieren */
-.marksq {
-    
-}
-
 .marksq:hover {    
     background-color: #a6a6a6;
 }
-
-/*#tx_staffm_seitenanfang {
-    position: fixed;
-    right: 100px;
-    bottom: 5px;
-}*/
-
-/* Scrollbare Tabelle 
-head:first-child+body thead[class].fixedHeader tr {
-    display: block;
-}
-
-head:first-child+body tbody[class].scrollContent {
-    display: block;
-    height: 500px;
-    overflow: auto;
-}
-
-head:first-child+body thead[class].fixedHeader th {
-    width: 205px;
-}
-
-head:first-child+body thead[class].fixedHeader th + th {
-    width: 250px;
-}
-
-head:first-child+body thead[class].fixedHeader th + th + th {
-    width: 300px;
-}
-
-head:first-child+body tbody[class].scrollContent td {
-    width: 200px;
-}
-
-head:first-child+body tbody[class].scrollContent td + td {
-    width: 240px;
-}
-
-head:first-child+body tbody[class].scrollContent td + td + td {
-    width: 300px;
-}*/
 
 .left {
     float: left;
@@ -333,35 +255,37 @@ head:first-child+body tbody[class].scrollContent td + td + td {
 
 /* define height and width of scrollable area. Add 16px to width for scrollbar          */
 div.tableContainer {
-	clear: both;
-	border: 1px solid #666;
-	height: 285px;        
-	overflow-x: visible;
-        overflow-y: hidden;
-	/*width: 756px*/
-        width: auto;
+    clear: both;
+    border: 1px solid #666;
+    height: 285px;        
+    overflow-x: visible;
+    overflow-y: hidden;
+    /*width: 756px*/
+    width: auto;
 }
 
 /* Reset overflow value to hidden for all non-IE browsers. */
 html>body div.tableContainer {
-        /*overflow: hidden; /* Fließen nach rechts, hidden standard */
-	/*width: 756px*/
-        width: 100%
+    /*overflow: hidden; /* Fließen nach rechts, hidden standard */
+    /*width: 756px*/
+    width: 100%;
+    height: auto;
+    padding-bottom: 15px;
 }
 
 /* define width of table. IE browsers only                 */
 div.tableContainer table {
-	float: left;
-	/*width: 740px*/
-        width: calc(100% - 16px)
+    float: left;
+    /*width: 740px*/
+    width: calc(100% - 16px)
         /*width: 100%*/
 }
 
 /* define width of table. Add 16px to width for scrollbar.           */
 /* All other non-IE browsers.                                        */
 html>body div.tableContainer table {
-	/*width: 756px*/
-        width: 100%
+    /*width: 756px*/
+    width: 100%
 }
 
 /* set table header to a fixed position. WinIE 6.x only                                       */
@@ -369,41 +293,41 @@ html>body div.tableContainer table {
 /* an element that has an overflow property set, the relative value translates into fixed.    */
 /* Ex: parent element DIV with a class of tableContainer has an overflow property set to auto */
 thead.fixedHeader tr {
-	position: relative
+    position: relative
 }
 
 /* set THEAD element to have block level attributes. All other non-IE browsers            */
 /* this enables overflow to work on TBODY element. All other non-IE, non-Mozilla browsers */
 html>body thead.fixedHeader tr {
-	display: block
+    display: block
 }
 
 /* make the TH elements pretty */
 thead.fixedHeader th {
-/*	background: #666;*/
-	/*border-left: 1px solid #FFF;*/
-	border-right: 1px solid #FFF;
-	border-top: 1px solid #666;
-	font-weight: normal;
-	padding: 4px 3px;
-	text-align: left
+    /*	background: #666;*/
+    /*border-left: 1px solid #FFF;*/
+    border-right: 1px solid #FFF;
+    border-top: 1px solid #666;
+    font-weight: normal;
+    padding: 4px 3px;
+    text-align: left
 }
 
 /* make the A elements pretty. makes for nice clickable headers                */
 thead.fixedHeader a, thead.fixedHeader a:link, thead.fixedHeader a:visited {
-	color: #FFF;
-	display: block;
-	text-decoration: none;
-	width: 100%
+    color: #FFF;
+    display: block;
+    text-decoration: none;
+    width: 100%
 }
 
 /* make the A elements pretty. makes for nice clickable headers                */
 /* WARNING: swapping the background on hover may cause problems in WinIE 6.x   */
 thead.fixedHeader a:hover {
-	color: #FFF;
-	display: block;
-	text-decoration: underline;
-	width: 100%
+    color: #FFF;
+    display: block;
+    text-decoration: underline;
+    width: 100%
 }
 
 /* define the table content to be scrollable                                              */
@@ -411,83 +335,90 @@ thead.fixedHeader a:hover {
 /* this enables overflow to work on TBODY element. All other non-IE, non-Mozilla browsers */
 /* induced side effect is that child TDs no longer accept width: auto                     */
 html>body tbody.scrollContent {
-	display: block;
-	/*height: 262px; passt nicht? */
-        height: 242px;
-	overflow-y: auto; 
-	width: 100%;        
+    display: block;
+    /*height: 262px; passt nicht? */
+/*    height: 242px;*/
+/*    height: auto;*/
+    overflow-y: auto; 
+    width: 100%;        
 }
 
 .scroller {
-    overflow-y: auto;
+/*    overflow-y: auto;*/
 }
 
 /* make TD elements pretty. Provide alternating classes for striping the table */
 /* http://www.alistapart.com/articles/zebratables/                             */
 tbody.scrollContent td, tbody.scrollContent tr.normalRow td {
-	background: #FFF;
-	border-bottom: none;
-	border-left: none;
-	border-right: 1px solid #CCC;
-	border-top: 1px solid #DDD;
-	padding: 2px 3px 3px 4px
+    background: #FFF;
+    border-bottom: none;
+    border-left: none;
+    border-right: 1px solid #CCC;
+    border-top: 1px solid #DDD;
+    padding: 2px 3px 3px 4px
 }
 
 tbody.scrollContent tr.alternateRow td {
-	background: #EEE;
-	border-bottom: none;
-	border-left: none;
-	border-right: 1px solid #CCC;
-	border-top: 1px solid #DDD;
-	padding: 2px 3px 3px 4px
+    background: #EEE;
+    border-bottom: none;
+    border-left: none;
+    border-right: 1px solid #CCC;
+    border-top: 1px solid #DDD;
+    padding: 2px 3px 3px 4px
 }
 
 /* define width of TH elements: 1st, 2nd, and 3rd respectively.          */
 /* Add 16px to last TH for scrollbar padding. All other non-IE browsers. */
 /* http://www.w3.org/TR/REC-CSS2/selector.html#adjacent-selectors        */
 html>body thead.fixedHeader th {
-	width: 240px;
-        min-width: 240px;
-        max-width: 240px
+    width: 240px;
+    min-width: 240px;
+    max-width: 240px;
+    hyphens: auto;
 }
-
+html>body thead.fixedHeader th:first-child {
+/*    position: absolute;  */
+    min-width: 200px;
+}
 html>body thead.fixedHeader th + th {
-	width: 120px;
-        min-width: 120px
+    width: 120px;
+    min-width: 120px
 }
 
 html>body thead.fixedHeader th + th + th {
-	width: 120px;
-        min-width: 120px
+    width: 120px;
+    min-width: 120px
 }
 
 /* define width of TD elements: 1st, 2nd, and 3rd respectively.          */
 /* All other non-IE browsers.                                            */
 /* http://www.w3.org/TR/REC-CSS2/selector.html#adjacent-selectors        */
 html>body tbody.scrollContent td {
-	width: 240px;
-        min-width: 240px;
-        max-width: 240px;
-        text-align: center;
+    width: 240px;
+    min-width: 240px;
+    max-width: 240px;
+    text-align: center;
 }
-
+html>body tbody.scrollContent td:first-child {
+/*    position: absolute;  */
+    min-width: 200px;
+}
 html>body tbody.scrollContent td + td {
-	width: 120px;
-        min-width: 120px;
-        max-width: 120px
+    width: 120px;
+    min-width: 120px;
+    max-width: 120px
 }
 
 html>body tbody.scrollContent td + td + td {
-	width: 120px;
-        min-width: 120px;
-        max-width: 120px
+    width: 120px;
+    min-width: 120px;
+    max-width: 120px
 }
 
 .message-ok {
     color:#3b7826;
     background-color:#cdeaca;    
     border-color:#58b548;
-    /*padding: 5px*/
 }
 
 input[type="search"]::-webkit-search-cancel-button {
@@ -513,18 +444,60 @@ input[type="search"]::-webkit-search-cancel-button {
     text-align: center;
 }
 .carouseldetailviewitem {
-    
+
+}
+
+/** Bootstrap responsible table */
+.table-responsive>.fixed-column {
+    position: absolute;
+    display: inline-block;
+    width: auto;
+    border-right: 1px solid #ddd;
+    background-color: #fff;
+}
+.table.tx_staffm th:first-child {
+    min-width: 200px;
+}
+.table.tx_staffm td:first-child {
+    min-width: 200px;
+}
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+ 
+::-webkit-scrollbar:vertical {
+    width: 12px;
+}
+ 
+::-webkit-scrollbar:horizontal {
+    height: 12px;
+}
+ 
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, .5);
+    border-radius: 10px;
+    border: 2px solid #ffffff;
+}
+ 
+::-webkit-scrollbar-track {
+    border-radius: 10px;  
+    background-color: #ffffff; 
 }
 
 @media (min-width: 992px) {
     .staffmmobilehidden {
         display: table-cell;
     }
-    
+
     /** Slider */
     /* Sliderdetailview */
     .carouseldetailview {
         max-width: 50%;
     }    
+    
+    /** Bootstrap responsible table */
+/*    .table-responsive>.fixed-column {
+        display: none;
+    }*/
 }
 

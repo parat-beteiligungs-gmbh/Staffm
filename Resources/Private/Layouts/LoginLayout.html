@@ -9,7 +9,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">   
                 <li class="nav-item {f:if(condition: '{menuname} == \'Qualifikation\'', then: 'active')}" style="padding-top:0 !important">
-                    <f:link.action title="Qualifikationszuordnung (Qualifikationen für alle Mitarbeiter gleichzeitig zuordnen)" class="nav-link" action="listVgs" controller="Qualifikation"><f:translate key="tx_staffm_domain_model_qualifikation" /></f:link.action>
+                    <f:link.action title="Qualifikationszuordnung (Qualifikationen für alle Mitarbeiter gleichzeitig zuordnen)" class="nav-link" action="listVgs" controller="Qualifikation"><f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></f:link.action>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0 mr-2">
@@ -18,6 +18,7 @@
         </div>
     </nav> 
     <div id="infoBox" style="display:none;max-width: 400px; padding: 5px; background-color: white; border: 2px solid #CCCCCC;content:'?'">
+        <!-- TODO: Translate this text -->
         <p>Hier können nur Mitarbeiter bearbeitet werden, die dem eingeloggten User in einer Kostenstelle (für die er verantwortlich ist) zugeordnet sind.</p><hr />
         <p>Bei dem Button "Mitarbeiter" können auch andere Daten eines Mitarbeiters geändert werden.</p><hr />
         <p>Bei dem Button "Qualifikationen" können bei allen Mitarbeitern die Qualifikationen gleichzeitig
@@ -27,25 +28,23 @@
         </p>
     </div>
     <div style="position:fixed;width:100%;display:block;box-sizing:border-box;z-index:999999999"><img style="display:block;margin-left:auto;margin-right:auto;max-height: 10px" src="typo3conf/ext/staffm/Resources/Public/Icons/loading-frame.gif" id="ladebild" /></div>        
-    <div id="ladediv" style="display:block;"></div><br />       
+    <div id="ladediv" style="display:block;"></div>       
     <f:render section="main" />  
 </div><br />
 <p style="text-align: right">&COPY; 2018 Markus Puffer</p>
 <script>    
     window.onload = function() {
-        document.getElementById("ladebild").setAttribute("style", "display:none;");
-        //document.getElementById("ladediv").setAttribute("style", "width:100%;");
+        document.getElementById("ladebild").setAttribute("style", "display:none;");        
     }
-    // Solange bis die die Seite vollständig geladen ist
+    // During page is completely load
     window.onbeforeunload = function() {
-        document.getElementById("ladebild").setAttribute("style", "display:block;margin-left:auto;margin-right:auto;");
-        //document.getElementById("ladediv").setAttribute("style", "display:none;");
+        document.getElementById("ladebild").setAttribute("style", "display:block;margin-left:auto;margin-right:auto;");        
         document.getElementById("ladedivall").setAttribute("style", "cursor:wait;");        
     }
-    // Wenn Seite vollständig geladen
+    // Page is completely load
     $(document).ready(function() {  
         /* Excelexport Button
-         * Ladebilder nicht setzten, da sie sonst dauernd laufen
+         * Load picture not set, otherwise the picture run always
          */
         $( "#excelExport" ).click(function(){             
             window.onbeforeunload = null;
@@ -62,21 +61,34 @@
         //document.getElementById('tableheader').style.position = "fixed";       
     };
 
+    /**
+     * Show/Hide info box
+     * 
+     * @returns {undefined}
+     */
     function buttonShow() {
         var info = document.getElementById("infoBox");
-        info.style.display = "none"; // Box ausblenden
+        
+        // Info box displayed?
+        if (info.style.display == "none") {
         info.style.position = "absolute";        
         info.style.zIndex = 999;
-        // Entweder fix auf der Seite platziert
-        // info.style.left = "50px";
-        // info.style.top = "100px";
-        // Oder ein definiertes Stückchen unter dem Knopf
         info.style.marginTop = "10px";
         info.style.right = "5px";
     
-        // Infobox anzeigen
+        // Show info box
         info.style.display = "";
+        } else {
+            // Hide info box
+            info.style.display = "none";
+        }
     }
+    
+    /**
+     * Hide info box
+     * 
+     * @returns {undefined}
+     */
     function buttonHide() {
         var info = document.getElementById("infoBox");
         // Infobox wieder ausblenden

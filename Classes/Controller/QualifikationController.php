@@ -369,7 +369,8 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             $this->view->assign('key', $key);
         }
 
-        // Get logged in User        
+        // Get logged in User    
+        /* @var $aktuser \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter */
         $aktuser = $this->objectManager->
                 get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
                 findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
@@ -390,8 +391,22 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             $maid = $this->request->getArgument('maid');
             $this->view->assign('maid', $maid);
         }
-
-        $this->view->assign('qualifikations', $qualifikations);
+       
+        $categories = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\CategoryRepository::class)->findAll();
+                        
+        $categoryfield = "";
+        if($this->request->hasArgument('categoryfield')) {
+            $categoryfield = $this->request->getArgument('categoryfield');            
+        } else {
+            foreach ($aktuser->getCategories() as $category) {
+                $categoryfield = $category->getName();
+                break;
+            }
+        }
+        
+        $this->view->assign('categoryfield', $categoryfield);
+        $this->view->assign('categories', $categories);        
+        $this->view->assign('qualifikations', $qualifikations);        
         $this->view->assign('search', $search);
     }
 
@@ -620,56 +635,26 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         
         $this->redirect('list', 'Qualifikation', NULL, array('cache' => 'notcache'));
     }
-
+    
     /**
-     * TODO: Multi selection of qualifications and employees
+     * Multi selection of qualifications and employees
      * Only for cost center responsibles
      * 	
      * @return \Pmwebdesign\Staffm\Domain\Repository\Mitarbeiterqualifikation
      */
     public function chooselistAction()
     {        
-        // Checkboxes?
-        if ($this->request->hasArgument('qualifikationen')) {            
-            // Read checkboxes in array
-            $qua = $this->request->getArgument('qualifikationen');    
-            
-            // Get logged in user
-            $aktuser = $this->objectManager->
-                    get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
-                    findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
-            
-            if ($aktuser != NULL) {
-                // Mitarbeiter des Kostenstellenverantwortlichen ermitteln
-                $mitarbeiters = $this->mitarbeiterRepository->findMitarbeiterVonVorgesetzten(Null, $aktuser);
-            }
-
-            // All qualifications, $q = Qualification, $value = Array of employees
-            foreach ($qua as $q => $value) {
-                // Get qualification about id ($q)
-                $qualifikation = $this->objectManager->get(
-                                'Pmwebdesign\\Staffm\\Domain\\Repository\\QualifikationRepository'
-                        )->findOneByUid($q);
-
-                // Employee-Array
-                $arrMitarbeiter = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-                // Employees exist in Qualification?
-                if($value != "") {
-                    // Yes, all employees attach to array
-                    foreach ($value as $ma) {        
-                        $mitarbeiter = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findOneByUid($ma);
-                        // Attach employee to array
-                        $arrMitarbeiter->attach($mitarbeiter);
-                    }
-                }
-                $qualifikation->setMitarbeiters($arrMitarbeiter);                
-                $this->qualifikationRepository->update($qualifikation);                
-            }
-            $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager')->persistAll();
-        }
-        $qualifikationen = $this->qualifikationRepository->findSearchForm(NULL, 0);
-        $this->addFlashMessage('Die Mitarbeiter-Qualifikationen wurden aktualisiert!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
-        //$this->forward('listVgs', 'Qualifikation', NULL, NULL); 
-        $this->redirect('listVgs', 'Qualifikation', NULL, array('qualifikations' => $qualifikationen));
+        // Set qualifications with status to employees
+        /* @var $qualificationService \Pmwebdesign\Staffm\Domain\Service\QualificationService */
+        $qualificationService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\QualificationService::class);
+        $qualificationService->setEmployeequalificationsFromQualifications($this->request, $this->objectManager);
+        
+        $categoryfield = "";
+        if ($this->request->hasArgument('categoryfield')) {
+            $categoryfield = $this->request->getArgument('categoryfield');              
+        }       
+        $this->addFlashMessage('Die Qualifikationen wurden gesichert!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
+        
+        $this->redirect("listVgs", "Qualifikation", null, ['categoryfield' => $categoryfield]);
     }
 }

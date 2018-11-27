@@ -180,7 +180,8 @@
         "tv:tsfe": {},
         "f:form.textfield": {
             "attributes": {
-                "property": {}
+                "property": {},
+                "value": {}
             }
         },
         "f:else": {
@@ -249,11 +250,15 @@
                     "doc": "Multiple Selection in the Select-Box.<br><br>Example:<br>multiple=\"1\".",
                     "type": "Integer"
                 },
+                "options": {},
                 "optionLabelField": {
                     "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
                     "doc": "TODO:",
                     "type": "String\/Variable"
-                }
+                },
+                "style": {},
+                "value": {},
+                "additionalAttributes": {}
             }
         },
         "f:form.upload": {
@@ -267,7 +272,16 @@
                 }
             }
         },
-        "f:form.checkbox": {},
+        "f:form.checkbox": {
+            "attributes": {
+                "name": {},
+                "multiple": {},
+                "checked": {},
+                "style": {},
+                "value": {},
+                "additionalAttributes": {}
+            }
+        },
         "f:link.action": {
             "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
             "doc": "Link action for start an controller action.<br><br>Example:<br>^f:link.action action=\"${action}\" controller=\"${controller}\">${cursor}^\/f:link.action>",
@@ -363,21 +377,21 @@
             "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
             "doc": "This ViewHelper Widget sorts from A to Z, or Z to A",
             "attributes": {
+                "as": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "New name for returned, sorted objects",
+                    "type": "ObjectArray",
+                    "required": "true"
+                },
                 "objects": {
                     "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
                     "doc": "Given objects",
                     "type": "ObjectArray",
                     "required": "true"
                 },
-                "as": {
-                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
-                    "doc": "New name for returned, sorted objects",
-                    "type": "ObjectArray",
-                    "required": "true"
-                },                
                 "property": {
                     "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
-                    "doc": "Keyword/Variable for sorting",
+                    "doc": "Keyword\/Variable for sorting",
                     "type": "Variable\/String",
                     "required": "true"
                 }

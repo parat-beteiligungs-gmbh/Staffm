@@ -1,17 +1,7 @@
 {namespace tv = Pmwebdesign\Staffm\ViewHelpers}
+{namespace vhs = FluidTYPO3\Vhs\ViewHelpers}
+
 <f:layout name="Default" />
-
-This Template is responsible for creating a table of domain objects.
-
-If you modify this template, do not forget to change the overwrite settings
-in /Configuration/ExtensionBuilder/settings.yaml:
-  Resources:
-    Private:
-      Templates:
-        List.html: keep
-
-Otherwise your changes will be overwritten the next time you save the extension in the extension builder
-
 <f:section name="main">
     <h1><f:translate id="staffm.mitarbeiter.list.headline" /></h1>
     <f:flashMessages />
@@ -26,13 +16,13 @@ Otherwise your changes will be overwritten the next time you save the extension 
     <br />
     <table class="tx_staffm">     
         <tr>
-                <th></th>
-                <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.personalnummer" /></th>                
-                <th><f:translate key="tx_staffm_domain_model_mitarbeiter.last_name" /></th>
-                <th><f:translate key="tx_staffm_domain_model_mitarbeiter.first_name" /></th>
-                <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.title" /></th>
-                <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.telephone" /></th>	
-                <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_qualifikation" /></th>                
+            <th></th>
+            <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.personalnummer" /></th>                
+            <th><f:translate key="tx_staffm_domain_model_mitarbeiter.last_name" /></th>
+            <th><f:translate key="tx_staffm_domain_model_mitarbeiter.first_name" /></th>
+            <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.title" /></th>
+            <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.telephone" /></th>	
+            <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></th>                
         </tr>                  
         <f:for each="{mitarbeiters}" as="mitarbeiter">            
             <tr id="ma{mitarbeiter.uid}">    
@@ -51,31 +41,31 @@ Otherwise your changes will be overwritten the next time you save the extension 
                 <td class="staffmmobilehidden"><div class="tx_staffm tds150"><f:link.action title="{mitarbeiter.title}" action="show" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.title}</f:link.action></div></td>
                 <td class="staffmmobilehidden"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.telephone}</f:link.action></td>                                          
                 <td class="staffmmobilehidden">
-                    <f:if condition="{mitarbeiter.qualifikationen}">
-                        <f:then>
-                            <f:for each="{mitarbeiter.qualifikationen}" as="mitarbeiterqualifikation" iteration="iteration">
-                                <f:if condition="{iteration.isFirst}">
-                                    <f:then>
-                                        <p class="marksq" title="{mitarbeiterqualifikation.beschreibung}"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"><span>{mitarbeiterqualifikation.bezeichnung}</span></f:link.action>
-                                            <f:if condition="{mitarbeiter.qualifikationen -> f:count()} > 1">
-                                                <a class="btn btn-sm btn-secondary" style="float:right" href="javascript:void(0)" id="q{mitarbeiter.uid}" onClick="getID(this);return false;"><span name="q{mitarbeiter.uid}glyphiconchange" id="q{mitarbeiter.uid}" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                                                    <f:if condition="{mitarbeiter.qualifikationen -> f:count()} < 10">
-                                                        0
-                                                    </f:if>
-                                                    {mitarbeiter.qualifikationen -> f:count()}</a>
+                <f:if condition="{mitarbeiter.employeequalifications}">
+                    <f:then>
+                        <f:for each="{mitarbeiter.employeequalifications -> vhs:iterator.sort(sortBy: 'qualification.bezeichnung')}" as="mitarbeiterqualifikation" iteration="iteration">
+                            <f:if condition="{iteration.isFirst}">
+                                <f:then>
+                                    <p class="marksq" title="{mitarbeiterqualifikation.qualification.beschreibung}"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"><span>{mitarbeiterqualifikation.qualification.bezeichnung} ({mitarbeiterqualifikation.status})</span></f:link.action>
+                                    <f:if condition="{mitarbeiter.employeequalifications -> f:count()} > 1">
+                                        <a class="btn btn-sm btn-secondary" style="float:right" href="javascript:void(0)" id="q{mitarbeiter.uid}" onClick="getID(this);return false;"><span name="q{mitarbeiter.uid}glyphiconchange" id="q{mitarbeiter.uid}" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                                            <f:if condition="{mitarbeiter.employeequalifications -> f:count()} < 10">
+                                                0
                                             </f:if>
-                                        </p>
-                                    </f:then>
-                                    <f:else>
-                                        <p class="marksq q{mitarbeiter.uid}hidden" style="display:none" title="{mitarbeiterqualifikation.qualifikation.beschreibung}"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}">{mitarbeiterqualifikation.bezeichnung}</f:link.action></p>                                            
-                                    </f:else>
-                                </f:if>                                            
-                            </f:for>                                                  
-                        </f:then>
-                        <f:else>
-                            <p><f:link.action style="color:red" action="show" arguments="{mitarbeiter : mitarbeiter}">>> keine <<</f:link.action></p>     
-                        </f:else>
-                    </f:if>
+                                            {mitarbeiter.employeequalifications -> f:count()}</a>
+                                    </f:if>
+                                    </p>
+                                </f:then>
+                                <f:else>
+                                    <p class="marksq q{mitarbeiter.uid}hidden" style="display:none" title="{mitarbeiterqualifikation.qualification.beschreibung}"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}">{mitarbeiterqualifikation.qualification.bezeichnung}</f:link.action></p>                                            
+                                </f:else>
+                            </f:if>                                            
+                        </f:for>                                                  
+                    </f:then>
+                    <f:else>
+                        <p><f:link.action style="color:red" action="show" arguments="{mitarbeiter : mitarbeiter}">>> keine <<</f:link.action></p>     
+                    </f:else>
+                </f:if>
                 </td>
                 <td class="nobackground"><f:link.action class="btn btn-sm btn-secondary" title="{mitarbeiter.firstName} {mitarbeiter.lastName} bearbeiten" action="edit" arguments="{mitarbeiter : mitarbeiter, berechtigung:'vonVorg'}"><f:translate id="staffm.edit" /></f:link.action></td>                                                                   
             </tr>               	                
@@ -88,7 +78,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
             <p style="color:#C9234A"><f:translate id="staffm.text.kstverantwortlicher.keinemitarbeiter" /></p>
         </f:else>
     </f:if>
-    <script>    
+    <script>
         function getID(stat) {
             // ID der geklickten Mitarbeiterqualifikation ermitteln
             //var objEvt = (window.event)? window.event: objEvt;
@@ -99,24 +89,24 @@ Otherwise your changes will be overwritten the next time you save the extension 
             // Klassen der Mitarbeiterqualifikation ermitteln
             var list = document.getElementsByClassName(id + "hidden");
             // Aus- oder einblenden
-            for(var i = 0; i < list.length; i++) {
+            for (var i = 0; i < list.length; i++) {
                 /*(list[i].style.display == 'none') ? list[i].style.display = ''
-                : list[i].style.display = 'none';*/
+                 : list[i].style.display = 'none';*/
 
-                var elem = document.getElementsByName(id + 'glyphiconchange');            
+                var elem = document.getElementsByName(id + 'glyphiconchange');
                 if (list[i].style.display == 'none') {
                     list[i].style.display = '';
-                    for (var ii = 0; ii < elem.length; ii++) { 
+                    for (var ii = 0; ii < elem.length; ii++) {
                         elem[ii].setAttribute('class', 'glyphicon glyphicon-triangle-top');
-                    }                 
+                    }
                 } else {
                     list[i].style.display = 'none';
                     //elem.setAttribute('class', 'glyphicon glyphicon-triangle-bottom');
-                    for (var ii = 0; ii < elem.length; ii++) { 
+                    for (var ii = 0; ii < elem.length; ii++) {
                         elem[ii].setAttribute('class', 'glyphicon glyphicon-triangle-bottom');
-                    }        
+                    }
 
-                } 
+                }
             }
         }
     </script>
