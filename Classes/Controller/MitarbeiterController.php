@@ -645,10 +645,11 @@ class MitarbeiterController extends ActionController
 
         $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager')->persistAll();
 
+        /* @var $cacheService \Pmwebdesign\Staffm\Domain\Service\CacheService */
+        $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
+        
         // Delete Caches           
-        if($changestatusList == TRUE) {           
-            /* @var $cacheService \Pmwebdesign\Staffm\Domain\Service\CacheService */
-            $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
+        if($changestatusList == TRUE) {  
             $cacheService->deleteCaches($mitarbeiter->getLastName(), "list", $this->request->getControllerName(), 0);  
         }        
         if($changestatusQualifications == TRUE) {

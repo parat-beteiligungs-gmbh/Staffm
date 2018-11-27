@@ -4,6 +4,7 @@
 
 Supports Typo3 8.7.0 - 8.7.99
 
+- [BUGFIX] Fix Error in MitarbeiterController by delete Cachings of qualifications.
 - [FEATURE] New Templates for supervisors to edit their employees.
 
 ## 2.1.2:
@@ -38,7 +39,7 @@ Supports Typo3 8.7.0 - 8.7.99
 Supports Typo3 8.7.0 - 8.7.99
 
 - [GIT] Update git files.
-- [BUFIX] Fix the Qualification history bug #4
+- [BUGFIX] Fix the Qualification history bug #4
 - [DOCS] Update Changelog.
 - [FEATURE] Implement new Action in QualificationService.
 - [COMMENT] Add/fix/alter comments in the code.
