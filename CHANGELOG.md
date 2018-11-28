@@ -1,5 +1,7 @@
 # Staffm Change Log
 
+- [FEATURE] Excel Export in supervisor edit form for employee all qualification selection.
+
 ## 2.2.1
 
 Supports Typo3 8.7.0 - 8.7.99

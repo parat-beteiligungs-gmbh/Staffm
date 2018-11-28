@@ -8,16 +8,24 @@
     <f:comment><!-- Buttons for Employee categories --></f:comment>
     <ul class="nav nav-tabs">
         <li class="nav-item">            
-            <a title="Alle Kategorien" style="cursor: pointer" class="catBtn nav-link{f:if(condition:'{categoryfield} == \'\'',then: ' active')}" id="catAll" onclick="selectQualificationButtons(this);">All</a>
+            <a title="Alle Kategorien" style="cursor: pointer" class="catBtn nav-link{f:if(condition:'{categoryfield} != \'catAll\'',then: '', else: ' active')}" id="catAll" onclick="selectQualificationButtons(this);">All</a>
         </li>        
         <f:for each="{categories -> vhs:iterator.sort(sortBy: 'name')}" as="category">
             <li class="nav-item">
                 <a title="{category.description}" style="cursor: pointer" class="catBtn nav-link{f:if(condition:'{categoryfield} == {category.name}',then: ' active')}" id="cat{category.name}" onclick="selectQualificationButtons(this);">{category.name}</a>
             </li>            
         </f:for>
-    </ul><br /><f:format.date 
+        <li class="nav-item">       
+        <f:form id="excelExport" action="exportQualisEmployees">
+            <f:form.hidden id="categoryfieldExcel" name="categoryfieldExcel" value="{categoryfield}" />
+            <div class="btn btn-default">
+                <f:image class="tx_staffm icon" src="typo3conf/ext/staffm/Resources/Public/Icons/Excel.png" /><f:form.submit value="Excel Export" style="border:none;background:none" />
+            </div>
+        </f:form>
+        </li>
+    </ul><br />
     <f:form action="chooselist" arguments="{key:key}" additionalAttributes="{role: 'form'}">    
-        <f:form.hidden id="categoryfield" name="categoryfield" value="{f:if(condition:'{categoryfield} == \'\'',then: '\'\'', else: '{categoryfield}')}" />
+        <f:form.hidden id="categoryfield" name="categoryfield" value="{categoryfield}" />
         <div class="table-responsive">    
             <table class="table table-striped table-bordered table-hover table-condensed tx_staffm" >
                 <thead>
@@ -91,7 +99,7 @@
             
             
             // List qualifications of given category            
-            var elemCategoryfield = document.getElementById("categoryfield");             
+            var elemCategoryfield = document.getElementById("categoryfield");                 
             var wholeid = elemCategoryfield.value;  
             var allElements = document.getElementsByClassName("catAll");
             
@@ -155,8 +163,10 @@
             var elemIdClicked = document.getElementById(wholeid);
             var elemCategories = document.getElementsByClassName("catBtn");
             var elemCategoryfield = document.getElementById("categoryfield");
+            var elemCategoryfieldExcel = document.getElementById("categoryfieldExcel"); 
             
             elemCategoryfield.value = wholeid;
+            elemCategoryfieldExcel.value = wholeid;
             
             // Unset all buttons
             for (var i = 0; i < elemCategories.length; i++) {

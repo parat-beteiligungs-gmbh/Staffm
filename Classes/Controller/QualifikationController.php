@@ -264,6 +264,101 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         // Delete Excel file at server
         unlink($filePath);
     }
+    
+    /**
+     * Export data to Excel          
+     * 
+     * @param \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualifikation
+     * @return void
+     */
+    public function exportQualisEmployeesAction(\Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualifikation = NULL)
+    {
+        // Get Category Field
+        if($this->request->hasArgument('categoryfieldExcel')) {
+            $categoryfield = $this->request->getArgument('categoryfieldExcel');
+        }
+        
+        // Get User
+        /* @var $userService \Pmwebdesign\Staffm\Domain\Service\UserService */
+        $userService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\UserService::class);
+        $aktUser = $userService->getLoggedInUser();
+               
+        // Employees of cost center responsible
+        $mitarbeiter = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository::class)->findMitarbeiterVonVorgesetzten(Null, $aktUser);
+        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($categoryfield);
+        // Category Field not empty and not catAll?
+        if($categoryfield != "" && $categoryfield != "catAll") {
+            /* @var $category \Pmwebdesign\Staffm\Domain\Model\Category */
+            $category = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\CategoryRepository::class)->findOneByName($categoryfield);
+            $qualifications = $category->getQualifications();
+        } else {
+            // Show all qualifications
+            $qualifications = $this->qualifikationRepository->findSearchForm("", 0);
+        }                
+
+        $aktpfad = $_SERVER['DOCUMENT_ROOT'];
+        $filePath = $aktpfad . "/uploads/tx_staffm/export.xlsx";
+
+        $limit = 0;
+
+        $_oPHPExcel = new Spreadsheet();
+        $_oExcelWriter = new Xlsx($_oPHPExcel);
+
+        
+
+        // Create new Worksheet
+        $myWorkSheet = new Worksheet($_oPHPExcel, 'Qualifikationen');
+        $_oPHPExcel->addSheet($myWorkSheet, 0);
+        $sheetIndex = $_oPHPExcel->getIndex(
+                $_oPHPExcel->getSheetByName('Worksheet')
+        );
+        // Delete standard worksheet
+        $_oPHPExcel->removeSheetByIndex($sheetIndex);
+
+        $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(1, 1, 'Bezeichnung / Mitarbeiter');
+        $i = 2;
+        // List qualifications in header
+        foreach ($qualifications as $qualification) {
+            $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($i, 1, $qualification->getBezeichnung());
+            $i++;
+        }
+        // List employees in the left column
+        $r = 2;
+        foreach ($mitarbeiter as $employee) {
+            $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(1, $r, $employee->getLastName()." ".$employee->getFirstName());
+            $i = 2;
+            foreach ($qualifications as $qualification) {                
+                foreach ($employee->getEmployeequalifications() as $employeequalification) {
+                    if($qualification == $employeequalification->getQualification()) {
+                        $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($i, $r, $employeequalification->getStatus());
+                    }                    
+                }
+                $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($i, 1, $qualification->getBezeichnung());
+                $i++;
+            }
+            $r++;
+        }
+
+        // Save Excel file at server
+        $_oExcelWriter->save($filePath);
+        unset($_oExcelWriter);
+        unset($_oPHPExcel);
+
+        // "Save at" for users
+        $size = filesize($filePath);        
+        header("Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        header("Content-disposition: attachment; filename=\"export.xlsx\"");
+        header("Content-Transfer-Encoding: binary");
+        header("Content-Length: $size");
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        ob_clean(); // Very important otherwise there is a mistake at Excel file
+        flush(); // Very important otherwise there is a mistake at Excel file
+        readfile($filePath);
+
+        // Delete Excel file at server
+        unlink($filePath);
+    }
 
     /**
      * List of qualifications
@@ -401,7 +496,8 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
                         
         $categoryfield = "";
         if($this->request->hasArgument('categoryfield')) {
-            $categoryfield = $this->request->getArgument('categoryfield');            
+            $categoryfield = $this->request->getArgument('categoryfield');  
+            \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($categoryfield);
         } else {
             foreach ($aktuser->getCategories() as $category) {
                 $categoryfield = $category->getName();

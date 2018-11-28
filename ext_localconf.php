@@ -35,7 +35,7 @@ if (!defined('TYPO3_MODE')) {
                 'Position' => 'list, show, choose',
 		'Kostenstelle' => 'list, show, choose, export',
 		'Firma' => 'list, show, choose, export',
-		'Qualifikation' => 'list, listVgs, show, chooselist, edit, new, create, update, delete, export',
+		'Qualifikation' => 'list, listVgs, show, chooselist, edit, new, create, update, delete, export, exportQualisEmployees',
 		'Qualilog' => 'list, show, choose, edit, new, create, update, delete',		
                 'Category' => 'list, show, new, edit, create, update, delete'
 	],	
@@ -44,7 +44,7 @@ if (!defined('TYPO3_MODE')) {
                 'Position' => 'list, show, choose',
 		'Kostenstelle' => 'list, show, choose, export',
 		'Firma' => 'list, show, choose, export',
-		'Qualifikation' => 'list, listVgs, show, chooselist, edit, new, create, update, delete, export',
+		'Qualifikation' => 'list, listVgs, show, chooselist, edit, new, create, update, delete, export, exportQualisEmployees',
 		'Qualilog' => 'list, show, choose, edit, new, create, update, delete',		
                 'Category' => 'list, show, new, edit, create, update, delete'
 	]
