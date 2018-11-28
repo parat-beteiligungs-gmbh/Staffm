@@ -1,5 +1,8 @@
 # Staffm Change Log
 
+## 2.2.1
+
+- [DOCS] Update Changelog.
 - [BUGFIX] Fixed a bug in edit forms for employee, to select qualifications or categories.
 - [UPDATE] Add additional attributes to list views.
 - [GIT] Add nbproject folder to gitignore.
