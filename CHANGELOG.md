@@ -2,6 +2,9 @@
 
 ## 2.2.1
 
+Supports Typo3 8.7.0 - 8.7.99
+
+- [DOCS] Update extension version.
 - [DOCS] Update Changelog.
 - [BUGFIX] Fixed a bug in edit forms for employee, to select qualifications or categories.
 - [UPDATE] Add additional attributes to list views.
