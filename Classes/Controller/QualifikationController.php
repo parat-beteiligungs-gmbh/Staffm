@@ -319,7 +319,12 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
                 $categories = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\CategoryRepository::class)->findAll();
                 $this->view->assign('categories', $categories);
             }
-        }        
+        }       
+        
+        if ($this->request->hasArgument('userKey')) {
+            $userKey = $this->request->getArgument('userKey');        
+            $this->view->assign('userKey', $userKey);
+        }
 
         if ($this->request->hasArgument('berechtigung')) {
             $berechtigung = $this->request->getArgument('berechtigung');

@@ -664,6 +664,13 @@ class MitarbeiterController extends ActionController
         } else {
             $key = "";
         }
+        
+        if ($this->request->hasArgument('userKey')) {
+            $userKey = $this->request->getArgument('userKey');
+        } else {
+            $userKey = "";
+        }
+        
         if ($this->request->hasArgument('search')) {
             $search = $this->request->getArgument('search');
         }
@@ -679,8 +686,11 @@ class MitarbeiterController extends ActionController
         if ($kst == 'kst') {
             $this->redirect('editKst', 'Mitarbeiter', NULL, array('ma' => $mitarbeiter, 'kostenstelle' => $mitarbeiter->getKostenstelle()));
         } else {
-            if ($key == 'auswahlUsr') {
+            if ($key == 'auswahlUsr' || $userKey == 'auswahlUsr') {
                 $this->redirect('editUser', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'key' => $key));
+            } elseif ($userKey == 'auswahlVgs') { 
+                $berechtigung = "vonVorg";
+                $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'berechtigung' => $berechtigung));
             } else {
                 $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'berechtigung' => $berechtigung));
             }

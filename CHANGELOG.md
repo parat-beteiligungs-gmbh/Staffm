@@ -1,5 +1,6 @@
 # Staffm Change Log
 
+- [BUGFIX] Fixed a bug in edit forms for employee, to select qualifications or categories.
 - [UPDATE] Add additional attributes to list views.
 - [GIT] Add nbproject folder to gitignore.
 - [TASK] Add titles on mouseover for categories.
