@@ -8,14 +8,14 @@
     <f:comment><!-- Buttons for Employee categories --></f:comment>
     <ul class="nav nav-tabs">
         <li class="nav-item">            
-            <a style="cursor: pointer" class="catBtn nav-link{f:if(condition:'{categoryfield} == \'\'',then: ' active')}" id="catAll" onclick="selectQualificationButtons(this);">All</a>
+            <a title="Alle Kategorien" style="cursor: pointer" class="catBtn nav-link{f:if(condition:'{categoryfield} == \'\'',then: ' active')}" id="catAll" onclick="selectQualificationButtons(this);">All</a>
         </li>        
         <f:for each="{categories -> vhs:iterator.sort(sortBy: 'name')}" as="category">
             <li class="nav-item">
-                <a style="cursor: pointer" class="catBtn nav-link{f:if(condition:'{categoryfield} == {category.name}',then: ' active')}" id="cat{category.name}" onclick="selectQualificationButtons(this);">{category.name}</a>
+                <a title="{category.description}" style="cursor: pointer" class="catBtn nav-link{f:if(condition:'{categoryfield} == {category.name}',then: ' active')}" id="cat{category.name}" onclick="selectQualificationButtons(this);">{category.name}</a>
             </li>            
         </f:for>
-    </ul><br />
+    </ul><br /><f:format.date 
     <f:form action="chooselist" arguments="{key:key}" additionalAttributes="{role: 'form'}">    
         <f:form.hidden id="categoryfield" name="categoryfield" value="{f:if(condition:'{categoryfield} == \'\'',then: '\'\'', else: '{categoryfield}')}" />
         <div class="table-responsive">    
@@ -44,12 +44,12 @@
                                 <f:if condition="{tv:qualiMitarbeiter(qu: qualification, m: mitarbeiter)} == 1">
                                     <f:then>
                                         <td id="tdM{mitarbeiter.uid}Q{qualification.uid}" style="background-color: red" class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}">                                        
-                                            <f:form.select style="max-width: 110px" id="mitaSelectM{mitarbeiter.uid}Q{qualification.uid}" name="mitarbeiters[{mitarbeiter.uid}][{qualification.uid}]" options="{qualification.status}" value="{tv:qualiStatus(mitarbeiter:mitarbeiter, qualifikation:qualification)}" additionalAttributes="{onClick: 'setCheckbox(this);'}" />
+                                        <f:form.textfield id="statusIdM{mitarbeiter.uid}Q{qualification.uid}" style="width:15px" readonly="TRUE" value="{tv:qualiStatus(mitarbeiter:mitarbeiter, qualifikation:qualification)}" /><f:form.select style="max-width: 90px" id="mitaSelectM{mitarbeiter.uid}Q{qualification.uid}" name="mitarbeiters[{mitarbeiter.uid}][{qualification.uid}]" options="{qualification.status}" value="{tv:qualiStatus(mitarbeiter:mitarbeiter, qualifikation:qualification)}" additionalAttributes="{onClick: 'setCheckbox(this);'}" />
                                         </td>
                                     </f:then>
                                     <f:else>
                                         <td id="tdM{mitarbeiter.uid}Q{qualification.uid}" class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}">                                        
-                                            <f:form.select style="max-width: 110px" id="mitaSelectM{mitarbeiter.uid}Q{qualification.uid}" name="mitarbeiters[{mitarbeiter.uid}][{qualification.uid}]" options="{qualification.status}" value="" additionalAttributes="{onClick: 'setCheckbox(this);'}" />
+                                            <f:form.textfield id="statusIdM{mitarbeiter.uid}Q{qualification.uid}" style="width:15px" readonly="TRUE" value="" /><f:form.select style="max-width: 90px" id="mitaSelectM{mitarbeiter.uid}Q{qualification.uid}" name="mitarbeiters[{mitarbeiter.uid}][{qualification.uid}]" options="{qualification.status}" value="" additionalAttributes="{onClick: 'setCheckbox(this);'}" />
                                         </td>
                                     </f:else>
                                 </f:if>
@@ -128,15 +128,19 @@
             var id = wholeid.substring(10);            
             var elem = document.getElementById("td" + id);
             var elemSelect = document.getElementById("mitaSelect" + id);
+            var statusId = document.getElementById("statusId" + id);
+            
             // Status selected?
             if (elemSelect.value > 0) {                          
-                elem.style.backgroundColor = "red";   
+                elem.style.backgroundColor = "red";  
+                statusId.value = elemSelect.value;
             } else {               
                 for (var i = 0; i < elem.length; i++) {
                    
                     elem[i].style.backgroundColor = ""; 
                 }
                 elemSelect.value = "";
+                statusId.value = "";
             }
         }
         

@@ -1,10 +1,19 @@
 # Staffm Change Log
 
+## 2.2.1
+
+- [DOCS] Update Changelog.
+- [BUGFIX] Fixed a bug in edit forms for employee, to select qualifications or categories.
+- [UPDATE] Add additional attributes to list views.
+- [GIT] Add nbproject folder to gitignore.
+- [TASK] Add titles on mouseover for categories.
+- [BUGFIX] Fixed a bug in supervisor edit form for employee, to select qualifications.
+
 ## 2.2.0:
 
 Supports Typo3 8.7.0 - 8.7.99
 
-- [BUGFIX] Fix Error in MitarbeiterController by delete Cachings of qualifications.
+- [BUGFIX] Fix Error in MitarbeiterController by delete Cachings of qualifications #12.
 - [FEATURE] New Templates for supervisors to edit their employees.
 
 ## 2.1.2:

@@ -236,6 +236,11 @@ class CategoryController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
             $key = $this->request->getArgument('key');
             $this->view->assign('key', $key);
         }
+        
+        if ($this->request->hasArgument('userKey')) {
+            $userKey = $this->request->getArgument('userKey');
+            $this->view->assign('userKey', $userKey);
+        }
 
         // Search available?
         if ($this->request->hasArgument('standardsearch')) {

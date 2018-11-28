@@ -10,7 +10,7 @@
     <f:form enctype="multipart/form-data" action="update" name="mitarbeiter" arguments="{mitarbeiter:mitarbeiter, maid:'maid', search:search, key:key, berechtigung:berechtigung}" object="{mitarbeiter}" >
         <f:if condition="{berechtigung} == 'vonVorg'">
             <f:then>
-                <f:render partial="Mitarbeiter/FormFieldsVorg" arguments="{mitarbeiter:mitarbeiter, search:search, berechtigung:berechtigung}" /><br />
+                <f:render partial="Mitarbeiter/FormFieldsVorg" arguments="{mitarbeiter:mitarbeiter, search:search, berechtigung:berechtigung, key:'auswahl'}" /><br />
             </f:then>
             <f:else>
                  <f:if condition="{key} == 'auswahlUsr'">
