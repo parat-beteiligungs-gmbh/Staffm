@@ -6,6 +6,7 @@
     <table  class="tx_staffm" >
         <tr>                        
             <th><f:translate key="tx_staffm_domain_model_qualifikation.bezeichnung" /></th> 
+            <th><f:translate key="tx_staffm_domain_model_qualifikation.beschreibung" /></th> 
             <th><f:translate id="staffm.active" /></th>
         </tr>
         <f:for each="{qualifikations}" as="qualification">
@@ -13,10 +14,12 @@
             <f:if condition="{tv:categoryQualification(c:category, qu: qualification)} > 0">
                 <f:then>                       
                     <td class="td{qualification.uid}" style="background-color: red">{qualification.bezeichnung}</td>                                         
+                    <td class="td{qualification.uid}" style="background-color: red">{qualification.beschreibung}</td>
                     <td class="td{qualification.uid}" style="background-color: red"><f:form.checkbox id="qualiCheck{qualification.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="qualifikationen" value="{qualification.uid}" multiple="1" checked="1" /></td>                                                    
                 </f:then>
                 <f:else>
-                    <td class="td{qualification.uid}">{qualification.bezeichnung}</td>                                         
+                    <td class="td{qualification.uid}">{qualification.bezeichnung}</td>
+                    <td class="td{qualification.uid}">{qualification.beschreibung}</td> 
                     <td class="td{qualification.uid}"><f:form.checkbox id="qualiCheck{qualification.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="qualifikationen" value="{qualification.uid}" multiple="1" checked="0" /></td>                                                    
                 </f:else>
             </f:if>

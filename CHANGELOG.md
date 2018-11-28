@@ -1,5 +1,6 @@
 # Staffm Change Log
 
+- [UPDATE] Add additional attributes to list views.
 - [GIT] Add nbproject folder to gitignore.
 - [TASK] Add titles on mouseover for categories.
 - [BUGFIX] Fixed a bug in supervisor edit form for employee, to select qualifications.

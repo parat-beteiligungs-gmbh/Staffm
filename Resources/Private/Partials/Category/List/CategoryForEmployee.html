@@ -16,17 +16,20 @@
             <table  class="tx_staffm" >
                 <tr>
                     <th><f:translate key="tx_staffm_domain_model_category.name" /></th>
+                    <th><f:translate key="tx_staffm_domain_model_category.description" /></th>
                     <th></th>
                 </tr>
                 <f:for each="{sortedCategories}" as="category">
                     <tr>                              
                         <f:if condition="{tv:categoryEmployee(c:category, ma: employee)} > 0">
                             <f:then>                       
-                                <td class="td{category.uid}" style="background-color: red">{category.name}</td>                                         
+                                <td class="td{category.uid}" style="background-color: red">{category.name}</td> 
+                                <td class="td{category.uid}" style="background-color: red">{category.description}</td> 
                                 <td class="td{category.uid}" style="background-color: red"><f:form.checkbox id="categoryCheck{category.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="categories" value="{category.uid}" multiple="1" checked="1" /></td>                                                    
                             </f:then>
                             <f:else>
-                                <td class="td{category.uid}">{category.name}</td>                                         
+                                <td class="td{category.uid}">{category.name}</td>   
+                                <td class="td{category.uid}">{category.description}</td>  
                                 <td class="td{category.uid}"><f:form.checkbox id="categoryCheck{category.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="categories" value="{category.uid}" multiple="1" checked="0" /></td>                                                    
                             </f:else>
                         </f:if>          
