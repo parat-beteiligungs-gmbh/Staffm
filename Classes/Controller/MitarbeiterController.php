@@ -364,7 +364,12 @@ class MitarbeiterController extends ActionController
      */
     public function listChooseAction(Kostenstelle $kostenstelle)
     {
-        $mitarbeiters = $this->mitarbeiterRepository->findAll();
+        // Search exist?
+        if ($this->request->hasArgument('search')) {
+            $search = $this->request->getArgument('search');    
+            $this->view->assign('search', $search);
+        }        
+        $mitarbeiters = $this->mitarbeiterRepository->findSearchForm($search, 0);        
         $this->view->assign('mitarbeiters', $mitarbeiters);
         $this->view->assign('kostenstelle', $kostenstelle);
     }

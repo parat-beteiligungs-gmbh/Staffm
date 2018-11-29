@@ -1,8 +1,9 @@
 # Staffm Change Log
 
+- [FEATURE] Widget and a search form for selecting a responsible for a cost center added.
 - [FEATURE] Excel Export in supervisor edit form for employee all qualification selection.
 
-## 2.2.1
+## 2.2.1:
 
 Supports Typo3 8.7.0 - 8.7.99
 
