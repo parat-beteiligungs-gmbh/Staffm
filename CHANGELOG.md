@@ -1,5 +1,6 @@
 # Staffm Change Log
 
+- [CODESTYLE] Reorder entries.
 - [FEATURE] Widget and a search form for selecting a responsible for a cost center added.
 - [FEATURE] Excel Export in supervisor edit form for employee all qualification selection.
 
