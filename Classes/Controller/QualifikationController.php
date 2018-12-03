@@ -315,7 +315,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         // Delete standard worksheet
         $_oPHPExcel->removeSheetByIndex($sheetIndex);
 
-        $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(1, 1, 'Bezeichnung / Mitarbeiter');
+        $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(1, 1, 'Mitarbeiter / Qualifikationen');
         $i = 2;
         // List qualifications in header
         foreach ($qualifications as $qualification) {
