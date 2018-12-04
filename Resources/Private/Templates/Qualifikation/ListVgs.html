@@ -30,9 +30,9 @@
             <table class="table table-striped table-bordered table-hover table-condensed tx_staffm" >
                 <thead>
                     <tr>
-                        <th><f:translate key="tx_staffm_domain_model_qualifikation.bezeichnung" /></th>                          
+                        <th><f:translate key="tx_staffm_domain_model_mitarbeiter" />/<f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></th>                          
                         <f:for each="{qualifikations}" as="qualification">                                                                
-                            <th class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}" style="hyphens: auto;min-width: 120px" title="{qualification.beschreibung}">{qualification.bezeichnung}</th>                                             
+                            <th class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}" style="min-width: 120px;max-width: 120px" title="{qualification.beschreibung}"><div style="-ms-hyphens: auto;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;vertical-align: bottom">{qualification.bezeichnung}</div></th>                                             
                         </f:for>                         
                     </tr>
                 </thead>
@@ -40,9 +40,9 @@
                     <f:for each="{mitarbeiters}" as="mitarbeiter" iteration="iterator">
                         <f:if condition="{tv:setNumElements(objects:mitarbeiters,iterator:iterator,num:12)} == TRUE">
                             <tr>
-                                <th><f:translate key="tx_staffm_domain_model_qualifikation.bezeichnung" /></th>                          
+                                <th><f:translate key="tx_staffm_domain_model_mitarbeiter" />/<f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></th>                          
                                 <f:for each="{qualifikations}" as="qualification">                                                                
-                                    <th class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}" style="hyphens: auto;min-width: 120px" title="{qualification.beschreibung}">{qualification.bezeichnung}</th>                                             
+                                    <th class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}" style="min-width: 120px;max-width: 120px" title="{qualification.beschreibung}"><div style="-ms-hyphens: auto;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;vertical-align: bottom">{qualification.bezeichnung}</div></th>                                             
                                 </f:for>                        
                             </tr>  
                         </f:if>
@@ -51,8 +51,8 @@
                             <f:for each="{qualifikations}" as="qualification"> 
                                 <f:if condition="{tv:qualiMitarbeiter(qu: qualification, m: mitarbeiter)} == 1">
                                     <f:then>
-                                        <td id="tdM{mitarbeiter.uid}Q{qualification.uid}" style="background-color: red" class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}">                                        
-                                        <f:form.textfield id="statusIdM{mitarbeiter.uid}Q{qualification.uid}" style="width:15px" readonly="TRUE" value="{tv:qualiStatus(mitarbeiter:mitarbeiter, qualifikation:qualification)}" /><f:form.select style="max-width: 90px" id="mitaSelectM{mitarbeiter.uid}Q{qualification.uid}" name="mitarbeiters[{mitarbeiter.uid}][{qualification.uid}]" options="{qualification.status}" value="{tv:qualiStatus(mitarbeiter:mitarbeiter, qualifikation:qualification)}" additionalAttributes="{onClick: 'setCheckbox(this);'}" />
+                                        <td id="tdM{mitarbeiter.uid}Q{qualification.uid}" style="background-color: #BCEE68" class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}">                                        
+                                            <f:form.textfield id="statusIdM{mitarbeiter.uid}Q{qualification.uid}" style="width:15px" readonly="TRUE" value="{tv:qualiStatus(mitarbeiter:mitarbeiter, qualifikation:qualification)}" /><f:form.select style="max-width: 90px" id="mitaSelectM{mitarbeiter.uid}Q{qualification.uid}" name="mitarbeiters[{mitarbeiter.uid}][{qualification.uid}]" options="{qualification.status}" value="{tv:qualiStatus(mitarbeiter:mitarbeiter, qualifikation:qualification)}" additionalAttributes="{onClick: 'setCheckbox(this);'}" />
                                         </td>
                                     </f:then>
                                     <f:else>
@@ -140,13 +140,10 @@
             
             // Status selected?
             if (elemSelect.value > 0) {                          
-                elem.style.backgroundColor = "red";  
+                elem.style.backgroundColor = "#BCEE68";  
                 statusId.value = elemSelect.value;
             } else {               
-                for (var i = 0; i < elem.length; i++) {
-                   
-                    elem[i].style.backgroundColor = ""; 
-                }
+                elem.style.backgroundColor = "";                 
                 elemSelect.value = "";
                 statusId.value = "";
             }

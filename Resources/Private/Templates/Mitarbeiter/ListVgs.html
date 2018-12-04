@@ -57,7 +57,7 @@
                                     </p>
                                 </f:then>
                                 <f:else>
-                                    <p class="marksq q{mitarbeiter.uid}hidden" style="display:none" title="{mitarbeiterqualifikation.qualification.beschreibung}"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}">{mitarbeiterqualifikation.qualification.bezeichnung}</f:link.action></p>                                            
+                                    <p class="marksq q{mitarbeiter.uid}hidden" style="display:none" title="{mitarbeiterqualifikation.qualification.beschreibung}"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}">{mitarbeiterqualifikation.qualification.bezeichnung} ({mitarbeiterqualifikation.status})</f:link.action></p>                                            
                                 </f:else>
                             </f:if>                                            
                         </f:for>                                                  

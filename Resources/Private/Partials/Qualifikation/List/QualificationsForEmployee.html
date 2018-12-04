@@ -2,16 +2,17 @@
 
 <f:form action="update" controller="Mitarbeiter" arguments="{mitarbeiter:mitarbeiter, key:key, berechtigung:berechtigung, userKey:userKey}" additionalAttributes="{role: 'form'}" >  
     <f:comment><!-- Buttons for Qualification categories --></f:comment>
+    <f:form.hidden id="categoryfield" name="categoryfield" value="{categoryfield}" />
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a style="cursor: pointer" class="catBtn nav-link active" id="catAll" onclick="selectQualificationButtons(this);">All</a>
+            <a style="cursor: pointer" class="catBtn nav-link{f:if(condition:'{categoryfield} != \'catAll\'',then: '', else: ' active')}" id="catAll" onclick="selectQualificationButtons(this);">All</a>
         </li>
         <li class="nav-item">
             <a style="cursor: pointer" class="catBtn nav-link" id="catActive" onclick="selectQualificationButtons(this);">Active</a>
         </li>
         <f:for each="{categories -> vhs:iterator.sort(sortBy: 'category.name')}" as="category">
             <li class="nav-item">
-                <a style="cursor: pointer" class="catBtn nav-link" id="cat{category.name}" onclick="selectQualificationButtons(this);">{category.name}</a>
+                <a style="cursor: pointer" class="catBtn nav-link{f:if(condition:'{categoryfield} == {category.name}',then: ' active')}" id="cat{category.name}" onclick="selectQualificationButtons(this);">{category.name}</a>
             </li>            
         </f:for>
     </ul>
@@ -30,11 +31,11 @@
             <f:if condition="{tv:quali(m:mitarbeiter, qu: qualifikation)} > 0">
                 <f:then>   
                     <tr class="catAll catActive {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualifikation.categories}', as: 'category', iteration: 'i')}">   
-                        <td title="{qualifikation.beschreibung}" class="td{qualifikation.uid}" style="background-color: red;cursor: help">{qualifikation.bezeichnung}</td>                                         
-                        <td class="td{qualifikation.uid}" style="background-color: red"><f:form.checkbox id="qualiCheck{qualifikation.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="qualifikationen" value="{qualifikation.uid}" multiple="1" checked="1" /></td>                                 
-                        <td class="td{qualifikation.uid}" style="background-color: red"><f:form.select id="qualiSelect{qualifikation.uid}" name="qualificationsstatus[{qualifikation.uid}]" options="{qualifikation.status}" value="{tv:qualiStatus(mitarbeiter:mitarbeiter, qualifikation:qualifikation)}" /></td>                                 
-                        <td class="td{qualifikation.uid}" style="background-color: red"><f:form.textfield id="qualiReminderDate{qualifikation.uid}" name="qualificationsreminderdate[{qualifikation.uid}]" value="{tv:qualiReminderDate(mitarbeiter:mitarbeiter, qualifikation:qualifikation)}" additionalAttributes="{onclick:'datepicker(this);'}" readonly="TRUE" />&nbsp;<a title="Delete date" style="cursor:pointer" id="qualiReminderDeleteDate{qualifikation.uid}" onclick="delteReminderDate(this);"><f:image src="typo3conf/ext/Staffm/Resources/Public/Icons/icon_delete.svg" width="15" /></a></td>
-                        <td class="td{qualifikation.uid}" style="background-color: red"><f:form.textarea id="qualiText{qualifikation.uid}" name="qualificationsnotes[{qualifikation.uid}]" value="{tv:qualiNote(mitarbeiter:mitarbeiter, qualifikation:qualifikation)}" /></td>                        
+                        <td title="{qualifikation.beschreibung}" class="td{qualifikation.uid}" style="background-color: #BCEE68;cursor: help">{qualifikation.bezeichnung}</td>                                         
+                        <td class="td{qualifikation.uid}" style="background-color: #BCEE68"><f:form.checkbox id="qualiCheck{qualifikation.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="qualifikationen" value="{qualifikation.uid}" multiple="1" checked="1" /></td>                                 
+                        <td class="td{qualifikation.uid}" style="background-color: #BCEE68"><f:form.select id="qualiSelect{qualifikation.uid}" name="qualificationsstatus[{qualifikation.uid}]" options="{qualifikation.status}" value="{tv:qualiStatus(mitarbeiter:mitarbeiter, qualifikation:qualifikation)}" /></td>                                 
+                        <td class="td{qualifikation.uid}" style="background-color: #BCEE68"><f:form.textfield id="qualiReminderDate{qualifikation.uid}" name="qualificationsreminderdate[{qualifikation.uid}]" value="{tv:qualiReminderDate(mitarbeiter:mitarbeiter, qualifikation:qualifikation)}" additionalAttributes="{onclick:'datepicker(this);'}" readonly="TRUE" />&nbsp;<a title="Delete date" style="cursor:pointer" id="qualiReminderDeleteDate{qualifikation.uid}" onclick="delteReminderDate(this);"><f:image src="typo3conf/ext/Staffm/Resources/Public/Icons/icon_delete.svg" width="15" /></a></td>
+                        <td class="td{qualifikation.uid}" style="background-color: #BCEE68"><f:form.textarea id="qualiText{qualifikation.uid}" name="qualificationsnotes[{qualifikation.uid}]" value="{tv:qualiNote(mitarbeiter:mitarbeiter, qualifikation:qualifikation)}" /></td>                        
                     </tr>
                 </f:then>
                 <f:else>
@@ -55,6 +56,35 @@
         <button class="btn btn-success" type="submit"><f:translate id="staffm.choose" /> <f:translate id="staffm.text.uebergeben" /></button><!--<f:form.submit class="btn btn-default" value="Auswahl übergeben" />-->
     </div>    
     <script>
+        $(function(){
+            // List qualifications of given category            
+            var elemCategoryfield = document.getElementById("categoryfield");             
+            var wholeid = elemCategoryfield.value;              
+
+            var allElements = document.getElementsByClassName("catAll");
+
+            if (wholeid != 'catAll') {
+                for (var i = 0; i < allElements.length; i++) {
+                    allElements[i].style.display = 'none';
+                }
+            }     
+
+            var elements;            
+            // Clicked all qualifications?
+            if (wholeid == 'catAll') {
+                elements = document.getElementsByClassName("catAll");              
+            // Clicked category button?
+            } else {
+                var elemId = wholeid;
+                elements = document.getElementsByClassName(elemId);                
+            }
+            // Show identified qualifications
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].style.display = 'table-row';
+            }  
+            
+        });
+        
         /**
          * Show qualifications of clicked category button
          * 
@@ -65,6 +95,9 @@
             var wholeid = stat.id;               
             var elemIdClicked = document.getElementById(wholeid);
             var elemCategories = document.getElementsByClassName("catBtn");
+            var elemCategoryfield = document.getElementById("categoryfield");
+            
+            elemCategoryfield.value = wholeid;
             
             for (var i = 0; i < elemCategories.length; i++) {
                 elemCategories[i].setAttribute(name="class", value="catBtn nav-link");
