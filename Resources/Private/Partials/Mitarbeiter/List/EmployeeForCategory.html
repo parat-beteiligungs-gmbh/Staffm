@@ -16,12 +16,12 @@
             <tr>                            
             <f:if condition="{tv:categoryEmployee(c:category, ma: employee)} > 0">
                 <f:then>                       
-                    <td class="td{employee.uid}" style="background-color: #BCEE68">{employee.personalnummer}</td> 
-                    <td class="td{employee.uid}" style="background-color: #BCEE68">{employee.username}</td> 
-                    <td class="td{employee.uid}" style="background-color: #BCEE68">{employee.lastName}</td> 
-                    <td class="td{employee.uid}" style="background-color: #BCEE68">{employee.firstName}</td> 
-                    <td class="td{employee.uid}" style="background-color: #BCEE68">{employee.title}</td> 
-                    <td class="td{employee.uid}" style="background-color: #BCEE68"><f:form.checkbox id="mitarCheck{employee.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="employees" value="{employee.uid}" multiple="1" checked="1" /></td>                                                    
+                    <td class="td{employee.uid}" style="background-color: red">{employee.personalnummer}</td> 
+                    <td class="td{employee.uid}" style="background-color: red">{employee.username}</td> 
+                    <td class="td{employee.uid}" style="background-color: red">{employee.lastName}</td> 
+                    <td class="td{employee.uid}" style="background-color: red">{employee.firstName}</td> 
+                    <td class="td{employee.uid}" style="background-color: red">{employee.title}</td> 
+                    <td class="td{employee.uid}" style="background-color: red"><f:form.checkbox id="mitarCheck{employee.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="employees" value="{employee.uid}" multiple="1" checked="1" /></td>                                                    
                 </f:then>
                 <f:else>
                     <td class="td{employee.uid}">{employee.personalnummer}</td> 
@@ -61,7 +61,7 @@
         if (cb.checked === true) {
             cb.checked = true;
             for (var i = 0; i < elem.length; i++) {
-                elem[i].style.backgroundColor = "#BCEE68";
+                elem[i].style.backgroundColor = "red";
             }
             elemSelect.disabled = false;
             elemSelect.value = 1;

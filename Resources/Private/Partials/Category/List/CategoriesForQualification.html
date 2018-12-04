@@ -14,9 +14,9 @@
             <tr>                              
                 <f:if condition="{tv:categoryQualification(c:category, qu: qualification)} > 0">
                     <f:then>                       
-                        <td class="td{category.uid}" style="background-color: #BCEE68">{category.name}</td>   
-                        <td class="td{category.uid}" style="background-color: #BCEE68">{category.description}</td> 
-                        <td class="td{category.uid}" style="background-color: #BCEE68"><f:form.checkbox id="categoryCheck{category.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="categories" value="{category.uid}" multiple="1" checked="1" /></td>                                                    
+                        <td class="td{category.uid}" style="background-color: red">{category.name}</td>   
+                        <td class="td{category.uid}" style="background-color: red">{category.description}</td> 
+                        <td class="td{category.uid}" style="background-color: red"><f:form.checkbox id="categoryCheck{category.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="categories" value="{category.uid}" multiple="1" checked="1" /></td>                                                    
                     </f:then>
                     <f:else>
                         <td class="td{category.uid}">{category.name}</td>      
@@ -51,7 +51,7 @@
         if (cb.checked === true) {
             cb.checked = true;
             for (var i = 0; i < elem.length; i++) {
-                elem[i].style.backgroundColor = "#BCEE68";
+                elem[i].style.backgroundColor = "red";
             }
             elemSelect.disabled = false;
             elemSelect.value = 1;               
