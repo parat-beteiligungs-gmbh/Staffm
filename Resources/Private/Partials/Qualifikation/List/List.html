@@ -29,22 +29,24 @@
                         <td><div class="tx_staffm tds400"><f:link.action title="{qualifikation.beschreibung}" action="show" arguments="{qualifikation : qualifikation, search:search}">{qualifikation.beschreibung}</f:link.action></div></td>                                                                                   
                         <td class="staffmmobilehidden">     
                     <f:for each="{qualifikation.employeequalifications}" as="m" iteration="iteration" reverse="TRUE">
-                        <f:if condition="{iteration.isFirst}">
-                            <f:then>
-                                <p class="marksq" title="{m.employee.telephone}"><f:link.action action="show" arguments="{qualifikation : qualifikation, search:search}"><span>{m.employee.lastName} {m.employee.firstName} ({m.status})</span></f:link.action>
-                                <f:if condition="{qualifikation.employeequalifications -> f:count()} > 1">
-                                    <a class="btn btn-secondary btn-sm" style="float:right" href="javascript:void(0)" id="q{qualifikation.uid}" onClick="getID(this);return false;"><span name="q{qualifikation.uid}glyphiconchange" id="q{qualifikation.uid}" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                                        <f:if condition="{qualifikation.employeequalifications -> f:count()} < 10">
-                                            0
-                                        </f:if>
-                                        {qualifikation.employeequalifications -> f:count()}</a>
-                                </f:if>
-                                </p>
-                            </f:then>
-                            <f:else>
-                                <p class="marksq q{qualifikation.uid}hidden" style="display:none" title="{m.employee.telephone}"><f:link.action action="show" arguments="{qualifikation : qualifikation, search:search}">{m.employee.lastName} {m.employee.firstName} ({m.status})</f:link.action></p>                                            
-                            </f:else>
-                        </f:if>                                            
+                        <f:if condition="{m.status} > 1">
+                            <f:if condition="{iteration.isFirst}">
+                                <f:then>
+                                    <p class="marksq" title="{m.employee.telephone}"><f:link.action action="show" arguments="{qualifikation : qualifikation, search:search}"><span>{m.employee.lastName} {m.employee.firstName} ({m.status})</span></f:link.action>
+                                    <f:if condition="{qualifikation.employeequalifications -> f:count()} > 1">
+                                        <a class="btn btn-secondary btn-sm" style="float:right" href="javascript:void(0)" id="q{qualifikation.uid}" onClick="getID(this);return false;"><span name="q{qualifikation.uid}glyphiconchange" id="q{qualifikation.uid}" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                                            <f:if condition="{qualifikation.employeequalifications -> f:count()} < 10">
+                                                0
+                                            </f:if>
+                                            {qualifikation.employeequalifications -> f:count()}</a>
+                                    </f:if>
+                                    </p>
+                                </f:then>
+                                <f:else>
+                                    <p class="marksq q{qualifikation.uid}hidden" style="display:none" title="{m.employee.telephone}"><f:link.action action="show" arguments="{qualifikation : qualifikation, search:search}">{m.employee.lastName} {m.employee.firstName} ({m.status})</f:link.action></p>                                            
+                                </f:else>
+                            </f:if>    
+                        </f:if>
                     </f:for>
                     </td>                                         
                     <f:security.ifHasRole role="PA">

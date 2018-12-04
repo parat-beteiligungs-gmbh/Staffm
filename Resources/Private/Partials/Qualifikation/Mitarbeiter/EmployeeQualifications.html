@@ -10,51 +10,53 @@
         <!-- TODO: Authorization just for supervisors -->
         <th><f:translate key="tx_staffm_domain_model_qualifikation.status" /></th>
     </tr> 
-    <f:for each="{qualifikation.employeequalifications}" as="ma" reverse="TRUE">   
-        <tr id="ma{ma.uid}">
-            <td>
-                <f:if condition="{ma.employee.image}">
-                    <f:for each="{ma.employee.image}" as="img" key="key" iteration="iterator">    
-                        <f:if condition="{iterator.isFirst}">
-                            <f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, qualifikation:qualifikation, key: 'auswahlKst'}"><f:image class="tx_staffm profilbild klein" src="{img.originalResource.publicUrl}" /></f:link.action>                                            
-                        </f:if>
-                    </f:for>                        
-                </f:if>                        
-            </td>
-            <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst', search:search}">{ma.employee.personalnummer}</f:link.action></td>
-            <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst', search:search}">{ma.employee.lastName}</f:link.action></td>
-            <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst', search:search}">{ma.employee.firstName}</f:link.action></td>
-            <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst', search:search}">{ma.employee.title}</f:link.action></td>
-            <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst', search:search}">{ma.employee.telephone}</f:link.action></td>
-            <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst', search:search}" title="{qualifikation.status.{ma.status}}">{ma.status}</f:link.action></td>
-            <!-- TODO: Authorization just for supervisors -->
-            <f:for each="{ma.employeequalifications}" as="employeequalification">
-                <f:if condition="{qualifikation} == {employeequalification.qualification}">
-                    <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst', search:search}"></f:link.action></td>
+    <f:for each="{qualifikation.employeequalifications}" as="ma" reverse="TRUE">          
+        <!-- TODO: Authorization just for supervisors -->
+            <tr id="ma{ma.uid}">
+                <td>
+                    <f:if condition="{ma.employee.image}">
+                        <f:for each="{ma.employee.image}" as="img" key="key" iteration="iterator">    
+                            <f:if condition="{iterator.isFirst}">
+                                <f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, qualifikation:qualifikation, key: 'auswahlKst'}"><f:image class="tx_staffm profilbild klein" src="{img.originalResource.publicUrl}" /></f:link.action>                                            
+                            </f:if>
+                        </f:for>                        
+                    </f:if>                        
+                </td>
+                <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst', search:search}">{ma.employee.personalnummer}</f:link.action></td>
+                <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst', search:search}">{ma.employee.lastName}</f:link.action></td>
+                <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst', search:search}">{ma.employee.firstName}</f:link.action></td>
+                <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst', search:search}">{ma.employee.title}</f:link.action></td>
+                <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst', search:search}">{ma.employee.telephone}</f:link.action></td>
+                <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst', search:search}" title="{qualifikation.status.{ma.status}}">{ma.status}</f:link.action></td>
+                <!-- TODO: Authorization just for supervisors -->
+                <f:for each="{ma.employeequalifications}" as="employeequalification">
+                    <f:if condition="{qualifikation} == {employeequalification.qualification}">
+                        <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst', search:search}"></f:link.action></td>
+                    </f:if>
+                </f:for>           
+                <f:if condition="{edit} != 'no'">
+                    <f:security.ifHasRole role="PA">
+                        <f:then>                    
+                            <td class="staffmmobilehidden nobackground">
+                                <div class="btn-group">
+                                    <f:link.action class="btn btn-secondary btn-sm" title="{ma.employee.firstName} {ma.employee.lastName} bearbeiten" controller="Mitarbeiter" action="edit" arguments="{mitarbeiter : ma.employee}"><f:translate id="staffm.edit" /></f:link.action>
+                                    <f:link.action class="btn btn-danger btn-sm" controller="Mitarbeiter" action="delete" arguments="{mitarbeiter : ma.employee}"><f:translate id="staffm.delete" /></f:link.action>
+                                </div>
+                            </td>                    
+                        </f:then>
+                        <f:else>
+                            <f:if condition="{aktuser.position} != 0">
+                                <!-- Kostenstellenverantwortung prüfen -->                                
+                                <f:for each="{kostenstellen}" as="kst">                                    
+                                    <f:if condition="{kst.uid} == {ma.employee.kostenstelle.uid}">
+                                        <td><f:link.action class="btn btns-sm btn-secondary" controller="Mitarbeiter" action="editKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst'}"><f:translate id="staffm.edit" /></f:link.action></td>
+                                    </f:if>    
+                                </f:for>
+                            </f:if>
+                        </f:else>
+                    </f:security.ifHasRole>
                 </f:if>
-            </f:for>           
-            <f:if condition="{edit} != 'no'">
-                <f:security.ifHasRole role="PA">
-                    <f:then>                    
-                        <td class="staffmmobilehidden nobackground">
-                            <div class="btn-group">
-                                <f:link.action class="btn btn-secondary btn-sm" title="{ma.employee.firstName} {ma.employee.lastName} bearbeiten" controller="Mitarbeiter" action="edit" arguments="{mitarbeiter : ma.employee}"><f:translate id="staffm.edit" /></f:link.action>
-                                <f:link.action class="btn btn-danger btn-sm" controller="Mitarbeiter" action="delete" arguments="{mitarbeiter : ma.employee}"><f:translate id="staffm.delete" /></f:link.action>
-                            </div>
-                        </td>                    
-                    </f:then>
-                    <f:else>
-                        <f:if condition="{aktuser.position} != 0">
-                            <!-- Kostenstellenverantwortung prüfen -->                                
-                            <f:for each="{kostenstellen}" as="kst">                                    
-                                <f:if condition="{kst.uid} == {ma.employee.kostenstelle.uid}">
-                                    <td><f:link.action class="btn btns-sm btn-secondary" controller="Mitarbeiter" action="editKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst'}"><f:translate id="staffm.edit" /></f:link.action></td>
-                                </f:if>    
-                            </f:for>
-                        </f:if>
-                    </f:else>
-                </f:security.ifHasRole>
-            </f:if>
-        </tr>
+            </tr>
+        
     </f:for>    
 </table>
