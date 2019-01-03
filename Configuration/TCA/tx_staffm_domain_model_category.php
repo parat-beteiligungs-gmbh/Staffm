@@ -16,14 +16,14 @@ return [
           'starttime' => 'starttime',
           'endtime' => 'endtime', */
         ],
-        'searchFields' => 'name,',
+        'searchFields' => 'name',
         'iconfile' => 'EXT:staffm/Resources/Public/Icons/tx_staffm_domain_model_category.gif'
     ],
     'interface' => [
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, name, qualifications',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, name, qualifications, employees',
     ],
     'types' => [
-        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, name, qualifications'],
+        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, name, qualifications, employees'],
     ],
     'palettes' => [
         '1' => ['showitem' => ''],
@@ -96,11 +96,11 @@ return [
                     'type' => 'select',
                     'renderType' => 'selectMultipleSideBySide',
                     'foreign_table' => 'tx_staffm_domain_model_qualifikation',
-                    'MM' => 'tx_staffm_domain_model_qualifikation_category_mm',
+                    'MM' => 'tx_staffm_qualifikation_category_mm',
                     //'MM_opposite_field' => 'category',
                     'foreign_table_where' => ' AND tx_staffm_domain_model_qualifikation.pid=###CURRENT_PID### ORDER BY tx_staffm_domain_model_qualifikation.bezeichnung ', 
                     //'foreign_sortby' => 'sorting',
-                    'multiple' => 1,
+//                    'multiple' => 1,
                     'minitems' => 0,
                     'maxitems' => 1000,
             ],
@@ -113,11 +113,11 @@ return [
                     'type' => 'select',
                     'renderType' => 'selectMultipleSideBySide',
                     'foreign_table' => 'fe_users',
-                    'MM' => 'tx_staffm_domain_model_employee_category_mm',
-                    //'MM_opposite_field' => 'category',
-                    'foreign_table_where' => ' AND fe_users.pid=###CURRENT_PID### ORDER BY fe_users.last_name ', 
+                    'MM' => 'tx_staffm_employee_category_mm',
+                    'MM_opposite_field' => 'employee',
+                    //'foreign_table_where' => ' AND fe_users.pid=###CURRENT_PID### ORDER BY fe_users.username ', // TODO: employees not show with this line
                     //'foreign_sortby' => 'sorting',
-                    'multiple' => 1,
+//                    'multiple' => 1,
                     'minitems' => 0,
                     'maxitems' => 1000,
             ],

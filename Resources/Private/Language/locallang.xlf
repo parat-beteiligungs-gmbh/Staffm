@@ -42,6 +42,9 @@
             <trans-unit id="staffm.call">
                 <source>Anrufen</source>
             </trans-unit>
+            <trans-unit id="staffm.active">
+                <source>Aktiv</source>
+            </trans-unit>
             <trans-unit id="staffm.mitarbeiter.new">
                 <source>Neuer Mitarbeiter</source>
             </trans-unit>
@@ -110,6 +113,9 @@
             </trans-unit>            
             <trans-unit id="tx_staffm_domain_model_mitarbeiter.employeequalifications">
                 <source>Qualifikationen</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.representations">
+                <source>Vertretungen</source>
             </trans-unit>
             <trans-unit id="staffm.position.new">
                 <source>Neue Position</source>
@@ -305,6 +311,18 @@
             </trans-unit>
             <trans-unit id="tx_staffm_domain_model_category.qualifications">
                 <source>Qualifikationen</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_representation">
+                <source>Vertretung</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_representation.employee">
+                <source>Vertretender Mitarbeiter</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_representation.deputy">
+                <source>Vertreter</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_representation.costcenters">
+                <source>Ausgenommene Kostenstellen</source>
             </trans-unit>
             <trans-unit id="staffm.text.verantwortlicher.waehlen">
                 <source>Hier bitte den Verantwortlichen auswählen!</source>

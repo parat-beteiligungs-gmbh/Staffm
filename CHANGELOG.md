@@ -1,5 +1,6 @@
 # Staffm Change Log
 
+- [FEATURE] Possibility to select representatives.
 - [UPDATE] Change colors of selected items.
 - [UPDATE] Update Excel Export for employee qualifications.
 - [CODESTYLE] Reorder entries.

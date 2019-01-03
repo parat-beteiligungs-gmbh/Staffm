@@ -1,3 +1,4 @@
+{namespace vhs = FluidTYPO3\Vhs\ViewHelpers}
 
 <f:form action="list" arguments="{mitarbeiter:mitarbeiter, key:key, berechtigung:berechtigung, cache: '{cache}'}" additionalAttributes="{role: 'form'}">                                  
     <tv:widget.atoZNav objects="{qualifikations}" as="filteredQualifikations" property="bezeichnung" search="{search}" maid="{maid}"> 
@@ -28,7 +29,7 @@
                         <td><div id="q{qualifikation.uid}" class="anchor"></div><div class="tx_staffm tds250"><f:link.action title="{qualifikation.bezeichnung}" action="show" arguments="{qualifikation : qualifikation, search:search}">{qualifikation.bezeichnung}</f:link.action></div></td>
                         <td><div class="tx_staffm tds400"><f:link.action title="{qualifikation.beschreibung}" action="show" arguments="{qualifikation : qualifikation, search:search}">{qualifikation.beschreibung}</f:link.action></div></td>                                                                                   
                         <td class="staffmmobilehidden">     
-                    <f:for each="{qualifikation.employeequalifications}" as="m" iteration="iteration" reverse="TRUE">
+                    <f:for each="{qualifikation.employeequalifications -> vhs:iterator.sort(sortBy: 'm.status')}" as="m" iteration="iteration">
                         <f:if condition="{m.status} > 1">
                             <f:if condition="{iteration.isFirst}">
                                 <f:then>

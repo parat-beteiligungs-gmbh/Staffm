@@ -128,7 +128,17 @@ class Mitarbeiter extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      */
     protected $categories = NULL;
     
-     /**
+    /**
+     * Representations
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Representation>
+     * @lazy   
+     * @cascade remove
+     */
+    protected $representations = NULL;
+
+
+    /**
      * objectManager
      * Required for picture upload
      * @var \TYPO3\CMS\Extbase\Object\ObjectManager
@@ -151,6 +161,7 @@ class Mitarbeiter extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
     {   
         $this->employeequalifications = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
         $this->categories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->representations = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
 
     /**
@@ -379,5 +390,25 @@ class Mitarbeiter extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
     public function setCategories(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $categories)
     {
         $this->categories = $categories;
+    }
+    
+    /**
+     * Get representations
+     * 
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Representation>
+     */
+    public function getRepresentations()
+    {
+        return $this->representations;
+    }
+
+    /**
+     * Set representations
+     * 
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Representation> $representations
+     */
+    public function setRepresentations(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $representations)
+    {
+        $this->representations = $representations;
     }
 }

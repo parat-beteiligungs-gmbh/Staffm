@@ -1,3 +1,5 @@
+{namespace vhs = FluidTYPO3\Vhs\ViewHelpers}
+
 <h2><f:translate id="staffm.text.zugeordnete" /> <f:translate key="tx_staffm_domain_model_mitarbeiter" /> (<f:count subject="{qualifikation.employeequalifications}" />)</h2>
 <table class="tx_staffm">    
     <tr>
@@ -10,7 +12,7 @@
         <!-- TODO: Authorization just for supervisors -->
         <th><f:translate key="tx_staffm_domain_model_qualifikation.status" /></th>
     </tr> 
-    <f:for each="{qualifikation.employeequalifications}" as="ma" reverse="TRUE">          
+    <f:for each="{qualifikation.employeequalifications -> vhs:iterator.sort(sortBy: 'ma.status')}" as="ma">          
         <!-- TODO: Authorization just for supervisors -->
             <tr id="ma{ma.uid}">
                 <td>

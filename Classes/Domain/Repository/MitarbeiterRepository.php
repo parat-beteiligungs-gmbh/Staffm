@@ -25,6 +25,8 @@
 
 namespace Pmwebdesign\Staffm\Domain\Repository;
 
+use Pmwebdesign\Staffm\Utility\ArrayUtility;
+
 /**
  * Employee Repository
  */
@@ -54,7 +56,8 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
                             foreach($quali as $q) {
                                 // If qualification is found, save employee uid to array
                                 foreach ($q->getEmployeequalifications() as $mq) {
-                                    if ($mq != NULL) {
+                                    // Employee qualification not null and status > 1?
+                                    if ($mq != NULL && $mq->getStatus() > 1) {
                                             array_push($arrMit, (int) $mq->getEmployee()->getUid());							
                                     }
                                 }
@@ -70,7 +73,7 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
 				$constraints[++$i] = $query->like('personalnummer', '%'.$value.'%');
 				$constraints[++$i] = $query->like('title', '%'.$value.'%');
 				$constraints[++$i] = $query->like('telephone', '%'.$value.'%');
-                                //$constraints[++$i] = $query->equals('deleted', 0); //-> funktioniert nicht
+                                //$constraints[++$i] = $query->equals('deleted', 0); //-> doesn´t run
                                 
 				// Qualification?
 				if (count($arrMit) > 0) {
@@ -134,6 +137,7 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
 	}
 	
 	/**
+         * Find employees from given position
 	 * 
 	 * @param \Pmwebdesign\Staffm\Domain\Model\Position $position
 	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
@@ -148,6 +152,7 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
 	}
 	
 	/**
+         * Find employees from given cost center
 	 * 
 	 * @param \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle
 	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
@@ -162,6 +167,7 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
 	}
 	
 	/**
+         * Find Employees from given company
 	 * 
 	 * @param \Pmwebdesign\Staffm\Domain\Model\Firma $firma
 	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
@@ -176,6 +182,7 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
 	}
 	
 	/**
+         * Find employees from given place
 	 * 
 	 * @param \Pmwebdesign\Staffm\Domain\Model\Standort $standort
 	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
@@ -190,6 +197,7 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
 	}
 	
 	/**
+         * TODO: Check if this is needed
 	 * 	
 	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
 	 */
@@ -204,37 +212,53 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
 	}
         
         /**
-	 * Mitarbeiter vom Vorgesetzten ermitteln
+	 * Find employees of the supervisor or deputies of supervisor
          *
          * @param string $search
          * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $vorgesetzter 
 	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
 	 */
 	public function findMitarbeiterVonVorgesetzten($search, \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $vorgesetzter = NULL) {
-            // Kostenstellen des angemeldeten Users ermitteln               
-            $kostenstellen = $this->objectManager->
-            get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->
-            findByVerantwortlicher($vorgesetzter);
+            // Cost centers of logged in user
+            $kostenstellen = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
             
-            // Wenn im Suchfeld ein Wert
+            $kostenstellen = ArrayUtility::fillOjectStorageFromQueryResult($this->objectManager->
+                get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->
+                findByVerantwortlicher($vorgesetzter));
+            
+            // Check deputy cost centers
+            $representations = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\RepresentationRepository::class)->findByDeputy($vorgesetzter);           
+            foreach ($representations as $representation) {
+                $costcentersSupervisor = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+                $costcentersSupervisor = ArrayUtility::fillOjectStorageFromQueryResult($this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->findByVerantwortlicher($representation->getEmployee()));
+                // Attach cost centers of supervisor
+                foreach ($costcentersSupervisor as $costcenterSupervisor) {
+                    $kostenstellen->attach($costcenterSupervisor);
+                }
+                // Detach outsourced cost centers
+                foreach ($representation->getCostcenters() as $costcenter) {
+                    $kostenstellen->detach($costcenter);
+                }                
+            }
+            
+            // Search field?
             if ($search != NULL) {
-                    // Falls mehrere Suchbegriffe eingegeben worden sind
+                    // For more Search words
                     $searchArr = str_getcsv($search, " ");
                     $query = $this->createQuery();
                     $quali = NULL;
                     $quali = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\QualifikationRepository')->findSearchForm($search, $limit);
-                   
-                    // Qualifikationen ermitteln
+                                       
                     $qMit = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();	
                     $arrMit = [];
                     
-                    // Qualifikationen prüfen
+                    // Qualifications?
                     if($quali != NULL) {
                         foreach($quali as $q) {
-                            // Wenn Qualifikation gefunden in Array speichern
-                            foreach ($q->getMitarbeiters() as $mq) {
+                            // Save qualifications in array
+                            foreach ($q->getEmployeequalifications() as $mq) {
                                 if ($mq != NULL) {
-                                        array_push($arrMit, (int) $mq->getUid());							
+                                        array_push($arrMit, (int) $mq->getEmployee()->getUid());							
                                 }
                             }
                         }
@@ -249,7 +273,7 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
                             $constraints[++$i] = $query->like('title', '%'.$value.'%');
                             $constraints[++$i] = $query->like('telephone', '%'.$value.'%');                                                        
                             
-                            // Wenn Qualifikationen gefunden
+                            // Qualifications?
                             if (count($arrMit) > 0) {
                                     $constraints[++$i] = $query->in('uid', $arrMit);					
                             }
@@ -263,13 +287,13 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
                             )
 
                     );			
-            // Wenn kein Wert im Suchfeld
+            // No search
             } else {
                     $query = $this->createQuery(); 
                     //$query->getQuerySettings()->setStoragePageIds(array(28)); // Setzt Seitenid
-                    // Mehrere Kostenstellen?
+                    // More cost centers?
                     if (count($kostenstellen) > 1) {                        
-                        // Ja, mehrere Kostenstellen
+                        // Yes, more cost centers
                         $query->matching (
                             $query->logicalAnd(
                                     $query->equals('deleted', 0),
@@ -278,7 +302,7 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
                             )
                         );	
                     } elseif (count($kostenstellen) == 1) {
-                        // Ja, nur eine Kostenstelle
+                        // One cost center
                         $query->matching (
                             $query->logicalAnd(
                                     $query->equals('deleted', 0),
@@ -287,14 +311,13 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
                             )
                         );	
                     } else {
-                        // Nein, keine Kostenstelle
+                        // No cost center
                         return null;
                     }                    
             }            
             
             $query->setOrderings(array('last_name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));	                        
-            $query->execute();
-            //echo "Anzahl: ".$query->count();
+            $query->execute();      
             return $query->execute();
 	}
 }

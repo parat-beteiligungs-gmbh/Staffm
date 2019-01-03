@@ -54,6 +54,9 @@
             <trans-unit id="tx_staffm_domain_model_mitarbeiter.employeequalifications">
                 <source>Mitarbeiter Qualifikationen</source>
             </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.representations">
+                <source>Vertretungen</source>
+            </trans-unit>
             <trans-unit id="fe_users.tx_extbase_type.Tx_Staffm_Mitarbeiter">
                 <source>Staffmanage Mitarbeiter</source>
             </trans-unit>
@@ -188,6 +191,18 @@
             </trans-unit>
             <trans-unit id="tx_staffm_domain_model_category.qualifications">
                 <source>Qualifikationen</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_representation">
+                <source>Vertretung</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_representation.employee">
+                <source>Vertretender Mitarbeiter</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_representation.deputy">
+                <source>Vertreter</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_representation.costcenters">
+                <source>Ausgenommene Kostenstellen</source>
             </trans-unit>
         </body>
     </file>

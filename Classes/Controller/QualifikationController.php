@@ -285,7 +285,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
                
         // Employees of cost center responsible
         $mitarbeiter = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository::class)->findMitarbeiterVonVorgesetzten(Null, $aktUser);
-        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($categoryfield);
+        
         // Category Field not empty and not catAll?
         if($categoryfield != "" && $categoryfield != "catAll") {
             /* @var $category \Pmwebdesign\Staffm\Domain\Model\Category */
@@ -409,7 +409,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             $key = $this->request->getArgument('key');        
             $this->view->assign('key', $key);
             // Assign qualification for users?
-            if($key == 'auswahl') {
+            if($key == 'auswahl' || $key == 'auswahlUsr') {
                 // Yes, show categories
                 $categories = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\CategoryRepository::class)->findAll();
                 $this->view->assign('categories', $categories);
@@ -433,6 +433,23 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         if ($maid != "") {
             $this->view->assign('maid', $maid);
         }
+        
+        // Get logged in User    
+        /* @var $aktuser \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter */
+        $aktuser = $this->objectManager->
+                get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
+                findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
+        
+        $categoryfield = "";
+        if($this->request->hasArgument('categoryfield')) {
+            $categoryfield = $this->request->getArgument('categoryfield');              
+        } else {
+            foreach ($aktuser->getCategories() as $category) {
+                $categoryfield = $category->getName();
+                break;
+            }
+        }
+        $this->view->assign('categoryfield', $categoryfield);
         
         // Search exist?
         if ($search <> "" || $cache == "notcache") {
@@ -496,8 +513,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
                         
         $categoryfield = "";
         if($this->request->hasArgument('categoryfield')) {
-            $categoryfield = $this->request->getArgument('categoryfield');  
-            \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($categoryfield);
+            $categoryfield = $this->request->getArgument('categoryfield');              
         } else {
             foreach ($aktuser->getCategories() as $category) {
                 $categoryfield = $category->getName();

@@ -222,10 +222,12 @@ class MitarbeiterController extends ActionController
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Category $category
      * @param Kostenstelle $kostenstelle
+     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
      * @return void
      */
     public function listAction(\Pmwebdesign\Staffm\Domain\Model\Category $category = NULL,
-            Kostenstelle $kostenstelle = NULL)
+            Kostenstelle $kostenstelle = NULL,
+            \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter = NULL)
     {
         // Search exist?
         if ($this->request->hasArgument('search')) {
@@ -285,9 +287,14 @@ class MitarbeiterController extends ActionController
             $key = $this->request->getArgument('key');
             $this->view->assign('key', $key);
         }
+        if ($this->request->hasArgument('userKey')) {
+            $userKey = $this->request->getArgument('userKey');
+            $this->view->assign('userKey', $userKey);
+        }        
         $this->view->assign('mitarbeiters', $mitarbeiters);
         $this->view->assign('kostenstelle', $kostenstelle);
         $this->view->assign('category', $category);
+        $this->view->assign('mitarbeiter', $mitarbeiter);
         if ($maid != "") {
             $this->view->assign('maid', $maid);
         }
@@ -563,9 +570,26 @@ class MitarbeiterController extends ActionController
         if ($this->request->hasArgument('berechtigung')) {
             $berechtigung = $this->request->getArgument('berechtigung');
             $this->view->assign('berechtigung', $berechtigung);
+        }        
+        
+        if ($this->request->hasArgument('userKey')) {
+            $userKey = $this->request->getArgument('userKey');
+            $this->view->assign('userKey', $userKey);
+        }        
+        
+        if ($this->request->hasArgument('key')) {
+            $key = $this->request->getArgument('key');
+            $this->view->assign('key', $key);
+        }        
+        
+        if ($key == 'auswahlUsr' || $userKey == 'auswahlUsr') {
+            $this->redirect('editUser', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'key' => $key));
+        } elseif ($userKey == 'auswahlVgs') { 
+            $berechtigung = "vonVorg";
+            $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'berechtigung' => $berechtigung));
+        } else {
+            $this->view->assign('mitarbeiter', $mitarbeiter);
         }
-
-        $this->view->assign('mitarbeiter', $mitarbeiter);
     }
 
     /**
@@ -767,7 +791,6 @@ class MitarbeiterController extends ActionController
         if ($this->request->hasArgument('search')) {
             $search = $this->request->getArgument('search');
         }
-
         if ($this->request->hasArgument('berechtigung')) {
             $berechtigung = $this->request->getArgument('berechtigung');
         }
@@ -775,6 +798,28 @@ class MitarbeiterController extends ActionController
         $this->mitarbeiterRepository->update($employee);
         $this->addFlashMessage('Alle Kategorien vom Mitarbeiter "' . $employee->getFirstName() . ' ' . $employee->getLastName() . '" wurden gelöscht!', '', AbstractMessage::ERROR);
         $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $employee, 'search' => $search, 'berechtigung' => $berechtigung));
+    }
+    
+    /**
+     * Delete representations of an employee
+     * 
+     * @param Mitarbeiter $employee
+     */
+    public function deleteRepresentationsAction(Mitarbeiter $employee)
+    {
+        if ($this->request->hasArgument('search')) {
+            $search = $this->request->getArgument('search');
+        }
+        if ($this->request->hasArgument('berechtigung')) {
+            $berechtigung = $this->request->getArgument('berechtigung');
+        }
+        if ($this->request->hasArgument('userKey')) {
+            $userKey = $this->request->getArgument('userKey');
+        }        
+        $employee->setRepresentations(new ObjectStorage());
+        $this->mitarbeiterRepository->update($employee);
+        $this->addFlashMessage('Alle Vertreter vom Mitarbeiter "' . $employee->getFirstName() . ' ' . $employee->getLastName() . '" wurden gelöscht!', '', AbstractMessage::ERROR);
+        $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $employee, 'search' => $search, 'berechtigung' => $berechtigung, 'key' => $userKey));
     }
 
     /**
@@ -813,9 +858,38 @@ class MitarbeiterController extends ActionController
             );
         }
     }
+    
+    /**
+     * TODO: Set Representations
+     * Deputies and excluded cost centers
+     * 
+     * @param Mitarbeiter $employee
+     * @return void
+     */
+    protected function setRepresentationsAction(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee)
+    {
+        if ($this->request->hasArgument('search')) {
+            $search = $this->request->getArgument('search');
+        }
+        if ($this->request->hasArgument('berechtigung')) {
+            $berechtigung = $this->request->getArgument('berechtigung');
+        }
+        if ($this->request->hasArgument('userKey')) {
+            $userKey = $this->request->getArgument('userKey');
+        }        
+        // Assigned deputies?
+        if ($this->request->hasArgument('employees')) {
+            /* @var $userService \Pmwebdesign\Staffm\Domain\Service\UserService */
+            $userService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\UserService::class);           
+            $employee->setRepresentations($userService->getRepresentations($this->request, $this->objectManager, $employee));
+        }
+        $this->mitarbeiterRepository->update($employee);
+        $this->addFlashMessage('Die Vertreter vom Mitarbeiter "' . $employee->getFirstName() . ' ' . $employee->getLastName() . '" wurden aktualisiert!', '', AbstractMessage::OK);
+        $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $employee, 'search' => $search, 'berechtigung' => $berechtigung, 'key' => $userKey));
+    }
 
     /**
-     * Initialize action 
+     * Overwrite initialize action 
      * 
      * @return void 
      */
