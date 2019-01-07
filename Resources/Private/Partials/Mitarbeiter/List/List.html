@@ -50,43 +50,33 @@
                         <td class="staffmmobilehidden"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, search:search}"> {mitarbeiter.telephone}</f:link.action></td>                               
                         <f:comment><!-- Search condition, for more performance (Qualification just by search) --></f:comment>
                         <f:if condition="{search}">
-                            <td>     
-                            <f:for each="{mitarbeiter.employeequalifications -> vhs:iterator.sort(sortBy: 'qualification.bezeichnung')}" as="employeequalification" iteration="iteration">
-                                <f:if condition="{iteration.isFirst}">
-                                    <f:then>
-                                        <p class="marksq" title="{employeequalification.qualification.beschreibung}">
-                                            <f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, search:search}">
-                                                <span>
-                                                    <f:comment><!-- TODO: Authorization qualification status --></f:comment>
-                                                    <f:if condition="{employeequalification.status} > 1">
-                                                        <f:then>
-                                                            {employeequalification.qualification.bezeichnung} ({employeequalification.status})
-                                                        </f:then>
-                                                        <f:else>
-                                                            
-                                                        </f:else>
+                            <tv:widget.qualiStatus objects="{mitarbeiter.employeequalifications}" as="sortedEmployeequalifications" property="check">                                
+                                <td>     
+                                    <f:for each="{sortedEmployeequalifications -> vhs:iterator.sort(sortBy: 'qualification.bezeichnung')}" as="employeequalification" iteration="iteration">
+                                        <f:if condition="{iteration.isFirst}">
+                                            <f:then>
+                                                <p class="marksq" title="{employeequalification.qualification.beschreibung}">
+                                                    <f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, search:search}">
+                                                        <span>{employeequalification.qualification.bezeichnung}{f:if(condition:'{employeequalification.showstatus} == TRUE', then:' ({employeequalification.status})')}</span>
+                                                    </f:link.action>
+                                                    <f:if condition="{countmit} > 1">
+                                                        <a class="btn btn-secondary btn-sm" style="float:right" href="javascript:void(0)" id="q{mitarbeiter.uid}" onClick="getID(this);return false;">
+                                                            <span name="q{mitarbeiter.uid}glyphiconchange" id="q{mitarbeiter.uid}" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                                                            <f:if condition="{countmit} < 10">
+                                                                0
+                                                            </f:if>
+                                                            {countmit}
+                                                        </a>
                                                     </f:if>
-                                                </span>
-                                            </f:link.action>
-                                            <f:if condition="{mitarbeiter.employeequalifications -> f:count()} > 1">
-                                                <a class="btn btn-secondary btn-sm" style="float:right" href="javascript:void(0)" id="q{mitarbeiter.uid}" onClick="getID(this);return false;">
-                                                    <span name="q{mitarbeiter.uid}glyphiconchange" id="q{mitarbeiter.uid}" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                                                    <f:if condition="{mitarbeiter.employeequalifications -> f:count()} < 10">
-                                                        0
-                                                    </f:if>
-                                                    {mitarbeiter.employeequalifications -> f:count()}
-                                                </a>
-                                            </f:if>
-                                        </p>
-                                    </f:then>
-                                    <f:else>
-                                        <f:if condition="{employeequalification.status} > 1">
-                                            <p class="marksq q{mitarbeiter.uid}hidden" style="display:none" title="{employeequalification.qualification.beschreibung}"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, search:search}">{employeequalification.qualification.bezeichnung} ({employeequalification.status})</f:link.action></p>                                            
-                                        </f:if>
-                                    </f:else>
-                                </f:if>   
-                            </f:for>
-                            </td>
+                                                </p>
+                                            </f:then>
+                                            <f:else>
+                                                <p class="marksq q{mitarbeiter.uid}hidden" style="display:none" title="{employeequalification.qualification.beschreibung}"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, search:search}">{employeequalification.qualification.bezeichnung}{f:if(condition:'{employeequalification.showstatus} == TRUE', then:' ({employeequalification.status})')}</f:link.action></p>  
+                                            </f:else>
+                                        </f:if>   
+                                    </f:for>
+                                </td>
+                            </tv:widget.qualiStatus>
                         </f:if>
                         <f:security.ifHasRole role="PA">                               
                             <td class="staffmmobilehidden nobackground">

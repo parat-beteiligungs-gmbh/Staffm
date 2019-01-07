@@ -50,15 +50,30 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
 						
 			// Employee Array (Employee uids)
 			$arrMit = [];	
-                        
 			// Qualification?		
                         if($quali != NULL) {
+                            /* @var $userService \Pmwebdesign\Staffm\Domain\Service\UserService */
+                            $userService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\UserService::class);    
+                            $user = $userService->getLoggedInUser();
+                            if($user != NULL) {                                                            
+                                $mitarbeiters = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+                                $mitarbeiters = ArrayUtility::fillOjectStorageFromQueryResult($this->findMitarbeiterVonVorgesetzten("", $user));       
+                            }
+//                            \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($mitarbeiters);
                             foreach($quali as $q) {
                                 // If qualification is found, save employee uid to array
                                 foreach ($q->getEmployeequalifications() as $mq) {
-                                    // Employee qualification not null and status > 1?
-                                    if ($mq != NULL && $mq->getStatus() > 1) {
-                                            array_push($arrMit, (int) $mq->getEmployee()->getUid());							
+                                    // Logged in user and assigned employees?                                     
+                                    if ($user != NULL && $mitarbeiters != NULL) {                                        
+                                        if (in_array($mq->getEmployee(), $mitarbeiters->toArray(), TRUE)) {
+                                            array_push($arrMit, (int) $mq->getEmployee()->getUid());		
+                                        // Employee qualification not null and status > 1?  
+                                        } elseif ($mq != NULL && $mq->getStatus() > 1) {
+                                            array_push($arrMit, (int) $mq->getEmployee()->getUid());	
+                                        }
+                                    // Employee qualification not null and status > 1?  
+                                    } elseif ($mq != NULL && $mq->getStatus() > 1) {
+                                        array_push($arrMit, (int) $mq->getEmployee()->getUid());	
                                     }
                                 }
                             }

@@ -1,4 +1,5 @@
 {namespace vhs = FluidTYPO3\Vhs\ViewHelpers}
+{namespace tv = Pmwebdesign\Staffm\ViewHelpers}
 
 <f:form action="list" arguments="{mitarbeiter:mitarbeiter, key:key, berechtigung:berechtigung, cache: '{cache}'}" additionalAttributes="{role: 'form'}">                                  
     <tv:widget.atoZNav objects="{qualifikations}" as="filteredQualifikations" property="bezeichnung" search="{search}" maid="{maid}"> 
@@ -28,36 +29,36 @@
                     <tr>
                         <td><div id="q{qualifikation.uid}" class="anchor"></div><div class="tx_staffm tds250"><f:link.action title="{qualifikation.bezeichnung}" action="show" arguments="{qualifikation : qualifikation, search:search}">{qualifikation.bezeichnung}</f:link.action></div></td>
                         <td><div class="tx_staffm tds400"><f:link.action title="{qualifikation.beschreibung}" action="show" arguments="{qualifikation : qualifikation, search:search}">{qualifikation.beschreibung}</f:link.action></div></td>                                                                                   
-                        <td class="staffmmobilehidden">     
-                    <f:for each="{qualifikation.employeequalifications -> vhs:iterator.sort(sortBy: 'm.status')}" as="m" iteration="iteration">
-                        <f:if condition="{m.status} > 1">
-                            <f:if condition="{iteration.isFirst}">
-                                <f:then>
-                                    <p class="marksq" title="{m.employee.telephone}"><f:link.action action="show" arguments="{qualifikation : qualifikation, search:search}"><span>{m.employee.lastName} {m.employee.firstName} ({m.status})</span></f:link.action>
-                                    <f:if condition="{qualifikation.employeequalifications -> f:count()} > 1">
-                                        <a class="btn btn-secondary btn-sm" style="float:right" href="javascript:void(0)" id="q{qualifikation.uid}" onClick="getID(this);return false;"><span name="q{qualifikation.uid}glyphiconchange" id="q{qualifikation.uid}" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                                            <f:if condition="{qualifikation.employeequalifications -> f:count()} < 10">
-                                                0
+                        <td class="staffmmobilehidden">
+                            <tv:widget.qualiStatus objects="{qualifikation.employeequalifications}" as="sortedEmployeequalifications" property="{f:if(condition: '{search} != \'\'', then: 'check')}">    
+                                <f:for each="{sortedEmployeequalifications -> vhs:iterator.sort(sortBy: 'status')}" as="m" iteration="iteration" reverse="TRUE">                      
+                                    <f:if condition="{iteration.isFirst}">
+                                        <f:then>
+                                            <p class="marksq" title="{m.employee.telephone}"><f:link.action action="show" arguments="{qualifikation : qualifikation, search:search}"><span>{m.employee.lastName} {m.employee.firstName}{f:if(condition:'{m.showstatus} == TRUE', then:' ({m.status})')}</span></f:link.action>
+                                            <f:if condition="{countmit} > 1">
+                                                <a class="btn btn-secondary btn-sm" style="float:right" href="javascript:void(0)" id="q{qualifikation.uid}" onClick="getID(this);return false;"><span name="q{qualifikation.uid}glyphiconchange" id="q{qualifikation.uid}" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                                                    <f:if condition="{countmit} < 10">
+                                                        0
+                                                    </f:if>
+                                                    {countmit}</a>
                                             </f:if>
-                                            {qualifikation.employeequalifications -> f:count()}</a>
+                                            </p>
+                                        </f:then>
+                                        <f:else>
+                                            <p class="marksq q{qualifikation.uid}hidden" style="display:none" title="{m.employee.telephone}"><f:link.action action="show" arguments="{qualifikation : qualifikation, search:search}">{m.employee.lastName} {m.employee.firstName}{f:if(condition:'{m.showstatus} == TRUE', then:' ({m.status})')}</f:link.action></p>                                            
+                                        </f:else>
                                     </f:if>
-                                    </p>
-                                </f:then>
-                                <f:else>
-                                    <p class="marksq q{qualifikation.uid}hidden" style="display:none" title="{m.employee.telephone}"><f:link.action action="show" arguments="{qualifikation : qualifikation, search:search}">{m.employee.lastName} {m.employee.firstName} ({m.status})</f:link.action></p>                                            
-                                </f:else>
-                            </f:if>    
-                        </f:if>
-                    </f:for>
-                    </td>                                         
-                    <f:security.ifHasRole role="PA">
-                        <td class="staffmmobilehidden nobackground">
-                            <div class="btn-group">
-                                <f:link.action class="btn btn-secondary btn-sm" action="edit" arguments="{qualifikation : qualifikation}"><f:translate id="staffm.edit" /></f:link.action>
-                                <f:link.action class="btn btn-danger btn-sm" action="delete" arguments="{qualifikation : qualifikation}"><f:translate id="staffm.delete" /></f:link.action>
-                            </div>
-                        </td>
-                    </f:security.ifHasRole>
+                                </f:for>
+                            </tv:widget.qualiStatus>
+                        </td>                                         
+                        <f:security.ifHasRole role="PA">
+                            <td class="staffmmobilehidden nobackground">
+                                <div class="btn-group">
+                                    <f:link.action class="btn btn-secondary btn-sm" action="edit" arguments="{qualifikation : qualifikation}"><f:translate id="staffm.edit" /></f:link.action>
+                                    <f:link.action class="btn btn-danger btn-sm" action="delete" arguments="{qualifikation : qualifikation}"><f:translate id="staffm.delete" /></f:link.action>
+                                </div>
+                            </td>
+                        </f:security.ifHasRole>
                     </tr>
                 </f:for>
             </table>

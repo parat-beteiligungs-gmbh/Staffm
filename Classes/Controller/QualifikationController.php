@@ -439,17 +439,18 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         $aktuser = $this->objectManager->
                 get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
                 findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
-        
-        $categoryfield = "";
-        if($this->request->hasArgument('categoryfield')) {
-            $categoryfield = $this->request->getArgument('categoryfield');              
-        } else {
-            foreach ($aktuser->getCategories() as $category) {
-                $categoryfield = $category->getName();
-                break;
+        if($aktuser != NULL) {
+            $categoryfield = "";
+            if($this->request->hasArgument('categoryfield')) {
+                $categoryfield = $this->request->getArgument('categoryfield');              
+            } else {            
+                foreach ($aktuser->getCategories() as $category) {
+                    $categoryfield = $category->getName();
+                    break;
+                }
             }
+            $this->view->assign('categoryfield', $categoryfield);
         }
-        $this->view->assign('categoryfield', $categoryfield);
         
         // Search exist?
         if ($search <> "" || $cache == "notcache") {

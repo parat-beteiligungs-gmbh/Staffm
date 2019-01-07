@@ -1,5 +1,6 @@
 # Staffm Change Log
 
+- [FEATURE] Authorization for cost center responsibles and deputies.
 - [FEATURE] Possibility to select representatives.
 - [UPDATE] Change colors of selected items.
 - [UPDATE] Update Excel Export for employee qualifications.

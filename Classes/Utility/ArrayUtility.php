@@ -110,5 +110,19 @@ class ArrayUtility
         }
         return $objectStorage;
     }
-
+    
+    /**
+     * Check if object is in ObjectStorage
+     * 
+     * @param type $object
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $objectStorage
+     */
+    static public function isObjectInObjectStorage($object, \TYPO3\CMS\Extbase\Persistence\ObjectStorage $objectStorage)
+    {
+        if(in_array($object, $objectStorage->toArray(), TRUE)) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
 }
