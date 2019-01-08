@@ -42,11 +42,22 @@ class QualiStatusController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetC
      * @var String 
      */
     protected $property;
+    
+    /**
+     * Qualification status who don´t show for normal users
+     *
+     * @var integer
+     */
+    protected $qualiStatusIgnore = 0;
 
 
     public function initializeAction() {
         $this->objects = $this->widgetConfiguration['objects']; // To access the objects from ViewHelper   
         $this->property = $this->widgetConfiguration['property'];
+        
+        /* @var $settingsUtility \Pmwebdesign\Staffm\Utility\SettingsUtility */
+        $settingsUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Utility\SettingsUtility::class);
+        $this->qualiStatusIgnore = $settingsUtility->getQualiStatusIgnore();       
     }
     
     /**     
@@ -67,19 +78,20 @@ class QualiStatusController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetC
             }
         }
         $arrNeu = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-        
+                
         foreach ($this->objects as $employeequalification) { 
             // Authorization for employee check available?
             if (($this->property == "check") && ($user != NULL) && ($mitarbeiters != NULL)) {             
                 if (in_array($employeequalification->getEmployee(), $mitarbeiters->toArray(), TRUE)) {
                     $employeequalification->setShowstatus(TRUE);
                     $arrNeu->attach($employeequalification);
-                } elseif ($employeequalification->getStatus() > 1) {
+                // Check status
+                } elseif ($employeequalification->getStatus() > $this->qualiStatusIgnore) {
                     $employeequalification->setShowstatus(FALSE);
                     $arrNeu->attach($employeequalification);
                 }
-            // Status greather than 1?
-            } elseif ($employeequalification->getStatus() > 1) {
+            // Check status
+            } elseif ($employeequalification->getStatus() > $this->qualiStatusIgnore) {
                 $employeequalification->setShowstatus(FALSE);
                 $arrNeu->attach($employeequalification);
             }

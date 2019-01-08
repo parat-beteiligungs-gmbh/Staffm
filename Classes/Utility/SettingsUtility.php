@@ -58,4 +58,12 @@ class SettingsUtility
     {
         return SettingsUtility::$SETTINGS['admingroups'];
     }
+    
+    /**
+     * Get the status for qualification who is ignored for normal users
+     */
+    public function getQualiStatusIgnore()
+    {
+        return SettingsUtility::$SETTINGS['qualistatusignore'];
+    }
 }

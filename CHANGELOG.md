@@ -1,5 +1,6 @@
 # Staffm Change Log
 
+- [FEATURE] Set a qualification status in settings that normal users don´t see.
 - [FEATURE] Authorization for cost center responsibles and deputies.
 - [FEATURE] Possibility to select representatives.
 - [UPDATE] Change colors of selected items.

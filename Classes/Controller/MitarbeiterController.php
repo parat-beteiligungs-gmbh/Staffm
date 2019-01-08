@@ -68,27 +68,28 @@ class MitarbeiterController extends ActionController
     protected $objects;
 
     /**
-     * mitarbeiterRepository
+     * Employee Repository
      * 
      * @var MitarbeiterRepository     
      */
     protected $mitarbeiterRepository = NULL;
 
     /**
-     * qualifikationRepository
+     * Qualification Repository
      * 
      * @var \Pmwebdesign\Staffm\Domain\Repository\qualifikationRepository     
      */
     protected $qualifikationRepository = NULL;
 
     /** Persistence Manager
-     * Verwaltet Objekte aus dem blogRepository, speichern
+     * Manages objects from the repositories
      * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
      * @inject
      */
     protected $persistenceManager;
 
     /**
+     * Inject employee repository
      * 
      * @param MitarbeiterRepository $mitarbeiterRepository
      */
@@ -98,6 +99,7 @@ class MitarbeiterController extends ActionController
     }
 
     /**
+     * Inject qualification repository
      * 
      * @param \Pmwebdesign\Staffm\Domain\Repository\MitarbeiterqualifikationRepository $mitarbeiterqualifikationRepository
      */
@@ -107,13 +109,14 @@ class MitarbeiterController extends ActionController
     }
 
     /**
+     * Initialize View
      * 
      * @param ViewInterface $view
      * @return void
      */
     public function initializeView(ViewInterface $view)
     {
-        $pluginName = $this->request->getPluginName(); // PluginName ermitteln
+        $pluginName = $this->request->getPluginName(); // Get Plugin name
         // Plugin = Supervisor?
         if ($pluginName == "Staffmvorg") {
             $this->view->setLayoutPathAndFilename('typo3conf/ext/staffm/Resources/Private/Layouts/LoginLayout.html');
