@@ -211,6 +211,19 @@ $fields = [
                 
         ],
     ],
+    'assigned_representations' => [
+        'exclude' => 0,        
+        'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_mitarbeiter.representations',
+        'config' => [
+                'type' => 'inline',                                
+                'foreign_table' => 'tx_staffm_domain_model_representation',                
+                'foreign_field' => 'deputy',
+                'foreign_label' => 'employee',                           
+                'minitems' => 0,
+                'maxitems' => 100,   
+                
+        ],
+    ],
 ];
 
 // Add new fields to fe_users
@@ -219,7 +232,7 @@ $fields = [
 // Make fields visible in the TCEforms:
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
   'fe_users', // Table name
-  'employeequalifications, categories, representations;;;;1-1-1'
+  'employeequalifications, categories, representations, assigned_representations;;;;1-1-1'
 );
   
 // Add the new palette:

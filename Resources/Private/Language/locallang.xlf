@@ -117,6 +117,9 @@
             <trans-unit id="tx_staffm_domain_model_mitarbeiter.representations">
                 <source>Vertretungen</source>
             </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.assignedRepresentations">
+                <source>Zugeordnete Vertretungen</source>
+            </trans-unit>
             <trans-unit id="staffm.position.new">
                 <source>Neue Position</source>
             </trans-unit>

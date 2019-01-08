@@ -136,7 +136,14 @@ class Mitarbeiter extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      * @cascade remove
      */
     protected $representations = NULL;
-
+    
+    /**
+     * Assigned Representations
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Representation>
+     * @lazy  
+     */
+    protected $assignedRepresentations = NULL;
 
     /**
      * objectManager
@@ -162,6 +169,7 @@ class Mitarbeiter extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
         $this->employeequalifications = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
         $this->categories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
         $this->representations = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->assignedRepresentations = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
 
     /**
@@ -410,5 +418,25 @@ class Mitarbeiter extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
     public function setRepresentations(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $representations)
     {
         $this->representations = $representations;
+    }
+    
+    /**
+     * Get assigned representations
+     * 
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Representation>
+     */
+    public function getAssignedRepresentations()
+    {
+        return $this->assignedRepresentations;
+    }
+    
+    /**
+     * Set assigned representations
+     * 
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Representation> $representations
+     */
+    public function setAssignedRepresentations(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $assignedRepresentations)
+    {
+        $this->assignedRepresentations = $assignedRepresentations;
     }
 }

@@ -23,6 +23,9 @@
     </f:if>
 </div>
 <br /><br />
+<f:comment><!-- Assigned Representations --></f:comment>
+<f:render partial="Mitarbeiter/AssignedRepresentation/FormFields" arguments="{representations: mitarbeiter.assignedRepresentations}" />
+<br />
 <label class="tx-staffm bold" for="personalnummer">
     <f:translate key="tx_staffm_domain_model_mitarbeiter.personalnummer" />
 </label>

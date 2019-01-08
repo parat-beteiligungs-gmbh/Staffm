@@ -21,6 +21,7 @@ CREATE TABLE fe_users (
         employeequalifications int(11) unsigned DEFAULT '0',  
         categories int(11) unsigned DEFAULT '0',
         representations int(11) unsigned DEFAULT '0',
+        assigned_representations int(11) unsigned DEFAULT '0',
         image INT UNSIGNED DEFAULT NULL, 
         deleted tinyint(3) unsigned DEFAULT '0',
 	tx_extbase_type varchar(255) DEFAULT '' NOT NULL,
