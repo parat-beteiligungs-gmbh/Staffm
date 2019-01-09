@@ -863,13 +863,13 @@ class MitarbeiterController extends ActionController
     }
     
     /**
-     * TODO: Set Representations
-     * Deputies and excluded cost centers
+     * Set Representations
+     * Just Deputies, excluded cost centers have another action
      * 
      * @param Mitarbeiter $employee
      * @return void
      */
-    protected function setRepresentationsAction(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee)
+    public function setRepresentationsAction(Mitarbeiter $employee)
     {
         if ($this->request->hasArgument('search')) {
             $search = $this->request->getArgument('search');
@@ -887,6 +887,19 @@ class MitarbeiterController extends ActionController
             $employee->setRepresentations($userService->getRepresentations($this->request, $this->objectManager, $employee));
         }
         $this->mitarbeiterRepository->update($employee);
+        
+        // Send Email information to deputies
+        /* @var $mailService \Pmwebdesign\Staffm\Domain\Service\MailService */
+        $mailService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\MailService::class);           
+        
+        /* @var $representation \Pmwebdesign\Staffm\Domain\Model\Representation */
+        foreach ($employee->getRepresentations() as $representation) {            
+            $message = "Hallo ".$representation->getDeputy()->getFirstName().",\n\nich habe Dich im Intranet als Vertreter ".
+                    "eingestellt.\n\nEs wird Dir hiermit die Berechtigung übertragen, die Mitarbeiter meiner Kostenstellen zu bearbeiten (z. B. Qualifikationen).".
+                    "\n\nFreundliche Grüße,\n\n".$employee->getFirstName()." ".$employee->getLastName();  
+            $mailService->sendEmail($employee->getEmail(), $employee->getLastName()." ".$employee->getFirstName(), $representation->getDeputy()->getEmail(), $representation->getDeputy()->getLastName()." ".$representation->getDeputy()->getFirstName(), "Intranet Vertretung", $message);
+        }        
+        
         $this->addFlashMessage('Die Vertreter vom Mitarbeiter "' . $employee->getFirstName() . ' ' . $employee->getLastName() . '" wurden aktualisiert!', '', AbstractMessage::OK);
         $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $employee, 'search' => $search, 'berechtigung' => $berechtigung, 'key' => $userKey));
     }

@@ -1,5 +1,6 @@
 # Staffm Change Log
 
+- [FEATURE] Added a email function to send a information to deputies if they where assigned.
 - [UPDATE] Qualification status get from settings.
 - [UPDATE] Language labels for assigned representations.
 - [BUGFIX] Fix in MitarbeiterRepository the query with cost centers #14.
