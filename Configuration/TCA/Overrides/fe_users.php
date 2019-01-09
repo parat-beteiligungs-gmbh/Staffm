@@ -213,7 +213,7 @@ $fields = [
     ],
     'assigned_representations' => [
         'exclude' => 0,        
-        'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_mitarbeiter.representations',
+        'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_mitarbeiter.assignedRepresentations',
         'config' => [
                 'type' => 'inline',                                
                 'foreign_table' => 'tx_staffm_domain_model_representation',                
