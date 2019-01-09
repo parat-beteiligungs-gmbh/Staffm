@@ -62,18 +62,18 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
             $arrMit = [];
             // Qualification?		
             if ($quali != NULL) {
+                /* @var $settingsUtility \Pmwebdesign\Staffm\Utility\SettingsUtility */
+                $settingsUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Utility\SettingsUtility::class);
+                $this->qualiStatusIgnore = $settingsUtility->getQualiStatusIgnore();
+                
                 /* @var $userService \Pmwebdesign\Staffm\Domain\Service\UserService */
                 $userService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\UserService::class);
                 $user = $userService->getLoggedInUser();
                 if ($user != NULL) {
                     $mitarbeiters = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
                     $mitarbeiters = ArrayUtility::fillOjectStorageFromQueryResult($this->findMitarbeiterVonVorgesetzten("", $user));
-
-                    /* @var $settingsUtility \Pmwebdesign\Staffm\Utility\SettingsUtility */
-                    $settingsUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Utility\SettingsUtility::class);
-                    $this->qualiStatusIgnore = $settingsUtility->getQualiStatusIgnore();
                 }
-
+                // All found qualifications
                 foreach ($quali as $q) {
                     // If qualification is found, save employee uid to array
                     foreach ($q->getEmployeequalifications() as $mq) {

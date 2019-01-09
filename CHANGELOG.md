@@ -1,5 +1,6 @@
 # Staffm Change Log
 
+- [UPDATE] Qualification status get from settings.
 - [UPDATE] Language labels for assigned representations.
 - [BUGFIX] Fix in MitarbeiterRepository the query with cost centers #14.
 - [FEATURE] Show assigned representations in User edit forms.
