@@ -455,6 +455,10 @@
                 <source>Geburtsdatum wird nicht im Intranet angezeigt!</source>
                 <target state="translated">Date of birth is not displayed on the Intranet!</target>
             </trans-unit>  
+             <trans-unit id="staffm.qualification.text.infosave">
+                <source>(Bei Änderungen muss jede Seite einzeln gespeichert werden!)</source>
+                <target state="translated">(If something has been changed, each page must be saved individually!)</target>
+            </trans-unit>  
             <trans-unit id="staffm.upoadpics">
                 <source>Bilder hochladen</source>
                 <target state="translated">Upload Pictures</target>
@@ -463,6 +467,10 @@
                 <source>Mehr...</source>
                 <target state="translated">More...</target>
             </trans-unit>   
+            <trans-unit id="staffm.text.exempted.costcenters">
+                <source>(Auswahl für ausgenommene Kostenstellen)</source>
+                <target state="translated">(Selection for exempted cost centers)</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

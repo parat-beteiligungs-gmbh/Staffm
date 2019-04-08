@@ -824,6 +824,40 @@ class MitarbeiterController extends ActionController
         $this->addFlashMessage('Alle Vertreter vom Mitarbeiter "' . $employee->getFirstName() . ' ' . $employee->getLastName() . '" wurden gelöscht!', '', AbstractMessage::ERROR);
         $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $employee, 'search' => $search, 'berechtigung' => $berechtigung, 'key' => $userKey));
     }
+    
+    /**
+     * TODO: Delete costcenter of a representation from a employee
+     *   
+     * @param \Pmwebdesign\Staffm\Domain\Model\Representation $representation
+     */
+    public function deleteRepresentationCostCentersAction(\Pmwebdesign\Staffm\Domain\Model\Representation $representation)
+    {
+        if ($this->request->hasArgument('search')) {
+            $search = $this->request->getArgument('search');
+        }
+        if ($this->request->hasArgument('berechtigung')) {
+            $berechtigung = $this->request->getArgument('berechtigung');
+        }
+        if ($this->request->hasArgument('key')) {
+            $userKey = $this->request->getArgument('key');
+        }        
+        if ($this->request->hasArgument('userKey')) {
+            $userKey = $this->request->getArgument('userKey');
+        }        
+        $employee = $representation->getEmployee();        
+        $representations = $employee->getRepresentations();
+        foreach ($representations as $rep) {
+            if($rep == $representation) {
+                $rep->setCostcenters(new \TYPO3\CMS\Extbase\Persistence\ObjectStorage());
+                break;
+            }
+        }
+        $employee->setRepresentations($representations);
+        $this->mitarbeiterRepository->update($employee);  
+        
+        $this->addFlashMessage('Die ausgenommenen Kostenstellen für Vertreter "' . $representation->getDeputy()->getFirstName() . ' ' . $representation->getDeputy()->getLastName() . '" wurden entfernt!', '', AbstractMessage::ERROR);
+        $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $employee, 'search' => $search, 'berechtigung' => $berechtigung, 'key' => $key, 'userKey' => $userKey));
+    }
 
     /**
      * Set TypeConverter option for image upload
@@ -902,6 +936,49 @@ class MitarbeiterController extends ActionController
         
         $this->addFlashMessage('Die Vertreter vom Mitarbeiter "' . $employee->getFirstName() . ' ' . $employee->getLastName() . '" wurden aktualisiert!', '', AbstractMessage::OK);
         $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $employee, 'search' => $search, 'berechtigung' => $berechtigung, 'key' => $userKey));
+    }
+    
+    /**
+     * Set the exempted cost centers for a Deputy
+     * 
+     * @param \Pmwebdesign\Staffm\Domain\Model\Representation $representation
+     */
+    public function setRepresentationCostCentersAction(\Pmwebdesign\Staffm\Domain\Model\Representation $representation)
+    {
+        if ($this->request->hasArgument('search')) {
+            $search = $this->request->getArgument('search');
+        }
+        if ($this->request->hasArgument('berechtigung')) {
+            $berechtigung = $this->request->getArgument('berechtigung');
+        }
+        if ($this->request->hasArgument('key')) {
+            $userKey = $this->request->getArgument('key');
+        }        
+        if ($this->request->hasArgument('userKey')) {
+            $userKey = $this->request->getArgument('userKey');
+        }        
+        
+        $employee = $representation->getEmployee();
+        
+        // Assigned costcenters for deputies?
+        if ($this->request->hasArgument('costcenters')) {            
+            /* @var $costCenterService \Pmwebdesign\Staffm\Domain\Service\CostCenterService */
+            $costCenterService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CostCenterService::class);  
+            
+            /* @var $r \Pmwebdesign\Staffm\Domain\Model\Representation */
+            $representations = $employee->getRepresentations();
+            foreach ($representations as $r) {
+                if($representation == $r) {                    
+                    $r->setCostcenters($costCenterService->getCostCenters($this->request, $this->objectManager)); 
+                    break;
+                }
+            }            
+            $employee->setRepresentations($representations);
+        }
+        
+        $this->mitarbeiterRepository->update($employee);       
+        $this->addFlashMessage('Die ausgenommenen Kostenstellen für Vertreter "' . $representation->getDeputy()->getFirstName() . ' ' . $representation->getDeputy()->getLastName() . '" wurden aktualisiert!', '', AbstractMessage::OK);
+        $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $employee, 'search' => $search, 'berechtigung' => $berechtigung, 'key' => $key, 'userKey' => $userKey));
     }
 
     /**

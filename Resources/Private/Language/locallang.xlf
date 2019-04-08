@@ -341,13 +341,19 @@
             </trans-unit>
             <trans-unit id="staffm.text.geburtsdatumausgabe">
                 <source>Geburtsdatum wird nicht im Intranet angezeigt!</source>
-            </trans-unit>    
+            </trans-unit>  
+            <trans-unit id="staffm.qualification.text.infosave">
+                <source>(Bei Änderungen muss jede Seite einzeln gespeichert werden!)</source>
+            </trans-unit>  
             <trans-unit id="staffm.upoadpics">
                 <source>Bilder hochladen</source>
             </trans-unit>  
             <trans-unit id="staffm.more">
                 <source>Mehr...</source>
-            </trans-unit>   
+            </trans-unit>
+            <trans-unit id="staffm.text.exempted.costcenters">
+                <source>(Auswahl für ausgenommene Kostenstellen)</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>

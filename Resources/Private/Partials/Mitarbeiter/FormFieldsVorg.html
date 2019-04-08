@@ -15,17 +15,20 @@
 </vh:form.multiupload>   
 <br style="clear:both"/>
 <f:comment><!-- Representations --></f:comment>
-<f:render partial="Mitarbeiter/Representation/FormFields" arguments="{representations: mitarbeiter.representations}" />
-<div class="btn-group" role="group">
-    <f:link.action action="list" arguments="{mitarbeiter:mitarbeiter, key:'chooseDeputyForEmployee', userKey:'auswahlUsr', cache:'notcache'}" class="btn btn-default"><f:translate id="staffm.choose" /></f:link.action>
-    <f:if condition="{mitarbeiter.representations}">
-        <f:link.action class="btn btn-danger" action="deleteRepresentations" arguments="{employee:mitarbeiter, userKey:'auswahlUsr'}"><f:translate id="staffm.remove" /></f:link.action>
-    </f:if>
-</div>
-<br /><br />
+<f:if condition="{vh:isCostCenterResponsible(employee:mitarbeiter)} > 0">
+    <f:render partial="Mitarbeiter/Representation/FormFields" arguments="{representations: mitarbeiter.representations}" />
+    <div class="btn-group" role="group">
+        <f:link.action action="list" arguments="{mitarbeiter:mitarbeiter, key:'chooseDeputyForEmployee', userKey:'auswahlUsr', cache:'notcache'}" class="btn btn-default"><f:translate id="staffm.choose" /></f:link.action>
+        <f:if condition="{mitarbeiter.representations}">
+            <f:link.action class="btn btn-danger" action="deleteRepresentations" arguments="{employee:mitarbeiter, userKey:'auswahlUsr'}"><f:translate id="staffm.remove" /></f:link.action>
+        </f:if>
+    </div>
+    <br /><br />
+</f:if>
 <f:comment><!-- Assigned Representations --></f:comment>
-<f:render partial="Mitarbeiter/AssignedRepresentation/FormFields" arguments="{representations: mitarbeiter.assignedRepresentations}" />
-<br />
+<f:if condition="{mitarbeiter.assignedRepresentations}">
+    <f:render partial="Mitarbeiter/AssignedRepresentation/FormFields" arguments="{representations: mitarbeiter.assignedRepresentations}" /><br />    
+</f:if>
 <label class="tx-staffm bold" for="personalnummer">
 	<f:translate key="tx_staffm_domain_model_mitarbeiter.personalnummer" />
 </label>

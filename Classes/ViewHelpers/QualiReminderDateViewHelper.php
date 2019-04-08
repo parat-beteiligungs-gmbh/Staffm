@@ -49,6 +49,7 @@ class QualiReminderDateViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstr
                     } else {
                         $pruefe = "";
                     }
+                    break;
                 }
             }
         } else {

@@ -45,7 +45,7 @@ input {
 
 /** Table */
 .tx_staffm.link {
-    color: #0000cc;
+    color: #0000cc;   
 }
 
 .bold {
@@ -153,6 +153,26 @@ table.tx_staffm td .staffm-link {
 .pagination-staffm .page-link:hover {
     color: #C9234A;
     background-color: #e9ecef !important;
+}
+
+/** Paginate */
+ul.f3-widget-paginator {    
+    list-style: none;
+    display: flex;
+    padding-left: 0;
+}
+ul.f3-widget-paginator li {
+    margin-right: 8px;
+}
+ul.f3-widget-paginator li.current {
+    color: #C9234A;
+}
+ul.f3-widget-paginator li:after {    
+    color: #000000;
+    content: " | ";
+}
+ul.f3-widget-paginator li:last-child:after {
+    content: "";
 }
 
 .width0 {
@@ -337,14 +357,14 @@ thead.fixedHeader a:hover {
 html>body tbody.scrollContent {
     display: block;
     /*height: 262px; passt nicht? */
-/*    height: 242px;*/
-/*    height: auto;*/
+    /*    height: 242px;*/
+    /*    height: auto;*/
     overflow-y: auto; 
     width: 100%;        
 }
 
 .scroller {
-/*    overflow-y: auto;*/
+    /*    overflow-y: auto;*/
 }
 
 /* make TD elements pretty. Provide alternating classes for striping the table */
@@ -377,7 +397,7 @@ html>body thead.fixedHeader th {
     hyphens: auto;
 }
 html>body thead.fixedHeader th:first-child {
-/*    position: absolute;  */
+    /*    position: absolute;  */
     min-width: 200px;
 }
 html>body thead.fixedHeader th + th {
@@ -400,7 +420,7 @@ html>body tbody.scrollContent td {
     text-align: center;
 }
 html>body tbody.scrollContent td:first-child {
-/*    position: absolute;  */
+    /*    position: absolute;  */
     min-width: 200px;
 }
 html>body tbody.scrollContent td + td {
@@ -464,21 +484,21 @@ input[type="search"]::-webkit-search-cancel-button {
 ::-webkit-scrollbar {
     -webkit-appearance: none;
 }
- 
+
 ::-webkit-scrollbar:vertical {
     width: 12px;
 }
- 
+
 ::-webkit-scrollbar:horizontal {
     height: 12px;
 }
- 
+
 ::-webkit-scrollbar-thumb {
     background-color: rgba(0, 0, 0, .5);
     border-radius: 10px;
     border: 2px solid #ffffff;
 }
- 
+
 ::-webkit-scrollbar-track {
     border-radius: 10px;  
     background-color: #ffffff; 
@@ -494,10 +514,10 @@ input[type="search"]::-webkit-search-cancel-button {
     .carouseldetailview {
         max-width: 50%;
     }    
-    
+
     /** Bootstrap responsible table */
-/*    .table-responsive>.fixed-column {
-        display: none;
-    }*/
+    /*    .table-responsive>.fixed-column {
+            display: none;
+        }*/
 }
 

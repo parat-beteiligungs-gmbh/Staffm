@@ -231,9 +231,8 @@ class Qualifikation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             0 => "",
             1 => "Anlernphase",
             2 => "Tätigkeit kann in Zeit & Qualität ausgeführt werden",
-            3 => "Kann andere anlernen",
-            4 => "Kann selbstständig Lösungen erarbeiten"
+            3 => "Kann andere anlernen/einarbeiten",
+            4 => "Kann selbst Optimierungslösungen finden und einleiten"
         ];
     }
-
 }

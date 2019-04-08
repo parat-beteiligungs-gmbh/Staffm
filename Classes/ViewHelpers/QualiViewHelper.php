@@ -28,28 +28,30 @@ namespace Pmwebdesign\Staffm\ViewHelpers;
 /**
  * Check employee qualification
  */
-class QualiViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper 
+class QualiViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
-	/**
-	 * 
-	 * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $m
-	 * @param \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qu
-	 * @return int 
-	 */
-	public function render(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $m = NULL, \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qu = null) 
-        {
-            if($m != NULL) {
-		$pruefe = 0;                
-		foreach ($m->getEmployeequalifications() as $q) {                        
-			if ($q->getQualification() === $qu) {
-				$pruefe = 1;
-			}			
-		}
-                
-            } else {
-		//$pruefe = 0;
-		$pruefe = 0;
+
+    /**
+     * 
+     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $m
+     * @param \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qu
+     * @return int 
+     */
+    public function render(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $m = NULL, \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qu = null)
+    {
+        if ($m != NULL) {
+            $pruefe = 0;
+            foreach ($m->getEmployeequalifications() as $q) {
+                if ($q->getQualification() === $qu) {
+                    $pruefe = 1;
+                    break;
+                }
             }
-            return $pruefe;
-	}
+        } else {
+            //$pruefe = 0;
+            $pruefe = 0;
+        }
+        return $pruefe;
+    }
+
 }

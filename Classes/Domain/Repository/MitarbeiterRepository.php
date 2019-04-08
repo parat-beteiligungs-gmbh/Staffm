@@ -341,5 +341,5 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
         $query->execute();       
         return $query->execute();
     }
-
+    
 }

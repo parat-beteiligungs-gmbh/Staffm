@@ -290,7 +290,13 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         if($categoryfield != "" && $categoryfield != "catAll") {
             /* @var $category \Pmwebdesign\Staffm\Domain\Model\Category */
             $category = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\CategoryRepository::class)->findOneByName($categoryfield);
-            $qualifications = $category->getQualifications();
+            \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($category);
+            // Category?
+            if($category) {
+                $qualifications = $category->getQualifications();
+            } else {
+                $qualifications = $this->qualifikationRepository->findSearchForm("", 0);                
+            }            
         } else {
             // Show all qualifications
             $qualifications = $this->qualifikationRepository->findSearchForm("", 0);
@@ -303,8 +309,6 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
 
         $_oPHPExcel = new Spreadsheet();
         $_oExcelWriter = new Xlsx($_oPHPExcel);
-
-        
 
         // Create new Worksheet
         $myWorkSheet = new Worksheet($_oPHPExcel, 'Qualifikationen');
@@ -521,11 +525,15 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
                 break;
             }
         }
-        
-        $this->view->assign('categoryfield', $categoryfield);
-        $this->view->assign('categories', $categories);        
-        $this->view->assign('qualifikations', $qualifikations);        
-        $this->view->assign('search', $search);
+        if($this->request->hasArgument("url")) {
+            $url = $this->request->getArgument("url");
+            $this->redirectToUri($url);
+        } else {
+            $this->view->assign('categoryfield', $categoryfield);
+            $this->view->assign('categories', $categories);        
+            $this->view->assign('qualifikations', $qualifikations);        
+            $this->view->assign('search', $search);
+        }
     }
 
     /**
@@ -773,6 +781,8 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         }       
         $this->addFlashMessage('Die Qualifikationen wurden gesichert!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
         
-        $this->redirect("listVgs", "Qualifikation", null, ['categoryfield' => $categoryfield]);
+        $url = $this->request->getArgument("url");
+        
+        $this->redirect("listVgs", "Qualifikation", null, ['categoryfield' => $categoryfield, 'url' => $url]);
     }
 }

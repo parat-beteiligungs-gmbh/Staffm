@@ -44,6 +44,7 @@ class QualiStatusViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
             foreach ($mitarbeiter->getEmployeequalifications() as $q) {
                 if ($q->getQualification() === $qualifikation) {
                     $pruefe = $q->getStatus();
+                    break;
                 }
             }
         } else {

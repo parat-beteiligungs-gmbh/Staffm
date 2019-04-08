@@ -26,32 +26,30 @@
 namespace Pmwebdesign\Staffm\ViewHelpers;
 
 /**
- * Check Qualification to employee
+ * TODO: Check qualification of employee
  */
-class QualiMitarbeiterViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class QualiEmployeeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
      * 
-     * @param \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qu
-     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $m	 
-     * @return int 
+     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee
+     * @param \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualification
+     * @return \Pmwebdesign\Staffm\Domain\Model\Employeequalification
      */
-    public function render(\Pmwebdesign\Staffm\Domain\Model\Qualifikation $qu = NULL, \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $m = null)
+    public function render(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee = NULL, \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualification = null)
     {
-        // Qualification not null?
-        if ($qu != NULL) {
-            $pruefe = 0;
-            // All employeequalifiactions of this qualification
-            foreach ($qu->getEmployeequalifications() as $ma) {
-                if ($ma->getEmployee() === $m) {
-                    $pruefe = 1;
+        $employeequalification = NULL;
+        if ($employee->getEmployeequalifications() != NULL) {            
+            // All employee qualifications
+            foreach ($employee->getEmployeequalifications() as $eq) {
+                // Qualification found in employeequalification of employee?
+                if ($eq->getQualification() === $qualification) {
+                    $employeequalification = $eq;
                     break;
                 }
             }
-        } else {
-            //$pruefe = 0;
-            $pruefe = 0;
-        }
-        return $pruefe;
+        } 
+        return $employeequalification;
     }
+
 }

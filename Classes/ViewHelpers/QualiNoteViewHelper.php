@@ -43,6 +43,7 @@ class QualiNoteViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
             foreach ($mitarbeiter->getEmployeequalifications() as $q) {
                 if ($q->getQualification() === $qualifikation) {
                     $pruefe = $q->getNote();
+                    break;
                 }
             }
         } else {            

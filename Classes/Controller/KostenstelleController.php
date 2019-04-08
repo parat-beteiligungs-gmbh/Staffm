@@ -275,7 +275,6 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             $this->view->assign('kostenstelles', $kostenstelles);
             $this->view->assign('mitarbeiter', $mitarbeiter);
         } else {
-        
             // Clicked char?
             if ($this->request->hasArgument('@widget_0')) {
                 $widget = $this->request->getArgument('@widget_0');                
@@ -299,8 +298,6 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 
             $limit = 0;
             $kostenstelles = $this->kostenstelleRepository->findSearchForm($search, $limit);
-
-            
 
             // Previous search?
             if ($this->request->hasArgument('standardsearch')) {
@@ -327,6 +324,25 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             }        
         }
     }
+    
+    /**
+     * List of cost centers for assign to a representation
+     * 
+     * @param \Pmwebdesign\Staffm\Domain\Model\Representation $representation
+     */
+    public function listChooseAction(\Pmwebdesign\Staffm\Domain\Model\Representation $representation)
+    {        
+        if($this->request->hasArgument("key")) {
+            $this->view->assign('key', $this->request->getArgument("key"));
+        }
+        if($this->request->hasArgument("userKey")) {
+            $this->view->assign('userKey', $this->request->getArgument("userKey"));
+        }
+        
+        $kostenstellen = $this->kostenstelleRepository->findCostCentersFromResponsible($representation->getEmployee());
+        $this->view->assign('kostenstellen', $kostenstellen);
+        $this->view->assign('representation', $representation);
+    }
 
     /**
      * Single view for cost center
@@ -339,8 +355,7 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
     {
         if ($mitarbeiter != NULL) {
             $key = $this->request->getArgument('key');
-            $this->view->assign('key', $key);
-            //$kostenstelle = $mitarbeiter->getKostenstelle()->getUid();            
+            $this->view->assign('key', $key);            
             $this->view->assign('mitarbeiter', $mitarbeiter);
         }
         
@@ -352,7 +367,7 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         // If user is logged in, get cost centers who user is responsible
         if ($aktuser != NULL) {
             $this->view->assign('aktuser', $aktuser);
-            // Kostenstellen des angemeldeten Users ermitteln            
+            // Cost Centers of responsible            
             $kostenstellen = $this->objectManager->
                     get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->
                     findByVerantwortlicher($GLOBALS['TSFE']->fe_user->user['uid']);

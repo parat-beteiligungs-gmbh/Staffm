@@ -138,7 +138,7 @@ class Category extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Qualifikation> $qualifications
      * @return void 
      */
-    public function setQualifications(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $qualifications)
+    public function setQualifications(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $qualifications = NULL)
     {
         $this->qualifications = $qualifications;
     }

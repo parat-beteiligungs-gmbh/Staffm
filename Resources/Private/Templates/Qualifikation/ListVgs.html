@@ -3,6 +3,7 @@
 
 <f:layout name="Default" />
 <f:section name="main">
+    <f:variable name="elementsEachSite" value="12" />
     <h1><f:translate id="staffm.qualifikation.list.headline" /></h1>    
     <f:flashMessages />    
     <f:comment><!-- Buttons for Employee categories --></f:comment>
@@ -23,56 +24,66 @@
             </div>
         </f:form>
         </li>
-    </ul><br />
-    <f:form action="chooselist" arguments="{key:key}" additionalAttributes="{role: 'form'}">    
+    </ul><br />    
+    <f:form action="chooselist" arguments="{key:key}" additionalAttributes="{role: 'form'}">   
+        <f:form.hidden id="url" name="url" value="" />
         <f:form.hidden id="categoryfield" name="categoryfield" value="{categoryfield}" />
-        <div class="table-responsive">    
-            <table class="table table-striped table-bordered table-hover table-condensed tx_staffm" >
-                <thead>
-                    <tr>
-                        <th><f:translate key="tx_staffm_domain_model_mitarbeiter" />/<f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></th>                          
-                        <f:for each="{qualifikations}" as="qualification">                                                                
-                            <th class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}" style="min-width: 120px;max-width: 120px" title="{qualification.beschreibung}"><div style="-ms-hyphens: auto;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;vertical-align: bottom">{qualification.bezeichnung}</div></th>                                             
-                        </f:for>                         
-                    </tr>
-                </thead>
-                <tbody>
-                    <f:for each="{mitarbeiters}" as="mitarbeiter" iteration="iterator">
-                        <f:if condition="{tv:setNumElements(objects:mitarbeiters,iterator:iterator,num:12)} == TRUE">
-                            <tr>
-                                <th><f:translate key="tx_staffm_domain_model_mitarbeiter" />/<f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></th>                          
-                                <f:for each="{qualifikations}" as="qualification">                                                                
-                                    <th class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}" style="min-width: 120px;max-width: 120px" title="{qualification.beschreibung}"><div style="-ms-hyphens: auto;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;vertical-align: bottom">{qualification.bezeichnung}</div></th>                                             
-                                </f:for>                        
-                            </tr>  
-                        </f:if>
-                        <tr id="qu{qualifikation.uid}">            
-                            <td style="text-align: left" title="{mitarbeiter.title}"><b>{mitarbeiter.lastName} {mitarbeiter.firstName}</b></td>                                                         
-                            <f:for each="{qualifikations}" as="qualification"> 
-                                <f:if condition="{tv:qualiMitarbeiter(qu: qualification, m: mitarbeiter)} == 1">
-                                    <f:then>
-                                        <td id="tdM{mitarbeiter.uid}Q{qualification.uid}" style="background-color: #BCEE68" class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}">                                        
-                                            <f:form.textfield id="statusIdM{mitarbeiter.uid}Q{qualification.uid}" style="width:15px" readonly="TRUE" value="{tv:qualiStatus(mitarbeiter:mitarbeiter, qualifikation:qualification)}" /><f:form.select style="max-width: 90px" id="mitaSelectM{mitarbeiter.uid}Q{qualification.uid}" name="mitarbeiters[{mitarbeiter.uid}][{qualification.uid}]" options="{qualification.status}" value="{tv:qualiStatus(mitarbeiter:mitarbeiter, qualifikation:qualification)}" additionalAttributes="{onClick: 'setCheckbox(this);'}" />
-                                        </td>
-                                    </f:then>
-                                    <f:else>
-                                        <td id="tdM{mitarbeiter.uid}Q{qualification.uid}" class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}">                                        
-                                            <f:form.textfield id="statusIdM{mitarbeiter.uid}Q{qualification.uid}" style="width:15px" readonly="TRUE" value="" /><f:form.select style="max-width: 90px" id="mitaSelectM{mitarbeiter.uid}Q{qualification.uid}" name="mitarbeiters[{mitarbeiter.uid}][{qualification.uid}]" options="{qualification.status}" value="" additionalAttributes="{onClick: 'setCheckbox(this);'}" />
-                                        </td>
-                                    </f:else>
-                                </f:if>
-                            </f:for> 
+        <f:widget.paginate objects="{mitarbeiters}" as="employees" configuration="{itemsPerPage: elementsEachSite, insertAbove: 0, insertBelow: 1, maximumNumberOfLinks: 99}">
+            <div class="table-responsive">                
+                <table class="table table-striped table-bordered table-hover table-condensed tx_staffm" >
+                    <thead>
+                        <tr>
+                            <th><f:translate key="tx_staffm_domain_model_mitarbeiter" />/<f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></th>                          
+                            <f:for each="{qualifikations}" as="qualification">                                                                
+                                <th class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}" style="min-width: 120px;max-width: 120px" title="{qualification.beschreibung}"><div style="-ms-hyphens: auto;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;vertical-align: bottom">{qualification.bezeichnung}</div></th>                                             
+                            </f:for>                         
                         </tr>
-                    </f:for>
-                </tbody>
-            </table> 
-        </div><br />
+                    </thead>
+                    <tbody>
+                        <f:for each="{employees}" as="mitarbeiter" iteration="iterator">                        
+                            <f:comment><!-- Set header after 12 elements -->
+                            <f:if condition="{tv:setNumElements(objects:mitarbeiters,iterator:iterator,num:12)} == TRUE">
+                                <tr>
+                                    <th><f:translate key="tx_staffm_domain_model_mitarbeiter" />/<f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></th>                          
+                                    <f:for each="{qualifikations}" as="qualification">                                                                
+                                        <th class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}" style="min-width: 120px;max-width: 120px" title="{qualification.beschreibung}"><div style="-ms-hyphens: auto;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;vertical-align: bottom">{qualification.bezeichnung}</div></th>                                             
+                                    </f:for>                        
+                                </tr>  
+                            </f:if></f:comment>
+                            <tr id="qu{qualifikation.uid}">            
+                                <td style="text-align: left" title="{mitarbeiter.title}"><b>{mitarbeiter.lastName} {mitarbeiter.firstName}</b></td>                                                         
+                                <f:for each="{qualifikations}" as="qualification"> 
+                                    <f:variable name="eq" value="{tv:qualiEmployee(employee: mitarbeiter, qualification: qualification)}" />                                                                
+                                    <f:if condition="{eq}">                                        
+                                        <f:then>                                                                                    
+                                            <td id="tdM{mitarbeiter.uid}Q{qualification.uid}" style="background-color: #BCEE68" class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}">                                        
+                                                <f:form.textfield id="statusIdM{mitarbeiter.uid}Q{qualification.uid}" style="width:15px" readonly="TRUE" value="{eq.status}" /><f:form.select style="max-width: 90px" id="mitaSelectM{mitarbeiter.uid}Q{qualification.uid}" name="mitarbeiters[{mitarbeiter.uid}][{qualification.uid}]" options="{qualification.status}" value="{eq.status}" additionalAttributes="{onClick: 'setCheckbox(this);'}" />
+                                            </td>
+                                        </f:then>
+                                        <f:else>
+                                            <td id="tdM{mitarbeiter.uid}Q{qualification.uid}" class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}">                                        
+                                                <f:form.textfield id="statusIdM{mitarbeiter.uid}Q{qualification.uid}" style="width:15px" readonly="TRUE" value="" /><f:form.select style="max-width: 90px" id="mitaSelectM{mitarbeiter.uid}Q{qualification.uid}" name="mitarbeiters[{mitarbeiter.uid}][{qualification.uid}]" options="{qualification.status}" value="" additionalAttributes="{onClick: 'setCheckbox(this);'}" />
+                                            </td>
+                                        </f:else>
+                                    </f:if>                                
+                                </f:for> 
+                            </tr>
+                        </f:for>
+                    </tbody>
+                </table>            
+            </div>
+        </f:widget.paginate>
         <f:if condition="{mitarbeiters}">
             <!--<f:form.submit style="float: left" class="btn btn-default" value="Qualifikationszuordnung speichern" />-->
-            <button type="submit" class="btn btn-success"><f:translate id="staffm.qualifikation.text.zuordnung" /></button>
+            <button id="submit" type="submit" class="btn btn-success"><f:translate id="staffm.qualifikation.text.zuordnung" /></button>&nbsp;{f:if(condition: '{mitarbeiters->f:count()} > {elementsEachSite}', then:'{f:translate(id:\'staffm.qualification.text.infosave\')}')}
         </f:if>                
     </f:form> 
     <script>  
+        document.getElementById("submit").onclick = function() {
+            var $url = document.getElementById("url");
+            $url.value = window.location;            
+        }
+        
         // Go to top
         var tableh = document.getElementById('tableheader');
         window.onscroll = function() {        
@@ -128,20 +139,20 @@
          * Select Status action 
          * Set/unset checkboxes and enable/disable fields
          * 
-         * @param string stat
+         * @param stat
          * @return void
          */
         function setCheckbox(stat) {
             var wholeid = stat.id;   
-            var id = wholeid.substring(10);            
+            var id = wholeid.substring(10);  
             var elem = document.getElementById("td" + id);
             var elemSelect = document.getElementById("mitaSelect" + id);
             var statusId = document.getElementById("statusId" + id);
-            
+                          
             // Status selected?
             if (elemSelect.value > 0) {                          
-                elem.style.backgroundColor = "#BCEE68";  
-                statusId.value = elemSelect.value;
+                elem.style.backgroundColor = "#BCEE68"; 
+                statusId.value = elemSelect.value;                
             } else {               
                 elem.style.backgroundColor = "";                 
                 elemSelect.value = "";
