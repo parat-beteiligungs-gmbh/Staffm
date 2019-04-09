@@ -1,0 +1,104 @@
+<h3><f:translate key="tx_staffm_domain_model_representation.deputy" />&nbsp;<f:translate id="staffm.choose" /></h3>
+<f:form action="setRepresentations" controller="Mitarbeiter" arguments="{employee:mitarbeiter, key:key, userKey:userKey, berechtigung:berechtigung}" additionalAttributes="{role: 'form'}" >  
+    <table>
+        <td class="tx-staffm bold"><f:translate key="tx_staffm_domain_model_mitarbeiter" />:&nbsp;</td><td>{mitarbeiter.firstName} {mitarbeiter.lastName}</td><br />
+    </table>            
+    <table  class="tx_staffm" >
+        <tr>                        
+            <th></th>
+            <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.personalnummer" /></th>
+            <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.username" /></th>
+            <th><f:translate key="tx_staffm_domain_model_mitarbeiter.last_name" /></th>
+            <th><f:translate key="tx_staffm_domain_model_mitarbeiter.first_name" /></th>
+            <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.title" /></th>           
+            <th><f:translate id="staffm.active" /></th>
+        </tr>
+        <f:for each="{mitarbeiters}" as="employee">
+            <tr>                  
+                
+            <f:if condition="{tv:deputyEmployee(c:mitarbeiter, ma: employee)} > 0">
+                <f:then>                       
+                    <td class="td{employee.uid}" style="background-color: #BCEE68">
+                        <f:if condition="{employee.image}">   
+                            <f:for each="{employee.image}" as="img" key="key" iteration="iterator">        
+                                <f:if condition="{iterator.isFirst}">
+                                    <f:image class="tx_staffm profilbild klein" src="{img.uid}" treatIdAsReference="1" />                                            
+                                </f:if>
+                            </f:for>                                                                           
+                        </f:if>                        
+                    </td>
+                    <td class="td{employee.uid}" style="background-color: #BCEE68">{employee.personalnummer}</td> 
+                    <td class="td{employee.uid}" style="background-color: #BCEE68">{employee.username}</td> 
+                    <td class="td{employee.uid}" style="background-color: #BCEE68">{employee.lastName}</td> 
+                    <td class="td{employee.uid}" style="background-color: #BCEE68">{employee.firstName}</td> 
+                    <td class="td{employee.uid}" style="background-color: #BCEE68">{employee.title}</td> 
+                    <td class="td{employee.uid}" style="background-color: #BCEE68"><f:form.checkbox id="mitarCheck{employee.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="employees" value="{employee.uid}" multiple="1" checked="1" /></td>                                                    
+                </f:then>
+                <f:else>
+                    <td class="td{employee.uid}">
+                        <f:if condition="{employee.image}">   
+                            <f:for each="{employee.image}" as="img" key="key" iteration="iterator">        
+                                <f:if condition="{iterator.isFirst}">
+                                    <f:image class="tx_staffm profilbild klein" src="{img.uid}" treatIdAsReference="1" />                                            
+                                </f:if>
+                            </f:for>                                                                           
+                        </f:if>                        
+                    </td>
+                    <td class="td{employee.uid}">{employee.personalnummer}</td> 
+                    <td class="td{employee.uid}">{employee.username}</td> 
+                    <td class="td{employee.uid}">{employee.lastName}</td> 
+                    <td class="td{employee.uid}">{employee.firstName}</td> 
+                    <td class="td{employee.uid}">{employee.title}</td> 
+                    <td class="td{employee.uid}"><f:form.checkbox id="mitarCheck{employee.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="employees" value="{employee.uid}" multiple="1" checked="0" /></td>                    
+                </f:else>
+            </f:if>
+            </tr>
+        </f:for>
+    </table>
+    <br />
+    <div class="btn-group" role="group">
+        <f:link.action class="btn btn-secondary" action="edit" controller="Category" arguments="{category:category, berechtigung:berechtigung}"><f:translate id="staffm.back" /></f:link.action>
+        <button class="btn btn-success" type="submit"><f:translate id="staffm.choose" /> <f:translate id="staffm.text.uebergeben" /></button>
+    </div>
+</f:form>
+<script>
+    /**
+     * Checkbox 
+     * Set/unset checkboxes and enable/disable fields
+     * 
+     * @param string stat
+     * @return void
+     */
+    function setCheckbox(stat) {
+        var wholeid = stat.id;
+        var id = wholeid.substring(10);
+        var cb = document.getElementById(wholeid);
+        var elem = document.getElementsByClassName("td" + id);
+        var elemSelect = document.getElementById("qualiSelect" + id);
+        var elemText = document.getElementById("qualiText" + id);
+        var elemReminderDate = document.getElementById("qualiReminderDate" + id);
+
+        if (cb.checked === true) {
+            cb.checked = true;
+            for (var i = 0; i < elem.length; i++) {
+                elem[i].style.backgroundColor = "#BCEE68";
+            }
+            elemSelect.disabled = false;
+            elemSelect.value = 1;
+            elemText.disabled = false;
+            elemReminderDate.disabled = false;
+        } else {
+            cb.checked = false;
+            for (var i = 0; i < elem.length; i++) {
+
+                elem[i].style.backgroundColor = "";
+            }
+            elemSelect.disabled = true;
+            elemSelect.value = "";
+            elemText.disabled = true;
+            elemText.value = "";
+            elemReminderDate.disabled = true;
+            elemReminderDate.value = "";
+        }
+    }
+</script>

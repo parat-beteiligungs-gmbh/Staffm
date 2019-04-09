@@ -29,6 +29,7 @@ use PHPOffice\PhpSpreadsheet\Spreadsheet;
 use PHPOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PHPOffice\PhpSpreadsheet\Writer\Xlsx;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
 
 /**
  * Position Controller
@@ -312,7 +313,7 @@ class PositionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
      * @return \Pmwebdesign\Staffm\Domain\Model\Position
      */
     public function chooseAction(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter, \Pmwebdesign\Staffm\Domain\Model\Position $position)
-    {
+    {        
         $mitarbeiter->setPosition($position);
         $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->update($mitarbeiter);
 
@@ -324,7 +325,7 @@ class PositionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         // Delete Cache from position
         $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);        
         $cacheService->deleteCaches($position->getBezeichnung(), "show", $this->request->getControllerName(), $position->getUid());
-
+        $this->addFlashMessage('Position zu "'.$mitarbeiter->getLastName().' '.$mitarbeiter->getFirstName().'" zugewiesen!', '', AbstractMessage::OK);
         $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search));
     }
 
@@ -342,6 +343,8 @@ class PositionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         // Delete Cache from position
         $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);        
         $cacheService->deleteCaches($position->getBezeichnung(), "show", $this->request->getControllerName(), $position->getUid());
+        
+        $this->addFlashMessage('Position von "'.$mitarbeiter->getLastName().' '.$mitarbeiter->getFirstName().'" entfernt!', '', AbstractMessage::ERROR);
         
         $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter));
     }

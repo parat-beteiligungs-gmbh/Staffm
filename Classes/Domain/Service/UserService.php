@@ -161,4 +161,33 @@ class UserService
         
         return $state;
     }
+    
+    /**
+     * Get the representations
+     * 
+     * @param \TYPO3\CMS\Extbase\Mvc\Request $request
+     * @param \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager
+     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $aktEmployee
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Representation>
+     */
+    public function getRepresentations(\TYPO3\CMS\Extbase\Mvc\Request $request, \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager, \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $aktEmployee)
+    {
+        if ($request->hasArgument('employees')) {           
+            $representations = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+
+            // Read checkboxes into array
+            $emp = $request->getArgument('employees');
+
+            // Set employees to array items
+            foreach ($emp as $e) {
+                /* @var $employee \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter */
+                $employee = $objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository::class)->findOneByUid($e);                
+                $representation = new \Pmwebdesign\Staffm\Domain\Model\Representation();
+                $representation->setEmployee($aktEmployee);
+                $representation->setDeputy($employee);
+                $representations->attach($representation);
+            }
+            return $representations;
+        }
+    }
 }

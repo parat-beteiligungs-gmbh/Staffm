@@ -100,7 +100,7 @@ return [
                 'foreign_field' => 'qualification',
                 'foreign_label' => 'employee',
                 //'foreign_sortby' => 'status, employee.last_name', // TODO: Error if employee.last_name
-                'foreign_sortby' => 'status',
+//                'foreign_sortby' => 'status',
                 'minitems' => 0,
                 'maxitems' => 1000,
             ],
@@ -113,7 +113,7 @@ return [
                 'renderType' => 'selectMultipleSideBySide',
                 'multiple' => 1,
                 'foreign_table' => 'tx_staffm_domain_model_category',
-                'MM' => 'tx_staffm_domain_model_qualifikation_category_mm',
+                'MM' => 'tx_staffm_qualifikation_category_mm',
                 'MM_opposite_field' => 'category',
                 'foreign_table_where' => ' AND tx_staffm_domain_model_category.pid=###CURRENT_PID### ORDER BY tx_staffm_domain_model_category.name ',
                 'multiple' => 1,

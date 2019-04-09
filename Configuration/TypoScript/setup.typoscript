@@ -9,7 +9,9 @@ plugin.tx_staffm {
 		storagePid = {$plugin.tx_staffm.persistence.storagePid}
                 classes {                    
                     Pmwebdesign\Staffm\Domain\Model\Mitarbeiter.RecordStoragePid = 42
-                    Pmwebdesign\Staffm\Domain\Model\Mitarbeiter.newRecordStoragePid = 42                    
+                    Pmwebdesign\Staffm\Domain\Model\Mitarbeiter.newRecordStoragePid = 42  
+                    Pmwebdesign\Staffm\Domain\Model\Representation.RecordStoragePid = 53
+                    Pmwebdesign\Staffm\Domain\Model\Representation.newRecordStoragePid = 53
                 }
 	}        
 	features {
@@ -77,9 +79,9 @@ page {
     }
 
     includeJSFooter {
-        # Eigenes Javascript sofot mit kompletter Website laden
+        # load own Javascript immediatelly with complete website
         #staffmjs = EXT:staffm/Resources/Public/js/staffm.js
-        jquery1 = EXT:staffm/Resources/Public/js/jquery-1.12.4.js
+#        jquery1 = EXT:staffm/Resources/Public/js/jquery-1.12.4.js -> Error on load
         jquery2 = EXT:staffm/Resources/Public/js/jquery-ui.js
     }
 }

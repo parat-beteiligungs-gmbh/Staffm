@@ -68,27 +68,28 @@ class MitarbeiterController extends ActionController
     protected $objects;
 
     /**
-     * mitarbeiterRepository
+     * Employee Repository
      * 
      * @var MitarbeiterRepository     
      */
     protected $mitarbeiterRepository = NULL;
 
     /**
-     * qualifikationRepository
+     * Qualification Repository
      * 
      * @var \Pmwebdesign\Staffm\Domain\Repository\qualifikationRepository     
      */
     protected $qualifikationRepository = NULL;
 
     /** Persistence Manager
-     * Verwaltet Objekte aus dem blogRepository, speichern
+     * Manages objects from the repositories
      * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
      * @inject
      */
     protected $persistenceManager;
 
     /**
+     * Inject employee repository
      * 
      * @param MitarbeiterRepository $mitarbeiterRepository
      */
@@ -98,6 +99,7 @@ class MitarbeiterController extends ActionController
     }
 
     /**
+     * Inject qualification repository
      * 
      * @param \Pmwebdesign\Staffm\Domain\Repository\MitarbeiterqualifikationRepository $mitarbeiterqualifikationRepository
      */
@@ -107,13 +109,14 @@ class MitarbeiterController extends ActionController
     }
 
     /**
+     * Initialize View
      * 
      * @param ViewInterface $view
      * @return void
      */
     public function initializeView(ViewInterface $view)
     {
-        $pluginName = $this->request->getPluginName(); // PluginName ermitteln
+        $pluginName = $this->request->getPluginName(); // Get Plugin name
         // Plugin = Supervisor?
         if ($pluginName == "Staffmvorg") {
             $this->view->setLayoutPathAndFilename('typo3conf/ext/staffm/Resources/Private/Layouts/LoginLayout.html');
@@ -222,10 +225,12 @@ class MitarbeiterController extends ActionController
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Category $category
      * @param Kostenstelle $kostenstelle
+     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
      * @return void
      */
     public function listAction(\Pmwebdesign\Staffm\Domain\Model\Category $category = NULL,
-            Kostenstelle $kostenstelle = NULL)
+            Kostenstelle $kostenstelle = NULL,
+            \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter = NULL)
     {
         // Search exist?
         if ($this->request->hasArgument('search')) {
@@ -285,9 +290,14 @@ class MitarbeiterController extends ActionController
             $key = $this->request->getArgument('key');
             $this->view->assign('key', $key);
         }
+        if ($this->request->hasArgument('userKey')) {
+            $userKey = $this->request->getArgument('userKey');
+            $this->view->assign('userKey', $userKey);
+        }        
         $this->view->assign('mitarbeiters', $mitarbeiters);
         $this->view->assign('kostenstelle', $kostenstelle);
         $this->view->assign('category', $category);
+        $this->view->assign('mitarbeiter', $mitarbeiter);
         if ($maid != "") {
             $this->view->assign('maid', $maid);
         }
@@ -364,7 +374,12 @@ class MitarbeiterController extends ActionController
      */
     public function listChooseAction(Kostenstelle $kostenstelle)
     {
-        $mitarbeiters = $this->mitarbeiterRepository->findAll();
+        // Search exist?
+        if ($this->request->hasArgument('search')) {
+            $search = $this->request->getArgument('search');    
+            $this->view->assign('search', $search);
+        }        
+        $mitarbeiters = $this->mitarbeiterRepository->findSearchForm($search, 0);        
         $this->view->assign('mitarbeiters', $mitarbeiters);
         $this->view->assign('kostenstelle', $kostenstelle);
     }
@@ -558,8 +573,22 @@ class MitarbeiterController extends ActionController
         if ($this->request->hasArgument('berechtigung')) {
             $berechtigung = $this->request->getArgument('berechtigung');
             $this->view->assign('berechtigung', $berechtigung);
-        }
-
+        }        
+        
+        if ($this->request->hasArgument('userKey')) {
+            $userKey = $this->request->getArgument('userKey');
+            $this->view->assign('userKey', $userKey);
+        }        
+        
+        if ($this->request->hasArgument('key')) {
+            $key = $this->request->getArgument('key');
+            $this->view->assign('key', $key);
+        }             
+        
+        if ($userKey == 'auswahlVgs') { 
+            $berechtigung = "vonVorg";
+            $this->view->assign('berechtigung', $berechtigung);
+        } 
         $this->view->assign('mitarbeiter', $mitarbeiter);
     }
 
@@ -762,7 +791,6 @@ class MitarbeiterController extends ActionController
         if ($this->request->hasArgument('search')) {
             $search = $this->request->getArgument('search');
         }
-
         if ($this->request->hasArgument('berechtigung')) {
             $berechtigung = $this->request->getArgument('berechtigung');
         }
@@ -770,6 +798,62 @@ class MitarbeiterController extends ActionController
         $this->mitarbeiterRepository->update($employee);
         $this->addFlashMessage('Alle Kategorien vom Mitarbeiter "' . $employee->getFirstName() . ' ' . $employee->getLastName() . '" wurden gelöscht!', '', AbstractMessage::ERROR);
         $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $employee, 'search' => $search, 'berechtigung' => $berechtigung));
+    }
+    
+    /**
+     * Delete representations of an employee
+     * 
+     * @param Mitarbeiter $employee
+     */
+    public function deleteRepresentationsAction(Mitarbeiter $employee)
+    {
+        if ($this->request->hasArgument('search')) {
+            $search = $this->request->getArgument('search');
+        }
+        if ($this->request->hasArgument('berechtigung')) {
+            $berechtigung = $this->request->getArgument('berechtigung');
+        }
+        if ($this->request->hasArgument('userKey')) {
+            $userKey = $this->request->getArgument('userKey');
+        }        
+        $employee->setRepresentations(new ObjectStorage());
+        $this->mitarbeiterRepository->update($employee);
+        $this->addFlashMessage('Alle Vertreter vom Mitarbeiter "' . $employee->getFirstName() . ' ' . $employee->getLastName() . '" wurden gelöscht!', '', AbstractMessage::ERROR);
+        $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $employee, 'search' => $search, 'berechtigung' => $berechtigung, 'key' => $userKey));
+    }
+    
+    /**
+     * TODO: Delete costcenter of a representation from a employee
+     *   
+     * @param \Pmwebdesign\Staffm\Domain\Model\Representation $representation
+     */
+    public function deleteRepresentationCostCentersAction(\Pmwebdesign\Staffm\Domain\Model\Representation $representation)
+    {
+        if ($this->request->hasArgument('search')) {
+            $search = $this->request->getArgument('search');
+        }
+        if ($this->request->hasArgument('berechtigung')) {
+            $berechtigung = $this->request->getArgument('berechtigung');
+        }
+        if ($this->request->hasArgument('key')) {
+            $userKey = $this->request->getArgument('key');
+        }        
+        if ($this->request->hasArgument('userKey')) {
+            $userKey = $this->request->getArgument('userKey');
+        }        
+        $employee = $representation->getEmployee();        
+        $representations = $employee->getRepresentations();
+        foreach ($representations as $rep) {
+            if($rep == $representation) {
+                $rep->setCostcenters(new \TYPO3\CMS\Extbase\Persistence\ObjectStorage());
+                break;
+            }
+        }
+        $employee->setRepresentations($representations);
+        $this->mitarbeiterRepository->update($employee);  
+        
+        $this->addFlashMessage('Die ausgenommenen Kostenstellen für Vertreter "' . $representation->getDeputy()->getFirstName() . ' ' . $representation->getDeputy()->getLastName() . '" wurden entfernt!', '', AbstractMessage::ERROR);
+        $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $employee, 'search' => $search, 'berechtigung' => $berechtigung, 'key' => $key, 'userKey' => $userKey));
     }
 
     /**
@@ -808,9 +892,94 @@ class MitarbeiterController extends ActionController
             );
         }
     }
+    
+    /**
+     * Set Representations
+     * Just Deputies, excluded cost centers have another action
+     * 
+     * @param Mitarbeiter $employee
+     * @return void
+     */
+    public function setRepresentationsAction(Mitarbeiter $employee)
+    {
+        if ($this->request->hasArgument('search')) {
+            $search = $this->request->getArgument('search');
+        }
+        if ($this->request->hasArgument('berechtigung')) {
+            $berechtigung = $this->request->getArgument('berechtigung');
+        }
+        if ($this->request->hasArgument('userKey')) {
+            $userKey = $this->request->getArgument('userKey');
+        }        
+        // Assigned deputies?
+        if ($this->request->hasArgument('employees')) {
+            /* @var $userService \Pmwebdesign\Staffm\Domain\Service\UserService */
+            $userService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\UserService::class);           
+            $employee->setRepresentations($userService->getRepresentations($this->request, $this->objectManager, $employee));
+        }
+        $this->mitarbeiterRepository->update($employee);
+        
+        // Send Email information to deputies
+        /* @var $mailService \Pmwebdesign\Staffm\Domain\Service\MailService */
+        $mailService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\MailService::class);           
+        
+        /* @var $representation \Pmwebdesign\Staffm\Domain\Model\Representation */
+        foreach ($employee->getRepresentations() as $representation) {            
+            $message = "Hallo ".$representation->getDeputy()->getFirstName().",\n\nich habe Dich im Intranet als Vertreter ".
+                    "eingestellt.\n\nEs wird Dir hiermit die Berechtigung übertragen, die Mitarbeiter meiner Kostenstellen zu bearbeiten (z. B. Qualifikationen).".
+                    "\n\nFreundliche Grüße,\n\n".$employee->getFirstName()." ".$employee->getLastName();  
+            $mailService->sendEmail($employee->getEmail(), $employee->getLastName()." ".$employee->getFirstName(), $representation->getDeputy()->getEmail(), $representation->getDeputy()->getLastName()." ".$representation->getDeputy()->getFirstName(), "Intranet Vertretung", $message);
+        }        
+        
+        $this->addFlashMessage('Die Vertreter vom Mitarbeiter "' . $employee->getFirstName() . ' ' . $employee->getLastName() . '" wurden aktualisiert!', '', AbstractMessage::OK);
+        $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $employee, 'search' => $search, 'berechtigung' => $berechtigung, 'key' => $userKey));
+    }
+    
+    /**
+     * Set the exempted cost centers for a Deputy
+     * 
+     * @param \Pmwebdesign\Staffm\Domain\Model\Representation $representation
+     */
+    public function setRepresentationCostCentersAction(\Pmwebdesign\Staffm\Domain\Model\Representation $representation)
+    {
+        if ($this->request->hasArgument('search')) {
+            $search = $this->request->getArgument('search');
+        }
+        if ($this->request->hasArgument('berechtigung')) {
+            $berechtigung = $this->request->getArgument('berechtigung');
+        }
+        if ($this->request->hasArgument('key')) {
+            $userKey = $this->request->getArgument('key');
+        }        
+        if ($this->request->hasArgument('userKey')) {
+            $userKey = $this->request->getArgument('userKey');
+        }        
+        
+        $employee = $representation->getEmployee();
+        
+        // Assigned costcenters for deputies?
+        if ($this->request->hasArgument('costcenters')) {            
+            /* @var $costCenterService \Pmwebdesign\Staffm\Domain\Service\CostCenterService */
+            $costCenterService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CostCenterService::class);  
+            
+            /* @var $r \Pmwebdesign\Staffm\Domain\Model\Representation */
+            $representations = $employee->getRepresentations();
+            foreach ($representations as $r) {
+                if($representation == $r) {                    
+                    $r->setCostcenters($costCenterService->getCostCenters($this->request, $this->objectManager)); 
+                    break;
+                }
+            }            
+            $employee->setRepresentations($representations);
+        }
+        
+        $this->mitarbeiterRepository->update($employee);       
+        $this->addFlashMessage('Die ausgenommenen Kostenstellen für Vertreter "' . $representation->getDeputy()->getFirstName() . ' ' . $representation->getDeputy()->getLastName() . '" wurden aktualisiert!', '', AbstractMessage::OK);
+        $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $employee, 'search' => $search, 'berechtigung' => $berechtigung, 'key' => $key, 'userKey' => $userKey));
+    }
 
     /**
-     * Initialize action 
+     * Overwrite initialize action 
      * 
      * @return void 
      */

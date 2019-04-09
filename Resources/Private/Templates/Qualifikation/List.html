@@ -7,8 +7,8 @@
     <f:if condition="{key} == ''"> 
         <f:comment><!-- Normal qualification list --></f:comment>
         <f:render partial="Qualifikation/List/List" arguments="{_all}" />            
-    </f:if>
-    <f:if condition="{key} == 'auswahl'">
+    </f:if>    
+    <f:if condition="{key} == 'auswahl' || {key} == 'auswahlUsr'">
         <f:comment><!-- Qualification selection for the employee --></f:comment>
         <f:render partial="Qualifikation/List/QualificationsForEmployee" arguments="{_all}" />        
     </f:if>      
@@ -105,7 +105,7 @@
             if (cb.checked === true) {
                 cb.checked = true;
                 for (var i = 0; i < elem.length; i++) {
-                    elem[i].style.backgroundColor = "red";
+                    elem[i].style.backgroundColor = "#BCEE68";
                 }
                 elemSelect.disabled = false;
                 elemSelect.value = 1;

@@ -78,6 +78,14 @@ class Employeequalification extends \TYPO3\CMS\Extbase\DomainObject\AbstractEnti
     protected $histories = NULL;
     
     /**
+     * Show the status
+     *
+     * @var boolean
+     */
+    protected $showstatus = FALSE;
+
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -145,6 +153,16 @@ class Employeequalification extends \TYPO3\CMS\Extbase\DomainObject\AbstractEnti
     }
     
     /**
+     * Get the show status flag
+     * 
+     * @return boolean
+     */
+    public function getShowstatus()
+    {
+        return $this->showstatus;
+    }
+        
+    /**
      * Set the qualification
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualification
@@ -201,5 +219,15 @@ class Employeequalification extends \TYPO3\CMS\Extbase\DomainObject\AbstractEnti
     public function setHistories(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $histories)
     {
         $this->histories = $histories;
+    }
+    
+    /**
+     * Set the show status flag
+     * 
+     * @param boolean $showstatus
+     */
+    public function setShowstatus($showstatus)
+    {
+        $this->showstatus = $showstatus;
     }
 }

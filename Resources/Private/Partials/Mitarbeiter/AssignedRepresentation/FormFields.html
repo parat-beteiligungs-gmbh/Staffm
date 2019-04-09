@@ -1,0 +1,23 @@
+<label class="tx-staffm bold" for="representations">
+    <f:translate key="tx_staffm_domain_model_mitarbeiter.assignedRepresentations" />&nbsp;(<f:translate key="tx_staffm_domain_model_representation.costcenters" />)
+</label><br />
+<f:for each="{representations}" as="representation">
+    <span>{representation.employee.lastName} {representation.employee.firstName}</span>
+    <f:if condition="{representation.costcenters}">
+        (
+        <f:for each="{representation.costcenters}" as="costcenter" iteration="iterator">   
+            <span title="{costcenter.bezeichnung}">
+                <f:if condition="{iterator.isLast}">
+                    <f:then>
+                        {costcenter.nummer}
+                    </f:then>
+                    <f:else>
+                        {costcenter.nummer},
+                    </f:else>
+                </f:if>
+            </span>
+        </f:for>
+        )
+    </f:if>
+    <br />
+</f:for>

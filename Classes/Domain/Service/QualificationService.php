@@ -72,8 +72,7 @@ class QualificationService
             $assessor = $userService->getLoggedInUser();
 
             // Set qualifications to array items
-            foreach ($qua as $q) {
-                $prevStatus = FALSE;
+            foreach ($qua as $q) {                
                 $employeequalification = new \Pmwebdesign\Staffm\Domain\Model\Employeequalification();
                 $qualification = $objectManager->get(
                                 'Pmwebdesign\\Staffm\\Domain\\Repository\\QualifikationRepository'
@@ -84,6 +83,7 @@ class QualificationService
 
                 // Check if previous qualification exist
                 $histories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+                $prevStatus = FALSE;
                 foreach ($prevEmployeequalifications as $prevEmployeequalification) {
                     if ($prevEmployeequalification->getQualification() === $qualification) {
                         $prevStatus = TRUE;
@@ -206,8 +206,7 @@ class QualificationService
             $assessor = $userService->getLoggedInUser();
 
             // Set qualifications to array items
-            foreach ($ma as $m) {
-                $prevStatus = FALSE;
+            foreach ($ma as $m) {                
                 $employeequalification = new \Pmwebdesign\Staffm\Domain\Model\Employeequalification();
                 $employee = $objectManager->get(
                                 'Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository'
@@ -218,7 +217,8 @@ class QualificationService
 
                 // Check if previous qualification exist
                 $histories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-                foreach ($prevEmployeequalifications as $prevEmployeequalification) {
+                $prevStatus = FALSE;
+                foreach ($prevEmployeequalifications as $prevEmployeequalification) {                   
                     if ($prevEmployeequalification->getEmployee() === $employee) {
                         $prevStatus = TRUE;
                         // Employee exist, just update
@@ -321,9 +321,7 @@ class QualificationService
             $assessor = $userService->getLoggedInUser();
 
             // Set qualifications to array items
-            foreach ($ma as $m => $arrVals) {                               
-                $prevStatus = FALSE;
-                
+            foreach ($ma as $m => $arrVals) {                   
                 /* @var $employee \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter */
                 $employee = $objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository::class)->findOneByUid($m);
                 
@@ -332,19 +330,24 @@ class QualificationService
                 
                 // Read aktually qualifications of employee
                 $aktEmployeequalifications = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-                foreach ($arrVals as $qualificationuid => $statusuid) {
+                foreach ($arrVals as $qualificationuid => $statusuid) {                    
                     // Status 0?
                     if($statusuid != 0) {
                         $aktEmployeequalification = new \Pmwebdesign\Staffm\Domain\Model\Employeequalification();
                         $aktEmployeequalification->setEmployee($employee);
                         $qualification = $objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\QualifikationRepository::class)->findOneByUid($qualificationuid);
                         $aktEmployeequalification->setQualification($qualification);
-                        $aktEmployeequalification->setStatus($statusuid);                        
+                        $aktEmployeequalification->setStatus($statusuid);   
+                        
+                        if(($employee->getUid() == 2374 || $employee->getUid() == 2373) && $qualification->getUid() == 78) {
+                            \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($aktEmployeequalification);                            
+                        }
                         
                         // Check if previous qualification exist
                         $histories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-                        foreach ($prevEmployeequalifications as $prevEmployeequalification) {
-                            if ($prevEmployeequalification->getEmployee() === $employee && $prevEmployeequalification->getQualification() === $qualification) {
+                        $prevStatus = FALSE;
+                        foreach ($prevEmployeequalifications as $prevEmployeequalification) {                            
+                            if ($prevEmployeequalification->getEmployee() === $employee && $prevEmployeequalification->getQualification() === $qualification) {                                
                                 $prevStatus = TRUE;
                                 // Employee exist, just update
                                 if ($aktEmployeequalification->getStatus() != null) {
@@ -377,10 +380,15 @@ class QualificationService
                                 }                                
                                 break;
                             }
+                        }          
+                        
+                        if(($employee->getUid() == 2374 || $employee->getUid() == 2373) && $qualification->getUid() == 78) {
+//                            \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($aktEmployeequalification);
+                            \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($prevStatus);
                         }
-
+                        
                         // Previous employeequalification found?   
-                        if ($prevStatus == FALSE) {
+                        if ($prevStatus == FALSE) {                          
                             // No, set new employeequalification                            
                             // Add new history               
                             $newHistory = new \Pmwebdesign\Staffm\Domain\Model\History();
@@ -389,7 +397,7 @@ class QualificationService
                             $newHistory->setAssessor($assessor);
                             $histories->attach($newHistory);
                             $aktEmployeequalification->setHistories($histories);
-                            $aktEmployeequalifications->attach($aktEmployeequalification);                            
+                            $aktEmployeequalifications->attach($aktEmployeequalification);                              
                         } else {
                             // Yes, update previous employeequalification                                    
                             $aktEmployeequalifications->attach($prevEmployeequalification);

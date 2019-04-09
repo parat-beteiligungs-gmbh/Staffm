@@ -1,42 +1,38 @@
+{namespace tv=Pmwebdesign\Staffm\ViewHelpers}
 
-<f:layout name="Default" />
-
-This Template is responsible for creating a table of domain objects.
-
-If you modify this template, do not forget to change the overwrite settings
-in /Configuration/ExtensionBuilder/settings.yaml:
-  Resources:
-    Private:
-      Templates:
-        List.html: keep
-
-Otherwise your changes will be overwritten the next time you save the extension in the extension builder
-
-<f:section name="main">
 <h1><f:translate id="staffm.mitarbeiter.list.headline" /></h1>
 <p><f:translate id="staffm.text.verantwortlicher.waehlen" /></p>
 <f:flashMessages />
-
-<table  class="tx_staffm" >
-	<tr>
-		<th><f:translate key="tx_staffm_domain_model_mitarbeiter.personalnummer" /></th>
-		<th><f:translate key="tx_staffm_domain_model_mitarbeiter.username" /></th>		
-		<th><f:translate key="tx_staffm_domain_model_mitarbeiter.last_name" /></th>
-		<th><f:translate key="tx_staffm_domain_model_mitarbeiter.first_name" /></th>		
-		<th><f:translate key="tx_staffm_domain_model_mitarbeiter.title" /></th>		
-	</tr>
-
-	<f:for each="{mitarbeiters}" as="mitarbeiter">
-		<tr>
-			<td><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.personalnummer}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.username}</f:link.action></td>			
-			<td><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.lastName}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.firstName}</f:link.action></td>			
-			<td><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.title}</f:link.action></td>
-        <td class="nobackground"><f:link.action class="btn btn-default" action="choose" arguments="{kostenstelle:kostenstelle, mitarbeiter : mitarbeiter}"><f:translate id="staffm.choose" /></f:link.action></td>			
-		</tr>
-	</f:for>
-</table>
+<f:form action="listChoose" id="searchform" name="searchform" arguments="{kostenstelle:kostenstelle, key:'suche', char:'{char}', cache:'{cache}'}" additionalAttributes="{role: 'form'}">  
+    <tv:widget.atoZNav objects="{mitarbeiters}" as="filteredMitarbeiters" property="lastName" search="{search}" maid="{maid}">  
+           <div id="testappend" class="input-group">             
+               <f:form.textfield type="search" id="search" class="form-control" placeholder="Suchwort..." title="Volltextsuche: mehrere Begriffe, oder Teilbegriffe möglich (z. B. Tätigkeit: \"Eink\" für Einkauf, Qualifikationen: \"Intranet\")" name="search" value="{f:if(condition: '{searchstatus} != \'delete\'', then: '{search}', else: '')}" />                                
+               <div class="input-group-append">               
+                   <button type="submit" class="btn btn-default"><f:translate id="staffm.search" /></button>
+               </div>            
+           </div>  
+           <tv:widget.sort objects="{filteredMitarbeiters}" as="sortedMitarbeiters" property="lastName">   
+               <table  class="tx_staffm" >
+                       <tr>
+                               <th><f:translate key="tx_staffm_domain_model_mitarbeiter.personalnummer" /></th>
+                               <th><f:translate key="tx_staffm_domain_model_mitarbeiter.username" /></th>		
+                               <th><f:translate key="tx_staffm_domain_model_mitarbeiter.last_name" /></th>
+                               <th><f:translate key="tx_staffm_domain_model_mitarbeiter.first_name" /></th>		
+                               <th><f:translate key="tx_staffm_domain_model_mitarbeiter.title" /></th>		
+                       </tr>
+                       <f:for each="{sortedMitarbeiters}" as="mitarbeiter">
+                           <tr>
+                               <td><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.personalnummer}</f:link.action></td>
+                               <td><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.username}</f:link.action></td>			
+                               <td><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.lastName}</f:link.action></td>
+                               <td><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.firstName}</f:link.action></td>			
+                               <td><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.title}</f:link.action></td>
+                               <td class="nobackground"><f:link.action class="btn btn-default" action="choose" arguments="{kostenstelle:kostenstelle, mitarbeiter : mitarbeiter}"><f:translate id="staffm.choose" /></f:link.action></td>			
+                           </tr>
+                       </f:for>
+               </table>
+           </tv:widget.sort>
+   </tv:widget.atoZNav>
+</f:form>
 <br />
 <f:link.action class="btn btn-secondary" controller="Kostenstelle" arguments="{kostenstelle:kostenstelle,mitarbeiter:mitarbeiter}" action="edit"><f:translate id="staffm.back" /></f:link.action>
-</f:section>

@@ -38,6 +38,17 @@
                             </config>
                         </TCEforms>
                     </settings.admingroups2>
+                    <settings.qualistatusignore>
+                        <TCEforms>
+                            <label>Status von Qualifikationen der für normale User nicht angezeigt wird</label>
+                            <config>
+                                <type>input</type>
+                                <size>1</size>
+                                <eval>int</eval>
+                                <default>0</default>
+                            </config>
+                        </TCEforms>
+                    </settings.qualistatusignore>     
                 </el>
             </ROOT>
         </sDEF>

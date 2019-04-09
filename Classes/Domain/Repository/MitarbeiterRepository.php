@@ -25,276 +25,321 @@
 
 namespace Pmwebdesign\Staffm\Domain\Repository;
 
+use Pmwebdesign\Staffm\Utility\ArrayUtility;
+
 /**
  * Employee Repository
  */
-class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository {	
-	protected $defaultOrderings = array('last_name' =>
+class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository
+{
+
+    protected $defaultOrderings = array('last_name' =>
         \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING);
 
-        /**
-	 * @param string $search
-	 * @param int $limit
-	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface|Boolean
-	 */
-	public function findSearchForm($search, $limit) {                
-		// Search?
-		if ($search != NULL) {
-			// If more search words
-			$searchArr = str_getcsv($search, " ");
-			$query = $this->createQuery();
-                        $quali = NULL;
-			$quali = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\QualifikationRepository')->findSearchForm($search, $limit);			
-						
-			// Employee Array (Employee uids)
-			$arrMit = [];	
-                        
-			// Qualification?		
-                        if($quali != NULL) {
-                            foreach($quali as $q) {
-                                // If qualification is found, save employee uid to array
-                                foreach ($q->getEmployeequalifications() as $mq) {
-                                    if ($mq != NULL) {
-                                            array_push($arrMit, (int) $mq->getEmployee()->getUid());							
-                                    }
-                                }
-                            }
-                        }
-				
-			$query = $this->createQuery();
-			$i = -1;
-			foreach ($searchArr as $key => $value) {
-				$constraints[++$i] = $query->like('last_name', '%'.$value.'%');
-				$constraints[++$i] = $query->like('first_name', '%'.$value.'%');
-				$constraints[++$i] = $query->like('username', '%'.$value.'%');
-				$constraints[++$i] = $query->like('personalnummer', '%'.$value.'%');
-				$constraints[++$i] = $query->like('title', '%'.$value.'%');
-				$constraints[++$i] = $query->like('telephone', '%'.$value.'%');
-                                //$constraints[++$i] = $query->equals('deleted', 0); //-> funktioniert nicht
-                                
-				// Qualification?
-				if (count($arrMit) > 0) {
-					$constraints[++$i] = $query->in('uid', $arrMit);					
-				}
-			}
-			$query->matching(					
-                                $query->logicalAnd(					
-                                        $query->logicalOr(
-						$constraints
-					)                                        
-                                )   
-			);			
-		// No Value in Search-Field
-		} else {
-			$query = $this->createQuery();
-			$query->matching (
-					$query->logicalAnd(
-						$query->equals('deleted', 0)
-						//$query->greaterThan('last_name', '')
-						//$query->greaterThan('tx_igldapssoauth_dn', '')
-					)
-			);		
-		}
-		
-		$query->setOrderings(array('last_name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING, 
-                    'first_name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
-		$limit = (int) $limit;
-		if ($limit > 0) {
-			$query->setLimit($limit);
-		}
-		return $query->execute();
-	}
-	
-	/**
-	 * 
-	 * 
-	 * @param string $search	
-	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findSearchFormKst($search) {
-		$searchArr = str_getcsv($search, " ");
-		$query = $this->createQuery();
-		
-		$i = -1;
-		foreach ($searchArr as $key => $value) {
-			$constraints[++$i] = $query->like('last_name', '%'.$value.'%');
-			$constraints[++$i] = $query->like('first_name', '%'.$value.'%');
-			$constraints[++$i] = $query->like('username', '%'.$value.'%');
-			$constraints[++$i] = $query->like('personalnummer', '%'.$value.'%');
-			$constraints[++$i] = $query->like('title', '%'.$value.'%');
-		}
-		$query->matching(					
-				$query->logicalOr(
-					$constraints
-				)
-		);
-		
-		$query->setOrderings(array('last_name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));		
-		return $query->execute();
-	}
-	
-	/**
-	 * 
-	 * @param \Pmwebdesign\Staffm\Domain\Model\Position $position
-	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findPositionMitarbeiter(\Pmwebdesign\Staffm\Domain\Model\Position $position) {
-		$query = $this->createQuery();
-		$query->matching(	
-			$query->equals('position', $position)
-		);
-		$query->setOrderings(array('last_name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));	
-		return $query->execute();
-	}
-	
-	/**
-	 * 
-	 * @param \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle
-	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findKostenstellenMitarbeiter(\Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle) {
-		$query = $this->createQuery();
-		$query->matching(	
-			$query->equals('kostenstelle', $kostenstelle)
-		);
-		$query->setOrderings(array('last_name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));	
-		return $query->execute();
-	}
-	
-	/**
-	 * 
-	 * @param \Pmwebdesign\Staffm\Domain\Model\Firma $firma
-	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findFirmaMitarbeiter(\Pmwebdesign\Staffm\Domain\Model\Firma $firma) {
-		$query = $this->createQuery();
-		$query->matching(	
-			$query->equals('firma', $firma)
-		);
-		$query->setOrderings(array('last_name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));	
-		return $query->execute();
-	}
-	
-	/**
-	 * 
-	 * @param \Pmwebdesign\Staffm\Domain\Model\Standort $standort
-	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findStandortMitarbeiter(\Pmwebdesign\Staffm\Domain\Model\Standort $standort) {
-		$query = $this->createQuery();
-		$query->matching(	
-			$query->equals('standort', $standort)
-		);
-		$query->setOrderings(array('last_name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));	
-		return $query->execute();
-	}
-	
-	/**
-	 * 	
-	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findVorgesetzte() {
-		$query = $this->createQuery();
-		$query->matching(	
-			$query->equals('status', 27),
-			$query->equals('status', 51)
-		);
-		$query->setOrderings(array('last_name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));	
-		return $query->execute();
-	}
-        
-        /**
-	 * Mitarbeiter vom Vorgesetzten ermitteln
-         *
-         * @param string $search
-         * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $vorgesetzter 
-	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findMitarbeiterVonVorgesetzten($search, \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $vorgesetzter = NULL) {
-            // Kostenstellen des angemeldeten Users ermitteln               
-            $kostenstellen = $this->objectManager->
-            get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->
-            findByVerantwortlicher($vorgesetzter);
-            
-            // Wenn im Suchfeld ein Wert
-            if ($search != NULL) {
-                    // Falls mehrere Suchbegriffe eingegeben worden sind
-                    $searchArr = str_getcsv($search, " ");
-                    $query = $this->createQuery();
-                    $quali = NULL;
-                    $quali = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\QualifikationRepository')->findSearchForm($search, $limit);
-                   
-                    // Qualifikationen ermitteln
-                    $qMit = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();	
-                    $arrMit = [];
-                    
-                    // Qualifikationen prüfen
-                    if($quali != NULL) {
-                        foreach($quali as $q) {
-                            // Wenn Qualifikation gefunden in Array speichern
-                            foreach ($q->getMitarbeiters() as $mq) {
-                                if ($mq != NULL) {
-                                        array_push($arrMit, (int) $mq->getUid());							
-                                }
-                            }
-                        }
-                    }
-                    $query = $this->createQuery();
-                    $i = -1;
-                    foreach ($searchArr as $key => $value) {
-                            $constraints[++$i] = $query->like('last_name', '%'.$value.'%');
-                            $constraints[++$i] = $query->like('first_name', '%'.$value.'%');
-                            $constraints[++$i] = $query->like('username', '%'.$value.'%');
-                            $constraints[++$i] = $query->like('personalnummer', '%'.$value.'%');
-                            $constraints[++$i] = $query->like('title', '%'.$value.'%');
-                            $constraints[++$i] = $query->like('telephone', '%'.$value.'%');                                                        
-                            
-                            // Wenn Qualifikationen gefunden
-                            if (count($arrMit) > 0) {
-                                    $constraints[++$i] = $query->in('uid', $arrMit);					
-                            }
-                    }
-                    $query->matching(					
-                            $query->logicalAnd(	
-                                    $query->in('kostenstelle', $kostenstellen),
-                                    $query->logicalOr(
-                                            $constraints
-                                    )                                        
-                            )
+    /**
+     * Qualification status who is ignored for normal users
+     *
+     * @var integer
+     */
+    protected $qualiStatusIgnore = 0;
 
-                    );			
-            // Wenn kein Wert im Suchfeld
+    /**
+     * @param string $search
+     * @param int $limit
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface|Boolean
+     */
+    public function findSearchForm($search, $limit)
+    {
+        // Search?
+        if ($search != NULL) {
+            // If more search words
+            $searchArr = str_getcsv($search, " ");
+            $query = $this->createQuery();
+            $quali = NULL;
+            $quali = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\QualifikationRepository')->findSearchForm($search, $limit);
+
+            // Employee Array (Employee uids)
+            $arrMit = [];
+            // Qualification?		
+            if ($quali != NULL) {
+                /* @var $settingsUtility \Pmwebdesign\Staffm\Utility\SettingsUtility */
+                $settingsUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Utility\SettingsUtility::class);
+                $this->qualiStatusIgnore = $settingsUtility->getQualiStatusIgnore();
+                
+                /* @var $userService \Pmwebdesign\Staffm\Domain\Service\UserService */
+                $userService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\UserService::class);
+                $user = $userService->getLoggedInUser();
+                if ($user != NULL) {
+                    $mitarbeiters = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+                    $mitarbeiters = ArrayUtility::fillOjectStorageFromQueryResult($this->findMitarbeiterVonVorgesetzten("", $user));
+                }
+                // All found qualifications
+                foreach ($quali as $q) {
+                    // If qualification is found, save employee uid to array
+                    foreach ($q->getEmployeequalifications() as $mq) {
+                        // Logged in user and assigned employees?                                     
+                        if ($user != NULL && $mitarbeiters != NULL) {
+                            if (in_array($mq->getEmployee(), $mitarbeiters->toArray(), TRUE)) {
+                                array_push($arrMit, (int) $mq->getEmployee()->getUid());
+                                // Employee qualification not null and status?  
+                            } elseif ($mq != NULL && $mq->getStatus() > $this->qualiStatusIgnore) {
+                                array_push($arrMit, (int) $mq->getEmployee()->getUid());
+                            }
+                            // Employee qualification not null and status?  
+                        } elseif ($mq != NULL && $mq->getStatus() > $this->qualiStatusIgnore) {
+                            array_push($arrMit, (int) $mq->getEmployee()->getUid());
+                        }
+                    }
+                }
+            }
+
+            $query = $this->createQuery();
+            $i = -1;
+            foreach ($searchArr as $key => $value) {
+                $constraints[++$i] = $query->like('last_name', '%' . $value . '%');
+                $constraints[++$i] = $query->like('first_name', '%' . $value . '%');
+                $constraints[++$i] = $query->like('username', '%' . $value . '%');
+                $constraints[++$i] = $query->like('personalnummer', '%' . $value . '%');
+                $constraints[++$i] = $query->like('title', '%' . $value . '%');
+                $constraints[++$i] = $query->like('telephone', '%' . $value . '%');
+                //$constraints[++$i] = $query->equals('deleted', 0); //-> doesn´t run
+                // Qualification?
+                if (count($arrMit) > 0) {
+                    $constraints[++$i] = $query->in('uid', $arrMit);
+                }
+            }
+            $query->matching(
+                    $query->logicalAnd(
+                            $query->logicalOr(
+                                    $constraints
+                            )
+                    )
+            );
+            // No Value in Search-Field
+        } else {
+            $query = $this->createQuery();
+            $query->matching(
+                    $query->logicalAnd(
+                            $query->equals('deleted', 0)
+                            //$query->greaterThan('last_name', '')
+                            //$query->greaterThan('tx_igldapssoauth_dn', '')
+                    )
+            );
+        }
+
+        $query->setOrderings(array('last_name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING,
+            'first_name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
+        $limit = (int) $limit;
+        if ($limit > 0) {
+            $query->setLimit($limit);
+        }
+        return $query->execute();
+    }
+
+    /**
+     * 
+     * 
+     * @param string $search	
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findSearchFormKst($search)
+    {
+        $searchArr = str_getcsv($search, " ");
+        $query = $this->createQuery();
+
+        $i = -1;
+        foreach ($searchArr as $key => $value) {
+            $constraints[++$i] = $query->like('last_name', '%' . $value . '%');
+            $constraints[++$i] = $query->like('first_name', '%' . $value . '%');
+            $constraints[++$i] = $query->like('username', '%' . $value . '%');
+            $constraints[++$i] = $query->like('personalnummer', '%' . $value . '%');
+            $constraints[++$i] = $query->like('title', '%' . $value . '%');
+        }
+        $query->matching(
+                $query->logicalOr(
+                        $constraints
+                )
+        );
+
+        $query->setOrderings(array('last_name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
+        return $query->execute();
+    }
+
+    /**
+     * Find employees from given position
+     * 
+     * @param \Pmwebdesign\Staffm\Domain\Model\Position $position
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findPositionMitarbeiter(\Pmwebdesign\Staffm\Domain\Model\Position $position)
+    {
+        $query = $this->createQuery();
+        $query->matching(
+                $query->equals('position', $position)
+        );
+        $query->setOrderings(array('last_name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
+        return $query->execute();
+    }
+
+    /**
+     * Find employees from given cost center
+     * 
+     * @param \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findKostenstellenMitarbeiter(\Pmwebdesign\Staffm\Domain\Model\Kostenstelle $kostenstelle)
+    {
+        $query = $this->createQuery();
+        $query->matching(
+                $query->equals('kostenstelle', $kostenstelle)
+        );
+        $query->setOrderings(array('last_name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
+        return $query->execute();
+    }
+
+    /**
+     * Find Employees from given company
+     * 
+     * @param \Pmwebdesign\Staffm\Domain\Model\Firma $firma
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findFirmaMitarbeiter(\Pmwebdesign\Staffm\Domain\Model\Firma $firma)
+    {
+        $query = $this->createQuery();
+        $query->matching(
+                $query->equals('firma', $firma)
+        );
+        $query->setOrderings(array('last_name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
+        return $query->execute();
+    }
+
+    /**
+     * Find employees from given place
+     * 
+     * @param \Pmwebdesign\Staffm\Domain\Model\Standort $standort
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findStandortMitarbeiter(\Pmwebdesign\Staffm\Domain\Model\Standort $standort)
+    {
+        $query = $this->createQuery();
+        $query->matching(
+                $query->equals('standort', $standort)
+        );
+        $query->setOrderings(array('last_name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
+        return $query->execute();
+    }
+
+    /**
+     * TODO: Check if this is needed
+     * 	
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findVorgesetzte()
+    {
+        $query = $this->createQuery();
+        $query->matching(
+                $query->equals('status', 27), $query->equals('status', 51)
+        );
+        $query->setOrderings(array('last_name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
+        return $query->execute();
+    }
+
+    /**
+     * Find employees of the supervisor or deputies of supervisor
+     *
+     * @param string $search
+     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $vorgesetzter 
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findMitarbeiterVonVorgesetzten($search, \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $vorgesetzter = NULL)
+    {
+        // Cost centers of logged in user
+        $kostenstellen = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+
+        $kostenstellen = ArrayUtility::fillOjectStorageFromQueryResult($this->objectManager->
+                                get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->
+                                findByVerantwortlicher($vorgesetzter));
+
+        // Check deputy cost centers
+        $representations = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\RepresentationRepository::class)->findByDeputy($vorgesetzter);
+        foreach ($representations as $representation) {
+            $costcentersSupervisor = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+            $costcentersSupervisor = ArrayUtility::fillOjectStorageFromQueryResult($this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->findByVerantwortlicher($representation->getEmployee()));
+            // Attach cost centers of supervisor
+            foreach ($costcentersSupervisor as $costcenterSupervisor) {
+                $kostenstellen->attach($costcenterSupervisor);
+            }
+            // Detach outsourced cost centers
+            foreach ($representation->getCostcenters() as $costcenter) {
+                $kostenstellen->detach($costcenter);
+            }
+        }
+
+        // Search field?
+        if ($search != NULL) {
+            // For more Search words
+            $searchArr = str_getcsv($search, " ");
+            $query = $this->createQuery();
+            $quali = NULL;
+            $quali = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\QualifikationRepository')->findSearchForm($search, $limit);
+
+            $qMit = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+            $arrMit = [];
+
+            // Qualifications?
+            if ($quali != NULL) {
+                foreach ($quali as $q) {
+                    // Save qualifications in array
+                    foreach ($q->getEmployeequalifications() as $mq) {
+                        if ($mq != NULL) {
+                            array_push($arrMit, (int) $mq->getEmployee()->getUid());
+                        }
+                    }
+                }
+            }
+            $query = $this->createQuery();
+            $i = -1;
+            foreach ($searchArr as $key => $value) {
+                $constraints[++$i] = $query->like('last_name', '%' . $value . '%');
+                $constraints[++$i] = $query->like('first_name', '%' . $value . '%');
+                $constraints[++$i] = $query->like('username', '%' . $value . '%');
+                $constraints[++$i] = $query->like('personalnummer', '%' . $value . '%');
+                $constraints[++$i] = $query->like('title', '%' . $value . '%');
+                $constraints[++$i] = $query->like('telephone', '%' . $value . '%');
+
+                // Qualifications?
+                if (count($arrMit) > 0) {
+                    $constraints[++$i] = $query->in('uid', $arrMit);
+                }
+            }
+            $query->matching(
+                    $query->logicalAnd(
+                            $query->in('kostenstelle', $kostenstellen), $query->logicalOr(
+                                    $constraints
+                            )
+                    )
+            );
+            // No search
+        } else {
+            $query = $this->createQuery();            
+            // More cost centers?
+            if (count($kostenstellen) > 0) {
+                // Yes, more cost centers
+                $query->matching(
+                        $query->logicalAnd(
+                                $query->equals('deleted', 0), $query->in('kostenstelle', $kostenstellen)
+                                //$query->greaterThan('tx_igldapssoauth_dn', '')
+                        )
+                );  
             } else {
-                    $query = $this->createQuery(); 
-                    //$query->getQuerySettings()->setStoragePageIds(array(28)); // Setzt Seitenid
-                    // Mehrere Kostenstellen?
-                    if (count($kostenstellen) > 1) {                        
-                        // Ja, mehrere Kostenstellen
-                        $query->matching (
-                            $query->logicalAnd(
-                                    $query->equals('deleted', 0),
-                                    $query->in('kostenstelle', $kostenstellen)
-                                    //$query->greaterThan('tx_igldapssoauth_dn', '')
-                            )
-                        );	
-                    } elseif (count($kostenstellen) == 1) {
-                        // Ja, nur eine Kostenstelle
-                        $query->matching (
-                            $query->logicalAnd(
-                                    $query->equals('deleted', 0),
-                                    $query->equals('kostenstelle', $kostenstellen[0])
-                                    //$query->greaterThan('tx_igldapssoauth_dn', '')
-                            )
-                        );	
-                    } else {
-                        // Nein, keine Kostenstelle
-                        return null;
-                    }                    
-            }            
-            
-            $query->setOrderings(array('last_name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));	                        
-            $query->execute();
-            //echo "Anzahl: ".$query->count();
-            return $query->execute();
-	}
+                // No cost center
+                return null;
+            }
+        }
+
+        $query->setOrderings(array('last_name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
+        $query->execute();       
+        return $query->execute();
+    }
+    
 }

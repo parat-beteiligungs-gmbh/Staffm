@@ -158,21 +158,72 @@ $fields = [
         ], $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'])
     ],
     'categories' => [
-        //'exclude' => 1,        
+        'exclude' => 1,        
         'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_mitarbeiter.categories',
         'config' => [
             'type' => 'select',
-            'renderType' => 'selectMultipleSideBySide',
-            'multiple' => 1,
+            'renderType' => 'selectMultipleSideBySide',                      
             'foreign_table' => 'tx_staffm_domain_model_category',
-            'MM' => 'tx_staffm_domain_model_employee_category_mm',
-            'MM_opposite_field' => 'category',
-            'foreign_table_where' => ' AND tx_staffm_domain_model_category.pid=###CURRENT_PID### ORDER BY tx_staffm_domain_model_category.name ',
-            'multiple' => 1,
+            'MM' => 'tx_staffm_employee_category_mm',
+//            'MM_opposite_field' => 'category',
+//            'foreign_table_where' => ' AND tx_staffm_domain_model_category.pid=###CURRENT_PID### ORDER BY tx_staffm_domain_model_category.name ',            
             'minitems' => 0,
             'maxitems' => 1000,
+            'wizards' => [
+                '_PADDING' => 1,
+                '_VERTICAL' => 1,
+                'edit' => [
+                    'module' => [
+                        'name' => 'wizard_edit',
+                    ],
+                    'type' => 'popup',
+                    'title' => 'Edit', // todo define label: LLL:EXT:.../Resources/Private/Language/locallang_tca.xlf:wizard.edit
+                    'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_edit.gif',
+                    'popup_onlyOpenIfSelected' => 1,
+                    'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
+                ],
+                'add' => [
+                    'module' => [
+                        'name' => 'wizard_add',
+                    ],
+                    'type' => 'script',
+                    'title' => 'Create new', // todo define label: LLL:EXT:.../Resources/Private/Language/locallang_tca.xlf:wizard.add
+                    'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_add.gif',
+                    'params' => [
+                        'table' => 'tx_staffm_domain_model_category',
+                        'pid' => '###CURRENT_PID###',
+                        'setValue' => 'prepend'
+                    ],
+                ],
+            ],
         ],
-    ]
+    ],
+    'representations' => [
+        'exclude' => 0,        
+        'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_mitarbeiter.representations',
+        'config' => [
+                'type' => 'inline',                                
+                'foreign_table' => 'tx_staffm_domain_model_representation',                
+                'foreign_field' => 'employee',
+                'foreign_label' => 'deputy',                           
+                'minitems' => 0,
+                'maxitems' => 100,   
+                
+        ],
+    ],
+    'assigned_representations' => [
+        'exclude' => 0,        
+        'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_mitarbeiter.assignedRepresentations',
+        'config' => [
+                'type' => 'inline',                                
+                'foreign_table' => 'tx_staffm_domain_model_representation',                
+                'foreign_field' => 'deputy',
+                'foreign_label' => 'employee',                           
+                'minitems' => 0,
+                'maxitems' => 100,   
+                
+        ],
+    ],
 ];
 
 // Add new fields to fe_users
@@ -181,7 +232,7 @@ $fields = [
 // Make fields visible in the TCEforms:
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
   'fe_users', // Table name
-  'employeequalifications;;;;1-1-1'
+  'employeequalifications, categories, representations, assigned_representations;;;;1-1-1'
 );
   
 // Add the new palette:

@@ -55,6 +55,10 @@
                 <source>Anrufen</source>
                 <target state="translated">Call</target>
             </trans-unit>
+            <trans-unit id="staffm.active">
+                <source>Aktiv</source>
+                <target state="translated">Active</target>
+            </trans-unit>
             <trans-unit id="staffm.mitarbeiter.new">
                 <source>Neuer Mitarbeiter</source>
                 <target state="translated">New employee</target>
@@ -146,6 +150,14 @@
             <trans-unit id="tx_staffm_domain_model_mitarbeiter.employeequalifications">
                 <source>Qualifikationen</source>
                 <target state="translated">Qualifications</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.representations">
+                <source>Vertretungen</source>
+                <target state="translated">Representations</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.assignedRepresentations">
+                <source>Zugeordnete Vertretungen</source>
+                <target state="translated">Assigned representations</target>
             </trans-unit>
             <trans-unit id="staffm.position.new">
                 <source>Neue Position</source>
@@ -407,6 +419,22 @@
                 <source>Qualifikationen</source>
                 <target state="translated">Qualifications</target>
             </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_representation">
+                <source>Vertretung</source>
+                <target state="translated">Represenation</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_representation.employee">
+                <source>Vertretender Mitarbeiter</source>
+                <target state="translated">Person to be represented</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_representation.deputy">
+                <source>Vertreter</source>
+                <target state="translated">Employee who represents</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_representation.costcenters">
+                <source>Ausgenommene Kostenstellen</source>
+                <target state="translated">Excluded cost centers</target>
+            </trans-unit>
             <trans-unit id="staffm.text.verantwortlicher.waehlen">
                 <source>Hier bitte den Verantwortlichen auswählen!</source>
                 <target state="translated">Please choose the Responsible!</target>
@@ -427,6 +455,10 @@
                 <source>Geburtsdatum wird nicht im Intranet angezeigt!</source>
                 <target state="translated">Date of birth is not displayed on the Intranet!</target>
             </trans-unit>  
+             <trans-unit id="staffm.qualification.text.infosave">
+                <source>(Bei Änderungen muss jede Seite einzeln gespeichert werden!)</source>
+                <target state="translated">(If something has been changed, each page must be saved individually!)</target>
+            </trans-unit>  
             <trans-unit id="staffm.upoadpics">
                 <source>Bilder hochladen</source>
                 <target state="translated">Upload Pictures</target>
@@ -435,6 +467,10 @@
                 <source>Mehr...</source>
                 <target state="translated">More...</target>
             </trans-unit>   
+            <trans-unit id="staffm.text.exempted.costcenters">
+                <source>(Auswahl für ausgenommene Kostenstellen)</source>
+                <target state="translated">(Selection for exempted cost centers)</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

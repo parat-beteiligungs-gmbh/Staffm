@@ -20,6 +20,8 @@ CREATE TABLE fe_users (
 	standort int(11) unsigned DEFAULT '0',        
         employeequalifications int(11) unsigned DEFAULT '0',  
         categories int(11) unsigned DEFAULT '0',
+        representations int(11) unsigned DEFAULT '0',
+        assigned_representations int(11) unsigned DEFAULT '0',
         image INT UNSIGNED DEFAULT NULL, 
         deleted tinyint(3) unsigned DEFAULT '0',
 	tx_extbase_type varchar(255) DEFAULT '' NOT NULL,
@@ -105,7 +107,7 @@ CREATE TABLE tx_staffm_domain_model_kostenstelle (
 #
 # Table structure for table 'tx_staffm_domain_model_qualifikation_category_mm'
 #
-CREATE TABLE tx_staffm_domain_model_qualifikation_category_mm (
+CREATE TABLE tx_staffm_qualifikation_category_mm (
         uid_local int(11) DEFAULT '0' NOT NULL,
 	uid_foreign int(11) DEFAULT '0' NOT NULL,
 	tablenames varchar(30) DEFAULT '' NOT NULL,
@@ -116,9 +118,22 @@ CREATE TABLE tx_staffm_domain_model_qualifikation_category_mm (
 );
 
 #
-# Table structure for table 'tx_staffm_domain_model_employee_category_mm'
+# Table structure for table 'tx_staffm_employee_category_mm'
 #
-CREATE TABLE tx_staffm_domain_model_employee_category_mm (
+CREATE TABLE tx_staffm_employee_category_mm (
+        uid_local int(11) DEFAULT '0' NOT NULL,
+	uid_foreign int(11) DEFAULT '0' NOT NULL,
+	tablenames varchar(30) DEFAULT '' NOT NULL,
+	sorting int(11) DEFAULT '0' NOT NULL,
+	sorting_foreign int(11) DEFAULT '0' NOT NULL,
+	KEY uid_local (uid_local),
+	KEY uid_foreign (uid_foreign)
+);
+
+#
+# Table structure for table 'tx_staffm_domain_model_representation_kostenstelle_mm'
+#
+CREATE TABLE tx_staffm_representation_kostenstelle_mm (
         uid_local int(11) DEFAULT '0' NOT NULL,
 	uid_foreign int(11) DEFAULT '0' NOT NULL,
 	tablenames varchar(30) DEFAULT '' NOT NULL,
@@ -375,6 +390,43 @@ CREATE TABLE tx_staffm_domain_model_category (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
+ KEY language (l10n_parent,sys_language_uid)
+
+);
+
+#
+# Table structure for table 'tx_staffm_domain_model_representation'
+#
+CREATE TABLE tx_staffm_domain_model_representation (
+
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+        
+	employee int(11) unsigned DEFAULT '0',	
+        deputy int(11) unsigned DEFAULT '0',	        
+        costcenters int(11) unsigned DEFAULT '0', 
+        
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+
+	t3ver_oid int(11) DEFAULT '0' NOT NULL,
+	t3ver_id int(11) DEFAULT '0' NOT NULL,
+	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
+	t3ver_label varchar(255) DEFAULT '' NOT NULL,
+	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
+	t3ver_stage int(11) DEFAULT '0' NOT NULL,
+	t3ver_count int(11) DEFAULT '0' NOT NULL,
+	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
+	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
+
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l10n_parent int(11) DEFAULT '0' NOT NULL,
+	l10n_diffsource mediumblob,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid),
+ 	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
  KEY language (l10n_parent,sys_language_uid)
 
 );

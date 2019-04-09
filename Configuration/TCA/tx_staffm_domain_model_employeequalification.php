@@ -18,14 +18,14 @@ return [
           'starttime' => 'starttime',
           'endtime' => 'endtime', */
         ],
-        'searchFields' => 'qualification, status, employee, note, histories',
+        'searchFields' => 'qualification, status, employee, note, reminder_date, histories',
         'iconfile' => 'EXT:staffm/Resources/Public/Icons/tx_staffm_domain_model_employeequalification.gif'
     ],
     'interface' => [
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, qualification, status, employee, note, histories',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, qualification, status, employee, note, reminder_date, histories',
     ],
     'types' => [
-        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, qualification, status, employee, note, histories'],
+        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, qualification, status, employee, note, reminder_date, histories'],
     ],
     'palettes' => [
         '1' => ['showitem' => ''],
@@ -79,7 +79,7 @@ return [
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'tx_staffm_domain_model_qualifikation',
                 'size' => 1,
-                'minitems' => 0,
+                'minitems' => 1,
                 'maxitems' => 1,
             ],
         ],
@@ -99,7 +99,7 @@ return [
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'fe_users',
                 'size' => 1,
-                'minitems' => 0,
+                'minitems' => 1,
                 'maxitems' => 1,
             ],
         ],
@@ -112,7 +112,7 @@ return [
             ],
         ],
         'reminder_date' => [
-            'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_history.reminder_date',
+            'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_employeequalification.reminder_date',
             'config' => [
                 'dbType' => 'date',
                 'type' => 'input',
