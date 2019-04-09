@@ -1,5 +1,10 @@
 # Staffm Change Log
 
+## 2.3.0:
+
+Supports Typo3 8.7.0 - 8.7.99
+
+- [BUGFIX] Show correct list of positions if a position is select for an employee.
 - [UPDATE] Change User edit form action.
 - [UPDATE] Representative assignment with more functionality.
 - [BUGFIX] Fix error in qualification list of supervisor.
