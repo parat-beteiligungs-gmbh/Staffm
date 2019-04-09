@@ -35,7 +35,7 @@
                         <td class="td{qualifikation.uid}" style="background-color: #BCEE68"><f:form.checkbox id="qualiCheck{qualifikation.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="qualifikationen" value="{qualifikation.uid}" multiple="1" checked="1" /></td>                                 
                         <td class="td{qualifikation.uid}" style="background-color: #BCEE68"><f:form.select id="qualiSelect{qualifikation.uid}" name="qualificationsstatus[{qualifikation.uid}]" options="{qualifikation.status}" value="{tv:qualiStatus(mitarbeiter:mitarbeiter, qualifikation:qualifikation)}" /></td>                                 
                         <td class="td{qualifikation.uid}" style="background-color: #BCEE68"><f:form.textfield id="qualiReminderDate{qualifikation.uid}" name="qualificationsreminderdate[{qualifikation.uid}]" value="{tv:qualiReminderDate(mitarbeiter:mitarbeiter, qualifikation:qualifikation)}" additionalAttributes="{onclick:'datepicker(this);'}" readonly="TRUE" />&nbsp;<a title="Delete date" style="cursor:pointer" id="qualiReminderDeleteDate{qualifikation.uid}" onclick="delteReminderDate(this);"><f:image src="typo3conf/ext/Staffm/Resources/Public/Icons/icon_delete.svg" width="15" /></a></td>
-                        <td class="td{qualifikation.uid}" style="background-color: #BCEE68"><f:form.textarea id="qualiText{qualifikation.uid}" name="qualificationsnotes[{qualifikation.uid}]" value="{tv:qualiNote(mitarbeiter:mitarbeiter, qualifikation:qualifikation)}" /></td>                        
+                        <td class="td{qualifikation.uid}" style="background-color: #BCEE68"><f:form.textarea rows="1" class="qualiSelectNotice" id="qualiText{qualifikation.uid}" name="qualificationsnotes[{qualifikation.uid}]" value="{tv:qualiNote(mitarbeiter:mitarbeiter, qualifikation:qualifikation)}" /></td>                        
                     </tr>
                 </f:then>
                 <f:else>
@@ -44,7 +44,7 @@
                         <td class="td{qualifikation.uid}"><f:form.checkbox id="qualiCheck{qualifikation.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="qualifikationen" value="{qualifikation.uid}" multiple="1" checked="0" /></td>                                 
                         <td class="td{qualifikation.uid}"><f:form.select id="qualiSelect{qualifikation.uid}" name="qualificationsstatus[{qualifikation.uid}]" options="{qualifikation.status}" value="" disabled="TRUE" /></td>
                         <td class="td{qualifikation.uid}"><f:form.textfield id="qualiReminderDate{qualifikation.uid}" name="qualificationsreminderdate[{qualifikation.uid}]" value="" additionalAttributes="{onclick:'datepicker(this);'}" disabled="TRUE" readonly="TRUE" />&nbsp;<a title="Delete date" style="cursor:pointer" id="qualiReminderDeleteDate{qualifikation.uid}" onclick="delteReminderDate(this);"><f:image src="typo3conf/ext/Staffm/Resources/Public/Icons/icon_delete.svg" width="15" /></a></td>
-                        <td class="td{qualifikation.uid}"><f:form.textarea id="qualiText{qualifikation.uid}" name="qualificationsnotes[{qualifikation.uid}]" value="" disabled="TRUE" /></td>                        
+                        <td class="td{qualifikation.uid}"><f:form.textarea rows="1" class="qualiSelectNotice" id="qualiText{qualifikation.uid}" name="qualificationsnotes[{qualifikation.uid}]" value="" disabled="TRUE" /></td>                        
                     </tr>
                 </f:else>
             </f:if>           

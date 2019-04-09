@@ -57,6 +57,20 @@ input {
     color: #cd0a0a;
 }
 
+/* Qualification assign Reminder Date */
+.ui-datepicker-trigger {
+    margin-left: 5px;
+}
+.catAll td input {
+    width: 90px;
+}
+/* Qualification assign Notice */
+.qualiSelectNotice {    
+    min-height: 30px;
+    height: auto;
+    autofocus: true;
+}
+
 .staffm-button {
     font-size: 12px;
     background-color: #d3d3d3;

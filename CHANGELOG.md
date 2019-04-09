@@ -1,5 +1,7 @@
 # Staffm Change Log
 
+- [UPDATE] Change textarea and datepicker arrangement in qualification.
+
 ## 2.3.0:
 
 Supports Typo3 8.7.0 - 8.7.99
