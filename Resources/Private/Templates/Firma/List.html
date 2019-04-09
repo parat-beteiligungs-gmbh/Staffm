@@ -64,7 +64,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                     <td><f:link.action action="show" arguments="{firma:firma}"> {firma.bezeichnung}</f:link.action></td>
                     <f:if condition="{key} == 'auswahl'">
                         <f:then>
-                            <td><f:link.action class="btn btn-sm btn-info" action="choose" arguments="{mitarbeiter:mitarbeiter, firma:firma, search:standardsearch}"><f:translate id="staffm.choose" /></f:link.action></td>
+                            <td><f:link.action class="btn btn-sm btn-success" action="choose" arguments="{mitarbeiter:mitarbeiter, firma:firma, search:standardsearch}"><f:translate id="staffm.choose" /></f:link.action></td>
                         </f:then>
                         <f:else>
                             <f:security.ifHasRole role="PA">

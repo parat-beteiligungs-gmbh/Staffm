@@ -59,7 +59,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                             <td class="staffmmobilehidden"><f:link.action title="Tel.: {kostenstelle.verantwortlicher.telephone}" action="show" arguments="{kostenstelle : kostenstelle, search:search, kst:kst}">{kostenstelle.verantwortlicher.lastName} {kostenstelle.verantwortlicher.firstName}</f:link.action></td>
                             <f:if condition="{key} == 'auswahl'">
                                 <f:then>
-                                    <td class="nobackground"><f:link.action class="btn btn-sm btn-secondary" action="choose" arguments="{mitarbeiter:mitarbeiter, kostenstelle:kostenstelle, kst:kst, search:standardsearch}"><f:translate id="staffm.choose" /></f:link.action></td>
+                                    <td class="nobackground"><f:link.action class="btn btn-sm btn-success" action="choose" arguments="{mitarbeiter:mitarbeiter, kostenstelle:kostenstelle, kst:kst, search:standardsearch}"><f:translate id="staffm.choose" /></f:link.action></td>
                                 </f:then>  
                                 <f:else>
                                     <f:security.ifHasRole role="PA">
