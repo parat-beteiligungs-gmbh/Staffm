@@ -4,6 +4,7 @@
 
 Supports Typo3 8.7.0 - 8.7.99
 
+- [DOCS] Update extension version.
 - [CODESTYLE] Change button attributes.
 - [BUGFIX] Show correct list of positions if a position is select for an employee.
 - [UPDATE] Change User edit form action.
