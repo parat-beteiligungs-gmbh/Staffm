@@ -23,8 +23,15 @@
                  </f:if>
             </f:else>
         </f:if>
-        <div class="btn-group" role="group" aria-label="Mitarbeiter bearbeiten">        
-            <f:link.action section="ma{mitarbeiter.uid}" class="btn btn-secondary" action="list" arguments="{maid:'maid', search:search}"><f:translate id="staffm.back" /></f:link.action>
+        <div class="btn-group" role="group" aria-label="Mitarbeiter bearbeiten">                   
+            <f:if condition="{userKey} == 'auswahlUsr'">
+                <f:then>                    
+                    <f:link.action class="btn btn-secondary" action="list"><f:translate id="staffm.back" /></f:link.action>
+                </f:then>
+                <f:else>
+                    <f:link.action section="ma{mitarbeiter.uid}" class="btn btn-secondary" action="list" arguments="{maid:'maid', search:search}"><f:translate id="staffm.back" /></f:link.action>
+                </f:else>
+            </f:if>
             <f:form.submit class="btn btn-success" onclick="setDates()" value="{f:translate(id:'staffm.save')}" />    
         </div>
     </f:form>

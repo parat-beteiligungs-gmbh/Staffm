@@ -1,5 +1,6 @@
 # Staffm Change Log
 
+- [UPDATE] Change User edit form action.
 - [UPDATE] Representative assignment with more functionality.
 - [BUGFIX] Fix error in qualification list of supervisor.
 - [FEATURE] Added a email function to send a information to deputies if they where assigned.

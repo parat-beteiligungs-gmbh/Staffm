@@ -37,16 +37,18 @@ class IsCostCenterResponsibleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper
     /**     
      * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee
      */
-    public function render(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee)
+    public function render(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee = NULL)
     {
         // Receive cost centers for which the employee is responsible
-        $costCenters = $this->objectManager->
-                get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->
-                findCostCentersFromResponsible($employee);
-       
-        if(count($costCenters) > 0) {
-            return count($costCenters);
-        } 
+        if($employee != NULL ) {
+            $costCenters = $this->objectManager->
+                    get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->
+                    findCostCentersFromResponsible($employee);
+
+            if(count($costCenters) > 0) {
+                return count($costCenters);
+            } 
+        }
         return 0;
     }
 }

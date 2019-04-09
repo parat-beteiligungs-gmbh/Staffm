@@ -583,16 +583,13 @@ class MitarbeiterController extends ActionController
         if ($this->request->hasArgument('key')) {
             $key = $this->request->getArgument('key');
             $this->view->assign('key', $key);
-        }        
+        }             
         
-        if ($key == 'auswahlUsr' || $userKey == 'auswahlUsr') {
-            $this->redirect('editUser', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'key' => $key));
-        } elseif ($userKey == 'auswahlVgs') { 
+        if ($userKey == 'auswahlVgs') { 
             $berechtigung = "vonVorg";
-            $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'berechtigung' => $berechtigung));
-        } else {
-            $this->view->assign('mitarbeiter', $mitarbeiter);
-        }
+            $this->view->assign('berechtigung', $berechtigung);
+        } 
+        $this->view->assign('mitarbeiter', $mitarbeiter);
     }
 
     /**
