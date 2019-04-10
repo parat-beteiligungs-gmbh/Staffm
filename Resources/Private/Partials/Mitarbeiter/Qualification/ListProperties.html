@@ -3,10 +3,12 @@
 
 <table class="tx_staffm">
     <tr>
-        <th><f:translate key="tx_staffm_domain_model_qualifikation" /></th>
-        <th><f:translate key="tx_staffm_domain_model_employeequalification.status" /></th>
-        <th><f:translate key="tx_staffm_domain_model_employeequalification.reminder_date" /></th>
-        <th><f:translate key="tx_staffm_domain_model_employeequalification.note" /></th>           
+        <th><f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></th>
+        <f:if condition="{tv:isCostCenterResponsible(employee: mitarbeiter, withDeputy: 1)} > 0">
+            <th><f:translate key="tx_staffm_domain_model_employeequalification.status" /></th>
+            <th><f:translate key="tx_staffm_domain_model_employeequalification.reminder_date" /></th>
+            <th><f:translate key="tx_staffm_domain_model_employeequalification.note" /></th>     
+        </f:if>
     </tr>
     <tv:widget.qualiStatus objects="{mitarbeiter.employeequalifications}" as="filteredEmployeequalifications" property="check">
         <f:for each="{filteredEmployeequalifications -> vhs:iterator.sort(sortBy: 'qualification.bezeichnung')}" as="employeequalification">        
@@ -23,6 +25,7 @@
                                     <th><f:translate key="tx_staffm_domain_model_history.status" /></th>
                                     <th><f:translate key="tx_staffm_domain_model_history.date_from" /></th>
                                     <th><f:translate key="tx_staffm_domain_model_history.date_to" /></th>                            
+                                    <th><f:translate key="tx_staffm_domain_model_history.note" /></th>
                                     <th><f:translate key="tx_staffm_domain_model_history.assessor" /></th>
                                 </tr>
                                 <f:for each="{employeequalification.histories}" as="history">
@@ -33,7 +36,8 @@
                                             <f:if condition="{history.dateTo}">
                                                 {f:format.date(date: history.dateTo, format: 'd.m.Y')}
                                             </f:if>
-                                        </td>                                
+                                        </td>    
+                                        <td>{history.note}</td>
                                         <td>{history.assessor.lastName} {history.assessor.firstName}</td>
                                     </tr>
                                 </f:for>

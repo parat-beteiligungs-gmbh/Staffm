@@ -1,47 +1,54 @@
 {namespace vhs = FluidTYPO3\Vhs\ViewHelpers}
+<f:variable name="costcenterrepsonsible" value="{vh:isCostCenterResponsible(employee: employeequalification.employee, withDeputy: 1)}" />
 <table class="tx_staffm">
     <tr>
-        <th><f:translate key="tx_staffm_domain_model_qualifikation" /></th>
-        <th><f:translate key="tx_staffm_domain_model_employeequalification.status" /></th>
-        <th><f:translate key="tx_staffm_domain_model_employeequalification.reminder_date" /></th>
-        <th><f:translate key="tx_staffm_domain_model_employeequalification.note" /></th>    
+        <th><f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></th>
+        <f:if condition="{costcenterrepsonsible} > 0">
+            <th><f:translate key="tx_staffm_domain_model_employeequalification.status" /></th>
+            <th><f:translate key="tx_staffm_domain_model_employeequalification.reminder_date" /></th>
+            <th><f:translate key="tx_staffm_domain_model_employeequalification.note" /></th>    
+        </f:if>
     </tr>
         <f:for each="{mitarbeiter.employeequalifications -> vhs:iterator.sort(sortBy: 'qualification.bezeichnung')}" as="employeequalification">        
             <tr>
                 <td>{employeequalification.qualification.bezeichnung}</td>
-                <td>
-                    {employeequalification.status} - {employeequalification.qualification.status.{employeequalification.status}}
-                    <f:comment><!-- Button for showing history --></f:comment>
-                    <a id="employeequalification{employeequalification.uid}" class="btn btn-default btn-sm" onclick="showHistory(this);"><f:translate key="tx_staffm_domain_model_history" /></a><br />
-                    <f:if condition="{employeequalification.histories}">
-                        <table id="mapropertieshistory{employeequalification.uid}" style="display:none;border-spacing:0">
-                            <tr>
-                                <th><f:translate key="tx_staffm_domain_model_history.status" /></th>
-                                <th><f:translate key="tx_staffm_domain_model_history.date_from" /></th>
-                                <th><f:translate key="tx_staffm_domain_model_history.date_to" /></th>                            
-                                <th><f:translate key="tx_staffm_domain_model_history.assessor" /></th>
-                            </tr>
-                            <f:for each="{employeequalification.histories}" as="history">
+                <f:if condition="{costcenterrepsonsible} > 0">
+                    <td>
+                        {employeequalification.status} - {employeequalification.qualification.status.{employeequalification.status}}
+                        <f:comment><!-- Button for showing history --></f:comment>
+                        <a id="employeequalification{employeequalification.uid}" class="btn btn-default btn-sm" onclick="showHistory(this);"><f:translate key="tx_staffm_domain_model_history" /></a><br />
+                        <f:if condition="{employeequalification.histories}">
+                            <table id="mapropertieshistory{employeequalification.uid}" style="display:none;border-spacing:0">
                                 <tr>
-                                    <td title="{employeequalification.qualification.status.{history.status}}">{history.status}</td>
-                                    <td>{f:format.date(date: history.dateFrom, format: 'd.m.Y')}</td>
-                                    <td>
-                                        <f:if condition="{history.dateTo}">
-                                            {f:format.date(date: history.dateTo, format: 'd.m.Y')}
-                                        </f:if>
-                                    </td>                                
-                                    <td>{history.assessor.lastName} {history.assessor.firstName}</td>
+                                    <th><f:translate key="tx_staffm_domain_model_history.status" /></th>
+                                    <th><f:translate key="tx_staffm_domain_model_history.date_from" /></th>
+                                    <th><f:translate key="tx_staffm_domain_model_history.date_to" /></th> 
+                                    <th><f:translate key="tx_staffm_domain_model_history.note" /></th>
+                                    <th><f:translate key="tx_staffm_domain_model_history.assessor" /></th>
                                 </tr>
-                            </f:for>
-                        </table>
-                    </f:if>
-                </td>
-                <td>
-                    <f:if condition="{employeequalification.reminderDate}">
-                        {f:format.date(date: employeequalification.reminderDate, format: 'd.m.Y')}
-                    </f:if>
-                </td>
-                <td>{employeequalification.note}</td>
+                                <f:for each="{employeequalification.histories}" as="history">
+                                    <tr>
+                                        <td title="{employeequalification.qualification.status.{history.status}}">{history.status}</td>
+                                        <td>{f:format.date(date: history.dateFrom, format: 'd.m.Y')}</td>
+                                        <td>
+                                            <f:if condition="{history.dateTo}">
+                                                {f:format.date(date: history.dateTo, format: 'd.m.Y')}
+                                            </f:if>
+                                        </td>  
+                                        <td>{history.note}</td>
+                                        <td>{history.assessor.lastName} {history.assessor.firstName}</td>
+                                    </tr>
+                                </f:for>
+                            </table>
+                        </f:if>
+                    </td>
+                    <td>
+                        <f:if condition="{employeequalification.reminderDate}">
+                            {f:format.date(date: employeequalification.reminderDate, format: 'd.m.Y')}
+                        </f:if>
+                    </td>
+                    <td>{employeequalification.note}</td>
+                </f:if>
             </tr>
         </f:for>
 </table>

@@ -1,5 +1,6 @@
 # Staffm Change Log
 
+- [UPDATE] Show Qualification status just for cost center responsibles.
 - [UPDATE] Change textarea and datepicker arrangement in qualification.
 
 ## 2.3.0:

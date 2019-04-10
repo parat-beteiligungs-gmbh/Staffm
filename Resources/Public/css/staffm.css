@@ -242,8 +242,7 @@ ul.f3-widget-paginator li:last-child:after {
 /* File-icon */
 .tx_staffm.icon {    
     max-height: 16px;
-    width: auto;  
-    padding-top: 2px;
+    width: auto;     
 }
 
 .tx_staffm.bilderrahmen { 
