@@ -555,13 +555,17 @@ class MitarbeiterController extends ActionController
     /**
      * Edit form for employee
      * 
-     * @param integer $mitarbeiter
+     * @param integer $mitarbeiter     
      * @ignorevalidation $mitarbeiter
      * @return void
      */
     public function editAction($mitarbeiter)
     {
         $mitarbeiter = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findOneByUid($mitarbeiter);
+        if($this->request->hasArgument('aktuser')) {            
+            $aktuser = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findOneByUid($this->request->getArgument('aktuser'));           
+            $this->view->assign('aktuser', $aktuser);
+        }
 
         // Search exist?
         if ($this->request->hasArgument('search')) {
@@ -589,6 +593,7 @@ class MitarbeiterController extends ActionController
             $berechtigung = "vonVorg";
             $this->view->assign('berechtigung', $berechtigung);
         } 
+                
         $this->view->assign('mitarbeiter', $mitarbeiter);
     }
 

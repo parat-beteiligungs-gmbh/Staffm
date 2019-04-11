@@ -2,7 +2,7 @@
 {namespace vhs = FluidTYPO3\Vhs\ViewHelpers}
 
 <f:layout name="Default" />
-<f:section name="main">
+<f:section name="main">    
     <h1><f:translate id="staffm.mitarbeiter.list.headline" /></h1>
     <f:flashMessages />
     <f:form action="list" arguments="{kostenstelle:kostenstelle, key:key}" additionalAttributes="{role: 'form'}">       
@@ -66,8 +66,8 @@
                         <p><f:link.action style="color:red" action="show" arguments="{mitarbeiter : mitarbeiter}">>> keine <<</f:link.action></p>     
                     </f:else>
                 </f:if>
-                </td>
-                <td class="nobackground"><f:link.action class="btn btn-sm btn-secondary" title="{mitarbeiter.firstName} {mitarbeiter.lastName} bearbeiten" action="edit" arguments="{mitarbeiter : mitarbeiter, berechtigung:'vonVorg'}"><f:translate id="staffm.edit" /></f:link.action></td>                                                                   
+                </td>                
+                <td class="nobackground"><f:link.action class="btn btn-sm btn-secondary" title="{mitarbeiter.firstName} {mitarbeiter.lastName} bearbeiten" action="edit" arguments="{mitarbeiter : mitarbeiter, aktuser:aktuser.uid, berechtigung:'vonVorg'}"><f:translate id="staffm.edit" /></f:link.action></td>                                                                   
             </tr>               	                
         </f:for>      
     </table>

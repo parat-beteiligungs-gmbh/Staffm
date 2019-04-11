@@ -40,42 +40,49 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <f:for each="{employees}" as="mitarbeiter" iteration="iterator">                        
-                            <f:comment><!-- Set header after 12 elements -->
-                            <f:if condition="{tv:setNumElements(objects:mitarbeiters,iterator:iterator,num:12)} == TRUE">
-                                <tr>
-                                    <th><f:translate key="tx_staffm_domain_model_mitarbeiter" />/<f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></th>                          
-                                    <f:for each="{qualifikations}" as="qualification">                                                                
-                                        <th class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}" style="min-width: 120px;max-width: 120px" title="{qualification.beschreibung}"><div style="-ms-hyphens: auto;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;vertical-align: bottom">{qualification.bezeichnung}</div></th>                                             
-                                    </f:for>                        
-                                </tr>  
-                            </f:if></f:comment>
-                            <tr id="qu{qualifikation.uid}">            
-                                <td style="text-align: left" title="{mitarbeiter.title}"><b>{mitarbeiter.lastName} {mitarbeiter.firstName}</b></td>                                                         
-                                <f:for each="{qualifikations}" as="qualification"> 
-                                    <f:variable name="eq" value="{tv:qualiEmployee(employee: mitarbeiter, qualification: qualification)}" />                                                                
-                                    <f:if condition="{eq}">                                        
-                                        <f:then>                                                                                    
-                                            <td id="tdM{mitarbeiter.uid}Q{qualification.uid}" style="background-color: #BCEE68" class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}">                                        
-                                                <f:form.textfield id="statusIdM{mitarbeiter.uid}Q{qualification.uid}" style="width:15px" readonly="TRUE" value="{eq.status}" /><f:form.select style="max-width: 90px" id="mitaSelectM{mitarbeiter.uid}Q{qualification.uid}" name="mitarbeiters[{mitarbeiter.uid}][{qualification.uid}]" options="{qualification.status}" value="{eq.status}" additionalAttributes="{onClick: 'setCheckbox(this);'}" />
-                                            </td>
-                                        </f:then>
-                                        <f:else>
-                                            <td id="tdM{mitarbeiter.uid}Q{qualification.uid}" class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}">                                        
-                                                <f:form.textfield id="statusIdM{mitarbeiter.uid}Q{qualification.uid}" style="width:15px" readonly="TRUE" value="" /><f:form.select style="max-width: 90px" id="mitaSelectM{mitarbeiter.uid}Q{qualification.uid}" name="mitarbeiters[{mitarbeiter.uid}][{qualification.uid}]" options="{qualification.status}" value="" additionalAttributes="{onClick: 'setCheckbox(this);'}" />
-                                            </td>
-                                        </f:else>
-                                    </f:if>                                
-                                </f:for> 
-                            </tr>
-                        </f:for>
+                        <f:if condition="{employees}">                            
+                            <f:for each="{employees}" as="mitarbeiter" iteration="iterator">                        
+                                <f:comment><!-- Set header after 12 elements -->
+                                <f:if condition="{tv:setNumElements(objects:mitarbeiters,iterator:iterator,num:12)} == TRUE">
+                                    <tr>
+                                        <th><f:translate key="tx_staffm_domain_model_mitarbeiter" />/<f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></th>                          
+                                        <f:for each="{qualifikations}" as="qualification">                                                                
+                                            <th class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}" style="min-width: 120px;max-width: 120px" title="{qualification.beschreibung}"><div style="-ms-hyphens: auto;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;vertical-align: bottom">{qualification.bezeichnung}</div></th>                                             
+                                        </f:for>                        
+                                    </tr>  
+                                </f:if></f:comment>
+                                <tr id="qu{qualifikation.uid}">            
+                                    <td style="text-align: left" title="{mitarbeiter.title}"><b>{mitarbeiter.lastName} {mitarbeiter.firstName}</b></td>                                                         
+                                    <f:for each="{qualifikations}" as="qualification"> 
+                                        <f:variable name="eq" value="{tv:qualiEmployee(employee: mitarbeiter, qualification: qualification)}" />                                                                
+                                        <f:if condition="{eq}">                                        
+                                            <f:then>                                                                                    
+                                                <td id="tdM{mitarbeiter.uid}Q{qualification.uid}" style="background-color: #BCEE68" class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}">                                        
+                                                    <f:form.textfield id="statusIdM{mitarbeiter.uid}Q{qualification.uid}" style="width:15px" readonly="TRUE" value="{eq.status}" /><f:form.select style="max-width: 90px" id="mitaSelectM{mitarbeiter.uid}Q{qualification.uid}" name="mitarbeiters[{mitarbeiter.uid}][{qualification.uid}]" options="{qualification.status}" value="{eq.status}" additionalAttributes="{onClick: 'setCheckbox(this);'}" />
+                                                </td>
+                                            </f:then>
+                                            <f:else>
+                                                <td id="tdM{mitarbeiter.uid}Q{qualification.uid}" class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}">                                        
+                                                    <f:form.textfield id="statusIdM{mitarbeiter.uid}Q{qualification.uid}" style="width:15px" readonly="TRUE" value="" /><f:form.select style="max-width: 90px" id="mitaSelectM{mitarbeiter.uid}Q{qualification.uid}" name="mitarbeiters[{mitarbeiter.uid}][{qualification.uid}]" options="{qualification.status}" value="" additionalAttributes="{onClick: 'setCheckbox(this);'}" />
+                                                </td>
+                                            </f:else>
+                                        </f:if>                                
+                                    </f:for> 
+                                </tr>
+                            </f:for>                                               
+                        </f:if>
                     </tbody>
-                </table>            
+                </table>
             </div>
         </f:widget.paginate>
         <f:if condition="{mitarbeiters}">
-            <!--<f:form.submit style="float: left" class="btn btn-default" value="Qualifikationszuordnung speichern" />-->
-            <button id="submit" type="submit" class="btn btn-success"><f:translate id="staffm.qualifikation.text.zuordnung" /></button>&nbsp;{f:if(condition: '{mitarbeiters->f:count()} > {elementsEachSite}', then:'{f:translate(id:\'staffm.qualification.text.infosave\')}')}
+            <f:then>
+                <!--<f:form.submit style="float: left" class="btn btn-default" value="Qualifikationszuordnung speichern" />-->
+                <button id="submit" type="submit" class="btn btn-success"><f:translate id="staffm.qualifikation.text.zuordnung" /></button>&nbsp;{f:if(condition: '{mitarbeiters->f:count()} > {elementsEachSite}', then:'{f:translate(id:\'staffm.qualification.text.infosave\')}')}
+            </f:then>
+            <f:else>
+                <p style="color:#C9234A"><f:translate id="staffm.text.kstverantwortlicher.keinemitarbeiter" /></p>
+            </f:else>
         </f:if>                
     </f:form> 
     <script>  

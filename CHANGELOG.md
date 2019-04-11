@@ -1,5 +1,6 @@
 # Staffm Change Log
 
+- [BUGFIX] Fix Qualification editing on cost supervisor/center responsible list.
 - [UPDATE] Show Qualification status just for cost center responsibles.
 - [UPDATE] Change textarea and datepicker arrangement in qualification.
 

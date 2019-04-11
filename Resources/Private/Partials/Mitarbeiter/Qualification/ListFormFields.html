@@ -1,9 +1,9 @@
 {namespace vhs = FluidTYPO3\Vhs\ViewHelpers}
-<f:variable name="costcenterrepsonsible" value="{vh:isCostCenterResponsible(employee: employeequalification.employee, withDeputy: 1)}" />
+<f:variable name="costcenterresponsible" value="{vh:isCostCenterResponsible(employee: aktuser, withDeputy: 1)}" />
 <table class="tx_staffm">
     <tr>
         <th><f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></th>
-        <f:if condition="{costcenterrepsonsible} > 0">
+        <f:if condition="{costcenterresponsible} > 0">
             <th><f:translate key="tx_staffm_domain_model_employeequalification.status" /></th>
             <th><f:translate key="tx_staffm_domain_model_employeequalification.reminder_date" /></th>
             <th><f:translate key="tx_staffm_domain_model_employeequalification.note" /></th>    
@@ -12,7 +12,7 @@
         <f:for each="{mitarbeiter.employeequalifications -> vhs:iterator.sort(sortBy: 'qualification.bezeichnung')}" as="employeequalification">        
             <tr>
                 <td>{employeequalification.qualification.bezeichnung}</td>
-                <f:if condition="{costcenterrepsonsible} > 0">
+                <f:if condition="{costcenterresponsible} > 0">
                     <td>
                         {employeequalification.status} - {employeequalification.qualification.status.{employeequalification.status}}
                         <f:comment><!-- Button for showing history --></f:comment>

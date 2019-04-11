@@ -333,7 +333,7 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
                 );  
             } else {
                 // No cost center
-                return null;
+                return new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
             }
         }
 
