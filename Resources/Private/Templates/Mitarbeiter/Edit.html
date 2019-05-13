@@ -8,7 +8,7 @@
     <f:render partial="FormErrors" />
 
     <f:form enctype="multipart/form-data" action="update" name="mitarbeiter" arguments="{mitarbeiter:mitarbeiter, maid:'maid', search:search, key:key, berechtigung:berechtigung}" object="{mitarbeiter}" >
-        <f:if condition="{berechtigung} == 'vonVorg'">
+        <f:if condition="{berechtigung} == 'vonVorg' || {userKey} == 'auswahlVgs'">
             <f:then>
                 <f:render partial="Mitarbeiter/FormFieldsVorg" arguments="{mitarbeiter:mitarbeiter, aktuser:aktuser, search:search, berechtigung:berechtigung, key:'auswahl'}" /><br />
             </f:then>            

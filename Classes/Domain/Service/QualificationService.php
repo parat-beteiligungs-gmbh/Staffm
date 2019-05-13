@@ -110,9 +110,10 @@ class QualificationService
                                 $newHistory = new \Pmwebdesign\Staffm\Domain\Model\History();
                                 $newHistory->setStatus($status);
                                 $newHistory->setDateFrom(new \DateTime());
-
                                 $newHistory->setAssessor($assessor);
+                                $newHistory->setNote($note);
                                 $histories->attach($newHistory);
+                                
                                 $prevEmployeequalification->setHistories($histories);
                             }
                         }
@@ -145,6 +146,7 @@ class QualificationService
                     $newHistory->setStatus($status);
                     $newHistory->setDateFrom(new \DateTime());
                     $newHistory->setAssessor($assessor);
+                    $newHistory->setNote($note);
                     $histories->attach($newHistory);
                     $employeequalification->setHistories($histories);
                     $employeequalifications->attach($employeequalification);

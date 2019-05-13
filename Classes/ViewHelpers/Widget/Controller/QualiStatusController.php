@@ -69,7 +69,7 @@ class QualiStatusController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetC
             // Get User with authorizations (cost centers)    
             /* @var $userService \Pmwebdesign\Staffm\Domain\Service\UserService */
             $userService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\UserService::class);    
-            $user = $userService->getLoggedInUser();
+            $user = $userService->getLoggedInUser();           
             if($user != NULL) {
                 /* @var $mitarbeiterRepository \Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository */
                 $mitarbeiterRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository::class);    

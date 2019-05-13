@@ -55,7 +55,7 @@
                                     <f:for each="{sortedEmployeequalifications -> vhs:iterator.sort(sortBy: 'qualification.bezeichnung')}" as="employeequalification" iteration="iteration">
                                         <f:if condition="{iteration.isFirst}">
                                             <f:then>
-                                                <p class="marksq" title="{employeequalification.qualification.beschreibung}">
+                                                <p class="marksq" title="{employeequalification.qualification.beschreibung}">                                                
                                                     <f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, search:search}">
                                                         <span>{employeequalification.qualification.bezeichnung}{f:if(condition:'{employeequalification.showstatus} == TRUE', then:' ({employeequalification.status})')}</span>
                                                     </f:link.action>

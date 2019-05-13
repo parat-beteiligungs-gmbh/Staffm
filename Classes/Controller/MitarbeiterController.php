@@ -566,6 +566,21 @@ class MitarbeiterController extends ActionController
             $aktuser = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findOneByUid($this->request->getArgument('aktuser'));           
             $this->view->assign('aktuser', $aktuser);
         }
+        
+        // Logged in user              
+        $aktuser = $this->objectManager->
+                get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
+                findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
+        if ($aktuser) {
+            $this->view->assign('aktuser', $aktuser);
+        } else {
+            $aktuser = $this->objectManager->
+                get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
+                findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
+            if($aktuser != NULL)  {
+                $this->view->assign('aktuser', $aktuser);
+            }
+        }
 
         // Search exist?
         if ($this->request->hasArgument('search')) {
@@ -724,7 +739,7 @@ class MitarbeiterController extends ActionController
                 $this->redirect('editUser', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'key' => $key));
             } elseif ($userKey == 'auswahlVgs') { 
                 $berechtigung = "vonVorg";
-                $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'berechtigung' => $berechtigung));
+                $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'berechtigung' => $berechtigung, 'userKey' => $userKey));
             } else {
                 $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'berechtigung' => $berechtigung));
             }
