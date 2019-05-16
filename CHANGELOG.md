@@ -1,5 +1,6 @@
 # Staffm Change Log
 
+- [BUGIFX] Show correct form for supervisor, normal users and not logged in users.
 - [BUGIFX] Show correct form for supervisor after editing an employee.
 - [BUGFIX] Fix Qualification editing on cost supervisor/center responsible list.
 - [UPDATE] Show Qualification status just for cost center responsibles.
