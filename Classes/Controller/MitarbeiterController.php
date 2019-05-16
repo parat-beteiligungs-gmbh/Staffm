@@ -474,14 +474,14 @@ class MitarbeiterController extends ActionController
             }
         }
         
-        $aktuser = new Mitarbeiter();
+        //$aktuser = new Mitarbeiter();
         $aktuser = $this->objectManager->
                 get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
                 findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
         if ($aktuser != NULL) {
             $this->view->assign('aktuser', $aktuser);
         }
-
+        
         $this->view->assign('searchstatus', $searchstatus);
         $this->view->assign('search', $search);
         $this->view->assign('mitarbeiter', $mitarbeiter);
@@ -736,7 +736,7 @@ class MitarbeiterController extends ActionController
             $this->redirect('editKst', 'Mitarbeiter', NULL, array('ma' => $mitarbeiter, 'kostenstelle' => $mitarbeiter->getKostenstelle()));
         } else {
             if ($key == 'auswahlUsr' || $userKey == 'auswahlUsr') {
-                $this->redirect('editUser', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'key' => $key));
+                $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'key' => $key, 'userKey' => $userKey));
             } elseif ($userKey == 'auswahlVgs') { 
                 $berechtigung = "vonVorg";
                 $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'berechtigung' => $berechtigung, 'userKey' => $userKey));
@@ -976,6 +976,8 @@ class MitarbeiterController extends ActionController
         }        
         
         $employee = $representation->getEmployee();
+        
+        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($representation);
         
         // Assigned costcenters for deputies?
         if ($this->request->hasArgument('costcenters')) {            

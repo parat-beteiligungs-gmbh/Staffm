@@ -13,7 +13,8 @@ if (!defined('TYPO3_MODE')) {
 		'Firma' => 'list, show, choose, export, new, edit, create, update, delete, deleteFirma',				
 		'Qualifikation' => 'list, show, edit, new, create, update, delete, export',
 		'Qualilog' => 'list, show, choose, edit, new, create, update, delete',
-                'Category' => 'list, show, new, edit, create, update, delete'
+                'Category' => 'list, show, new, edit, create, update, delete',
+                'Activity' => 'create, delete'
 	],	
 	[ // Non-cacheable actions
 		'Mitarbeiter' => 'list, listChoose, listChooseQuali, choose, show, new, edit, editUser, create, editKst, update, delete, deleteQuali, deleteCategories, deleteRepresentations, showKst, showVeraKst, setRepresentations, setRepresentationCostCenters, deleteRepresentationCostCenters, deleteImage, export',
@@ -23,7 +24,8 @@ if (!defined('TYPO3_MODE')) {
 		'Standort' => 'list, show, choose, new, edit, create, update, delete, deleteStandort',		
 		'Qualifikation' => 'list, show, create, update, delete',
 		'Qualilog' => 'choose, create, update, delete',
-                'Category' => 'list, show, new, edit, create, update, delete'
+                'Category' => 'list, show, new, edit, create, update, delete',
+                'Activity' => 'create, delete'
 	]
 );
 
@@ -31,22 +33,24 @@ if (!defined('TYPO3_MODE')) {
 	'Pmwebdesign.' . $_EXTKEY,
 	'Staffmvorg',
 	[ // Cacheable actions
-		'Mitarbeiter' => 'listVgs, show, edit, editKst, update, showKst, showVeraKst, deleteImage, deleteQuali, deleteCategories, deleteRepresentations, export',
+		'Mitarbeiter' => 'edit, listVgs, show, editKst, update, showKst, showVeraKst, deleteImage, deleteQuali, deleteCategories, setRepresentations, setRepresentationCostCenters, deleteRepresentationCostCenters, export',
                 'Position' => 'list, show, choose',
 		'Kostenstelle' => 'list, listChoose, show, choose, export',
 		'Firma' => 'list, show, choose, export',
 		'Qualifikation' => 'list, listVgs, show, chooselist, edit, new, create, update, delete, export, exportQualisEmployees',
 		'Qualilog' => 'list, show, choose, edit, new, create, update, delete',		
-                'Category' => 'list, show, new, edit, create, update, delete'
+                'Category' => 'list, show, new, edit, create, update, delete',
+                'Activity' => 'create, delete'
 	],	
 	[ // Non-cacheable actions
-		'Mitarbeiter' => 'listVgs, show, edit, editKst, update, showKst, showVeraKst, deleteImage, deleteQuali, deleteCategories, deleteRepresentations, export',
+		'Mitarbeiter' => 'edit, listVgs, show, editKst, update, showKst, showVeraKst, deleteImage, deleteQuali, deleteCategories, setRepresentations, setRepresentationCostCenters, deleteRepresentationCostCenters, export',
                 'Position' => 'list, show, choose',
 		'Kostenstelle' => 'list, listChoose, show, choose, export',
 		'Firma' => 'list, show, choose, export',
 		'Qualifikation' => 'list, listVgs, show, chooselist, edit, new, create, update, delete, export, exportQualisEmployees',
 		'Qualilog' => 'list, show, choose, edit, new, create, update, delete',		
-                'Category' => 'list, show, new, edit, create, update, delete'
+                'Category' => 'list, show, new, edit, create, update, delete',
+                'Activity' => 'create, delete'
 	]
 );
 

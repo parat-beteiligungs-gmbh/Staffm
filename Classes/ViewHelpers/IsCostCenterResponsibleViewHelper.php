@@ -40,7 +40,7 @@ class IsCostCenterResponsibleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper
      */
     public function render(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee = NULL, $withDeputy = 0)
     {
-        // Receive cost centers for which the employee is responsible
+        // Receive cost centers for which the employee is responsible       
         if($employee != NULL ) {
             if($withDeputy == 0) {
                 $costCenters = $this->objectManager->

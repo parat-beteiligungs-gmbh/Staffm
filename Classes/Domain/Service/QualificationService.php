@@ -58,6 +58,12 @@ class QualificationService
             if ($request->hasArgument('qualificationsstatus')) {
                 $qualificationsstatus = $request->getArgument('qualificationsstatus');
             }
+            
+            // Read targetstatus
+            if ($request->hasArgument('qualificationstargetstatus')) {
+                $qualificationstargetstatus = $request->getArgument('qualificationstargetstatus');
+            }
+            
             // Read notes
             if ($request->hasArgument('qualificationsnotes')) {
                 $qualificationsnotes = $request->getArgument('qualificationsnotes');
@@ -78,6 +84,7 @@ class QualificationService
                                 'Pmwebdesign\\Staffm\\Domain\\Repository\\QualifikationRepository'
                         )->findOneByUid($q);
                 $status = $qualificationsstatus[$qualification->getUid()];
+                $targetstatus = $qualificationstargetstatus[$qualification->getUid()];
                 $note = $qualificationsnotes[$qualification->getUid()];
                 $reminderDate = $qualificationsreminderdate[$qualification->getUid()];
 
@@ -133,6 +140,10 @@ class QualificationService
                     if ($status != null) {
                         $employeequalification->setStatus($status);
                     }
+                    // Target status?
+                    if ($status != null) {
+                        $employeequalification->setTargetstatus($targetstatus);
+                    }
                     // Notice?
                     if ($note != null) {
                         $employeequalification->setNote($note);
@@ -151,7 +162,11 @@ class QualificationService
                     $employeequalification->setHistories($histories);
                     $employeequalifications->attach($employeequalification);
                 } else {
-                    // Yes, update previous employeequalification                    
+                    // Yes, update previous employeequalification    
+                     // Target status?
+                    if ($status != null) {
+                        $prevEmployeequalification->setTargetstatus($targetstatus);
+                    }                
                     // Notice?
                     if ($note != null) {
                         $prevEmployeequalification->setNote($note);

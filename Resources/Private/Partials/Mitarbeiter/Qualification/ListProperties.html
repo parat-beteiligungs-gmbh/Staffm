@@ -1,56 +1,69 @@
 {namespace vhs = FluidTYPO3\Vhs\ViewHelpers}
 {namespace tv = Pmwebdesign\Staffm\ViewHelpers}
 
+<f:variable name="costcenterresponsible" value="{tv:isCostCenterResponsible(employee: aktuser, withDeputy: 1)}" />
 <table class="tx_staffm">
     <tr>
-        <th><f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></th>
-        <f:if condition="{tv:isCostCenterResponsible(employee: mitarbeiter, withDeputy: 1)} > 0">
+        <th><f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></th>        
+        <f:if condition="{costcenterresponsible} > 0">
             <th><f:translate key="tx_staffm_domain_model_employeequalification.status" /></th>
+            <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_history.targetstatus" /></th>
             <th><f:translate key="tx_staffm_domain_model_employeequalification.reminder_date" /></th>
-            <th><f:translate key="tx_staffm_domain_model_employeequalification.note" /></th>     
+            <th><f:translate key="tx_staffm_domain_model_employeequalification.note" /></th>    
+            <th><f:translate key="tx_staffm_domain_model_history" /></th>
         </f:if>
     </tr>
     <tv:widget.qualiStatus objects="{mitarbeiter.employeequalifications}" as="filteredEmployeequalifications" property="check">
+        <f:variable name="costcenterresponsible" value="{tv:isCostCenterResponsible(employee: aktuser, withDeputy: 1)}" />
         <f:for each="{filteredEmployeequalifications -> vhs:iterator.sort(sortBy: 'qualification.bezeichnung')}" as="employeequalification">        
             <tr>
                 <td><f:link.action class="tx_staffm link" pluginName="Staffm" action="show" controller="Qualifikation" title="{employeequalification.qualification.beschreibung}" arguments="{qualifikation:employeequalification.qualification, mitarbeiter:mitarbeiter, key:key, standardsearch:search}">{employeequalification.qualification.bezeichnung}</f:link.action></td>
-                <td>
-                    <f:link.action class="tx_staffm link" pluginName="Staffm" action="show" controller="Qualifikation" title="{employeequalification.qualification.beschreibung}" arguments="{qualifikation:employeequalification.qualification, mitarbeiter:mitarbeiter, key:key, standardsearch:search}">{f:if(condition: '{employeequalification.showstatus} == TRUE', then: '{employeequalification.status} - {employeequalification.qualification.status.{employeequalification.status}}')}</f:link.action>
-                    <f:comment><!-- Button for showing history --></f:comment>
-                    <f:if condition="{employeequalification.showstatus} == TRUE">
-                        <a id="employeequalification{employeequalification.uid}" class="btn btn-default btn-sm" onclick="showHistory(this);"><f:translate key="tx_staffm_domain_model_history" /></a><br />
-                        <f:if condition="{employeequalification.histories}">
-                            <table id="mapropertieshistory{employeequalification.uid}" style="display:none;border-spacing:0">
-                                <tr>
-                                    <th><f:translate key="tx_staffm_domain_model_history.status" /></th>
-                                    <th><f:translate key="tx_staffm_domain_model_history.date_from" /></th>
-                                    <th><f:translate key="tx_staffm_domain_model_history.date_to" /></th>                            
-                                    <th><f:translate key="tx_staffm_domain_model_history.note" /></th>
-                                    <th><f:translate key="tx_staffm_domain_model_history.assessor" /></th>
-                                </tr>
-                                <f:for each="{employeequalification.histories}" as="history">
-                                    <tr>
-                                        <td title="{employeequalification.qualification.status.{history.status}}">{history.status}</td>
-                                        <td>{f:format.date(date: history.dateFrom, format: 'd.m.Y')}</td>
-                                        <td>
-                                            <f:if condition="{history.dateTo}">
-                                                {f:format.date(date: history.dateTo, format: 'd.m.Y')}
-                                            </f:if>
-                                        </td>    
-                                        <td>{history.note}</td>
-                                        <td>{history.assessor.lastName} {history.assessor.firstName}</td>
-                                    </tr>
-                                </f:for>
-                            </table>
+                <f:if condition="{costcenterresponsible} > 0">
+                    <td>
+                        <f:link.action class="tx_staffm link" pluginName="Staffm" action="show" controller="Qualifikation" title="{employeequalification.qualification.beschreibung}" arguments="{qualifikation:employeequalification.qualification, mitarbeiter:mitarbeiter, key:key, standardsearch:search}">{f:if(condition: '{employeequalification.showstatus} == TRUE', then: '{employeequalification.status}')}</f:link.action>
+                    </td>
+                    <td title="{f:if(condition: '{employeequalification.showstatus} == TRUE', then: '{employeequalification.qualification.status.{employeequalification.targetstatus}}')}" class="staffmmobilehidden">
+                            <f:if condition="{employeequalification.targetstatus}">
+                                {f:if(condition: '{employeequalification.showstatus} == TRUE', then: '{employeequalification.targetstatus}')}
+                            </f:if>
+                        </td>
+                    <td>
+                        <f:if condition="{employeequalification.reminderDate} && {employeequalification.showstatus} == TRUE">
+                            <f:link.action class="tx_staffm link" pluginName="Staffm" action="show" controller="Qualifikation" title="{employeequalification.qualification.beschreibung}" arguments="{qualifikation:employeequalification.qualification, mitarbeiter:mitarbeiter, key:key, standardsearch:search}">{f:format.date(date: employeequalification.reminderDate, format: 'd.m.Y')}</f:link.action>
                         </f:if>
-                    </f:if>
-                </td>
-                <td>
-                    <f:if condition="{employeequalification.reminderDate}">
-                        <f:link.action class="tx_staffm link" pluginName="Staffm" action="show" controller="Qualifikation" title="{employeequalification.qualification.beschreibung}" arguments="{qualifikation:employeequalification.qualification, mitarbeiter:mitarbeiter, key:key, standardsearch:search}">{f:format.date(date: employeequalification.reminderDate, format: 'd.m.Y')}</f:link.action>
-                    </f:if>
-                </td>
-                <td><f:link.action class="tx_staffm link" pluginName="Staffm" action="show" controller="Qualifikation" title="{employeequalification.qualification.beschreibung}" arguments="{qualifikation:employeequalification.qualification, mitarbeiter:mitarbeiter, key:key, standardsearch:search}">{employeequalification.note}</f:link.action></td>            
+                    </td>
+                    <td><f:link.action class="tx_staffm link" pluginName="Staffm" action="show" controller="Qualifikation" title="{employeequalification.qualification.beschreibung}" arguments="{qualifikation:employeequalification.qualification, mitarbeiter:mitarbeiter, key:key, standardsearch:search}">{f:if(condition: '{employeequalification.showstatus} == TRUE', then: '{employeequalification.note}')}</f:link.action></td>            
+                    <td>
+                        <f:comment><!-- Button for showing history --></f:comment>
+                        <f:if condition="{employeequalification.showstatus} == TRUE">
+                            <f:if condition="{employeequalification.histories}">
+                                <table class="maPropertiesHistoryTable" id="mapropertieshistory{employeequalification.uid}" style="display:none;border-spacing:0">
+                                    <tr>
+                                        <th><f:translate key="tx_staffm_domain_model_history.status" /></th>
+                                        <th><f:translate key="tx_staffm_domain_model_history.date_from" /></th>
+                                        <th><f:translate key="tx_staffm_domain_model_history.date_to" /></th>                            
+                                        <th><f:translate key="tx_staffm_domain_model_history.note" /></th>
+                                        <th><f:translate key="tx_staffm_domain_model_history.assessor" /></th>
+                                    </tr>
+                                    <f:for each="{employeequalification.histories}" as="history">
+                                        <tr>
+                                            <td title="{employeequalification.qualification.status.{history.status}}">{history.status}</td>
+                                            <td>{f:format.date(date: history.dateFrom, format: 'd.m.Y')}</td>
+                                            <td>
+                                                <f:if condition="{history.dateTo}">
+                                                    {f:format.date(date: history.dateTo, format: 'd.m.Y')}
+                                                </f:if>
+                                            </td>    
+                                            <td>{history.note}</td>
+                                            <td>{history.assessor.lastName} {history.assessor.firstName}</td>
+                                        </tr>
+                                    </f:for>
+                                </table>
+                            </f:if>
+                            <a id="employeequalification{employeequalification.uid}" class="btn btn-default btn-sm" onclick="showHistory(this);" style="float: right"><f:translate key="tx_staffm_domain_model_history" /></a><br />                        
+                        </f:if>
+                    </td>
+                </f:if>
             </tr>
         </f:for>
     </tv:widget.qualiStatus>
@@ -65,10 +78,19 @@
         var fullid = stat.id;       
         var id = fullid.substring(21);       
         var elem = document.getElementById("mapropertieshistory" + id);
+        var classElem = document.getElementsByClassName("maPropertiesHistoryTable");
         if (elem.style.display === "none") {
-            elem.style.display = "";
+            hideAll(classElem);
+            elem.style.display = "block";
         } else {
+            hideAll(classElem);
             elem.style.display = "none";
+        }
+        
+        function hideAll(classElem) {
+            for (var i = 0; i < classElem.length; i++) {
+                classElem[i].style.display = "none";
+            }
         }
     }
 </script>

@@ -13,10 +13,9 @@ in /Configuration/ExtensionBuilder/settings.yaml:
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
 <f:section name="main">
-    <h1><f:translate id="staffm.mitarbeiter.show.headline" /></h1>
-
+    <h1><f:translate id="staffm.mitarbeiter.show.headline" /></h1>   
 <f:flashMessages />
-<f:render partial="Mitarbeiter/Properties" arguments="{mitarbeiter:mitarbeiter, search:search}" /><br />
+<f:render partial="Mitarbeiter/Properties" arguments="{mitarbeiter:mitarbeiter, search:search, aktuser:aktuser}" /><br />
 <div class="btn-group">
     <f:link.action section="ma{mitarbeiter.uid}" class="btn btn-secondary" action="list" arguments="{maid: 'maid', search:search, searchstatus:searchstatus, char:char}"><f:translate id="staffm.back" /></f:link.action>
 </div>

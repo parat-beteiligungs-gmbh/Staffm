@@ -23,7 +23,9 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  */
 
-namespace Typovision\Simpleblog\ViewHelpers;
+namespace Pmwebdesign\Staffm\ViewHelpers;
+
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * FindUser Viewhelper
@@ -32,34 +34,14 @@ namespace Typovision\Simpleblog\ViewHelpers;
 class FinduserViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
-     *
-     * @var \Typovision\Simpleblog\Controller\UserController
-     */
-    public $usrcont;
-    
-    /**
-     *
-     * @var \Typovision\Simpleblog\Domain\Model\User
-     */
-    public $userf = NULL;
-    
-    /*
-     * @var string
-     */
-    protected $usern = '';
-
-
-    /**
      * Jeder ViewHelper muss Methode render implementieren der den Inhalt zurückliefert
-     * @return string
+     * @return \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter
      */
     public function render()
     {
-        //$this->renderChildren();
-        $this->userf = new \Typovision\Simpleblog\Domain\Model\User();
-        $this->usrcont = new \Typovision\Simpleblog\Controller\UserController();
-        $this->userf = $this->usrcont->getUser($GLOBALS['TSFE']->fe_user->user['uid']);
-        return $this->userf->getUserid();
+        /* @var $mitarbeiterService \Pmwebdesign\Staffm\Domain\Service\UserService */
+        $mitarbeiterService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\UserService::class);
+        return $mitarbeiterService->getLoggedInUser();        
     }
 }
 ?>

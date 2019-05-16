@@ -30,7 +30,8 @@
                 <th><f:translate key="tx_staffm_domain_model_employeequalification.reminder_date" /></th>
                 <th><f:translate key="tx_staffm_domain_model_employeequalification.note" /></th>            
             </tr>
-            <f:for each="{mitarbeiters}" as="mitarbeiter">                    
+            <f:for each="{mitarbeiters}" as="mitarbeiter"> 
+                <f:comment><!-- TODO: Change ViewHelper equals to QualificationsForEmployee Partial (EmployeequalificationViewHelper) --></f:comment>
                 <f:if condition="{tv:qualiMitarbeiter(qu: qualifikation, m: mitarbeiter)} > 0">
                     <f:then>
                         <tr class="catAll catActive {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{mitarbeiter.categories}', as: 'category', iteration: 'i')}">
