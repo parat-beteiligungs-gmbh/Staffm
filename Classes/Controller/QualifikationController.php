@@ -290,7 +290,6 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         if($categoryfield != "" && $categoryfield != "catAll") {
             /* @var $category \Pmwebdesign\Staffm\Domain\Model\Category */
             $category = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\CategoryRepository::class)->findOneByName($categoryfield);
-            \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($category);
             // Category?
             if($category) {
                 $qualifications = $category->getQualifications();
@@ -401,9 +400,6 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         }     
         
         $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
-        
-        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump("Cache: ".$cache);
-        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump("Suche: ".$search);
         
         // No cache flag? (Example qualification was deleted and the info message is shown in the list view)
         if ($cache != "notcache" && $search == "") {

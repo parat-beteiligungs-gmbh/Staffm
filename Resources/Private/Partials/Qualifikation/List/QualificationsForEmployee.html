@@ -1,6 +1,5 @@
 {namespace vhs = FluidTYPO3\Vhs\ViewHelpers}
 
-<f:debug>Partial QualificationsForEmployee: userKey: '{userKey}', Key: '{key}', berechtigung: '{berechtigung}, art: '{art}'</f:debug>
 <f:form action="update" controller="Mitarbeiter" arguments="{mitarbeiter:mitarbeiter, key:key, berechtigung:berechtigung, userKey:userKey, art:art}" additionalAttributes="{role: 'form'}" >  
     <f:comment><!-- Buttons for Qualification categories --></f:comment>
     <f:form.hidden id="categoryfield" name="categoryfield" value="{categoryfield}" />

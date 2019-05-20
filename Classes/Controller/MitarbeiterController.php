@@ -848,7 +848,6 @@ class MitarbeiterController extends ActionController
             $cacheService->deleteCaches($employeequalification->getQualification()->getBezeichnung(), "list", ClassUtility::getShortClassNameFromObject($employeequalification->getQualification()), 0);  
         }  
         
-        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($art);
         $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager')->persistAll();
         $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'berechtigung' => $berechtigung, 'key' => $key, 'userKey' => $userKey, 'art' => $art));
     }
@@ -1028,8 +1027,6 @@ class MitarbeiterController extends ActionController
         }        
         
         $employee = $representation->getEmployee();
-        
-        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($representation);
         
         // Assigned costcenters for deputies?
         if ($this->request->hasArgument('costcenters')) {            

@@ -1,5 +1,6 @@
 # Staffm Change Log
 
+- [CLEANUP] Remove testing code.
 - [FEATURE] Add Classes for Activity in Employee Qualification. Implementation in Forms are later.
 - [BUGIFX] Show correct form for supervisor, normal users if qualifications where updatet/deletet.
 - [BUGIFX] Show correct form for supervisor, normal users and not logged in users.

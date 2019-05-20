@@ -3,8 +3,7 @@
 <f:section name="main">
     <h1><f:translate id="staffm.mitarbeiter.edit.headline" /></h1>
 
-    <f:flashMessages />
-    <f:debug>Mitarbeiter Edit Form: userKey: '{userKey}', Key: '{key}', berechtigung: '{berechtigung}', art: '{art}'</f:debug>
+    <f:flashMessages />   
     <f:render partial="FormErrors" />
     <f:form enctype="multipart/form-data" action="update" name="mitarbeiter" arguments="{mitarbeiter:mitarbeiter, maid:'maid', search:search, key:key, userKey:userKey, berechtigung:berechtigung}" object="{mitarbeiter}" >
         <f:if condition="{berechtigung} == 'vonVorg' || {userKey} == 'auswahlVgs' || {userKey} == 'Vgs'">
