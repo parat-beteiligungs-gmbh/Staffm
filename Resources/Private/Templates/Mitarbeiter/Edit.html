@@ -4,34 +4,35 @@
     <h1><f:translate id="staffm.mitarbeiter.edit.headline" /></h1>
 
     <f:flashMessages />
-
+    <f:debug>Mitarbeiter Edit Form: userKey: '{userKey}', Key: '{key}', berechtigung: '{berechtigung}', art: '{art}'</f:debug>
     <f:render partial="FormErrors" />
     <f:form enctype="multipart/form-data" action="update" name="mitarbeiter" arguments="{mitarbeiter:mitarbeiter, maid:'maid', search:search, key:key, userKey:userKey, berechtigung:berechtigung}" object="{mitarbeiter}" >
-        <f:if condition="{berechtigung} == 'vonVorg' || {userKey} == 'auswahlVgs'">
+        <f:if condition="{berechtigung} == 'vonVorg' || {userKey} == 'auswahlVgs' || {userKey} == 'Vgs'">
             <f:then>
-                <f:render partial="Mitarbeiter/FormFieldsVorg" arguments="{mitarbeiter:mitarbeiter, aktuser:aktuser, search:search, berechtigung:berechtigung, key:'auswahl'}" /><br />
+                <f:render partial="Mitarbeiter/FormFieldsVorg" arguments="{mitarbeiter:mitarbeiter, aktuser:aktuser, search:search, berechtigung:berechtigung, key:'auswahl', art:art}" /><br />
             </f:then>            
             <f:else>                
-                 <f:if condition="{key} == 'auswahlUsr' || {userKey} == 'auswahlUsr'">
-                     <f:then>
-                         <f:comment>TODO: Delete<f:render partial="Mitarbeiter/FormFieldsUser" arguments="{mitarbeiter:mitarbeiter, search:search, key:key}" /><br /></f:comment>
-                         <f:render partial="Mitarbeiter/FormFieldsVorg" arguments="{mitarbeiter:mitarbeiter, aktuser:aktuser, key:key, userKey:userKey}" /><br />
-                     </f:then>
-                     <f:else>
+                <f:if condition="{key} == 'auswahlUsr' || {userKey} == 'auswahlUsr'">
+                    <f:then>  
+                        <f:debug>Auswahl</f:debug>
+                        <f:render partial="Mitarbeiter/FormFieldsVorg" arguments="{mitarbeiter:mitarbeiter, aktuser:aktuser, key:key, userKey:userKey, art:art}" /><br />
+                    </f:then>
+                    <f:else>
                         <f:render partial="Mitarbeiter/FormFields" arguments="{mitarbeiter:mitarbeiter, search:search}" /><br />
-                     </f:else>
-                 </f:if>
+                    </f:else>
+                </f:if>
             </f:else>
         </f:if>
         <div class="btn-group" role="group" aria-label="Mitarbeiter bearbeiten">   
-            <f:if condition="{userKey} == 'auswahlUsr'">
-                <f:then>   
-                    <f:link.action class="btn btn-secondary" action="list"><f:translate id="staffm.back" /></f:link.action>
-                </f:then>
-                <f:else>
-                    <!-- TODO: check list if called in admin edit by normal list -->
-                    <f:link.action section="ma{mitarbeiter.uid}" class="btn btn-secondary" controller="Mitarbeiter" action="listVgs" arguments="{maid:'maid', search:search}"><f:translate id="staffm.back" /></f:link.action>
-                </f:else>
+            <f:if condition="{art} != 'profileedit'">
+                <f:if condition="{userKey} == 'Vgs' || {berechtigung} == 'vonVorg'">
+                    <f:then>   
+                        <f:link.action section="ma{mitarbeiter.uid}" class="btn btn-secondary" controller="Mitarbeiter" action="listVgs" arguments="{maid:'maid', search:search}"><f:translate id="staffm.back" /></f:link.action>
+                    </f:then>
+                    <f:else>                    
+                        <f:link.action section="ma{mitarbeiter.uid}" class="btn btn-secondary" action="list"><f:translate id="staffm.back" /></f:link.action>
+                    </f:else>
+                </f:if>
             </f:if>
             <f:form.submit class="btn btn-success" onclick="setDates()" value="{f:translate(id:'staffm.save')}" />    
         </div>

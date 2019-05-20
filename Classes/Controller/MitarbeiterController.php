@@ -416,7 +416,8 @@ class MitarbeiterController extends ActionController
     }
 
     /**
-     * Detail view of employee from cost center list
+     * Detail view of employee from other show Actions
+     * Example (Cost Center, Qualification, aso.)
      * 
      * @param Mitarbeiter $ma
      * @param Position $position
@@ -460,7 +461,15 @@ class MitarbeiterController extends ActionController
         if ($this->request->hasArgument('key')) {
             $key = $this->request->getArgument('key');
             $this->view->assign('key', $key);
+        } else {
+            $this->view->assign('key', 'vonMit');
         }
+        
+        if ($this->request->hasArgument('userKey')) {
+            $userKey = $this->request->getArgument('userKey');
+            $this->view->assign('userKey', $userKey);
+        }
+        
         // Search exist?
         if ($this->request->hasArgument('search')) {
             $search = $this->request->getArgument('search');
@@ -604,11 +613,16 @@ class MitarbeiterController extends ActionController
             $this->view->assign('key', $key);
         }             
         
+        if ($this->request->hasArgument('art')) {
+            $art = $this->request->getArgument('art');
+            $this->view->assign('art', $art);
+        }             
+        
         if ($userKey == 'auswahlVgs') { 
             $berechtigung = "vonVorg";
             $this->view->assign('berechtigung', $berechtigung);
-        } 
-                
+        }                 
+        
         $this->view->assign('mitarbeiter', $mitarbeiter);
     }
 
@@ -731,17 +745,20 @@ class MitarbeiterController extends ActionController
         if ($this->request->hasArgument('berechtigung')) {
             $berechtigung = $this->request->getArgument('berechtigung');
         }
-
+        
+        if ($this->request->hasArgument('art')) {
+            $art = $this->request->getArgument('art');           
+        }                     
         if ($kst == 'kst') {
             $this->redirect('editKst', 'Mitarbeiter', NULL, array('ma' => $mitarbeiter, 'kostenstelle' => $mitarbeiter->getKostenstelle()));
         } else {
             if ($key == 'auswahlUsr' || $userKey == 'auswahlUsr') {
-                $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'key' => $key, 'userKey' => $userKey));
-            } elseif ($userKey == 'auswahlVgs') { 
+                $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'berechtigung' => $berechtigung, 'key' => $key, 'userKey' => $userKey, 'art' => $art));
+            } elseif ($userKey == 'Vgs' || $userKey == 'auswahlVgs') { 
                 $berechtigung = "vonVorg";
-                $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'berechtigung' => $berechtigung, 'userKey' => $userKey));
+                $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'berechtigung' => $berechtigung, 'userKey' => $userKey, 'art' => $art));
             } else {
-                $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'berechtigung' => $berechtigung));
+                $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'berechtigung' => $berechtigung, 'key' => $key, 'userKey' => $userKey, 'art' => $art));
             }
         }
     }
@@ -785,9 +802,43 @@ class MitarbeiterController extends ActionController
             $search = $this->request->getArgument('search');
         }
 
+        // Supervisor editing?
+        if ($this->request->hasArgument('berechtigung')) {
+            $berechtigung = $this->request->getArgument('berechtigung');
+            $this->view->assign('berechtigung', $berechtigung);
+        }        
+        
+        if ($this->request->hasArgument('userKey')) {
+            $userKey = $this->request->getArgument('userKey');
+            $this->view->assign('userKey', $userKey);
+        }        
+        
+        if ($this->request->hasArgument('key')) {
+            $key = $this->request->getArgument('key');
+            $this->view->assign('key', $key);
+        }             
+        
+        if ($userKey == 'auswahlVgs') { 
+            $berechtigung = "vonVorg";
+            $this->view->assign('berechtigung', $berechtigung);
+        } 
+        
+        if ($this->request->hasArgument('search')) {
+            $search = $this->request->getArgument('search');
+        }
+
+        if ($this->request->hasArgument('kst')) {
+            $kst = $this->request->getArgument('kst');
+        }
+
         if ($this->request->hasArgument('berechtigung')) {
             $berechtigung = $this->request->getArgument('berechtigung');
         }
+        
+        if ($this->request->hasArgument('art')) {
+            $art = $this->request->getArgument('art');           
+        }     
+        
         $employeequalifications = new ObjectStorage();
         $mitarbeiter->setEmployeequalifications($employeequalifications);
         $this->mitarbeiterRepository->update($mitarbeiter);
@@ -797,8 +848,9 @@ class MitarbeiterController extends ActionController
             $cacheService->deleteCaches($employeequalification->getQualification()->getBezeichnung(), "list", ClassUtility::getShortClassNameFromObject($employeequalification->getQualification()), 0);  
         }  
         
+        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($art);
         $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager')->persistAll();
-        $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'berechtigung' => $berechtigung));
+        $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'berechtigung' => $berechtigung, 'key' => $key, 'userKey' => $userKey, 'art' => $art));
     }
     
     /**

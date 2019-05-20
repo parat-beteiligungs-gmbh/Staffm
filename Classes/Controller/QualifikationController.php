@@ -395,7 +395,15 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             $cache = $this->request->getArgument('cache');            
         } 
         
+        if ($this->request->hasArgument('art')) {
+            $art = $this->request->getArgument('art');
+            $this->view->assign('art', $art);
+        }     
+        
         $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
+        
+        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump("Cache: ".$cache);
+        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump("Suche: ".$search);
         
         // No cache flag? (Example qualification was deleted and the info message is shown in the list view)
         if ($cache != "notcache" && $search == "") {
@@ -549,7 +557,10 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             $key = $this->request->getArgument('key');
             $this->view->assign('key', $key);
             $this->view->assign('mitarbeiter', $mitarbeiter);
+        } else {
+            $this->view->assign('key', 'fromQualification');
         }
+        
         // Get logged in user        
         $aktuser = $this->objectManager->
                 get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->

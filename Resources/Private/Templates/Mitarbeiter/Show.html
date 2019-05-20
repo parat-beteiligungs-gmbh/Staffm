@@ -1,22 +1,17 @@
 
 <f:layout name="Default" />
-
-This Template is responsible for displaying a single view for a domain object
-
-If you modify this template, do not forget to change the overwrite settings
-in /Configuration/ExtensionBuilder/settings.yaml:
-  Resources:
-    Private:
-      Templates:
-        Show.html: keep
-
-Otherwise your changes will be overwritten the next time you save the extension in the extension builder
-
 <f:section name="main">
     <h1><f:translate id="staffm.mitarbeiter.show.headline" /></h1>   
-<f:flashMessages />
-<f:render partial="Mitarbeiter/Properties" arguments="{mitarbeiter:mitarbeiter, search:search, aktuser:aktuser}" /><br />
-<div class="btn-group">
-    <f:link.action section="ma{mitarbeiter.uid}" class="btn btn-secondary" action="list" arguments="{maid: 'maid', search:search, searchstatus:searchstatus, char:char}"><f:translate id="staffm.back" /></f:link.action>
-</div>
+    <f:flashMessages />
+    <f:render partial="Mitarbeiter/Properties" arguments="{mitarbeiter:mitarbeiter, search:search, aktuser:aktuser}" /><br />
+    <div class="btn-group">
+        <f:if condition="{userKey} == 'Vgs'">
+            <f:then>
+                <f:link.action section="ma{mitarbeiter.uid}" class="btn btn-secondary" action="listVgs" arguments="{maid: 'maid', search:search, searchstatus:searchstatus, char:char, key:key, userKey:userKey}"><f:translate id="staffm.back" /></f:link.action>
+            </f:then>
+            <f:else>
+                <f:link.action section="ma{mitarbeiter.uid}" class="btn btn-secondary" action="list" arguments="{maid: 'maid', search:search, searchstatus:searchstatus, char:char, key:key, userKey:userKey}"><f:translate id="staffm.back" /></f:link.action>
+            </f:else>
+        </f:if>
+    </div>
 </f:section>

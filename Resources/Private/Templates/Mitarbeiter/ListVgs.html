@@ -22,7 +22,8 @@
             <th><f:translate key="tx_staffm_domain_model_mitarbeiter.first_name" /></th>
             <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.title" /></th>
             <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.telephone" /></th>	
-            <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></th>                
+            <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></th> 
+            <th></th>
         </tr>                  
         <f:for each="{mitarbeiters}" as="mitarbeiter">            
             <tr id="ma{mitarbeiter.uid}">    
@@ -35,18 +36,18 @@
                         </f:for>                                                                           
                     </f:if>                          
                 </td>
-                <td class="staffmmobilehidden"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.personalnummer}</f:link.action></td>                                   
-                <td><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.lastName}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.firstName}</f:link.action></td>
-                <td class="staffmmobilehidden"><div class="tx_staffm tds150"><f:link.action title="{mitarbeiter.title}" action="show" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.title}</f:link.action></div></td>
-                <td class="staffmmobilehidden"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"> {mitarbeiter.telephone}</f:link.action></td>                                          
+                <td class="staffmmobilehidden"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, userKey: 'Vgs'}"> {mitarbeiter.personalnummer}</f:link.action></td>                                   
+                <td><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, userKey: 'Vgs'}"> {mitarbeiter.lastName}</f:link.action></td>
+                <td><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, userKey: 'Vgs'}"> {mitarbeiter.firstName}</f:link.action></td>
+                <td class="staffmmobilehidden"><div class="tx_staffm tds150"><f:link.action title="{mitarbeiter.title}" action="show" arguments="{mitarbeiter : mitarbeiter, userKey: 'Vgs'}"> {mitarbeiter.title}</f:link.action></div></td>
+                <td class="staffmmobilehidden"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, userKey: 'Vgs'}"> {mitarbeiter.telephone}</f:link.action></td>                                          
                 <td class="staffmmobilehidden">
                 <f:if condition="{mitarbeiter.employeequalifications}">
                     <f:then>
                         <f:for each="{mitarbeiter.employeequalifications -> vhs:iterator.sort(sortBy: 'qualification.bezeichnung')}" as="mitarbeiterqualifikation" iteration="iteration">
                             <f:if condition="{iteration.isFirst}">
                                 <f:then>
-                                    <p class="marksq" title="{mitarbeiterqualifikation.qualification.beschreibung}"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}"><span>{mitarbeiterqualifikation.qualification.bezeichnung} ({mitarbeiterqualifikation.status})</span></f:link.action>
+                                    <p class="marksq" title="{mitarbeiterqualifikation.qualification.beschreibung}"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, userKey: 'Vgs'}"><span>{mitarbeiterqualifikation.qualification.bezeichnung} ({mitarbeiterqualifikation.status})</span></f:link.action>
                                     <f:if condition="{mitarbeiter.employeequalifications -> f:count()} > 1">
                                         <a class="btn btn-sm btn-secondary" style="float:right" href="javascript:void(0)" id="q{mitarbeiter.uid}" onClick="getID(this);return false;"><span name="q{mitarbeiter.uid}glyphiconchange" id="q{mitarbeiter.uid}" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                                             <f:if condition="{mitarbeiter.employeequalifications -> f:count()} < 10">
@@ -63,11 +64,11 @@
                         </f:for>                                                  
                     </f:then>
                     <f:else>
-                        <p><f:link.action style="color:red" action="show" arguments="{mitarbeiter : mitarbeiter}">>> keine <<</f:link.action></p>     
+                        <p><f:link.action style="color:red" action="show" arguments="{mitarbeiter : mitarbeiter, userKey: 'Vgs'}">>> keine <<</f:link.action></p>     
                     </f:else>
                 </f:if>
                 </td>                
-                <td class="nobackground"><f:link.action class="btn btn-sm btn-secondary" title="{mitarbeiter.firstName} {mitarbeiter.lastName} bearbeiten" action="edit" arguments="{mitarbeiter : mitarbeiter, aktuser:aktuser.uid, berechtigung:'vonVorg'}"><f:translate id="staffm.edit" /></f:link.action></td>                                                                   
+                <td><f:link.action class="btn btn-sm btn-secondary" title="{mitarbeiter.firstName} {mitarbeiter.lastName} bearbeiten" action="edit" arguments="{mitarbeiter : mitarbeiter, aktuser:aktuser.uid, berechtigung:'vonVorg', userKey: 'Vgs'}"><f:translate id="staffm.edit" /></f:link.action></td>                                                                   
             </tr>               	                
         </f:for>      
     </table>

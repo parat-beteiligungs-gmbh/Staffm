@@ -143,12 +143,13 @@
             <div class="btn-group" role="group">
                 <f:link.action class="btn btn-default" action="list" controller="Category" arguments="{employee:mitarbeiter, key:'chooseCategoryForEmployee', standardsearch:search, cache:'notcache', userKey:'auswahlVgs'}"><f:translate id="staffm.choose" /></f:link.action>
                 <f:if condition="{mitarbeiter.categories}">
-                    <f:link.action class="btn btn-danger" action="deleteCategories" arguments="{employee:mitarbeiter}"><f:translate id="staffm.remove" /></f:link.action>
+                    <f:link.action class="btn btn-danger" action="deleteCategories" arguments="{employee:mitarbeiter}"><f:translate id="staffm.allremove" /></f:link.action>
                 </f:if>
             </div>
         </div>        
     </div><br />        
+    <f:debug>FormFieldsVorg: art: '{art}'</f:debug>
     <f:comment><!-- Qualifications --></f:comment>
-    <f:render partial="Mitarbeiter/Qualification/ListFormFields" arguments="{mitarbeiter:mitarbeiter, aktuser:aktuser, key:key, standardsearch:search, userKey:userKey}" />
+    <f:render partial="Mitarbeiter/Qualification/ListFormFields" arguments="{mitarbeiter:mitarbeiter, aktuser:aktuser, key:key, standardsearch:search, userKey:userKey, berechtigung:berechtigung, art:art}" />
     <br />
 </f:if>

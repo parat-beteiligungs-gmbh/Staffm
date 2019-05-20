@@ -31,7 +31,7 @@
                     <td class="staffmmobilehidden">{employeequalification.note}</td>
                     <td class="staffmmobilehidden">
                         <f:if condition="{employeequalification.histories}">
-                            <table class="maPropertiesHistoryTable" id="mapropertieshistory{employeequalification.uid}" style="display:none;border-spacing:0">
+                            <table class="tx_staffm maPropertiesHistoryTable" id="mapropertieshistory{employeequalification.uid}" style="display:none;border-spacing:0">
                                 <tr>
                                     <th><f:translate key="tx_staffm_domain_model_history.status" /></th>
                                     <th><f:translate key="tx_staffm_domain_model_history.date_from" /></th>
@@ -61,20 +61,22 @@
             </tr>
         </f:for>
 </table>
+<f:debug>userKey: '{userKey}', Key: '{key}', berechtigung: '{berechtigung}', Verantwortlicher: '{costcenterresponsible}', art: '{art}'</f:debug>
 <f:if condition="{mitarbeiter.employeequalifications}">
     <f:then>
         <f:security.ifHasRole role="PA">
             <f:then>
                 <div class="btn-group" role="group">
-                    <f:link.action class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:key, standardsearch:search, cache:'notcache', userKey:userKey}"><f:translate id="staffm.choose" /></f:link.action>                    
-                    <f:link.action class="btn btn-danger" action="deleteQuali" arguments="{mitarbeiter:mitarbeiter}" title="Entfernt alle Qualifikationen!"><f:translate id="staffm.allremove" /></f:link.action>                    
+                    <f:link.action class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:key, standardsearch:search, cache:'notcache', userKey:userKey, berechtigung:berechtigung, art:art}"><f:translate id="staffm.choose" /></f:link.action>                    
+                    <f:link.action class="btn btn-danger" action="deleteQuali" arguments="{mitarbeiter:mitarbeiter, key:key, standardsearch:search, cache:'notcache', userKey:userKey, berechtigung:berechtigung, art:art}" title="Entfernt alle Qualifikationen!"><f:translate id="staffm.allremove" /></f:link.action>                    
                 </div>
             </f:then>
             <f:else>
                 <f:if condition="{edit} != 'no' && {costcenterresponsible} > 0">
+                    <f:debug>Hier bin ich</f:debug>
                     <div class="btn-group" role="group">
-                        <f:link.action class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:key, standardsearch:search, cache:'notcache', userKey:userKey}"><f:translate id="staffm.choose" /></f:link.action>                    
-                        <f:link.action class="btn btn-danger" action="deleteQuali" arguments="{mitarbeiter:mitarbeiter}" title="Entfernt alle Qualifikationen!"><f:translate id="staffm.allremove" /></f:link.action>                    
+                        <f:link.action class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:'auswahl', standardsearch:search, cache:'notcache', userKey:'Vgs', berechtigung:berechtigung, art:art}"><f:translate id="staffm.choose" /></f:link.action>                    
+                        <f:link.action class="btn btn-danger" action="deleteQuali" arguments="{mitarbeiter:mitarbeiter, key:key, standardsearch:search, cache:'notcache', userKey:'Vgs', berechtigung:berechtigung, art:art}" title="Entfernt alle Qualifikationen!"><f:translate id="staffm.allremove" /></f:link.action>                    
                     </div>
                 </f:if>
             </f:else>
@@ -83,11 +85,11 @@
     <f:else>
         <f:security.ifHasRole role="PA">
             <f:then>
-                <f:link.action style="float:left" class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:key, standardsearch:search, cache:'notcache', userKey:userKey}"><f:translate id="staffm.choose" /></f:link.action><br />                        
+                <f:link.action style="float:left" class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:key, standardsearch:search, cache:'notcache', userKey:userKey, art:art}"><f:translate id="staffm.choose" /></f:link.action><br />                        
             </f:then>
             <f:else>
-                <f:if condition="{edit} != 'no'">
-                    <f:link.action class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:key, standardsearch:search, cache:'notcache', userKey:userKey}"><f:translate id="staffm.choose" /></f:link.action>
+                <f:if condition="{edit} != 'no' && {costcenterresponsible} > 0">
+                    <f:link.action class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:'auswahl', standardsearch:search, cache:'notcache', userKey:'Vgs', berechtigung:berechtigung, art:art}"><f:translate id="staffm.choose" /></f:link.action>
                 </f:if>
             </f:else>
         </f:security.ifHasRole>
