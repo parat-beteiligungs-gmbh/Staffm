@@ -219,6 +219,9 @@
             <trans-unit id="tx_staffm_domain_model_employeequalification.reminder_date">
                 <source>Erinnerungsdatum</source>
             </trans-unit>
+             <trans-unit id="tx_staffm_domain_model_employeequalification.activities">
+                <source>Aktivitäten</source>
+            </trans-unit>
             <trans-unit id="tx_staffm_domain_model_employeequalification.histories">
                 <source>Historie</source>
             </trans-unit>
@@ -279,6 +282,9 @@
             <trans-unit id="tx_staffm_domain_model_history.status">
                 <source>Status</source>
             </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_history.targetstatus">
+                <source>Zielstatus</source>
+            </trans-unit>
             <trans-unit id="tx_staffm_domain_model_history.date_from">
                 <source>Datum von</source>
             </trans-unit>
@@ -287,6 +293,27 @@
             </trans-unit>            
             <trans-unit id="tx_staffm_domain_model_history.assessor">
                 <source>Beurteiler</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_history.note">
+                <source>Notiz</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_activity">
+                <source>Aktivität</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_activity.deadline">
+                <source>Termin</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_activity.target_deadline">
+                <source>Ziel-Termin</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_activity.certificate_art">
+                <source>Nachweis</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_activity.note">
+                <source>Notiz</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_activity.attachments">
+                <source>Anhänge</source>
             </trans-unit>
             <trans-unit id="staffm.category.new">
                 <source>Neue Kategorie</source>
@@ -353,6 +380,12 @@
             </trans-unit>
             <trans-unit id="staffm.text.exempted.costcenters">
                 <source>(Auswahl für ausgenommene Kostenstellen)</source>
+            </trans-unit>
+            <trans-unit id="staffm.text.edit.profile">
+                <source>Profil bearbeiten</source>
+            </trans-unit>
+            <trans-unit id="staffm.text.visible.supervisor">
+                <source>Nur für Vorgesetzten sichtbar</source>
             </trans-unit>
         </body>
     </file>

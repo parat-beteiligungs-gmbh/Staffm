@@ -59,10 +59,10 @@ input {
 
 /* Qualification assign Reminder Date */
 .ui-datepicker-trigger {
-    margin-left: 5px;
+/*    margin-left: 5px;*/
 }
 .catAll td input {
-    width: 90px;
+/*    width: 90px;*/
 }
 /* Qualification assign Notice */
 .qualiSelectNotice {    
@@ -115,10 +115,12 @@ table.tx_staffm {
     margin-left: 0;
     border-spacing: 0;    
     clear: both;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
 }
 table.tx_staffm.table-left {
     width: auto;
-    float: left;
+/*    float: left;*/
 }
 table.tx_staffm td a {    
     text-decoration: none;
@@ -129,8 +131,14 @@ table.tx_staffm th {
     background-color: #343a40;    
     color: #fff;
 } 
+table.tx_staffm th:first-child {
+    border-radius: 5px 0 0 0;
+}
+table.tx_staffm th:last-child {
+    border-radius: 0 5px 0 0;
+}
 table.tx_staffm td {    
-    padding: 2px 5px;
+    padding: 5px 5px;
     border-width: 0.5px; 
     border-color: #000;
     background-color: #fff;  
@@ -151,6 +159,14 @@ table.tx_staffm.table-left td:nth-child(odd) {
 }
 table.tx_staffm td .staffm-link {
     color: #666666;
+}
+/* History table */
+.maPropertiesHistoryTable {
+    position: absolute;
+    z-index: 999999;
+    width: auto !important;
+    right: 95px;  
+    box-shadow: -5px 5px 15px 5px #000000;    
 }
 
 /** A-Z Search */

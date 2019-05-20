@@ -17,14 +17,14 @@ return [
                             'starttime' => 'starttime',
                             'endtime' => 'endtime',*/
                     ],
-                    'searchFields' => 'status, date_from, date_to, reminder_date, assessor',
+                    'searchFields' => 'status, targestatus, date_from, date_to, reminder_date, assessor, note',
                     'iconfile' => 'EXT:staffm/Resources/Public/Icons/tx_staffm_domain_model_history.gif'
         ],
 	'interface' => [
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, status, date_from, date_to, reminder_date, assessor',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, status, targetstatus, date_from, date_to, reminder_date, assessor, note',
 	],
 	'types' => [
-		'1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, status, date_from, date_to, reminder_date, assessor'],
+		'1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, status, targetstatus, date_from, date_to, reminder_date, assessor, note'],
 	],
 	'palettes' => [
 		'1' => ['showitem' => ''],
@@ -81,6 +81,15 @@ return [
 				'eval' => 'trim'
 			],
 		],
+                'targetstatus' => [
+			'exclude' => 1,
+			'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_history.targetstatus',
+			'config' => [
+				'type' => 'input',
+				'size' => 1,
+				'eval' => 'trim'
+			],
+		],
                 'date_from' => [
                     'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_history.date_from',
                     'config' => [
@@ -98,7 +107,15 @@ return [
                         'renderType' => 'inputDateTime',
                         'eval' => 'date',
                     ],
-                ],                
+                ],  
+                'note' => [
+                    'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_history.note',
+                    'config' => [
+                        'type' => 'text',
+                        'cols' => 40,
+                        'rows' => 15,
+                    ],
+                ],
                 'assessor' => [			
 			'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_history.assessor',
 			'config' => [
@@ -108,7 +125,7 @@ return [
 				'minitems' => 0,
 				'maxitems' => 1,
 			],
-		],
+		],                
 	],
 ];
 ## EXTENSION BUILDER DEFAULTS END TOKEN - Everything BEFORE this line is overwritten with the defaults of the extension builder

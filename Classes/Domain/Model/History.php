@@ -40,6 +40,13 @@ class History extends \TYPO3\CMS\Extbase\DomainObject\AbstractValueObject
     protected $status = 0;
     
     /**
+     * Target Status from qualification for the user
+     *
+     * @var integer
+     */
+    protected $targetstatus = 0;
+    
+    /**
      * Date from
      *
      * @var \DateTime
@@ -61,6 +68,13 @@ class History extends \TYPO3\CMS\Extbase\DomainObject\AbstractValueObject
     protected $assessor = NULL;
     
     /**
+     * Notice to qualification of employee
+     *
+     * @var string
+     */
+    protected $note = "";
+    
+    /**
      * 
      * @return integer
      */
@@ -68,7 +82,16 @@ class History extends \TYPO3\CMS\Extbase\DomainObject\AbstractValueObject
     {
         return $this->status;
     }
-
+    
+    /**
+     * 
+     * @return integer
+     */
+    public function getTargetstatus()
+    {
+        return $this->targetstatus;
+    }
+    
     /**
      * 
      * @return \DateTime
@@ -95,6 +118,16 @@ class History extends \TYPO3\CMS\Extbase\DomainObject\AbstractValueObject
     {
         return $this->assessor;
     }
+    
+    /**
+     * Get the notice
+     * 
+     * @return string
+     */
+    public function getNote()
+    {
+        return $this->note;
+    }
 
     /**
      * 
@@ -104,7 +137,16 @@ class History extends \TYPO3\CMS\Extbase\DomainObject\AbstractValueObject
     {
         $this->status = $status;
     }
-
+    
+    /**
+     * 
+     * @param integer $status
+     */
+    public function setTargetstatus($targetstatus)
+    {
+        $this->targetstatus = $targetstatus;
+    }
+    
     /**
      * 
      * @param \DateTime $dateFrom
@@ -132,4 +174,13 @@ class History extends \TYPO3\CMS\Extbase\DomainObject\AbstractValueObject
         $this->assessor = $assessor;
     }
 
+    /**
+     * Set the notice
+     * 
+     * @param string $note
+     */
+    public function setNote($note)
+    {
+        $this->note = $note;
+    }    
 }

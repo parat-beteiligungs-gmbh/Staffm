@@ -6,6 +6,9 @@
             <trans-unit id="status.description">
                 <source>Status</source>
             </trans-unit>
+            <trans-unit id="targetstatus.description">
+                <source>Zielstatus</source>
+            </trans-unit>
             <trans-unit id="date_from.description">
                 <source>Datum von</source>
             </trans-unit>
@@ -14,7 +17,10 @@
             </trans-unit>            
             <trans-unit id="assessor.description">
                 <source>Beurteiler</source>
-            </trans-unit>             
+            </trans-unit>        
+            <trans-unit id="note.description">
+                <source>Notiz</source>
+            </trans-unit>        
         </body>
     </file>
 </xliff>

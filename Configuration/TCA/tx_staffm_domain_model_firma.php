@@ -168,13 +168,11 @@ return [
 		'images' => [
                     'exclude' => false,
                     'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_firma.images',
-                    'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
-                        'images',
-                        [
+                    'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig('images', [
                             'appearance' => [
                                 'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference'
                             ],
-                            'foreign_types' => [
+                            'types' => [
                                 '0' => [
                                     'showitem' => '
                                     --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
@@ -214,47 +212,51 @@ return [
                 'files' => [
                     'exclude' => false,
                     'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_firma.files',
-                    'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
+                    'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(                     
                         'files',
                         [
                             'appearance' => [
                                 'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference'
                             ],
-                            'foreign_types' => [
-                                '0' => [
-                                    'showitem' => '
-                                    --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                                    --palette--;;filePalette'
-                                ],
-                                \TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT => [
-                                    'showitem' => '
-                                    --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                                    --palette--;;filePalette'
-                                ],
-                                \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
-                                    'showitem' => '
-                                    --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                                    --palette--;;filePalette'
-                                ],
-                                \TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO => [
-                                    'showitem' => '
-                                    --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                                    --palette--;;filePalette'
-                                ],
-                                \TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO => [
-                                    'showitem' => '
-                                    --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                                    --palette--;;filePalette'
-                                ],
-                                \TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION => [
-                                    'showitem' => '
-                                    --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                                    --palette--;;filePalette'
+                            'overrideChildTca' => [ // TODO: Copy to other TCA files with images and change next line to 'types'
+                                'types' => [
+                                    '0' => [
+                                        'showitem' => '
+                                        --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                                        --palette--;;filePalette'
+                                    ],
+                                    \TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT => [
+                                        'showitem' => '
+                                        --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                                        --palette--;;filePalette'
+                                    ],
+                                    \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
+                                        'showitem' => '
+                                        --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                                        --palette--;;filePalette'
+                                    ],
+                                    \TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO => [
+                                        'showitem' => '
+                                        --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                                        --palette--;;filePalette'
+                                    ],
+                                    \TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO => [
+                                        'showitem' => '
+                                        --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                                        --palette--;;filePalette'
+                                    ],
+                                    \TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION => [
+                                        'showitem' => '
+                                        --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                                        --palette--;;filePalette'
+                                    ]
                                 ]
                             ],
                             'maxitems' => 99
+                            
                         ],
-                        $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
+                        # TODO: Error in upload - File Extension (xlsx) not allowed
+                        'doc,docx,xlsx,xlsm' . $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
                     ),
                 ],
 	],

@@ -153,9 +153,11 @@ CREATE TABLE tx_staffm_domain_model_employeequalification (
 
         qualification int(11) unsigned DEFAULT '0',
         status int(11) DEFAULT '0' NOT NULL,
+        targetstatus int(11) DEFAULT '0' NOT NULL,
 	employee int(11) unsigned DEFAULT '0',	
         note text NOT NULL,
         reminder_date DATE DEFAULT '0000-00-00',
+        activities int(11) unsigned DEFAULT '0',	
         histories int(11) unsigned DEFAULT '0',  
 
         tablenames varchar(30) DEFAULT '' NOT NULL,
@@ -165,6 +167,7 @@ CREATE TABLE tx_staffm_domain_model_employeequalification (
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
 	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+        hidden tinyint(4) unsigned DEFAULT 0 NOT NULL,
 
 	t3ver_oid int(11) DEFAULT '0' NOT NULL,
 	t3ver_id int(11) DEFAULT '0' NOT NULL,
@@ -323,9 +326,11 @@ CREATE TABLE tx_staffm_domain_model_history (
 	pid int(11) DEFAULT '0' NOT NULL,
 
         status int(11) DEFAULT '0' NOT NULL,
+        targetstatus int(11) DEFAULT '0' NOT NULL,
         date_from DATE DEFAULT '0000-00-00' NOT NULL,
         date_to DATE DEFAULT '0000-00-00',        
         assessor int(11) unsigned DEFAULT '0',
+        note text NOT NULL,
 
         employeequalification int(11) unsigned DEFAULT '0',
 
@@ -405,6 +410,47 @@ CREATE TABLE tx_staffm_domain_model_representation (
 	employee int(11) unsigned DEFAULT '0',	
         deputy int(11) unsigned DEFAULT '0',	        
         costcenters int(11) unsigned DEFAULT '0', 
+        
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+
+	t3ver_oid int(11) DEFAULT '0' NOT NULL,
+	t3ver_id int(11) DEFAULT '0' NOT NULL,
+	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
+	t3ver_label varchar(255) DEFAULT '' NOT NULL,
+	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
+	t3ver_stage int(11) DEFAULT '0' NOT NULL,
+	t3ver_count int(11) DEFAULT '0' NOT NULL,
+	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
+	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
+
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l10n_parent int(11) DEFAULT '0' NOT NULL,
+	l10n_diffsource mediumblob,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid),
+ 	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
+ KEY language (l10n_parent,sys_language_uid)
+
+);
+
+#
+# Table structure for table 'tx_staffm_domain_model_activity'
+#
+CREATE TABLE tx_staffm_domain_model_activity (
+
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+        
+        deadline DATE DEFAULT '0000-00-00',               
+        target_deadline DATE DEFAULT '0000-00-00',
+        certificate_art int(11) DEFAULT '0' NOT NULL,
+        note text NOT NULL,
+        attachments varchar(255) DEFAULT '' NOT NULL,
+
+        employeequalification int(11) unsigned DEFAULT '0',
         
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
