@@ -1,5 +1,6 @@
 # Staffm Change Log
 
+- [UPDATE] Uniform style for all Tables in lists and show forms.
 - [CLEANUP] Remove testing code.
 - [FEATURE] Add Classes for Activity in Employee Qualification. Implementation in Forms are later.
 - [BUGIFX] Show correct form for supervisor, normal users if qualifications where updatet/deletet.

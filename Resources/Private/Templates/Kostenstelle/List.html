@@ -49,7 +49,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
             <tr>
                     <th><f:translate key="tx_staffm_domain_model_kostenstelle.nummer" /></th>
                     <th><f:translate key="tx_staffm_domain_model_kostenstelle.bezeichnung" /></th>
-                    <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_kostenstelle.verantwortlicher" /></th>                    
+                    <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_kostenstelle.verantwortlicher" /></th>    
+                    <f:security.ifHasRole role="PA"><th class="staffmmobilehidden"></th></f:security.ifHasRole>
             </tr>
 
             <f:for each="{sortedKostenstelles}" as="kostenstelle">
@@ -63,8 +64,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
                                 </f:then>  
                                 <f:else>
                                     <f:security.ifHasRole role="PA">
-                                        <td class="staffmmobilehidden nobackground">
-                                            <div class="btn-group">
+                                        <td class="staffmmobilehidden">
+                                            <div class="btn-group" style="float: right">
                                                 <f:link.action class="btn btn-secondary btn-sm" action="edit" arguments="{kostenstelle : kostenstelle}"><f:translate id="staffm.edit" /></f:link.action>
                                                 <f:link.action class="btn btn-danger btn-sm" action="delete" arguments="{kostenstelle : kostenstelle}"><f:translate id="staffm.delete" /></f:link.action>
                                             </div>

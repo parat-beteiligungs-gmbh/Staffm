@@ -20,15 +20,16 @@
             <table  class="tx_staffm" >
                 <tr>
                     <th><f:translate key="tx_staffm_domain_model_category.name" /></th>
-                    <th><f:translate key="tx_staffm_domain_model_category.description" /></th>                   
+                    <th><f:translate key="tx_staffm_domain_model_category.description" /></th>  
+                    <f:security.ifHasRole role="PA"><th class="staffmobilehidden"></th></f:security.ifHasRole>
                 </tr>
                 <f:for each="{sortedCategories}" as="category">
                     <tr> 
                         <td><div id="cat{category.uid}" class="anchor"></div><f:link.action action="show" arguments="{category:category, search:search}">{category.name}</f:link.action></td>
                         <td><f:link.action action="show" arguments="{category:category, search:search}">{category.description}</f:link.action></td>
                         <f:security.ifHasRole role="PA">
-                            <td class="staffmobilehidden nobackground">
-                                <div class="btn-group">
+                            <td class="staffmobilehidden">
+                                <div class="btn-group" style="float: right">
                                     <f:link.action class="btn btn-secondary btn-sm" action="edit" arguments="{category : category}"><f:translate id="staffm.edit" /></f:link.action>
                                     <f:link.action class="btn btn-danger btn-sm" action="delete" arguments="{category : category}"><f:translate id="staffm.delete" /></f:link.action>
                                 </div>
