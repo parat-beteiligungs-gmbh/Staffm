@@ -1,5 +1,6 @@
 # Staffm Change Log
 
+- [UPDATE] Style note field in qualification choose list.
 - [UPDATE] Uniform style for all Tables in lists and show forms.
 - [CLEANUP] Remove testing code.
 - [FEATURE] Add Classes for Activity in Employee Qualification. Implementation in Forms are later.

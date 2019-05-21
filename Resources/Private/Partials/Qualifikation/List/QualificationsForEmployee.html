@@ -1,6 +1,6 @@
 {namespace vhs = FluidTYPO3\Vhs\ViewHelpers}
 
-<f:form action="update" controller="Mitarbeiter" arguments="{mitarbeiter:mitarbeiter, key:key, berechtigung:berechtigung, userKey:userKey, art:art}" additionalAttributes="{role: 'form'}" >  
+<f:form action="update" controller="Mitarbeiter" arguments="{mitarbeiter:mitarbeiter, key:key, kst:kst, berechtigung:berechtigung, userKey:userKey, art:art}" additionalAttributes="{role: 'form'}" >  
     <f:comment><!-- Buttons for Qualification categories --></f:comment>
     <f:form.hidden id="categoryfield" name="categoryfield" value="{categoryfield}" />
     <ul class="nav nav-tabs">
@@ -38,7 +38,11 @@
                         <td class="td{qualifikation.uid}" style="background-color: #BCEE68"><f:form.select class="custom-select" id="qualiSelect{qualifikation.uid}" name="qualificationsstatus[{qualifikation.uid}]" options="{qualifikation.status}" value="{aktEmployeequalification.status}" /></td>
                         <td class="td{qualifikation.uid}" style="background-color: #BCEE68"><f:form.select class="custom-select" id="qualiTargetSelect{qualifikation.uid}" name="qualificationstargetstatus[{qualifikation.uid}]" options="{qualifikation.status}" value="{aktEmployeequalification.targetstatus}" /></td>
                         <td class="td{qualifikation.uid}" style="background-color: #BCEE68"><f:form.textfield class="form-control" id="qualiReminderDate{qualifikation.uid}" name="qualificationsreminderdate[{qualifikation.uid}]" value="{aktEmployeequalification.reminderDate -> f:format.date(format: 'Y-m-d')}" additionalAttributes="{onclick:'datepicker(this);'}" readonly="TRUE" />&nbsp;<a title="Delete date" style="cursor:pointer" id="qualiReminderDeleteDate{qualifikation.uid}" onclick="delteReminderDate(this);"><f:image src="typo3conf/ext/Staffm/Resources/Public/Icons/icon_delete.svg" width="15" /></a></td>
-                        <td class="td{qualifikation.uid}" style="background-color: #BCEE68"><f:form.textarea class="form-control" rows="1" id="qualiText{qualifikation.uid}" name="qualificationsnotes[{qualifikation.uid}]" value="{aktEmployeequalification.note}" /></td>                        
+                        <td class="td{qualifikation.uid}" style="background-color: #BCEE68">
+                            <a onclick="showNote(this)" id="BqualiText{qualifikation.uid}" class="btn btn-secondary" style="width: 100%"><f:translate key="tx_staffm_domain_model_employeequalification.note" /></a>
+                            <div class="form-check"><input onclick="setText(this)" class="form-check-input" type="checkbox" value="" id="CqualiText{qualifikation.uid}" {f:if(condition:'{aktEmployeequalification.note}', then: 'checked')}></div>
+                            <f:form.textarea style="display:none;position:absolute;right: 0" class="form-control hidden" rows="1" id="qualiText{qualifikation.uid}" name="qualificationsnotes[{qualifikation.uid}]" value="{aktEmployeequalification.note}" />
+                        </td>                        
                     </tr>
                 </f:then>
                 <f:else>
@@ -48,7 +52,11 @@
                         <td class="td{qualifikation.uid}"><f:form.select class="custom-select" id="qualiSelect{qualifikation.uid}" name="qualificationsstatus[{qualifikation.uid}]" options="{qualifikation.status}" value="" disabled="TRUE" /></td>
                         <td class="td{qualifikation.uid}"><f:form.select class="custom-select" id="qualiTargetSelect{qualifikation.uid}" name="qualificationstargetstatus[{qualifikation.uid}]" options="{qualifikation.status}" value="" disabled="TRUE" /></td>
                         <td class="td{qualifikation.uid}"><f:form.textfield class="form-control" id="qualiReminderDate{qualifikation.uid}" name="qualificationsreminderdate[{qualifikation.uid}]" value="" additionalAttributes="{onclick:'datepicker(this);'}" disabled="TRUE" readonly="TRUE" />&nbsp;<a title="Delete date" style="cursor:pointer" id="qualiReminderDeleteDate{qualifikation.uid}" onclick="delteReminderDate(this);"><f:image src="typo3conf/ext/Staffm/Resources/Public/Icons/icon_delete.svg" width="15" /></a></td>
-                        <td class="td{qualifikation.uid}"><f:form.textarea class="form-control" rows="1" id="qualiText{qualifikation.uid}" name="qualificationsnotes[{qualifikation.uid}]" value="" disabled="TRUE" /></td>                        
+                        <td class="td{qualifikation.uid}">
+                            <a onclick="showNote(this)" id="BqualiText{qualifikation.uid}" class="btn btn-secondary" style="width: 100%"><f:translate key="tx_staffm_domain_model_employeequalification.note" /></a>
+                            <div class="form-check"><input onclick="setText(this)" class="form-check-input" type="checkbox" value="" id="CqualiText{qualifikation.uid}" {f:if(condition:'{aktEmployeequalification.note}', then: 'checked')}></div>
+                            <f:form.textarea style="display:none;position:absolute;right: 0" class="form-control" rows="1" id="qualiText{qualifikation.uid}" name="qualificationsnotes[{qualifikation.uid}]" value="" disabled="TRUE" />
+                        </td>                        
                     </tr>
                 </f:else>
             </f:if>           
@@ -132,7 +140,64 @@
             // Show identified qualifications
             for (var i = 0; i < elements.length; i++) {
                 elements[i].style.display = 'table-row';
-            }            
+            }
+        }
+        
+        /**
+         * Show qualifications of clicked category button
+         * 
+         * @param {type} stat
+         * @returns {undefined}
+         */
+        function showNote(stat) {
+            var wholeid = stat.id;             
+            var elemQualiText = document.getElementById(wholeid.substring(1)); 
+            var elemCQualiText = document.getElementById("C" + wholeid.substring(1)); 
+            
+            if (elemQualiText.style.display == "none") {
+                elemQualiText.style.display = "block";                
+                setCheckBoxFromNote();
+            } else {
+                elemQualiText.style.display = "none";
+                setCheckBoxFromNote();
+            }
+            
+            function setCheckBoxFromNote() {                
+                if (elemQualiText.value == "") {
+                    elemCQualiText.checked = false;
+                } else {
+                    elemCQualiText.checked = true;
+                }
+            }
+        }
+        
+        /**
+         * Show qualifications of clicked category button
+         * 
+         * @param {type} stat
+         * @returns {undefined}
+         */
+        function setText(stat) {
+            var wholeid = stat.id; 
+            var elemCQualiText = document.getElementById(wholeid);
+            var elemQualiText = document.getElementById(wholeid.substring(1)); 
+            
+            if (elemCQualiText.checked == false) {
+                elemQualiText.value = "";                
+                setCheckBoxFromNote();
+            } else {
+                if(elemQualiText.value == "") {
+                    elemCQualiText.checked = false;
+                }
+            }
+            
+            function setCheckBoxFromNote() {                
+                if (elemQualiText.value == "") {
+                    elemCQualiText.checked = false;
+                } else {
+                    elemCQualiText.checked = true;
+                }
+            }
         }
     </script>
 </f:form>

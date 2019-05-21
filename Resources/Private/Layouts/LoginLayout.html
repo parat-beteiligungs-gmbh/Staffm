@@ -3,7 +3,7 @@
 <f:variable name="aktuser" value="{vh:findUser()}" />
 <div id="ladedivall" class="tx-staffm">  
     <div id="seite"></div>    
-    <f:flashMessages />
+    <f:flashMessages />    
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark navbarstaffm">        
         <f:link.action title="Eigenen User bearbeiten" class="navbar-brand" action="edit" controller="Mitarbeiter" arguments="{mitarbeiter:aktuser, userKey:'auswahlUsr', art:'profileedit'}"><f:translate key="staffm.text.edit.profile" /></f:link.action>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -12,7 +12,7 @@
         <f:if condition="{vh:isCostCenterResponsible(employee: aktuser, withDeputy: 1)} > 0">
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">   
-                    <li class="nav-item {f:if(condition: '{menuname} == \'Mitarbeiter\'', then: 'active')}" style="padding-top:0 !important">
+                    <li class="nav-item {f:if(condition: '{menuname} == \'Mitarbeiter\' && {art} != \'profileedit\'', then: 'active')}" style="padding-top:0 !important">
                         <f:link.action title="Mitarbeiterverwaltung (Hier können alle Daten bearbeitet werden, z. B. Profilbild)" class="nav-link" action="listVgs" controller="Mitarbeiter"><f:translate key="tx_staffm_domain_model_mitarbeiter" /></f:link.action>
                     </li>
                     <li class="nav-item {f:if(condition: '{menuname} == \'Qualifikation\'', then: 'active')}" style="padding-top:0 !important">
