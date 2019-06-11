@@ -1,5 +1,9 @@
 # Staffm Change Log
 
+Supports Typo3 8.7.0 - 8.7.99
+
+- [UPDATE] Fix status designation.
+
 ## 2.3.1
 
 Supports Typo3 8.7.0 - 8.7.99
