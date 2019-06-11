@@ -1,5 +1,10 @@
 # Staffm Change Log
 
+## 2.3.1
+
+Supports Typo3 8.7.0 - 8.7.99
+
+- [UPDATE] Clean Code and add a widget to cost center template.
 - [UPDATE] Style note field in qualification choose list.
 - [UPDATE] Uniform style for all Tables in lists and show forms.
 - [CLEANUP] Remove testing code.

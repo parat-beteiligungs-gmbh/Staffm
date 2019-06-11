@@ -68,13 +68,6 @@ if (!defined('TYPO3_MODE')) {
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerTypeConverter('Pmwebdesign\\Staffm\\Property\\TypeConverter\\UploadedFileReferenceConverter');
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerTypeConverter('Pmwebdesign\\Staffm\\Property\\TypeConverter\\ObjectStorageConverter');
 
-// Show Sheduler Task
-//$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['TYPO3\Staffm\Task\Mitarbeitersynch'] = array (
-//	'extension' => $_EXTKEY,
-//	'title' => 'Mitarbeiter-Synchronisation',
-//	'description' => 'Synchronisiert fehlende Daten zu Mitarbeitern',
-//);
-
 /**
  * Add cache configuration
  */
