@@ -68,6 +68,14 @@ if (!defined('TYPO3_MODE')) {
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerTypeConverter('Pmwebdesign\\Staffm\\Property\\TypeConverter\\UploadedFileReferenceConverter');
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerTypeConverter('Pmwebdesign\\Staffm\\Property\\TypeConverter\\ObjectStorageConverter');
 
+// Task for memories
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Pmwebdesign\Staffm\Task\SendMemories'] = [
+    'extension' => $_EXTKEY,
+    'title' => 'Send Memories',
+    'description' => 'Send memories of employee qualification if the memory date is come',
+    'additionalFields' => \TYPO3\CMS\Scheduler\Task\CachingFrameworkGarbageCollectionAccitionalFieldProvieder::class 
+];
+
 /**
  * Add cache configuration
  */
