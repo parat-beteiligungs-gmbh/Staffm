@@ -2,6 +2,7 @@
 
 Supports Typo3 8.7.0 - 8.7.99
 
+- [UPDATE] Style memory date.
 - [UPDATE] Change picture size in edit form.
 - [BUGFIX] Fix Edit Template employee after assign qualifications.
 - [FEATURE] Implement memory function for qualifications of the employees.

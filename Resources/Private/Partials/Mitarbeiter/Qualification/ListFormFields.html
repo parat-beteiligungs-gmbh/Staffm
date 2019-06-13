@@ -26,7 +26,12 @@
                     </td>
                     <td>
                         <f:if condition="{employeequalification.reminderDate}">
+                            <f:if condition="{f:format.date(date: 'now', format: 'd.m.Y')} >= {f:format.date(date: employeequalification.reminderDate, format: 'd.m.Y')}">
+                                <f:then><span style="color:red"></f:then>
+                                <f:else><span></f:else>
+                            </f:if>
                             {f:format.date(date: employeequalification.reminderDate, format: 'd.m.Y')}
+                            </span>
                         </f:if>
                     </td>
                     <td class="staffmmobilehidden">{employeequalification.note}</td>
