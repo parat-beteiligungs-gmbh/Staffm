@@ -84,11 +84,11 @@
     <f:else>
         <f:security.ifHasRole role="PA">
             <f:then>
-                <f:link.action style="float:left" class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:key, standardsearch:search, cache:'notcache', userKey:userKey, art:art}"><f:translate id="staffm.choose" /></f:link.action><br />                        
+                <f:link.action style="float:left" class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:'auswahl', kst:kst, standardsearch:search, cache:'notcache', userKey:userKey, berechtigung:berechtigung, art:art}"><f:translate id="staffm.choose" /></f:link.action><br />                        
             </f:then>
             <f:else>
                 <f:if condition="{edit} != 'no' && {costcenterresponsible} > 0">
-                    <f:link.action class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:'auswahl', standardsearch:search, cache:'notcache', userKey:'Vgs', berechtigung:berechtigung, art:art}"><f:translate id="staffm.choose" /></f:link.action>
+                    <f:link.action class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:'auswahl', kst:kst, standardsearch:search, cache:'notcache', userKey:'Vgs', berechtigung:berechtigung, art:art}"><f:translate id="staffm.choose" /></f:link.action>
                 </f:if>
             </f:else>
         </f:security.ifHasRole>
