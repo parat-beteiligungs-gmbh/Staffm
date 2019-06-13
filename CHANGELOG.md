@@ -2,6 +2,7 @@
 
 Supports Typo3 8.7.0 - 8.7.99
 
+- [UPDATE] Change picture size in edit form.
 - [BUGFIX] Fix Edit Template employee after assign qualifications.
 - [FEATURE] Implement memory function for qualifications of the employees.
 - [UPDATE] Fix status designation.
