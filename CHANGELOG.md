@@ -2,7 +2,11 @@
 
 Supports Typo3 8.7.0 - 8.7.99
 
+- [UPDATE] Add notice information to memory email.
+
 ## 2.4.0
+
+Supports Typo3 8.7.0 - 8.7.99
 
 - [FEATURE] Add history function for notes from actually user.
 - [BUGFIX] Show right templates if admin is logged in.
