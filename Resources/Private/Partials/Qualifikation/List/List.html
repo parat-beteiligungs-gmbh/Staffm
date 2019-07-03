@@ -23,7 +23,8 @@
                 <tr>
                     <th><f:translate key="tx_staffm_domain_model_qualifikation.bezeichnung" /></th>  
                 <th><f:translate key="tx_staffm_domain_model_qualifikation.beschreibung" /></th>
-                <th class="staffmmobilehidden"><f:translate id="staffm.text.zugeordnete" /> <f:translate key="tx_staffm_domain_model_mitarbeiter" /></th>                                
+                <th class="staffmmobilehidden"><f:translate id="staffm.text.zugeordnete" /> <f:translate key="tx_staffm_domain_model_mitarbeiter" /></th>    
+                <f:security.ifHasRole role="PA"><th class="staffmmobilehidden"></th></f:security.ifHasRole>
                 </tr>
                 <f:for each="{sortedQualifikations}" as="qualifikation">
                     <tr>
@@ -52,8 +53,8 @@
                             </tv:widget.qualiStatus>
                         </td>                                         
                         <f:security.ifHasRole role="PA">
-                            <td class="staffmmobilehidden nobackground">
-                                <div class="btn-group">
+                            <td class="staffmmobilehidden">
+                                <div class="btn-group" style="float: right">
                                     <f:link.action class="btn btn-secondary btn-sm" action="edit" arguments="{qualifikation : qualifikation}"><f:translate id="staffm.edit" /></f:link.action>
                                     <f:link.action class="btn btn-danger btn-sm" action="delete" arguments="{qualifikation : qualifikation}"><f:translate id="staffm.delete" /></f:link.action>
                                 </div>

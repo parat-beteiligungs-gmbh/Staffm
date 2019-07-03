@@ -229,10 +229,10 @@ class Qualifikation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->status = [
             0 => "",
-            1 => "Anlernphase",
-            2 => "Tätigkeit kann in Zeit & Qualität ausgeführt werden",
-            3 => "Kann andere anlernen/einarbeiten",
-            4 => "Kann selbst Optimierungslösungen finden und einleiten"
+            1 => "1: Befindet sich in der Anlernphase / In Sprachen kaum Kenntnisse / In Ausbildung",
+            2 => "2: Kann die Tätigkeit in der geforderten Zeit und Qualität / Grundkenntnisse. Werden z.B. durch Teilnahme bei Arbeitsgruppen erreicht /In Sprachen vergleichbar Niveaustufe A / abgeschlossene Ausbildung",
+            3 => "3: Ist in der Lage andere einzuarbeiten / Erweiterte Kenntnisse. Kann die bestehenden und für den jeweiligen Bereich zutreffenden Systeme bzw. Abläufe in der täglichen Praxis anwenden. Diese Stufe lässt sich durch interne o. externe Schulungen oder mind. 3-jährige Erfahrung erreichen / In Sprachen vergleichbar Niveaustufe B / Zusatzqualifikationen (z.B. CAD)",
+            4 => "4: Kann selbst Optimierungslösungen finden und deren Umsetzung einleiten / Umfangreiche Kenntnisse. Setzt vorhandene Systematik ein, kann Schwächen erkennen und Systeme weiterentwickeln. Diese Stufe lässt sich nur durch eine nachgewiesene externe Schulung und Praxiserfahrung oder Berufsausbildung erreichen / In Sprachen vergleichbar Niveaustufe C / Fachwirt, Meister, Betriebswirt, Bachelor, Master, Ingenieur"
         ];
     }
 }

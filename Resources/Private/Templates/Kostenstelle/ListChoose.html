@@ -5,7 +5,7 @@
     <h1><f:translate id="staffm.kostenstelle.list.headline" /></h1>
     <f:translate key="staffm.text.exempted.costcenters" />
     <f:flashMessages />
-    <f:form action="setRepresentationCostCenters" controller="Mitarbeiter" arguments="{representation:representation, key:key, userKey:userKey}" additionalAttributes="{role: 'form'}">
+    <f:form action="setRepresentationCostCenters" controller="Mitarbeiter" arguments="{representation:representation, key:key, userKey:userKey, art:art}" additionalAttributes="{role: 'form'}">
         <p><b>Name:</b> {representation.employee.LastName} {representation.employee.firstName}&nbsp;|&nbsp;<b>Name-Vertreter:</b> {representation.deputy.LastName} {representation.deputy.firstName}</p> 
         <table  class="tx_staffm" >
             <tr>
@@ -34,7 +34,7 @@
             </f:for>
         </table><br />
         <div class="btn-group" role="group">
-            <f:link.action class="btn btn-default" action="edit" controller="Mitarbeiter" arguments="{mitarbeiter:representation.employee, key:key, userKey:userKey}"><f:translate key="staffm.back" /></f:link.action>
+            <f:link.action class="btn btn-default" action="edit" controller="Mitarbeiter" arguments="{mitarbeiter:representation.employee, key:key, userKey:userKey, art:art}"><f:translate key="staffm.back" /></f:link.action>
             <f:form.submit class="btn btn-success" value="{f:translate(id:'staffm.choose')} {f:translate(id:'staffm.text.uebergeben')}" />
          </div>
     </f:form>

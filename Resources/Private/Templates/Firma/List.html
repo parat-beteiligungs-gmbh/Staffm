@@ -55,7 +55,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
 <table  class="tx_staffm" >
 	<tr>
                 <th><f:translate key="tx_staffm_domain_model_firma.nummer" /></th>
-		<th><f:translate key="tx_staffm_domain_model_firma.bezeichnung" /></th>	               
+		<th><f:translate key="tx_staffm_domain_model_firma.bezeichnung" /></th>	 
+                <f:security.ifHasRole role="PA"><th class="staffmmobilehidden"></th></f:security.ifHasRole>
 	</tr>
 
 	<f:for each="{sortedFirmas}" as="firma">
@@ -68,8 +69,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
                         </f:then>
                         <f:else>
                             <f:security.ifHasRole role="PA">
-                                <td class="staffmmobilehidden nobackground">
-                                    <div class="btn-group">
+                                <td class="staffmmobilehidden">
+                                    <div class="btn-group" style="float: right">
                                         <f:link.action class="btn btn-secondary btn-sm" title="{firma.bezeichnung} bearbeiten" action="edit" arguments="{firma : firma}"><f:translate id="staffm.edit" /></f:link.action>
                                         <f:link.action class="btn btn-danger btn-sm" action="delete" arguments="{firma : firma}"><f:translate id="staffm.delete" /></f:link.action>
                                     </div>

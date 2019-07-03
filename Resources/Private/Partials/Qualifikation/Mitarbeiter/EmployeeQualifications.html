@@ -1,5 +1,7 @@
 {namespace vhs = FluidTYPO3\Vhs\ViewHelpers}
+{namespace tv = Pmwebdesign\Staffm\ViewHelpers}
 
+<f:variable name="aktuser" value="{tv:finduser()}" />
 <h2><f:translate id="staffm.text.zugeordnete" /> <f:translate key="tx_staffm_domain_model_mitarbeiter" /> (<f:count subject="{qualifikation.employeequalifications}" />)</h2>
 <table class="tx_staffm">    
     <tr>
@@ -8,10 +10,13 @@
         <th><f:translate key="tx_staffm_domain_model_mitarbeiter.last_name" /></th>
         <th><f:translate key="tx_staffm_domain_model_mitarbeiter.first_name" /></th>
         <th><f:translate key="tx_staffm_domain_model_mitarbeiter.title" /></th>
-        <th><f:translate key="tx_staffm_domain_model_mitarbeiter.telephone" /></th>
-        <th><f:translate key="tx_staffm_domain_model_qualifikation.status" /></th>
+        <th><f:translate key="tx_staffm_domain_model_mitarbeiter.telephone" /></th>    
+        <f:if condition="{tv:isCostCenterResponsible(employee: aktuser, withDeputy: 1)} > 0">
+            <th><f:translate key="tx_staffm_domain_model_qualifikation.status" /></th>
+        </f:if>
+        <f:security.ifHasRole role="PA"><th class="staffmmobilehidden"></th></f:security.ifHasRole>
     </tr> 
-    <tv:widget.qualiStatus objects="{qualifikation.employeequalifications}" as="filteredEmployeequalifications" property="check">
+    <tv:widget.qualiStatus objects="{qualifikation.employeequalifications}" as="filteredEmployeequalifications" property="check">      
         <f:for each="{filteredEmployeequalifications -> vhs:iterator.sort(sortBy: 'employee.lastName')}" as="ma"> 
             <tr id="ma{ma.uid}">
                 <td>
@@ -28,7 +33,9 @@
                 <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst', search:search}">{ma.employee.firstName}</f:link.action></td>
                 <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst', search:search}">{ma.employee.title}</f:link.action></td>
                 <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst', search:search}">{ma.employee.telephone}</f:link.action></td>
-                <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst', search:search}" title="{qualifikation.status.{ma.status}}">{ma.status}</f:link.action></td>
+                <f:if condition="{tv:isCostCenterResponsible(employee: aktuser, withDeputy: 1)} > 0">
+                    <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst', search:search}" title="{qualifikation.status.{ma.status}}">{f:if(condition: '{ma.showstatus} == TRUE', then: '{ma.status}', else: '{f:translate(id: \'staffm.text.visible.supervisor\')}')}</f:link.action></td>
+                </f:if>
                 <f:for each="{ma.employeequalifications}" as="employeequalification">
                     <f:if condition="{qualifikation} == {employeequalification.qualification}">
                         <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst', search:search}"></f:link.action></td>
@@ -37,8 +44,8 @@
                 <f:if condition="{edit} != 'no'">
                     <f:security.ifHasRole role="PA">
                         <f:then>                    
-                            <td class="staffmmobilehidden nobackground">
-                                <div class="btn-group">
+                            <td class="staffmmobilehidden">
+                                <div class="btn-group" style="float: right">
                                     <f:link.action class="btn btn-secondary btn-sm" title="{ma.employee.firstName} {ma.employee.lastName} bearbeiten" controller="Mitarbeiter" action="edit" arguments="{mitarbeiter : ma.employee}"><f:translate id="staffm.edit" /></f:link.action>
                                     <f:link.action class="btn btn-danger btn-sm" controller="Mitarbeiter" action="delete" arguments="{mitarbeiter : ma.employee}"><f:translate id="staffm.delete" /></f:link.action>
                                 </div>

@@ -30,6 +30,13 @@ if (!defined('TYPO3_MODE')) {
 	'Stafflistcustom' // Plugin-Titel
 );
 
+call_user_func(
+    function()
+    {
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile('send_memories', 'Configuration/Typoscript', 'Send Memories');
+    }
+);
+
 if (TYPO3_MODE === 'BE') {
 
 	/**

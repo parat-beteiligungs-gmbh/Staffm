@@ -1,5 +1,34 @@
 # Staffm Change Log
 
+Supports Typo3 8.7.0 - 8.7.99
+
+## 2.4.0
+
+- [FEATURE] Add history function for notes from actually user.
+- [BUGFIX] Show right templates if admin is logged in.
+- [UPDATE] Place Loading Circle.
+- [UPDATE] Style memory date.
+- [UPDATE] Change picture size in edit form.
+- [BUGFIX] Fix Edit Template employee after assign qualifications.
+- [FEATURE] Implement memory function for qualifications of the employees.
+- [UPDATE] Fix status designation.
+
+## 2.3.1
+
+Supports Typo3 8.7.0 - 8.7.99
+
+- [UPDATE] Clean Code and add a widget to cost center template.
+- [UPDATE] Style note field in qualification choose list.
+- [UPDATE] Uniform style for all Tables in lists and show forms.
+- [CLEANUP] Remove testing code.
+- [FEATURE] Add Classes for Activity in Employee Qualification. Implementation in Forms are later.
+- [BUGIFX] Show correct form for supervisor, normal users if qualifications where updatet/deletet.
+- [BUGIFX] Show correct form for supervisor, normal users and not logged in users.
+- [BUGIFX] Show correct form for supervisor after editing an employee.
+- [BUGFIX] Fix Qualification editing on cost supervisor/center responsible list.
+- [UPDATE] Show Qualification status just for cost center responsibles.
+- [UPDATE] Change textarea and datepicker arrangement in qualification.
+
 ## 2.3.0:
 
 Supports Typo3 8.7.0 - 8.7.99

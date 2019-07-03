@@ -46,10 +46,12 @@ class UserService
         // Frontend User?
         if ($uid != null) {
             // Yes, Frontend User
-            $user = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager')->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findOneByUid($uid);
+            $user = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager')
+                    ->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findOneByUid($uid);
         } else {
-            // No, Backend User
-            $user = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager')->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findOneByUsername($GLOBALS['BE_USER']->user['username']);
+            // No, Backend User -> Not needed in Staffm
+//            $user = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager')
+//                    ->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findOneByUsername($GLOBALS['BE_USER']->user['username']);
         }
         return $user;       
     }

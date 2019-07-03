@@ -58,6 +58,12 @@ class QualificationService
             if ($request->hasArgument('qualificationsstatus')) {
                 $qualificationsstatus = $request->getArgument('qualificationsstatus');
             }
+            
+            // Read targetstatus
+            if ($request->hasArgument('qualificationstargetstatus')) {
+                $qualificationstargetstatus = $request->getArgument('qualificationstargetstatus');
+            }
+            
             // Read notes
             if ($request->hasArgument('qualificationsnotes')) {
                 $qualificationsnotes = $request->getArgument('qualificationsnotes');
@@ -78,12 +84,14 @@ class QualificationService
                                 'Pmwebdesign\\Staffm\\Domain\\Repository\\QualifikationRepository'
                         )->findOneByUid($q);
                 $status = $qualificationsstatus[$qualification->getUid()];
+                $targetstatus = $qualificationstargetstatus[$qualification->getUid()];
                 $note = $qualificationsnotes[$qualification->getUid()];
                 $reminderDate = $qualificationsreminderdate[$qualification->getUid()];
 
                 // Check if previous qualification exist
                 $histories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
                 $prevStatus = FALSE;
+                /* @var $prevEmployeequalification \Pmwebdesign\Staffm\Domain\Model\Employeequalification */
                 foreach ($prevEmployeequalifications as $prevEmployeequalification) {
                     if ($prevEmployeequalification->getQualification() === $qualification) {
                         $prevStatus = TRUE;
@@ -106,14 +114,34 @@ class QualificationService
                                     // Set new status
                                     $prevEmployeequalification->setStatus($status);
                                 }
+                                
                                 // Add new history
                                 $newHistory = new \Pmwebdesign\Staffm\Domain\Model\History();
                                 $newHistory->setStatus($status);
                                 $newHistory->setDateFrom(new \DateTime());
-
                                 $newHistory->setAssessor($assessor);
+                                $newHistory->setNote($note);
                                 $histories->attach($newHistory);
+                                
                                 $prevEmployeequalification->setHistories($histories);
+                            // Same status and current user is the same as history user?
+                            } else if ($prevEmployeequalification->getStatus() == $status && count($histories) > 0) {
+                                // Get last history
+                                $sum = $histories->count();
+                                $counter = 1;          
+                                foreach ($histories as $history) {
+                                    if($sum == $counter) {
+                                        /* @var $lastHistory \Pmwebdesign\Staffm\Domain\Model\History */      
+                                        $lastHistory = $history;
+                                    }
+                                    $counter++;
+                                }       
+                                
+                                // Current user is the same as history user?
+                                if($lastHistory->getAssessor() === $assessor) {
+                                    // Update notice
+                                    $lastHistory->setNote($note);                                   
+                                }
                             }
                         }
                         if ($note != null) {
@@ -132,6 +160,10 @@ class QualificationService
                     if ($status != null) {
                         $employeequalification->setStatus($status);
                     }
+                    // Target status?
+                    if ($status != null) {
+                        $employeequalification->setTargetstatus($targetstatus);
+                    }
                     // Notice?
                     if ($note != null) {
                         $employeequalification->setNote($note);
@@ -145,11 +177,16 @@ class QualificationService
                     $newHistory->setStatus($status);
                     $newHistory->setDateFrom(new \DateTime());
                     $newHistory->setAssessor($assessor);
+                    $newHistory->setNote($note);
                     $histories->attach($newHistory);
                     $employeequalification->setHistories($histories);
                     $employeequalifications->attach($employeequalification);
                 } else {
-                    // Yes, update previous employeequalification                    
+                    // Yes, update previous employeequalification    
+                     // Target status?
+                    if ($status != null) {
+                        $prevEmployeequalification->setTargetstatus($targetstatus);
+                    }                
                     // Notice?
                     if ($note != null) {
                         $prevEmployeequalification->setNote($note);

@@ -1,25 +1,34 @@
+{namespace vh=Pmwebdesign\Staffm\ViewHelpers}
+
+<f:variable name="aktuser" value="{vh:findUser()}" />
 <div id="ladedivall" class="tx-staffm">  
     <div id="seite"></div>    
-    <f:flashMessages />
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark navbarstaffm">
-        <f:link.action title="Mitarbeiterverwaltung (Hier können alle Daten bearbeitet werden, z. B. Profilbild)" class="navbar-brand" action="listVgs" controller="Mitarbeiter"><f:translate key="tx_staffm_domain_model_mitarbeiter" /></f:link.action>
+    <f:flashMessages />    
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark navbarstaffm">        
+        <f:link.action title="Eigenen User bearbeiten" class="navbar-brand" action="edit" controller="Mitarbeiter" arguments="{mitarbeiter:aktuser, userKey:'auswahlUsr', art:'profileedit'}"><f:translate key="staffm.text.edit.profile" /></f:link.action>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">   
-                <li class="nav-item {f:if(condition: '{menuname} == \'Qualifikation\'', then: 'active')}" style="padding-top:0 !important">
-                    <f:link.action title="Qualifikationszuordnung (Qualifikationen für alle Mitarbeiter gleichzeitig zuordnen)" class="nav-link" action="listVgs" controller="Qualifikation"><f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></f:link.action>
-                </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0 mr-2">
-                <button class="btn btn-sm btn-default" type="button" onclick="buttonShow()">Info</button>
-            </form>            
-        </div>
+        <f:if condition="{vh:isCostCenterResponsible(employee: aktuser, withDeputy: 1)} > 0">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">   
+                    <li class="nav-item {f:if(condition: '{menuname} == \'Mitarbeiter\' && {art} != \'profileedit\'', then: 'active')}" style="padding-top:0 !important">
+                        <f:link.action title="Mitarbeiterverwaltung (Hier können alle Daten bearbeitet werden, z. B. Profilbild)" class="nav-link" action="listVgs" controller="Mitarbeiter"><f:translate key="tx_staffm_domain_model_mitarbeiter" /></f:link.action>
+                    </li>
+                    <li class="nav-item {f:if(condition: '{menuname} == \'Qualifikation\'', then: 'active')}" style="padding-top:0 !important">
+                        <f:link.action title="Qualifikationszuordnung (Qualifikationen für alle Mitarbeiter gleichzeitig zuordnen)" class="nav-link" action="listVgs" controller="Qualifikation"><f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></f:link.action>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0 mr-2">
+                    <button class="btn btn-sm btn-default" type="button" onclick="buttonShow()">Info</button>
+                </form>            
+            </div>
+        </f:if>
     </nav> 
     <div id="infoBox" style="display:none;max-width: 400px; padding: 5px; background-color: white; border: 2px solid #CCCCCC;content:'?'">
         <!-- TODO: Translate this text -->
-        <p>Hier können nur Mitarbeiter bearbeitet werden, die dem eingeloggten User in einer Kostenstelle (für die er verantwortlich ist) zugeordnet sind.</p><hr />
+        <p>Unter "Profil bearbeiten" kann das eigene Userprofil bearbeitet werden.</p><hr />
+        <p>Beachte: Es können nur Mitarbeiter bearbeitet werden, die dem eingeloggten User in einer Kostenstelle (für die er verantwortlich ist) zugeordnet sind.</p><hr />
         <p>Unter "Mitarbeiter" können mehrere Daten eines Mitarbeiters geändert werden.</p><hr />
         <p>Unter "Qualifikationen" können bei allen Mitarbeitern die Qualifikationen gleichzeitig
             zugeordnet werden.</p>
@@ -27,11 +36,11 @@
             <button type="button" class="btn btn-default left" onclick="buttonHide()"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span> Schließen</button>
         </p>
     </div>
-    <div style="position:fixed;width:100%;display:block;box-sizing:border-box;z-index:999999999"><img style="display:block;margin-left:auto;margin-right:auto;max-height: 10px" src="typo3conf/ext/staffm/Resources/Public/Icons/loading-frame.gif" id="ladebild" /></div>        
+    <div style="position:absolute;width:100%;display:block;box-sizing:border-box;z-index:999999999"><img style="display:block;margin-left:auto;margin-right:auto;max-height: 10px" src="typo3conf/ext/staffm/Resources/Public/Icons/loading-frame.gif" id="ladebild" /></div>        
     <div id="ladediv" style="display:block;"></div>       
     <f:render section="main" />  
 </div><br />
-<p style="text-align: right">&COPY; 2018 Markus Puffer</p>
+<p style="text-align: right">&COPY; 2019 Markus Puffer</p>
 <script>    
     window.onload = function() {
         document.getElementById("ladebild").setAttribute("style", "display:none;");        

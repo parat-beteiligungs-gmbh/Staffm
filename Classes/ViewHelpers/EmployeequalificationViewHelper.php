@@ -25,23 +25,30 @@
 
 namespace Pmwebdesign\Staffm\ViewHelpers;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 /**
- * FindUser Viewhelper
- *
+ * Check employee qualification
  */
-class FinduserViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class EmployeequalificationViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
+
     /**
-     * Jeder ViewHelper muss Methode render implementieren der den Inhalt zurückliefert
-     * @return \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter
+     * 
+     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $m
+     * @param \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qu
+     * @return \Pmwebdesign\Staffm\Domain\Model\Employeequalification
      */
-    public function render()
+    public function render(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $m = NULL, \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qu = null)
     {
-        /* @var $mitarbeiterService \Pmwebdesign\Staffm\Domain\Service\UserService */
-        $mitarbeiterService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\UserService::class);
-        return $mitarbeiterService->getLoggedInUser();        
+        if ($m != NULL) {
+            $pruefe = 0;
+            foreach ($m->getEmployeequalifications() as $q) {
+                if ($q->getQualification() === $qu) {
+                    return $q;
+                    break;
+                }
+            }
+        } 
+        return NULL;
     }
+
 }
-?>

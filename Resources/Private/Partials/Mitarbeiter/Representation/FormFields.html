@@ -20,9 +20,9 @@
         ) 
     </f:if>
     <div class="btn-group">
-        <f:link.action action="listChoose" controller="Kostenstelle" arguments="{representation:representation, key:key, userKey:userKey}" class="btn btn-sm btn-default"><f:translate key="tx_staffm_domain_model_kostenstelle" />&nbsp;<f:translate key="staffm.choose" /></f:link.action>
+        <f:link.action action="listChoose" controller="Kostenstelle" arguments="{representation:representation, key:key, userKey:userKey, art:art}" class="btn btn-sm btn-default"><f:translate key="tx_staffm_domain_model_kostenstelle" />&nbsp;<f:translate key="staffm.choose" /></f:link.action>
         <f:if condition="{representation.costcenters}">
-            <f:link.action action="deleteRepresentationCostCenters" class="btn btn-sm btn-danger" arguments="{representation:representation, key:key, userKey:userKey}"><f:translate key="tx_staffm_domain_model_kostenstelle" />&nbsp;<f:translate key="staffm.delete" /></f:link.action>
+            <f:link.action action="deleteRepresentationCostCenters" class="btn btn-sm btn-danger" arguments="{representation:representation, key:key, userKey:userKey, art:art}"><f:translate key="tx_staffm_domain_model_kostenstelle" />&nbsp;<f:translate key="staffm.delete" /></f:link.action>
         </f:if>
     </div>
     <br /><br />

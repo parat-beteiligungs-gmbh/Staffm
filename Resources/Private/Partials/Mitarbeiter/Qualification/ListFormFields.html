@@ -1,47 +1,69 @@
 {namespace vhs = FluidTYPO3\Vhs\ViewHelpers}
+
+<f:variable name="costcenterresponsible" value="{vh:isCostCenterResponsible(employee: aktuser, withDeputy: 1)}" />
 <table class="tx_staffm">
     <tr>
-        <th><f:translate key="tx_staffm_domain_model_qualifikation" /></th>
-        <th><f:translate key="tx_staffm_domain_model_employeequalification.status" /></th>
-        <th><f:translate key="tx_staffm_domain_model_employeequalification.reminder_date" /></th>
-        <th><f:translate key="tx_staffm_domain_model_employeequalification.note" /></th>    
+        <th><f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></th>
+        <f:if condition="{costcenterresponsible} > 0">
+            <th><f:translate key="tx_staffm_domain_model_employeequalification.status" /></th>
+            <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_history.targetstatus" /></th>
+            <th><f:translate key="tx_staffm_domain_model_employeequalification.reminder_date" /></th>
+            <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_employeequalification.note" /></th>    
+            <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_history" /></th>
+        </f:if>
     </tr>
         <f:for each="{mitarbeiter.employeequalifications -> vhs:iterator.sort(sortBy: 'qualification.bezeichnung')}" as="employeequalification">        
             <tr>
                 <td>{employeequalification.qualification.bezeichnung}</td>
-                <td>
-                    {employeequalification.status} - {employeequalification.qualification.status.{employeequalification.status}}
-                    <f:comment><!-- Button for showing history --></f:comment>
-                    <a id="employeequalification{employeequalification.uid}" class="btn btn-default btn-sm" onclick="showHistory(this);"><f:translate key="tx_staffm_domain_model_history" /></a><br />
-                    <f:if condition="{employeequalification.histories}">
-                        <table id="mapropertieshistory{employeequalification.uid}" style="display:none;border-spacing:0">
-                            <tr>
-                                <th><f:translate key="tx_staffm_domain_model_history.status" /></th>
-                                <th><f:translate key="tx_staffm_domain_model_history.date_from" /></th>
-                                <th><f:translate key="tx_staffm_domain_model_history.date_to" /></th>                            
-                                <th><f:translate key="tx_staffm_domain_model_history.assessor" /></th>
-                            </tr>
-                            <f:for each="{employeequalification.histories}" as="history">
+                <f:if condition="{costcenterresponsible} > 0">
+                    <td title="{employeequalification.qualification.status.{employeequalification.status}}">
+                        {employeequalification.status}<f:comment> - {employeequalification.qualification.status.{employeequalification.status}}</f:comment>                        
+                    </td>
+                    <td title="{employeequalification.qualification.status.{employeequalification.targetstatus}}" class="staffmmobilehidden">
+                        <f:if condition="{employeequalification.targetstatus}">
+                            {employeequalification.targetstatus}<f:comment> - {employeequalification.qualification.status.{employeequalification.targetstatus}}</f:comment>
+                        </f:if>
+                    </td>
+                    <td>
+                        <f:if condition="{employeequalification.reminderDate}">
+                            <f:if condition="{f:format.date(date: 'now', format: 'd.m.Y')} >= {f:format.date(date: employeequalification.reminderDate, format: 'd.m.Y')}">
+                                <f:then><span style="color:red"></f:then>
+                                <f:else><span></f:else>
+                            </f:if>
+                            {f:format.date(date: employeequalification.reminderDate, format: 'd.m.Y')}
+                            </span>
+                        </f:if>
+                    </td>
+                    <td class="staffmmobilehidden">{employeequalification.note}</td>
+                    <td class="staffmmobilehidden">
+                        <f:if condition="{employeequalification.histories}">
+                            <table class="tx_staffm maPropertiesHistoryTable" id="mapropertieshistory{employeequalification.uid}" style="display:none;border-spacing:0">
                                 <tr>
-                                    <td title="{employeequalification.qualification.status.{history.status}}">{history.status}</td>
-                                    <td>{f:format.date(date: history.dateFrom, format: 'd.m.Y')}</td>
-                                    <td>
-                                        <f:if condition="{history.dateTo}">
-                                            {f:format.date(date: history.dateTo, format: 'd.m.Y')}
-                                        </f:if>
-                                    </td>                                
-                                    <td>{history.assessor.lastName} {history.assessor.firstName}</td>
+                                    <th><f:translate key="tx_staffm_domain_model_history.status" /></th>
+                                    <th><f:translate key="tx_staffm_domain_model_history.date_from" /></th>
+                                    <th><f:translate key="tx_staffm_domain_model_history.date_to" /></th> 
+                                    <th><f:translate key="tx_staffm_domain_model_history.note" /></th>
+                                    <th><f:translate key="tx_staffm_domain_model_history.assessor" /></th>                                    
                                 </tr>
-                            </f:for>
-                        </table>
-                    </f:if>
-                </td>
-                <td>
-                    <f:if condition="{employeequalification.reminderDate}">
-                        {f:format.date(date: employeequalification.reminderDate, format: 'd.m.Y')}
-                    </f:if>
-                </td>
-                <td>{employeequalification.note}</td>
+                                <f:for each="{employeequalification.histories}" as="history">
+                                    <tr>
+                                        <td title="{employeequalification.qualification.status.{history.status}}">{history.status}</td>
+                                        <td>{f:format.date(date: history.dateFrom, format: 'd.m.Y')}</td>
+                                        <td>
+                                            <f:if condition="{history.dateTo}">
+                                                {f:format.date(date: history.dateTo, format: 'd.m.Y')}
+                                            </f:if>
+                                        </td>  
+                                        <td>{history.note}</td>
+                                        <td>{history.assessor.lastName} {history.assessor.firstName}</td>
+                                    </tr>
+                                </f:for>
+                            </table>
+                        </f:if>
+                        <f:comment><!-- Button for showing history --></f:comment>
+                        <a id="employeequalification{employeequalification.uid}" class="btn btn-default btn-sm" onclick="showHistory(this);" style="float: right"><f:translate key="tx_staffm_domain_model_history" /></a><br />                        
+                    </td>
+                </f:if>
             </tr>
         </f:for>
 </table>
@@ -50,15 +72,15 @@
         <f:security.ifHasRole role="PA">
             <f:then>
                 <div class="btn-group" role="group">
-                    <f:link.action class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:key, standardsearch:search, cache:'notcache', userKey:userKey}"><f:translate id="staffm.choose" /></f:link.action>                    
-                    <f:link.action class="btn btn-danger" action="deleteQuali" arguments="{mitarbeiter:mitarbeiter}" title="Entfernt alle Qualifikationen!"><f:translate id="staffm.allremove" /></f:link.action>                    
+                    <f:link.action class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:'auswahl', kst:kst, standardsearch:search, cache:'notcache', userKey:userKey, berechtigung:berechtigung, art:art}"><f:translate id="staffm.choose" /></f:link.action>                    
+                    <f:link.action class="btn btn-danger" action="deleteQuali" arguments="{mitarbeiter:mitarbeiter, key:key, standardsearch:search, kst:kst, cache:'notcache', userKey:userKey, berechtigung:berechtigung, art:art}" title="Entfernt alle Qualifikationen!"><f:translate id="staffm.allremove" /></f:link.action>                    
                 </div>
             </f:then>
             <f:else>
-                <f:if condition="{edit} != 'no'">
+                <f:if condition="{edit} != 'no' && {costcenterresponsible} > 0">                    
                     <div class="btn-group" role="group">
-                        <f:link.action class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:key, standardsearch:search, cache:'notcache', userKey:userKey}"><f:translate id="staffm.choose" /></f:link.action>                    
-                        <f:link.action class="btn btn-danger" action="deleteQuali" arguments="{mitarbeiter:mitarbeiter}" title="Entfernt alle Qualifikationen!"><f:translate id="staffm.allremove" /></f:link.action>                    
+                        <f:link.action class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:'auswahl', kst:kst, standardsearch:search, cache:'notcache', userKey:'Vgs', berechtigung:berechtigung, art:art}"><f:translate id="staffm.choose" /></f:link.action>                    
+                        <f:link.action class="btn btn-danger" action="deleteQuali" arguments="{mitarbeiter:mitarbeiter, key:key, standardsearch:search, kst:kst, cache:'notcache', userKey:'Vgs', berechtigung:berechtigung, art:art}" title="Entfernt alle Qualifikationen!"><f:translate id="staffm.allremove" /></f:link.action>                    
                     </div>
                 </f:if>
             </f:else>
@@ -67,11 +89,11 @@
     <f:else>
         <f:security.ifHasRole role="PA">
             <f:then>
-                <f:link.action style="float:left" class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:key, standardsearch:search, cache:'notcache', userKey:userKey}"><f:translate id="staffm.choose" /></f:link.action><br />                        
+                <f:link.action style="float:left" class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:'auswahl', kst:kst, standardsearch:search, cache:'notcache', userKey:userKey, berechtigung:berechtigung, art:art}"><f:translate id="staffm.choose" /></f:link.action><br />                        
             </f:then>
             <f:else>
-                <f:if condition="{edit} != 'no'">
-                    <f:link.action class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:key, standardsearch:search, cache:'notcache', userKey:userKey}"><f:translate id="staffm.choose" /></f:link.action>
+                <f:if condition="{edit} != 'no' && {costcenterresponsible} > 0">
+                    <f:link.action class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:'auswahl', kst:kst, standardsearch:search, cache:'notcache', userKey:'Vgs', berechtigung:berechtigung, art:art}"><f:translate id="staffm.choose" /></f:link.action>
                 </f:if>
             </f:else>
         </f:security.ifHasRole>
@@ -88,10 +110,19 @@
         var fullid = stat.id;       
         var id = fullid.substring(21);       
         var elem = document.getElementById("mapropertieshistory" + id);
+        var classElem = document.getElementsByClassName("maPropertiesHistoryTable");
         if (elem.style.display === "none") {
-            elem.style.display = "";
+            hideAll(classElem);
+            elem.style.display = "block";
         } else {
+            hideAll(classElem);
             elem.style.display = "none";
+        }
+        
+        function hideAll(classElem) {
+            for (var i = 0; i < classElem.length; i++) {
+                classElem[i].style.display = "none";
+            }
         }
     }
 </script>

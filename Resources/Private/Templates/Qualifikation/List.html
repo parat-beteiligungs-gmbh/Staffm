@@ -99,6 +99,7 @@
             var cb = document.getElementById(wholeid);
             var elem = document.getElementsByClassName("td" + id);
             var elemSelect = document.getElementById("qualiSelect" + id);
+            var elemTargetSelect = document.getElementById("qualiTargetSelect" + id);
             var elemText = document.getElementById("qualiText" + id);
             var elemReminderDate = document.getElementById("qualiReminderDate" + id);
 
@@ -109,6 +110,7 @@
                 }
                 elemSelect.disabled = false;
                 elemSelect.value = 1;
+                elemTargetSelect.disabled = false;               
                 elemText.disabled = false;
                 elemReminderDate.disabled = false;
             } else {
@@ -119,6 +121,8 @@
                 }
                 elemSelect.disabled = true;
                 elemSelect.value = "";
+                elemTargetSelect.disabled = true;
+                elemTargetSelect.value = "";
                 elemText.disabled = true;
                 elemText.value = "";
                 elemReminderDate.disabled = true;

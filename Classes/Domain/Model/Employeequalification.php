@@ -48,6 +48,13 @@ class Employeequalification extends \TYPO3\CMS\Extbase\DomainObject\AbstractEnti
     protected $status = 0;
     
     /**
+     * Target Status from qualification for the user
+     *
+     * @var integer
+     */
+    protected $targetstatus = 0;
+    
+    /**
      * Employee
      *
      * @var \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter
@@ -68,6 +75,15 @@ class Employeequalification extends \TYPO3\CMS\Extbase\DomainObject\AbstractEnti
      */
     protected $reminderDate = NULL;
     
+    /**
+     * Activities
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Activity>
+     * @lazy
+     * @cascade remove
+     */
+    protected $activities = NULL;
+
     /**
      * Histories of qualifications and status
      *
@@ -90,6 +106,15 @@ class Employeequalification extends \TYPO3\CMS\Extbase\DomainObject\AbstractEnti
      */
     public function __construct()
     {
+        $this->initStorageObjects();
+    }
+    
+    /*
+     * Initializes all ObjectStorage properties
+     */
+    protected function initStorageObjects()
+    {
+        $this->activities = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
         $this->histories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
     
@@ -111,6 +136,15 @@ class Employeequalification extends \TYPO3\CMS\Extbase\DomainObject\AbstractEnti
     public function getStatus()
     {
         return $this->status;
+    }
+    
+    /**
+     * 
+     * @return integer
+     */
+    public function getTargetstatus()
+    {
+        return $this->targetstatus;
     }
 
     /**
@@ -142,6 +176,16 @@ class Employeequalification extends \TYPO3\CMS\Extbase\DomainObject\AbstractEnti
         return $this->reminderDate;
     }
     
+    /**
+     * Get activities
+     * 
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Activity>
+     */
+    public function getActivities()
+    {
+        return $this->activities;
+    }
+        
     /**
      * Get the histories
      * 
@@ -181,6 +225,15 @@ class Employeequalification extends \TYPO3\CMS\Extbase\DomainObject\AbstractEnti
     {
         $this->status = $status;
     }
+    
+     /**
+     * 
+     * @param integer $status
+     */
+    public function setTargetstatus($targetstatus)
+    {
+        $this->targetstatus = $targetstatus;
+    }
 
     /**
      * Set the employee
@@ -211,6 +264,17 @@ class Employeequalification extends \TYPO3\CMS\Extbase\DomainObject\AbstractEnti
         $this->reminderDate = $reminderDate;
     }
     
+    /**
+     * Set activities
+     * 
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Activity> $activities
+     * @return void 
+     */
+    public function setActivities(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $activities)
+    {
+        $this->activities = $activities;
+    }
+        
     /**
      * Set the histories
      * 

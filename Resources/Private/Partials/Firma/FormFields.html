@@ -59,8 +59,8 @@
         <f:for each="{resources}" as="resource">
             <li>
                 <label>
-                    <vh:form.multiupload.delete property="files" value="{resource}" />
-                    <f:image image="{resource}" alt="" width="250" height="auto" />
+                    <vh:form.multiupload.delete property="files" value="{resource}" />                    
+                    {resource.originalResource.originalFile.name}
                 </label>
             </li>
         </f:for>

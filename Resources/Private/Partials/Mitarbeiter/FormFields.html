@@ -7,7 +7,7 @@
             <li>
                 <label>
                     <vh:form.multiupload.delete property="image" value="{resource}" />
-                    <f:image image="{resource}" alt="" width="250" height="auto" />
+                    <f:image image="{resource}" alt="" width="150" height="auto" />
                 </label>
             </li>
         </f:for>
@@ -15,7 +15,7 @@
 </vh:form.multiupload>   
 <br style="clear:both"/>
 <f:comment><!-- Representations --></f:comment>
-<f:if condition="{vh:isCostCenterResponsible(employee:mitarbeiter)} > 0">
+<f:if condition="{vh:isCostCenterResponsible(employee:mitarbeiter, withDeputy: 0)} > 0">
     <f:render partial="Mitarbeiter/Representation/FormFields" arguments="{representations: mitarbeiter.representations}" />
     <div class="btn-group" role="group">
         <f:link.action action="list" arguments="{mitarbeiter:mitarbeiter, key:'chooseDeputyForEmployee', cache:'notcache'}" class="btn btn-default"><f:translate id="staffm.choose" /></f:link.action>

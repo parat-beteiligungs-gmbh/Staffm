@@ -13,7 +13,8 @@ if (!defined('TYPO3_MODE')) {
 		'Firma' => 'list, show, choose, export, new, edit, create, update, delete, deleteFirma',				
 		'Qualifikation' => 'list, show, edit, new, create, update, delete, export',
 		'Qualilog' => 'list, show, choose, edit, new, create, update, delete',
-                'Category' => 'list, show, new, edit, create, update, delete'
+                'Category' => 'list, show, new, edit, create, update, delete',
+                'Activity' => 'create, delete'
 	],	
 	[ // Non-cacheable actions
 		'Mitarbeiter' => 'list, listChoose, listChooseQuali, choose, show, new, edit, editUser, create, editKst, update, delete, deleteQuali, deleteCategories, deleteRepresentations, showKst, showVeraKst, setRepresentations, setRepresentationCostCenters, deleteRepresentationCostCenters, deleteImage, export',
@@ -23,7 +24,8 @@ if (!defined('TYPO3_MODE')) {
 		'Standort' => 'list, show, choose, new, edit, create, update, delete, deleteStandort',		
 		'Qualifikation' => 'list, show, create, update, delete',
 		'Qualilog' => 'choose, create, update, delete',
-                'Category' => 'list, show, new, edit, create, update, delete'
+                'Category' => 'list, show, new, edit, create, update, delete',
+                'Activity' => 'create, delete'
 	]
 );
 
@@ -31,22 +33,24 @@ if (!defined('TYPO3_MODE')) {
 	'Pmwebdesign.' . $_EXTKEY,
 	'Staffmvorg',
 	[ // Cacheable actions
-		'Mitarbeiter' => 'listVgs, show, edit, editKst, update, showKst, showVeraKst, deleteImage, deleteQuali, deleteCategories, deleteRepresentations, export',
+		'Mitarbeiter' => 'edit, listVgs, list, show, editKst, update, showKst, showVeraKst, deleteImage, deleteQuali, deleteCategories, setRepresentations, setRepresentationCostCenters, deleteRepresentations, deleteRepresentationCostCenters, export',
                 'Position' => 'list, show, choose',
 		'Kostenstelle' => 'list, listChoose, show, choose, export',
 		'Firma' => 'list, show, choose, export',
 		'Qualifikation' => 'list, listVgs, show, chooselist, edit, new, create, update, delete, export, exportQualisEmployees',
 		'Qualilog' => 'list, show, choose, edit, new, create, update, delete',		
-                'Category' => 'list, show, new, edit, create, update, delete'
+                'Category' => 'list, show, new, edit, create, update, delete',
+                'Activity' => 'create, delete'
 	],	
 	[ // Non-cacheable actions
-		'Mitarbeiter' => 'listVgs, show, edit, editKst, update, showKst, showVeraKst, deleteImage, deleteQuali, deleteCategories, deleteRepresentations, export',
+		'Mitarbeiter' => 'edit, listVgs, list, show, editKst, update, showKst, showVeraKst, deleteImage, deleteQuali, deleteCategories, setRepresentations, setRepresentationCostCenters, deleteRepresentations, deleteRepresentationCostCenters, export',
                 'Position' => 'list, show, choose',
 		'Kostenstelle' => 'list, listChoose, show, choose, export',
 		'Firma' => 'list, show, choose, export',
 		'Qualifikation' => 'list, listVgs, show, chooselist, edit, new, create, update, delete, export, exportQualisEmployees',
 		'Qualilog' => 'list, show, choose, edit, new, create, update, delete',		
-                'Category' => 'list, show, new, edit, create, update, delete'
+                'Category' => 'list, show, new, edit, create, update, delete',
+                'Activity' => 'create, delete'
 	]
 );
 
@@ -64,12 +68,13 @@ if (!defined('TYPO3_MODE')) {
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerTypeConverter('Pmwebdesign\\Staffm\\Property\\TypeConverter\\UploadedFileReferenceConverter');
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerTypeConverter('Pmwebdesign\\Staffm\\Property\\TypeConverter\\ObjectStorageConverter');
 
-// Show Sheduler Task
-//$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['TYPO3\Staffm\Task\Mitarbeitersynch'] = array (
-//	'extension' => $_EXTKEY,
-//	'title' => 'Mitarbeiter-Synchronisation',
-//	'description' => 'Synchronisiert fehlende Daten zu Mitarbeitern',
-//);
+// Task for memories
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Pmwebdesign\Staffm\Task\SendMemories'] = [
+    'extension' => $_EXTKEY,
+    'title' => 'Send Memories',
+    'description' => 'Send memories of employee qualification if the memory date is come',
+    'additionalFields' => \TYPO3\CMS\Scheduler\Task\CachingFrameworkGarbageCollectionAccitionalFieldProvieder::class 
+];
 
 /**
  * Add cache configuration

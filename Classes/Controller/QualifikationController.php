@@ -290,7 +290,6 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         if($categoryfield != "" && $categoryfield != "catAll") {
             /* @var $category \Pmwebdesign\Staffm\Domain\Model\Category */
             $category = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\CategoryRepository::class)->findOneByName($categoryfield);
-            \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($category);
             // Category?
             if($category) {
                 $qualifications = $category->getQualifications();
@@ -395,10 +394,15 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             $cache = $this->request->getArgument('cache');            
         } 
         
+        if ($this->request->hasArgument('art')) {
+            $art = $this->request->getArgument('art');
+            $this->view->assign('art', $art);
+        }     
+                
         $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
         
         // No cache flag? (Example qualification was deleted and the info message is shown in the list view)
-        if ($cache != "notcache" && $search == "") {
+        if ($cache != "notcache" && $search == "") {            
             // Cache exist?       
             if (($output = $cacheService->getCache($this->request->getControllerActionName(), $this->request->getControllerName(), $char, $maid, 0)) != NULL) {
                 // Show Cache-Page
@@ -423,6 +427,11 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         if ($this->request->hasArgument('userKey')) {
             $userKey = $this->request->getArgument('userKey');        
             $this->view->assign('userKey', $userKey);
+        }
+        
+         if ($this->request->hasArgument('kst')) {
+            $kst = $this->request->getArgument('kst');        
+            $this->view->assign('kst', $kst);
         }
 
         if ($this->request->hasArgument('berechtigung')) {
@@ -549,7 +558,10 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             $key = $this->request->getArgument('key');
             $this->view->assign('key', $key);
             $this->view->assign('mitarbeiter', $mitarbeiter);
+        } else {
+            $this->view->assign('key', 'fromQualification');
         }
+        
         // Get logged in user        
         $aktuser = $this->objectManager->
                 get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->

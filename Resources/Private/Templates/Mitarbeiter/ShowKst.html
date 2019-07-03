@@ -31,7 +31,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
         <f:link.action class="btn btn-default" controller="Standort" action="show" arguments="{standort:standort}"><f:translate id="staffm.back" /></f:link.action>
     </f:if>
     <f:if condition="{qualifikation}">
-        <f:link.action section="ma{mitarbeiter.uid}" class="btn btn-default" controller="Qualifikation" action="show" arguments="{qualifikation:qualifikation, search:search}"><f:translate id="staffm.back" /></f:link.action>
+        <f:link.action section="ma{mitarbeiter.uid}" class="btn btn-default" controller="Qualifikation" action="show" arguments="{qualifikation:qualifikation, search:search}"><f:translate id="staffm.back" />&nbsp;(<f:translate key="tx_staffm_domain_model_qualifikation" />)</f:link.action>
     </f:if>
     <f:if condition="{custom}">
         <f:link.action section="ma{mitarbeiter.uid}" class="btn btn-default" controller="Mitarbeiter" action="listCustom"><f:translate id="staffm.back" /></f:link.action>

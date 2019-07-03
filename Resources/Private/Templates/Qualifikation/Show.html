@@ -4,8 +4,8 @@
 <f:section name="main">
     <h1><f:translate id="staffm.qualifikation.show.headline" /></h1>
     <f:flashMessages />
-    <f:render partial="Qualifikation/Properties" arguments="{qualifikation:qualifikation}" /><br />
-    <div class="btn-group">
+    <f:render partial="Qualifikation/Properties" arguments="{qualifikation:qualifikation}" />
+    <div class="btn-group">        
         <f:if condition="{key} == 'vonMit'">
             <f:then>        
                 <f:link.action class="btn btn-default" controller="Mitarbeiter" action="show" arguments="{mitarbeiter:mitarbeiter, search:standardsearch}"><f:translate id="staffm.back" /> (<f:translate key="tx_staffm_domain_model_mitarbeiter" />)</f:link.action>
