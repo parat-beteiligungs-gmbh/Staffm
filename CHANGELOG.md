@@ -2,6 +2,9 @@
 
 Supports Typo3 8.7.0 - 8.7.99
 
+## 2.4.0
+
+- [FEATURE] Add history function for notes from actually user.
 - [BUGFIX] Show right templates if admin is logged in.
 - [UPDATE] Place Loading Circle.
 - [UPDATE] Style memory date.
