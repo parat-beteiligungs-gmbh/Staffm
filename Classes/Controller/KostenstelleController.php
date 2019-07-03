@@ -338,6 +338,9 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         if($this->request->hasArgument("userKey")) {
             $this->view->assign('userKey', $this->request->getArgument("userKey"));
         }
+        if($this->request->hasArgument("art")) {
+            $this->view->assign('art', $this->request->getArgument("art"));
+        }
         
         $kostenstellen = $this->kostenstelleRepository->findCostCentersFromResponsible($representation->getEmployee());
         $this->view->assign('kostenstellen', $kostenstellen);

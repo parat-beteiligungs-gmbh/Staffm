@@ -33,7 +33,7 @@ if (!defined('TYPO3_MODE')) {
 	'Pmwebdesign.' . $_EXTKEY,
 	'Staffmvorg',
 	[ // Cacheable actions
-		'Mitarbeiter' => 'edit, listVgs, show, editKst, update, showKst, showVeraKst, deleteImage, deleteQuali, deleteCategories, setRepresentations, setRepresentationCostCenters, deleteRepresentationCostCenters, export',
+		'Mitarbeiter' => 'edit, listVgs, list, show, editKst, update, showKst, showVeraKst, deleteImage, deleteQuali, deleteCategories, setRepresentations, setRepresentationCostCenters, deleteRepresentations, deleteRepresentationCostCenters, export',
                 'Position' => 'list, show, choose',
 		'Kostenstelle' => 'list, listChoose, show, choose, export',
 		'Firma' => 'list, show, choose, export',
@@ -43,7 +43,7 @@ if (!defined('TYPO3_MODE')) {
                 'Activity' => 'create, delete'
 	],	
 	[ // Non-cacheable actions
-		'Mitarbeiter' => 'edit, listVgs, show, editKst, update, showKst, showVeraKst, deleteImage, deleteQuali, deleteCategories, setRepresentations, setRepresentationCostCenters, deleteRepresentationCostCenters, export',
+		'Mitarbeiter' => 'edit, listVgs, list, show, editKst, update, showKst, showVeraKst, deleteImage, deleteQuali, deleteCategories, setRepresentations, setRepresentationCostCenters, deleteRepresentations, deleteRepresentationCostCenters, export',
                 'Position' => 'list, show, choose',
 		'Kostenstelle' => 'list, listChoose, show, choose, export',
 		'Firma' => 'list, show, choose, export',

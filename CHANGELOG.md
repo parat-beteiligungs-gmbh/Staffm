@@ -2,6 +2,7 @@
 
 Supports Typo3 8.7.0 - 8.7.99
 
+- [BUGFIX] Show right templates if admin is logged in.
 - [UPDATE] Place Loading Circle.
 - [UPDATE] Style memory date.
 - [UPDATE] Change picture size in edit form.

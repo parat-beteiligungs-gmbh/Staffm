@@ -228,10 +228,9 @@ class MitarbeiterController extends ActionController
      * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
      * @return void
      */
-    public function listAction(\Pmwebdesign\Staffm\Domain\Model\Category $category = NULL,
-            Kostenstelle $kostenstelle = NULL,
+    public function listAction(\Pmwebdesign\Staffm\Domain\Model\Category $category = NULL, Kostenstelle $kostenstelle = NULL,
             \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter = NULL)
-    {
+    {        
         // Search exist?
         if ($this->request->hasArgument('search')) {
             $search = $this->request->getArgument('search');
@@ -255,6 +254,11 @@ class MitarbeiterController extends ActionController
         if ($this->request->hasArgument('cache')) {
             $cache = $this->request->getArgument('cache');
         }
+        
+        if ($this->request->hasArgument('art')) {
+            $art = $this->request->getArgument('art');
+            $this->view->assign('art', $art);
+        }    
                 
         /** @var CacheService $cacheService */
         $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);    
@@ -270,22 +274,7 @@ class MitarbeiterController extends ActionController
 
         $limit = 0;
         $mitarbeiters = $this->mitarbeiterRepository->findSearchForm($search, $limit);
-
-        // TODO: Check if this can be deleted
-//        if ($char != "" || $maid == "maid") {
-//            // All clicked?
-//            if ($char == '%') {
-//                $search = "";               
-//                $key = "all"; // TODO: check if $key is needed
-//            // Char clicked?
-//            } elseif ($char <> '') {
-//                $search = "";   
-//            // Employee id?
-//            } elseif ($maid == "maid") {
-//                // A employee id was send               
-//                $key = "all";
-//            }
-//        }
+       
         if ($this->request->hasArgument('key')) {
             $key = $this->request->getArgument('key');
             $this->view->assign('key', $key);
@@ -569,7 +558,7 @@ class MitarbeiterController extends ActionController
      * @return void
      */
     public function editAction($mitarbeiter)
-    {
+    {          
         $mitarbeiter = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findOneByUid($mitarbeiter);
         if($this->request->hasArgument('aktuser')) {            
             $aktuser = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findOneByUid($this->request->getArgument('aktuser'));           
@@ -665,6 +654,26 @@ class MitarbeiterController extends ActionController
         if ($this->request->hasArgument('kst')) {
             $kst = $this->request->getArgument('kst');
             $this->view->assign('kst', $kst);
+        }
+        
+        if ($this->request->hasArgument('key')) {
+            $key = $this->request->getArgument('key');
+            $this->view->assign('key', $key);
+        }
+        
+         // Logged in user              
+        $aktuser = $this->objectManager->
+                get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
+                findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
+        if ($aktuser) {
+            $this->view->assign('aktuser', $aktuser);
+        } else {
+            $aktuser = $this->objectManager->
+                get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
+                findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
+            if($aktuser != NULL)  {
+                $this->view->assign('aktuser', $aktuser);
+            }
         }
 
         $this->view->assign('mitarbeiter', $ma);
@@ -886,11 +895,15 @@ class MitarbeiterController extends ActionController
         }
         if ($this->request->hasArgument('userKey')) {
             $userKey = $this->request->getArgument('userKey');
-        }        
+        }       
+        if ($this->request->hasArgument('art')) {
+            $art = $this->request->getArgument('art');        
+        }    
+        
         $employee->setRepresentations(new ObjectStorage());
         $this->mitarbeiterRepository->update($employee);
         $this->addFlashMessage('Alle Vertreter vom Mitarbeiter "' . $employee->getFirstName() . ' ' . $employee->getLastName() . '" wurden gelöscht!', '', AbstractMessage::ERROR);
-        $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $employee, 'search' => $search, 'berechtigung' => $berechtigung, 'key' => $userKey));
+        $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $employee, 'search' => $search, 'berechtigung' => $berechtigung, 'key' => $userKey, 'art' => $art));
     }
     
     /**
@@ -982,6 +995,11 @@ class MitarbeiterController extends ActionController
         if ($this->request->hasArgument('userKey')) {
             $userKey = $this->request->getArgument('userKey');
         }        
+        
+        if ($this->request->hasArgument('art')) {
+            $art = $this->request->getArgument('art');
+        }    
+        
         // Assigned deputies?
         if ($this->request->hasArgument('employees')) {
             /* @var $userService \Pmwebdesign\Staffm\Domain\Service\UserService */
@@ -1003,7 +1021,7 @@ class MitarbeiterController extends ActionController
         }        
         
         $this->addFlashMessage('Die Vertreter vom Mitarbeiter "' . $employee->getFirstName() . ' ' . $employee->getLastName() . '" wurden aktualisiert!', '', AbstractMessage::OK);
-        $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $employee, 'search' => $search, 'berechtigung' => $berechtigung, 'key' => $userKey));
+        $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $employee, 'search' => $search, 'berechtigung' => $berechtigung, 'key' => $userKey, 'art' => $art));
     }
     
     /**
@@ -1026,6 +1044,10 @@ class MitarbeiterController extends ActionController
             $userKey = $this->request->getArgument('userKey');
         }        
         
+        if ($this->request->hasArgument('art')) {
+            $art = $this->request->getArgument('art');            
+        }    
+        
         $employee = $representation->getEmployee();
         
         // Assigned costcenters for deputies?
@@ -1046,7 +1068,7 @@ class MitarbeiterController extends ActionController
         
         $this->mitarbeiterRepository->update($employee);       
         $this->addFlashMessage('Die ausgenommenen Kostenstellen für Vertreter "' . $representation->getDeputy()->getFirstName() . ' ' . $representation->getDeputy()->getLastName() . '" wurden aktualisiert!', '', AbstractMessage::OK);
-        $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $employee, 'search' => $search, 'berechtigung' => $berechtigung, 'key' => $key, 'userKey' => $userKey));
+        $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $employee, 'search' => $search, 'berechtigung' => $berechtigung, 'key' => $key, 'userKey' => $userKey, 'art' => $art));
     }
 
     /**

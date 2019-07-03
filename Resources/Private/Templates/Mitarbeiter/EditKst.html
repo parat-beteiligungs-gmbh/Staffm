@@ -7,8 +7,8 @@
 
     <f:render partial="FormErrors" />
 
-    <f:form action="update" name="mitarbeiter" arguments="{mitarbeiter:mitarbeiter, kst:kst, search:search, berechtigung:'vonVorg'}" object="{mitarbeiter}" >
-        <f:render partial="Mitarbeiter/FormFieldsVorg" arguments="{mitarbeiter:mitarbeiter, images:images, kst:kst, berechtigung:'vonVorg'}" /><br />  
+    <f:form enctype="multipart/form-data" action="update" name="mitarbeiter" arguments="{mitarbeiter:mitarbeiter, kst:kst, key:key, search:search, berechtigung:'vonVorg'}" object="{mitarbeiter}" >
+        <f:render partial="Mitarbeiter/FormFieldsVorg" arguments="{mitarbeiter:mitarbeiter, kst:kst, key:key, aktuser:aktuser, berechtigung:'vonVorg'}" /><br />  
         <div class="btn-group">
             <f:if condition="{position}">
                 <f:link.action class="btn btn-default" controller="Position" action="show" arguments="{position:position}"><f:translate id="staffm.back" /></f:link.action>
@@ -28,6 +28,8 @@
             <f:form.submit class="btn btn-success" onclick="setDates()" value="{f:translate(id:'staffm.save')}" />
         </div>
     </f:form>
+     <f:comment><!-- Just load Javascript in this content Javascript for date change to unix-stamp --></f:comment>  
+    <script type="text/javascript" src="/typo3conf/ext/staffm/Resources/Public/js/staffm.js"></script>
 </f:section>
 
 
