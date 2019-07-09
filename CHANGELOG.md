@@ -2,6 +2,7 @@
 
 Supports Typo3 8.7.0 - 8.7.99
 
+- [FEATURE] New Button for qualification status.
 - [UPDATE] Add notice information to memory email.
 
 ## 2.4.0
