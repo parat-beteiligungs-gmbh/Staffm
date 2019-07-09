@@ -28,7 +28,7 @@ namespace Pmwebdesign\Staffm\Utility;
 /**
  * Class containing more array helper functions.
  */
-class ArrayUtility
+class ArrayUtility 
 {
 
     /**
@@ -96,19 +96,20 @@ class ArrayUtility
      * @param \TYPO3\CMS\Extbase\Persistence\QueryResultInterface $queryResult
      * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
      */
-    static public function fillOjectStorageFromQueryResult(\TYPO3\CMS\Extbase\Persistence\QueryResultInterface $queryResult = NULL)
+    static public function fillOjectStorageFromQueryResult(\TYPO3\CMS\Extbase\Persistence\QueryResultInterface $queryResult = NULL) : \TYPO3\CMS\Extbase\Persistence\ObjectStorage
     {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\Extbase\\Object\\ObjectManager');
         
         /* @var $objectStorage \TYPO3\CMS\Extbase\Persistence\ObjectStorage */
-        $objectStorage = $objectManager->get('TYPO3\CMS\Extbase\Persistence\ObjectStorage');
-
+        $objectStorage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        //$objectStorage = $objectManager->get(\TYPO3\CMS\Extbase\Persistence\ObjectStorage::class);
+        
         if (NULL !== $queryResult) {
             foreach ($queryResult AS $object) {
                 $objectStorage->attach($object);
             }
-        }
-        return $objectStorage;
+        }        
+        return $objectStorage;       
     }
     
     /**
