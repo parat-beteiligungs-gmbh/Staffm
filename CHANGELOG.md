@@ -2,6 +2,7 @@
 
 Supports Typo3 8.7.0 - 8.7.99
 
+- [BUGFIX] False template in search form of employees.
 - [BUGFIX] Fix Error if edit a qualification with no cost center responsible.
 - [FEATURE] New Button for qualification status.
 - [UPDATE] Add notice information to memory email.
