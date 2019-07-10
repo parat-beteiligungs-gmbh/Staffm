@@ -3,7 +3,7 @@
 <f:section name="main">
     <h1><f:translate id="staffm.mitarbeiter.show.headline" /></h1>   
     <f:flashMessages />
-    <f:render partial="Mitarbeiter/Properties" arguments="{mitarbeiter:mitarbeiter, search:search, aktuser:aktuser}" /><br />
+    <f:render partial="Mitarbeiter/Properties" arguments="{mitarbeiter:mitarbeiter, search:search, aktuser:aktuser, userKey:userKey}" /><br />
     <div class="btn-group">
         <f:if condition="{userKey} == 'Vgs'">
             <f:then>

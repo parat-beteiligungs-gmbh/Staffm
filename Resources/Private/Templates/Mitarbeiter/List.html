@@ -4,8 +4,8 @@
 <f:layout name="Default" />
 <f:section name="main">
     <h1><f:translate id="staffm.mitarbeiter.list.headline" /></h1>
-    <f:flashMessages />  
-    <f:if condition="{key} == '' || {key} == 'suche'">
+    <f:flashMessages />
+    <f:if condition="{key} == '' || {key} == 'suche' || {key} == 'vonMit'">
         <f:render partial="Mitarbeiter/List/List" arguments="{_all}" />
     </f:if>
     <f:if condition="{key} == 'chooseEmployeeForCategory'">
