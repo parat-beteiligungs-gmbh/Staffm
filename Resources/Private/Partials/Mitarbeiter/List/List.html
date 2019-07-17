@@ -1,11 +1,11 @@
-
 <f:form action="list" id="searchform" name="searchform" arguments="{kostenstelle:kostenstelle, key:'suche', char:'{char}', cache:'{cache}'}" additionalAttributes="{role: 'form'}">        
     <tv:widget.atoZNav objects="{mitarbeiters}" as="filteredMitarbeiters" property="lastName" search="{search}" maid="{maid}">  
+        <f:variable name="admin" value="{tv:isAdmin()}" />
         <div id="testappend" class="input-group"> 
             <div class="input-group-prepend">
-                <f:security.ifHasRole role="PA">                                                
+                <f:if condition="{tv:isAdmin()} == TRUE">                                             
                     <f:link.action class="btn btn-default" title="Zum Formular für Mitarbeiter anlegen" action="new"><f:translate id="staffm.mitarbeiter.new" /></f:link.action>                    
-                </f:security.ifHasRole>                
+                </f:if>               
                 <f:link.action title="Die Liste in Excel ausgeben" id="excelExport" class="btn btn-default" action="export" arguments="{searching:'{search}'}" name="excelExport" >
                     <f:image class="tx_staffm icon" src="typo3conf/ext/staffm/Resources/Public/Icons/Excel.png" />
                     Excel Export
@@ -26,7 +26,7 @@
                     <th><f:translate key="tx_staffm_domain_model_mitarbeiter.first_name" /></th>
                     <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.title" /></th>
                     <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.telephone" /></th>
-                    <f:security.ifHasRole role="PA"><th class="staffmmobilehidden"></th></f:security.ifHasRole>                    
+                    <f:if condition="{admin} == TRUE"><th class="staffmmobilehidden"></th></f:if>                    
                     <f:comment><!-- Search condition, for qualifications (more performance) --></f:comment>
                     <f:if condition="{search}">
                         <th><f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></th>                    
@@ -79,14 +79,14 @@
                                 </td>
                             </tv:widget.qualiStatus>
                         </f:if>
-                        <f:security.ifHasRole role="PA">                               
+                        <f:if condition="{admin} == TRUE">                               
                             <td class="staffmmobilehidden">
                                 <div class="btn-group" style="float: right">
                                     <f:link.action class="btn btn-secondary btn-sm" title="{mitarbeiter.firstName} {mitarbeiter.lastName} bearbeiten" action="edit" arguments="{mitarbeiter : mitarbeiter}"><f:translate id="staffm.edit" /></f:link.action>
                                     <f:link.action pluginName="Staffm" class="btn btn-danger btn-sm" action="delete" arguments="{mitarbeiter : mitarbeiter}"><f:translate id="staffm.delete" /></f:link.action>
                                 </div>
                             </td>
-                        </f:security.ifHasRole>
+                        </f:if>
                     </tr>               	
                 </f:for>
             </table>

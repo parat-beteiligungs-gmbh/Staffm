@@ -2,6 +2,8 @@
 
 Supports Typo3 8.7.0 - 8.7.99
 
+- [UPDATE] Change authorization for admins about settings.
+- [UPDATE] Change qualification choose.
 - [BUGFIX] Fix correct links in show templates.
 - [BUGFIX] False template in search form of employees.
 - [BUGFIX] Fix Error if edit a qualification with no cost center responsible.
