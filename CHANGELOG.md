@@ -1,5 +1,11 @@
 # Staffm Change Log
 
+## 2.5.3
+
+Supports Typo3 8.7.0 - 8.7.99
+
+- [BUGFIX] Fix vhs version.
+
 ## 2.5.2
 
 Supports Typo3 8.7.0 - 8.7.99
