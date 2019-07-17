@@ -4,6 +4,7 @@
 
 Supports Typo3 8.7.0 - 8.7.99
 
+- [UPDATE] Update vhs version.
 - [FEATURE] Add composer functionality.
 - [UPDATE] Show description of categories.
 - [COMMENT] Resolve TODO.
