@@ -81,7 +81,7 @@
 			<f:translate key="tx_staffm_domain_model_mitarbeiter.position" />
 		</td>
 		<td>			
-                    <f:link.action class="tx_staffm link" pluginName="Staffm" action="show" controller="Position" arguments="{mitarbeiter:mitarbeiter, key: 'vonMit', standardsearch:search}">
+                    <f:link.action class="tx_staffm link" action="show" controller="Position" arguments="{mitarbeiter:mitarbeiter, key: 'vonMit', userKey: userKey, standardsearch:search}">
 			{mitarbeiter.position.bezeichnung}
                     </f:link.action>
 		</td>
@@ -131,7 +131,7 @@
 			<f:translate key="tx_staffm_domain_model_mitarbeiter.kostenstelle" />
 		</td>
 		<td>
-                    <f:link.action class="tx_staffm link" pluginName="Staffm" action="show" controller="Kostenstelle" arguments="{kostenstelle:mitarbeiter.kostenstelle,mitarbeiter:mitarbeiter, key: 'vonMit', standardsearch:search}">
+                    <f:link.action class="tx_staffm link" action="show" controller="Kostenstelle" arguments="{kostenstelle:mitarbeiter.kostenstelle,mitarbeiter:mitarbeiter, key: 'vonMit', userKey: userKey, standardsearch:search}">
 			{mitarbeiter.kostenstelle.nummer} {mitarbeiter.kostenstelle.bezeichnung}
                     </f:link.action>
 		</td>
@@ -141,7 +141,7 @@
 			<f:translate key="tx_staffm_domain_model_mitarbeiter.firma" />
 		</td>
 		<td>
-                    <f:link.action class="tx_staffm link" pluginName="Staffm" action="show" controller="Firma" arguments="{mitarbeiter:mitarbeiter, key: 'vonMit', standardsearch:search, uid: mitarbeiter.firma.uid}">
+                    <f:link.action class="tx_staffm link" action="show" controller="Firma" arguments="{mitarbeiter:mitarbeiter, key: 'vonMit', userKey: userKey, standardsearch:search, uid: mitarbeiter.firma.uid}">
 			{mitarbeiter.firma.bezeichnung}
                     </f:link.action>
 		</td>
@@ -152,7 +152,7 @@
 		</td>
 		<td>                    
                     <f:for each="{mitarbeiter.categories}" as="category" iteration="iterator">
-                        <f:link.action title="{category.description}" class="tx_staffm link" pluginName="Staffm" action="show" controller="Category" arguments="{employee:mitarbeiter, key: 'vonMit', standardsearch:search, category:category.uid}">
+                        <f:link.action title="{category.description}" class="tx_staffm link" action="show" controller="Category" arguments="{employee:mitarbeiter, key: 'vonMit', userKey: userKey, standardsearch:search, category:category.uid}">
                             <f:if condition="{iterator.isLast}">
                                 <f:then>
                                     {category.name}
@@ -167,4 +167,4 @@
 	</tr>    
 </table>
 <br />
-<f:render partial="Mitarbeiter/Qualification/ListProperties" arguments="{mitarbeiter:mitarbeiter, edit:'no', key:'vonMit', aktuser: aktuser}" />
+<f:render partial="Mitarbeiter/Qualification/ListProperties" arguments="{mitarbeiter:mitarbeiter, edit:'no', key:'vonMit', userKey: userKey, aktuser: aktuser}" />

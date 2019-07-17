@@ -390,6 +390,10 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             $standardsearch = $this->request->getArgument('standardsearch');
             $this->view->assign('standardsearch', $standardsearch);
         }
+        
+        if ($this->request->hasArgument('userKey')) {
+            $this->view->assign('userKey', $this->request->getArgument('userKey'));
+        }
 
         $this->view->assign('kostenstelle', $kostenstelle);
     }

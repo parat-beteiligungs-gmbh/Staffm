@@ -72,7 +72,7 @@ class SendMemories extends \TYPO3\CMS\Scheduler\Task\AbstractTask
                                 if ($employeeQualification->getHistories()->getPosition($history) == $countQualifications) {
                                     $message = "Hallo " . $history->getAssessor()->getFirstName() . ",\n\nhier ist eine Erinnerung (" . $employeeQualification->getReminderDate()->format("d.m.Y") . ") für den Mitarbeiter " .
                                             $employeeQualification->getEmployee()->getFirstName() . " " . $employeeQualification->getEmployee()->getLastName() . " " .
-                                            "für die Qualifikation \"" . $employeeQualification->getQualification()->getBezeichnung() . "\"." .
+                                            "für die   \"" . $employeeQualification->getQualification()->getBezeichnung() . "\".\n\n(Notiz: " . $employeeQualification->getNote() . ")" .
                                             "\n\nFreundliche Grüße,\n\nPARAT Intranet";
 
                                     // Send a memory Email to the responsible

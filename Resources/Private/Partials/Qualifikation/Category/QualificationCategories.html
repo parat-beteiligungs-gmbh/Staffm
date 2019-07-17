@@ -4,6 +4,7 @@
     </label><br />      
 </f:if>
 <f:for each="{qualification.categories -> vhs:iterator.sort(sortBy: 'category.name')}" as="category" iteration="iterator">       
+    <span title="{category.description}">
     <f:if condition="{iterator.isLast}">        
         <f:then>
             {category.name}
@@ -12,4 +13,5 @@
             {category.name},
         </f:else>
     </f:if>
+    </span>
 </f:for>

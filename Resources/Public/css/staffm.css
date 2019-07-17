@@ -225,6 +225,11 @@ ul.f3-widget-paginator li:last-child:after {
     float: left;  
 }
 
+/* Qualification Status */
+.custom-select option, .custom-select option * {
+    
+}
+
 /* Profil picture */
 .tx_staffm.profilbild {
     width: auto;    

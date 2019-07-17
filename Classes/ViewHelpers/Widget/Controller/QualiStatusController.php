@@ -30,7 +30,7 @@ use Pmwebdesign\Staffm\Utility\ArrayUtility;
 /** 
  * Controller for Sorting
  */
-class QualiStatusController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetController {
+class QualiStatusController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetController  {
     /**
      *      
      */
@@ -73,7 +73,7 @@ class QualiStatusController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetC
             if($user != NULL) {
                 /* @var $mitarbeiterRepository \Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository */
                 $mitarbeiterRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository::class);    
-                $mitarbeiters = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+                $mitarbeiters = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();         
                 $mitarbeiters = ArrayUtility::fillOjectStorageFromQueryResult($mitarbeiterRepository->findMitarbeiterVonVorgesetzten("", $user));                      
             }
         }
@@ -107,6 +107,6 @@ class QualiStatusController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetC
             $this->widgetConfiguration['as'] => $modifiedObjects,
             'countmit' => $countmit
         ));
-       
+        
     }
 }

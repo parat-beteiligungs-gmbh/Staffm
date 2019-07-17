@@ -20,11 +20,22 @@
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0 mr-2">
-                    <button class="btn btn-sm btn-default" type="button" onclick="buttonShow()">Info</button>
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-default" type="button" onclick="buttonShowStatus()"><f:translate key="tx_staffm_domain_model_qualifikation" /> Status</button>
+                        <button class="btn btn-sm btn-info" type="button" onclick="buttonShow()">Info</button>
+                    </div>
                 </form>            
             </div>
         </f:if>
-    </nav> 
+    </nav>
+    <div id="statusBox" style="display:none;max-width: 400px; padding: 5px; background-color: white; border: 2px solid #CCCCCC;content:'?'">
+        <f:for each="{vh:getQualificationStatus()}" as="status">
+            <p>{status}</p>
+        </f:for>
+        <p style="text-align: center; margin-top: 20px">
+            <button type="button" class="btn btn-default left" onclick="buttonHide()"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span> Schließen</button>
+        </p>
+    </div>
     <div id="infoBox" style="display:none;max-width: 400px; padding: 5px; background-color: white; border: 2px solid #CCCCCC;content:'?'">
         <!-- TODO: Translate this text -->
         <p>Unter "Profil bearbeiten" kann das eigene Userprofil bearbeitet werden.</p><hr />
@@ -94,6 +105,29 @@
     }
     
     /**
+     * Show/Hide status box
+     * 
+     * @returns {undefined}
+     */
+    function buttonShowStatus() {
+        var info = document.getElementById("statusBox");
+        
+        // Info box displayed?
+        if (info.style.display == "none") {
+        info.style.position = "absolute";        
+        info.style.zIndex = 999;
+        info.style.marginTop = "10px";
+        info.style.right = "5px";
+    
+        // Show info box
+        info.style.display = "";
+        } else {
+            // Hide info box
+            info.style.display = "none";
+        }
+    }
+    
+    /**
      * Hide info box
      * 
      * @returns {undefined}
@@ -102,5 +136,9 @@
         var info = document.getElementById("infoBox");
         // Infobox wieder ausblenden
         info.style.display = "none";
+        
+        var status = document.getElementById("statusBox");
+        // Infobox wieder ausblenden
+        status.style.display = "none";
     }
 </script>

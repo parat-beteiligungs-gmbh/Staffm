@@ -10,7 +10,7 @@
     <div class="btn-group">
         <f:if condition="{key} == 'vonMit'">
             <f:then>        
-                <f:link.action class="btn btn-default" controller="Mitarbeiter" action="show" arguments="{mitarbeiter:mitarbeiter, search:standardsearch}"><f:translate id="staffm.back" /> (<f:translate key="tx_staffm_domain_model_mitarbeiter" />)</f:link.action>
+                <f:link.action class="btn btn-default" controller="Mitarbeiter" action="show" arguments="{mitarbeiter:mitarbeiter, search:standardsearch, userKey:userKey}"><f:translate id="staffm.back" /> (<f:translate key="tx_staffm_domain_model_mitarbeiter" />)</f:link.action>
             </f:then>
             <f:else>
                 <f:link.action section="kst{kostenstelle.uid}" class="btn btn-default" action="list" arguments="{maid: 'maid', search:search}"><f:translate id="staffm.back" /></f:link.action>

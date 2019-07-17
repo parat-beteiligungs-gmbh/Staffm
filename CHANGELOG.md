@@ -1,8 +1,23 @@
 # Staffm Change Log
 
+## 2.5.0
+
 Supports Typo3 8.7.0 - 8.7.99
 
+- [FEATURE] Add composer functionality.
+- [UPDATE] Show description of categories.
+- [COMMENT] Resolve TODO.
+- [UPDATE] Change authorization for admins about settings.
+- [UPDATE] Change qualification choose.
+- [BUGFIX] Fix correct links in show templates.
+- [BUGFIX] False template in search form of employees.
+- [BUGFIX] Fix Error if edit a qualification with no cost center responsible.
+- [FEATURE] New Button for qualification status.
+- [UPDATE] Add notice information to memory email.
+
 ## 2.4.0
+
+Supports Typo3 8.7.0 - 8.7.99
 
 - [FEATURE] Add history function for notes from actually user.
 - [BUGFIX] Show right templates if admin is logged in.

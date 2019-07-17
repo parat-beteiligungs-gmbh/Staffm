@@ -5,7 +5,7 @@
 <f:section name="main">    
     <h1><f:translate id="staffm.mitarbeiter.list.headline" /></h1>
     <f:flashMessages />
-    <f:form action="list" arguments="{kostenstelle:kostenstelle, key:key}" additionalAttributes="{role: 'form'}">       
+    <f:form action="listVgs" arguments="{kostenstelle:kostenstelle, key:key}" additionalAttributes="{role: 'form'}">       
         <div class="input-group">
             <f:form.textfield class="form-control" placeholder="Suchwort..." title="Volltextsuche: mehrere Begriffe, oder Teilbegriffe möglich (z. B. Tätigkeit: Eink, für Einkauf)" name="search" value="{search}" />
             <div class="input-group-append">

@@ -588,6 +588,11 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             $standardsearch = $this->request->getArgument('standardsearch');
             $this->view->assign('standardsearch', $standardsearch);
         }
+        
+        if ($this->request->hasArgument('userKey')) {
+            $this->view->assign('userKey', $this->request->getArgument('userKey'));
+        }
+        
         $qualifikation = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\QualifikationRepository')->findOneByUid($qualifikation);
         $this->view->assign('qualifikation', $qualifikation);
     }

@@ -7,7 +7,7 @@
     <f:render partial="Category/Properties" arguments="{category:category}" /><br />   
     <f:if condition="{employee}">
         <f:then>
-            <f:link.action class="btn btn-default" controller="Mitarbeiter" action="show" arguments="{mitarbeiter: employee.uid}"><f:translate id="staffm.back" /> (<f:translate key="tx_staffm_domain_model_mitarbeiter" />)</f:link.action>
+            <f:link.action class="btn btn-default" controller="Mitarbeiter" action="show" arguments="{mitarbeiter: employee.uid, userKey:userKey}"><f:translate id="staffm.back" /> (<f:translate key="tx_staffm_domain_model_mitarbeiter" />)</f:link.action>
         </f:then>
         <f:else>
             <f:link.action class="btn btn-default" action="list"><f:translate id="staffm.back" /></f:link.action>

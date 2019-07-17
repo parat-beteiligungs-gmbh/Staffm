@@ -396,6 +396,10 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $this->view->assign('mitarbeiter', $mitarbeiter);
         $this->view->assign('firma', $firma);
         
+        if ($this->request->hasArgument('userKey')) {
+            $this->view->assign('userKey', $this->request->getArgument('userKey'));
+        }
+        
         // Set Cache
         $output = $this->view->render();
         if ($mitarbeiter != NULL && $mitarbeiter != 0) {

@@ -295,6 +295,10 @@ class PositionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         } else {
             $position = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\PositionRepository')->findOneByUid($position);
         }
+        
+        if ($this->request->hasArgument('userKey')) {
+            $this->view->assign('userKey', $this->request->getArgument('userKey'));
+        }
 
         // Previous search?
         if ($this->request->hasArgument('standardsearch')) {

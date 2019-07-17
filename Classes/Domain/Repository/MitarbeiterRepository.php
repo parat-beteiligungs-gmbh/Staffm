@@ -249,9 +249,9 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
      *
      * @param string $search
      * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $vorgesetzter 
-     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
-    public function findMitarbeiterVonVorgesetzten($search, \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $vorgesetzter = NULL)
+    public function findMitarbeiterVonVorgesetzten($search, \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $vorgesetzter = NULL) : \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
     {
         // Cost centers of logged in user
         $kostenstellen = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
@@ -319,7 +319,7 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
                             )
                     )
             );
-            // No search
+        // No search
         } else {
             $query = $this->createQuery();            
             // More cost centers?
@@ -333,10 +333,10 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
                 );  
             } else {
                 // No cost center
-                return new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+                //return new \TYPO3\CMS\Extbase\Persistence\ObjectStorage(); --> Error, because return must be an QueryResultInterface                
             }
         }
-
+        
         $query->setOrderings(array('last_name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
         $query->execute();       
         return $query->execute();
