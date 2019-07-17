@@ -1,7 +1,10 @@
 # Staffm Change Log
 
+## 2.5.0
+
 Supports Typo3 8.7.0 - 8.7.99
 
+- [FEATURE] Add composer functionality.
 - [UPDATE] Show description of categories.
 - [COMMENT] Resolve TODO.
 - [UPDATE] Change authorization for admins about settings.
