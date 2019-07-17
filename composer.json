@@ -8,7 +8,7 @@
     "name": "pmwebdesign/staffm",
     "type": "typo3-cms-extension",
     "description": "",
-    "version": "2.5.0",
+    "version": "master",
     "keywords": [
         "TYPO3",
         "extension"
