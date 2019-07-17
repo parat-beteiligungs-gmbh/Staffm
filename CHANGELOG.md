@@ -2,6 +2,7 @@
 
 Supports Typo3 8.7.0 - 8.7.99
 
+- [UPDATE] Show description of categories.
 - [COMMENT] Resolve TODO.
 - [UPDATE] Change authorization for admins about settings.
 - [UPDATE] Change qualification choose.
