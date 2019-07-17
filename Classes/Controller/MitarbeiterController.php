@@ -907,7 +907,7 @@ class MitarbeiterController extends ActionController
     }
     
     /**
-     * TODO: Delete costcenter of a representation from a employee
+     * Delete costcenter of a representation from a employee
      *   
      * @param \Pmwebdesign\Staffm\Domain\Model\Representation $representation
      */

@@ -2,6 +2,7 @@
 
 Supports Typo3 8.7.0 - 8.7.99
 
+- [COMMENT] Resolve TODO.
 - [UPDATE] Change authorization for admins about settings.
 - [UPDATE] Change qualification choose.
 - [BUGFIX] Fix correct links in show templates.
