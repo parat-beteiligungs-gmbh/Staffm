@@ -1,5 +1,11 @@
 # Staffm Change Log
 
+##
+
+Supports Typo3 8.7.0 - 8.7.99
+
+- [BUGFIX] Fix reminder date in qualification.
+
 ## 2.5.4
 
 Supports Typo3 8.7.0 - 8.7.99
