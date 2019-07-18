@@ -80,6 +80,30 @@ class UserService
     }
     
     /**
+     * Check Admin authorization of logged in user for qualification status
+     * 
+     * @param String $gruppenEintragS Group authorizations
+     * @return bool
+     */
+    public function isAdminQualificationStatus() : bool
+    { 
+        $gruppenUser = $this->getGroupsOfLoggedInUser();     
+        /* @var $settingsUtility \Pmwebdesign\Staffm\Utility\SettingsUtility */
+        $settingsUtility = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Utility\SettingsUtility::class);
+        $gruppenEintragS = $settingsUtility->getAdminQualificationStatusGroups();        
+        $gruppenEintrag = explode(",", $gruppenEintragS);       
+        $admin = FALSE;
+        foreach ($gruppenUser as $group) {
+            // Group admin?
+            if (in_array($group, $gruppenEintrag)) {
+                $admin = TRUE;
+                break;
+            }
+        }       
+        return $admin;        
+    }
+    
+    /**
      * Choosed Users of settings in flexform
      * 
      * @param String $settingusers

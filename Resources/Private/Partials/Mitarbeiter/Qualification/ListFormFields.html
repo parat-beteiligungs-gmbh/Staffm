@@ -1,10 +1,12 @@
 {namespace vhs = FluidTYPO3\Vhs\ViewHelpers}
 
 <f:variable name="costcenterresponsible" value="{vh:isCostCenterResponsible(employee: aktuser, withDeputy: 1)}" />
+<f:variable name="admin" value="{vh:isAdmin()}" />
+<f:variable name="adminQS" value="{vh:isAdminQualificationStatus()}" />
 <table class="tx_staffm">
     <tr>
         <th><f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></th>
-        <f:if condition="{costcenterresponsible} > 0">
+        <f:if condition="{costcenterresponsible} > 0 || {adminQS} == TRUE">
             <th><f:translate key="tx_staffm_domain_model_employeequalification.status" /></th>
             <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_history.targetstatus" /></th>
             <th><f:translate key="tx_staffm_domain_model_employeequalification.reminder_date" /></th>
@@ -15,7 +17,7 @@
         <f:for each="{mitarbeiter.employeequalifications -> vhs:iterator.sort(sortBy: 'qualification.bezeichnung')}" as="employeequalification">        
             <tr>
                 <td>{employeequalification.qualification.bezeichnung}</td>
-                <f:if condition="{costcenterresponsible} > 0">
+                <f:if condition="{costcenterresponsible} > 0 || {adminQS} == TRUE">
                     <td title="{employeequalification.qualification.status.{employeequalification.status}}">
                         {employeequalification.status}<f:comment> - {employeequalification.qualification.status.{employeequalification.status}}</f:comment>                        
                     </td>
@@ -25,8 +27,8 @@
                         </f:if>
                     </td>
                     <td>
-                        <f:if condition="{employeequalification.reminderDate}">
-                            <f:if condition="{f:format.date(date: 'now', format: 'd.m.Y')} >= {f:format.date(date: employeequalification.reminderDate, format: 'd.m.Y')}">
+                        <f:if condition="{employeequalification.reminderDate}">                            
+                            <f:if condition="{f:format.date(date: 'now', format: 'Ymd')} >= {f:format.date(date: employeequalification.reminderDate, format: 'Ymd')}">
                                 <f:then><span style="color:red"></f:then>
                                 <f:else><span></f:else>
                             </f:if>
@@ -69,7 +71,7 @@
 </table>
 <f:if condition="{mitarbeiter.employeequalifications}">
     <f:then>
-        <f:security.ifHasRole role="PA">
+        <f:if condition="{adminQS} == TRUE">
             <f:then>
                 <div class="btn-group" role="group">
                     <f:link.action class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:'auswahl', kst:kst, standardsearch:search, cache:'notcache', userKey:userKey, berechtigung:berechtigung, art:art}"><f:translate id="staffm.choose" /></f:link.action>                    
@@ -84,10 +86,10 @@
                     </div>
                 </f:if>
             </f:else>
-        </f:security.ifHasRole>
+        </f:if>
     </f:then>
     <f:else>
-        <f:security.ifHasRole role="PA">
+        <f:if condition="{adminQS} == TRUE">
             <f:then>
                 <f:link.action style="float:left" class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:'auswahl', kst:kst, standardsearch:search, cache:'notcache', userKey:userKey, berechtigung:berechtigung, art:art}"><f:translate id="staffm.choose" /></f:link.action><br />                        
             </f:then>
@@ -96,7 +98,7 @@
                     <f:link.action class="btn btn-default" action="list" controller="Qualifikation" arguments="{mitarbeiter:mitarbeiter, key:'auswahl', kst:kst, standardsearch:search, cache:'notcache', userKey:'Vgs', berechtigung:berechtigung, art:art}"><f:translate id="staffm.choose" /></f:link.action>
                 </f:if>
             </f:else>
-        </f:security.ifHasRole>
+        </f:if>
         <br />
     </f:else>
 </f:if>

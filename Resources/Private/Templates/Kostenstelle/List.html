@@ -1,60 +1,47 @@
 {namespace tv = Pmwebdesign\Staffm\ViewHelpers}
 <f:layout name="Default" />
 
-This Template is responsible for creating a table of domain objects.
-
-If you modify this template, do not forget to change the overwrite settings
-in /Configuration/ExtensionBuilder/settings.yaml:
-  Resources:
-    Private:
-      Templates:
-        List.html: keep
-
-Otherwise your changes will be overwritten the next time you save the extension in the extension builder
-
 <f:section name="main">
     <h1><f:translate id="staffm.kostenstelle.list.headline" /></h1>
-
-<f:flashMessages />
-<f:form action="list" arguments="{mitarbeiter:mitarbeiter, key:key, kst:kst, standardsearch:standardsearch, cache: '{cache}'}" additionalAttributes="{role: 'form'}">    
-<tv:widget.atoZNav objects="{kostenstelles}" as="filteredKostenstelles" property="bezeichnung" search="{search}" maid="{maid}"> 
-    <f:if condition="{key} == 'auswahl'">  
-        <p><b>Name:</b> {mitarbeiter.LastName} {mitarbeiter.firstName}</p>        
-    </f:if>    
-    <div class="input-group">
-        <div class="input-group-prepend">
-            <f:if condition="{key} != 'auswahl'">
-                <f:then>
-                <f:security.ifHasRole role="PA">                                                
-                    <f:link.action class="btn btn-default" title="Zum Formular für Kostenstelle anlegen" action="new"><f:translate id="staffm.kostenstelle.new" /></f:link.action>                    
-                </f:security.ifHasRole>
-                <f:link.action title="Die Liste in Excel ausgeben" id="excelExport" class="btn btn-default" action="export" arguments="{searching:'{search}'}" name="excelExport" >
-                    <f:image class="tx_staffm icon" src="typo3conf/ext/staffm/Resources/Public/Icons/Excel.png" />
-                    Excel Export
-                </f:link.action>
-                </f:then>
-                <f:else>
-                    <f:link.action class="btn btn-default" action="edit" controller="Mitarbeiter" arguments="{mitarbeiter:mitarbeiter, search:standardsearch}"><f:translate id="staffm.back" /></f:link.action>
-                </f:else>
-            </f:if>
-        </div>                
-        <f:form.textfield placeholder="Suchwort..." class="form-control" title="Volltextsuche (z. B. Kst-Nr, Bezeichnung, oder Verantwortlicher)" name="search" value="{search}" />
-        <div class="input-group-append">                    
-            <button type="submit" class="btn btn-default"><f:translate id="staffm.search" /></button>
-        </div>           
-    </div>
-    <tv:widget.sort objects="{filteredKostenstelles}" as="sortedKostenstelles" property="bezeichnung">
-       
-    <table  class="tx_staffm" >
-            <tr>
-                    <th><f:translate key="tx_staffm_domain_model_kostenstelle.nummer" /></th>
-                    <th><f:translate key="tx_staffm_domain_model_kostenstelle.bezeichnung" /></th>
-                    <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_kostenstelle.verantwortlicher" /></th>    
-                    <f:security.ifHasRole role="PA"><th class="staffmmobilehidden"></th></f:security.ifHasRole>
-            </tr>
-
-            <f:for each="{sortedKostenstelles}" as="kostenstelle">
+    <f:flashMessages />
+    <f:form action="list" arguments="{mitarbeiter:mitarbeiter, key:key, kst:kst, standardsearch:standardsearch, cache: '{cache}'}" additionalAttributes="{role: 'form'}">    
+        <tv:widget.atoZNav objects="{kostenstelles}" as="filteredKostenstelles" property="bezeichnung" search="{search}" maid="{maid}"> 
+            <f:variable name="admin" value="{tv:isAdmin()}" />
+            <f:if condition="{key} == 'auswahl'">  
+                <p><b>Name:</b> {mitarbeiter.LastName} {mitarbeiter.firstName}</p>        
+            </f:if>    
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <f:if condition="{key} != 'auswahl'">
+                        <f:then>
+                        <f:if condition="{admin} == TRUE">                                              
+                            <f:link.action class="btn btn-default" title="Zum Formular für Kostenstelle anlegen" action="new"><f:translate id="staffm.kostenstelle.new" /></f:link.action>                    
+                        </f:if>
+                        <f:link.action title="Die Liste in Excel ausgeben" id="excelExport" class="btn btn-default" action="export" arguments="{searching:'{search}'}" name="excelExport" >
+                            <f:image class="tx_staffm icon" src="typo3conf/ext/staffm/Resources/Public/Icons/Excel.png" />
+                            Excel Export
+                        </f:link.action>
+                        </f:then>
+                        <f:else>
+                            <f:link.action class="btn btn-default" action="edit" controller="Mitarbeiter" arguments="{mitarbeiter:mitarbeiter, search:standardsearch}"><f:translate id="staffm.back" /></f:link.action>
+                        </f:else>
+                    </f:if>
+                </div>                
+                <f:form.textfield placeholder="Suchwort..." class="form-control" title="Volltextsuche (z. B. Kst-Nr, Bezeichnung, oder Verantwortlicher)" name="search" value="{search}" />
+                <div class="input-group-append">                    
+                    <button type="submit" class="btn btn-default"><f:translate id="staffm.search" /></button>
+                </div>           
+            </div>
+            <tv:widget.sort objects="{filteredKostenstelles}" as="sortedKostenstelles" property="bezeichnung">
+                <table  class="tx_staffm" >
                     <tr>
+                        <th><f:translate key="tx_staffm_domain_model_kostenstelle.nummer" /></th>
+                        <th><f:translate key="tx_staffm_domain_model_kostenstelle.bezeichnung" /></th>
+                        <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_kostenstelle.verantwortlicher" /></th>    
+                        <f:if condition="{admin} == TRUE"><th class="staffmmobilehidden"></th></f:if>
+                    </tr>
+                    <f:for each="{sortedKostenstelles}" as="kostenstelle">
+                        <tr>
                             <td><div id="kst{kostenstelle.uid}" class="anchor"></div><f:link.action action="show" arguments="{kostenstelle : kostenstelle, search:search, kst:kst}">{kostenstelle.nummer}</f:link.action></td>
                             <td><f:link.action action="show" arguments="{kostenstelle : kostenstelle, search:search, kst:kst}">{kostenstelle.bezeichnung}</f:link.action></td>
                             <td class="staffmmobilehidden"><f:link.action title="Tel.: {kostenstelle.verantwortlicher.telephone}" action="show" arguments="{kostenstelle : kostenstelle, search:search, kst:kst}">{kostenstelle.verantwortlicher.lastName} {kostenstelle.verantwortlicher.firstName}</f:link.action></td>
@@ -63,20 +50,20 @@ Otherwise your changes will be overwritten the next time you save the extension 
                                     <td class="nobackground"><f:link.action class="btn btn-sm btn-success" action="choose" arguments="{mitarbeiter:mitarbeiter, kostenstelle:kostenstelle, kst:kst, search:standardsearch}"><f:translate id="staffm.choose" /></f:link.action></td>
                                 </f:then>  
                                 <f:else>
-                                    <f:security.ifHasRole role="PA">
+                                    <f:if condition="{admin} == TRUE">
                                         <td class="staffmmobilehidden">
                                             <div class="btn-group" style="float: right">
                                                 <f:link.action class="btn btn-secondary btn-sm" action="edit" arguments="{kostenstelle : kostenstelle}"><f:translate id="staffm.edit" /></f:link.action>
                                                 <f:link.action class="btn btn-danger btn-sm" action="delete" arguments="{kostenstelle : kostenstelle}"><f:translate id="staffm.delete" /></f:link.action>
                                             </div>
                                         </td>
-                                    </f:security.ifHasRole>
+                                    </f:if>
                                 </f:else>
                             </f:if>
-                    </tr>
-            </f:for>
-    </table>
-</tv:widget.sort>
-</tv:widget.atoZNav>
-</f:form>
+                        </tr>
+                    </f:for>
+                </table>
+            </tv:widget.sort>
+        </tv:widget.atoZNav>
+    </f:form>
 </f:section>

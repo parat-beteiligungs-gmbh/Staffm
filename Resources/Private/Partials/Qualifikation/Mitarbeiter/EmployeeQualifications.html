@@ -2,6 +2,8 @@
 {namespace tv = Pmwebdesign\Staffm\ViewHelpers}
 
 <f:variable name="aktuser" value="{tv:finduser()}" />
+<f:variable name="admin" value="{tv:isAdmin()}" />
+<f:variable name="adminQS" value="{tv:isAdminQualificationStatus()}" />
 <h2><f:translate id="staffm.text.zugeordnete" /> <f:translate key="tx_staffm_domain_model_mitarbeiter" /> (<f:count subject="{qualifikation.employeequalifications}" />)</h2>
 <table class="tx_staffm">    
     <tr>
@@ -11,12 +13,14 @@
         <th><f:translate key="tx_staffm_domain_model_mitarbeiter.first_name" /></th>
         <th><f:translate key="tx_staffm_domain_model_mitarbeiter.title" /></th>
         <th><f:translate key="tx_staffm_domain_model_mitarbeiter.telephone" /></th>    
-        <f:if condition="{tv:isCostCenterResponsible(employee: aktuser, withDeputy: 1)} > 0">
+        <f:if condition="{tv:isCostCenterResponsible(employee: aktuser, withDeputy: 1)} > 0 || {adminQS} == TRUE">
             <th><f:translate key="tx_staffm_domain_model_qualifikation.status" /></th>
         </f:if>
-        <f:security.ifHasRole role="PA"><th class="staffmmobilehidden"></th></f:security.ifHasRole>
+        <f:if condition="{admin} == TRUE"><th class="staffmmobilehidden"></th></f:if>
     </tr> 
-    <tv:widget.qualiStatus objects="{qualifikation.employeequalifications}" as="filteredEmployeequalifications" property="check">      
+    <tv:widget.qualiStatus objects="{qualifikation.employeequalifications}" as="filteredEmployeequalifications" property="check">  
+        <f:variable name="admin" value="{tv:isAdmin()}" />
+        <f:variable name="adminQS" value="{tv:isAdminQualificationStatus()}" />
         <f:for each="{filteredEmployeequalifications -> vhs:iterator.sort(sortBy: 'employee.lastName')}" as="ma"> 
             <tr id="ma{ma.uid}">
                 <td>
@@ -33,8 +37,8 @@
                 <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst', search:search}">{ma.employee.firstName}</f:link.action></td>
                 <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst', search:search}">{ma.employee.title}</f:link.action></td>
                 <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst', search:search}">{ma.employee.telephone}</f:link.action></td>
-                <f:if condition="{tv:isCostCenterResponsible(employee: aktuser, withDeputy: 1)} > 0">
-                    <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst', search:search}" title="{qualifikation.status.{ma.status}}">{f:if(condition: '{ma.showstatus} == TRUE', then: '{ma.status}', else: '{f:translate(id: \'staffm.text.visible.supervisor\')}')}</f:link.action></td>
+                <f:if condition="{tv:isCostCenterResponsible(employee: aktuser, withDeputy: 1)} > 0 || {adminQS} == TRUE">
+                    <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma.employee, qualifikation:qualifikation, key: 'auswahlKst', search:search}" title="{qualifikation.status.{ma.status}}">{f:if(condition: '{ma.showstatus} == TRUE || {adminQS} == TRUE', then: '{ma.status}', else: '{f:translate(id: \'staffm.text.visible.supervisor\')}')}</f:link.action></td>
                 </f:if>
                 <f:for each="{ma.employeequalifications}" as="employeequalification">
                     <f:if condition="{qualifikation} == {employeequalification.qualification}">
@@ -42,7 +46,7 @@
                     </f:if>
                 </f:for>           
                 <f:if condition="{edit} != 'no'">
-                    <f:security.ifHasRole role="PA">
+                    <f:if condition="{admin} == TRUE">
                         <f:then>                    
                             <td class="staffmmobilehidden">
                                 <div class="btn-group" style="float: right">
@@ -61,7 +65,7 @@
                                 </f:for>
                             </f:if>
                         </f:else>
-                    </f:security.ifHasRole>
+                    </f:if>
                 </f:if>
             </tr>        
         </f:for>    
