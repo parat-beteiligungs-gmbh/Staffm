@@ -1,5 +1,11 @@
 # Staffm Change Log
 
+##
+
+Supports Typo3 8.7.0 - 8.7.99
+
+- [DEV] Add description to Json-File.
+
 ## 2.6.0
 
 Supports Typo3 8.7.0 - 8.7.99
