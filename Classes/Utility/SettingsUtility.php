@@ -60,6 +60,16 @@ class SettingsUtility
     }
     
     /**
+     * Get Groups for qualification status in Settings
+     * 
+     * @return string
+     */
+    public function getAdminQualificationStatusGroups()
+    {
+        return SettingsUtility::$SETTINGS['qualistatusgroups'];
+    }
+    
+    /**
      * Get the status for qualification who is ignored for normal users
      */
     public function getQualiStatusIgnore()

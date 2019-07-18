@@ -3,11 +3,12 @@
 
 <f:form action="list" arguments="{mitarbeiter:mitarbeiter, key:key, berechtigung:berechtigung, cache: '{cache}'}" additionalAttributes="{role: 'form'}">                                  
     <tv:widget.atoZNav objects="{qualifikations}" as="filteredQualifikations" property="bezeichnung" search="{search}" maid="{maid}"> 
+        <f:variable name="admin" value="{tv:isAdmin()}" />
         <div class="input-group">
             <div class="input-group-prepend">
-                <f:security.ifHasRole role="PA">                                                           
+                <f:if condition="{admin} == TRUE">                                                           
                     <f:link.action class="btn btn-default" title="Neue Qualifikation anlegen" action="new"><f:translate id="staffm.qualifikation.new" /></f:link.action>                               
-                </f:security.ifHasRole>
+                </f:if>
                 <f:link.action title="Die Liste in Excel ausgeben" id="excelExport" class="btn btn-default" action="export" arguments="{searching:'{search}'}" >
                     <f:image class="tx_staffm icon" src="typo3conf/ext/staffm/Resources/Public/Icons/Excel.png" />
                     Excel Export
@@ -24,7 +25,7 @@
                     <th><f:translate key="tx_staffm_domain_model_qualifikation.bezeichnung" /></th>  
                 <th><f:translate key="tx_staffm_domain_model_qualifikation.beschreibung" /></th>
                 <th class="staffmmobilehidden"><f:translate id="staffm.text.zugeordnete" /> <f:translate key="tx_staffm_domain_model_mitarbeiter" /></th>    
-                <f:security.ifHasRole role="PA"><th class="staffmmobilehidden"></th></f:security.ifHasRole>
+                <f:if condition="{admin} == TRUE"><th class="staffmmobilehidden"></th></f:if>
                 </tr>
                 <f:for each="{sortedQualifikations}" as="qualifikation">
                     <tr>
@@ -35,7 +36,7 @@
                                 <f:for each="{sortedEmployeequalifications -> vhs:iterator.sort(sortBy: 'status')}" as="m" iteration="iteration" reverse="TRUE">                      
                                     <f:if condition="{iteration.isFirst}">
                                         <f:then>
-                                            <p class="marksq" title="{m.employee.telephone}"><f:link.action action="show" arguments="{qualifikation : qualifikation, search:search}"><span>{m.employee.lastName} {m.employee.firstName}{f:if(condition:'{m.showstatus} == TRUE', then:' ({m.status})')}</span></f:link.action>
+                                            <p class="marksq" title="{m.employee.telephone}"><f:link.action action="show" arguments="{qualifikation : qualifikation, search:search}"><span>{m.employee.lastName} {m.employee.firstName}</span></f:link.action>
                                             <f:if condition="{countmit} > 1">
                                                 <a class="btn btn-secondary btn-sm" style="float:right" href="javascript:void(0)" id="q{qualifikation.uid}" onClick="getID(this);return false;"><span name="q{qualifikation.uid}glyphiconchange" id="q{qualifikation.uid}" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                                                     <f:if condition="{countmit} < 10">
@@ -46,20 +47,20 @@
                                             </p>
                                         </f:then>
                                         <f:else>
-                                            <p class="marksq q{qualifikation.uid}hidden" style="display:none" title="{m.employee.telephone}"><f:link.action action="show" arguments="{qualifikation : qualifikation, search:search}">{m.employee.lastName} {m.employee.firstName}{f:if(condition:'{m.showstatus} == TRUE', then:' ({m.status})')}</f:link.action></p>                                            
+                                            <p class="marksq q{qualifikation.uid}hidden" style="display:none" title="{m.employee.telephone}"><f:link.action action="show" arguments="{qualifikation : qualifikation, search:search}">{m.employee.lastName} {m.employee.firstName}</f:link.action></p>                                            
                                         </f:else>
                                     </f:if>
                                 </f:for>
                             </tv:widget.qualiStatus>
                         </td>                                         
-                        <f:security.ifHasRole role="PA">
+                        <f:if condition="{admin} == TRUE">
                             <td class="staffmmobilehidden">
                                 <div class="btn-group" style="float: right">
                                     <f:link.action class="btn btn-secondary btn-sm" action="edit" arguments="{qualifikation : qualifikation}"><f:translate id="staffm.edit" /></f:link.action>
                                     <f:link.action class="btn btn-danger btn-sm" action="delete" arguments="{qualifikation : qualifikation}"><f:translate id="staffm.delete" /></f:link.action>
                                 </div>
                             </td>
-                        </f:security.ifHasRole>
+                        </f:if>
                     </tr>
                 </f:for>
             </table>

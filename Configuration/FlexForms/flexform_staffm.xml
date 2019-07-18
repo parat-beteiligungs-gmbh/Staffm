@@ -20,7 +20,7 @@
                     </settings.elemente.max>                    
                     <settings.admingroups>
                         <TCEforms>
-                            <label>Berechtigte Gruppen zur vollst. Bearbeitung</label>
+                            <label>Berechtigte Gruppen zur Bearbeitung</label>
                             <config>
                                 <type>group</type>
                                 <internal_type>db</internal_type>
@@ -29,6 +29,17 @@
                             </config>
                         </TCEforms>
                     </settings.admingroups>
+                    <settings.qualistatusgroups>
+                        <TCEforms>
+                            <label>Berechtigte Gruppen für Anzeige von Qualifikationen mit Status</label>
+                            <config>
+                                <type>group</type>
+                                <internal_type>db</internal_type>
+                                <allowed>fe_groups</allowed>                                                           
+                                <show_thumbs>1</show_thumbs>
+                            </config>
+                        </TCEforms>
+                    </settings.qualistatusgroups>
                     <settings.admingroups2>
                         <TCEforms>
                             <label>Test auslesen aus Klasse</label>

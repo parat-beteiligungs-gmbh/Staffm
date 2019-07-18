@@ -12,7 +12,7 @@
 
 $EM_CONF[$_EXTKEY] = array(
     'title' => 'Staffmanage',
-    'description' => 'Employee database with qualifications, peronal numbers and so on.',
+    'description' => 'Employee database with qualifications, cost centers, companies and so on.',
     'category' => 'misc',
     'author' => 'Markus Puffer',
     'author_email' => 'm.puffer@pm-webdesign.eu',
@@ -21,7 +21,7 @@ $EM_CONF[$_EXTKEY] = array(
     'uploadfolder' => '0',
     'createDirs' => '',
     'clearCacheOnLoad' => 0,
-    'version' => '2.5.4',
+    'version' => '2.6.0',
     'constraints' => array(
         'depends' => array(
             'typo3' => '8.7.0-8.7.99',

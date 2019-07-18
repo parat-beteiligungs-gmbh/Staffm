@@ -15,7 +15,7 @@
                         <f:render partial="Mitarbeiter/FormFieldsVorg" arguments="{mitarbeiter:mitarbeiter, aktuser:aktuser, key:key, userKey:userKey, art:art}" /><br />
                     </f:then>
                     <f:else>
-                        <f:render partial="Mitarbeiter/FormFields" arguments="{mitarbeiter:mitarbeiter, search:search}" /><br />
+                        <f:render partial="Mitarbeiter/FormFieldsVorg" arguments="{mitarbeiter:mitarbeiter, search:search}" /><br />
                     </f:else>
                 </f:if>
             </f:else>
@@ -27,7 +27,7 @@
                         <f:link.action section="ma{mitarbeiter.uid}" class="btn btn-secondary" controller="Mitarbeiter" action="listVgs" arguments="{maid:'maid', search:search}"><f:translate id="staffm.back" /></f:link.action>
                     </f:then>
                     <f:else>                    
-                        <f:link.action section="ma{mitarbeiter.uid}" class="btn btn-secondary" action="list"><f:translate id="staffm.back" /></f:link.action>
+                        <f:link.action section="ma{mitarbeiter.uid}" class="btn btn-secondary" action="list" arguments="{maid:'maid', search:search}"><f:translate id="staffm.back" /></f:link.action>
                     </f:else>
                 </f:if>
             </f:if>

@@ -1,9 +1,10 @@
 # Staffm Change Log
 
-##
+## 2.6.0
 
 Supports Typo3 8.7.0 - 8.7.99
 
+- [FEATURE] Authorizations for admins and qualification status.
 - [BUGFIX] Fix reminder date in qualification.
 
 ## 2.5.4
