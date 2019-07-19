@@ -44,6 +44,13 @@ class QualiStatusController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetC
     protected $property;
     
     /**
+     * Admin Authorization
+     *
+     * @var bool
+     */
+    protected $admin;
+
+    /**
      * Qualification status who don´t show for normal users
      *
      * @var integer
@@ -54,6 +61,7 @@ class QualiStatusController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetC
     public function initializeAction() {
         $this->objects = $this->widgetConfiguration['objects']; // To access the objects from ViewHelper   
         $this->property = $this->widgetConfiguration['property'];
+        $this->admin = $this->widgetConfiguration['admin'];
         
         /* @var $settingsUtility \Pmwebdesign\Staffm\Utility\SettingsUtility */
         $settingsUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Utility\SettingsUtility::class);
@@ -78,26 +86,28 @@ class QualiStatusController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetC
             }
         }
         $arrNeu = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-                
-        foreach ($this->objects as $employeequalification) { 
-            // Authorization for employee check available?
-            if (($this->property == "check") && ($user != NULL) && ($mitarbeiters != NULL)) {             
-                if (in_array($employeequalification->getEmployee(), $mitarbeiters->toArray(), TRUE)) {
-                    $employeequalification->setShowstatus(TRUE);
-                    $arrNeu->attach($employeequalification);
+        if ($this->admin == false) {
+            foreach ($this->objects as $employeequalification) { 
+                // Authorization for employee check available?
+                if (($this->property == "check") && ($user != NULL) && ($mitarbeiters != NULL)) {             
+                    if (in_array($employeequalification->getEmployee(), $mitarbeiters->toArray(), TRUE)) {
+                        $employeequalification->setShowstatus(TRUE);
+                        $arrNeu->attach($employeequalification);
+                    // Check status
+                    } elseif ($employeequalification->getStatus() > $this->qualiStatusIgnore) {
+                        $employeequalification->setShowstatus(FALSE);
+                        $arrNeu->attach($employeequalification);
+                    }
                 // Check status
                 } elseif ($employeequalification->getStatus() > $this->qualiStatusIgnore) {
                     $employeequalification->setShowstatus(FALSE);
                     $arrNeu->attach($employeequalification);
                 }
-            // Check status
-            } elseif ($employeequalification->getStatus() > $this->qualiStatusIgnore) {
-                $employeequalification->setShowstatus(FALSE);
-                $arrNeu->attach($employeequalification);
             }
+            $modifiedObjects = $arrNeu;
+        } else {
+            $modifiedObjects = $this->objects;
         }
-       
-        $modifiedObjects = $arrNeu;		
 
         // Count all objects
         $countmit = count($modifiedObjects);		

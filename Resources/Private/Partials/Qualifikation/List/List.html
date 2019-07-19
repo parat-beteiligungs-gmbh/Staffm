@@ -32,7 +32,8 @@
                         <td><div id="q{qualifikation.uid}" class="anchor"></div><div class="tx_staffm tds250"><f:link.action title="{qualifikation.bezeichnung}" action="show" arguments="{qualifikation : qualifikation, search:search}">{qualifikation.bezeichnung}</f:link.action></div></td>
                         <td><div class="tx_staffm tds400"><f:link.action title="{qualifikation.beschreibung}" action="show" arguments="{qualifikation : qualifikation, search:search}">{qualifikation.beschreibung}</f:link.action></div></td>                                                                                   
                         <td class="staffmmobilehidden">
-                            <tv:widget.qualiStatus objects="{qualifikation.employeequalifications}" as="sortedEmployeequalifications" property="{f:if(condition: '{search} != \'\'', then: 'check')}">    
+                            <f:variable name="adminQS" value="{tv:isAdminQualificationStatus()}" />
+                            <tv:widget.qualiStatus objects="{qualifikation.employeequalifications}" as="sortedEmployeequalifications" property="{f:if(condition: '{search} != \'\'', then: 'check')}" admin="{admindQS}">    
                                 <f:for each="{sortedEmployeequalifications -> vhs:iterator.sort(sortBy: 'status')}" as="m" iteration="iteration" reverse="TRUE">                      
                                     <f:if condition="{iteration.isFirst}">
                                         <f:then>

@@ -14,8 +14,8 @@
             <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_history" /></th>
         </f:if>
     </tr>
-    <tv:widget.qualiStatus objects="{mitarbeiter.employeequalifications}" as="filteredEmployeequalifications" property="check">
-        <f:variable name="costcenterresponsible" value="{tv:isCostCenterResponsible(employee: aktuser, withDeputy: 1)}" />
+    <tv:widget.qualiStatus objects="{mitarbeiter.employeequalifications}" as="filteredEmployeequalifications" property="check" admin="{adminQS}">
+        <f:variable name="costcenterresponsible" value="{tv:isCostCenterResponsible(employee: aktuser, withDeputy: 1)}" />        
         <f:variable name="adminQS" value="{tv:isAdminQualificationStatus()}" />
         <f:for each="{filteredEmployeequalifications -> vhs:iterator.sort(sortBy: 'qualification.bezeichnung')}" as="employeequalification">        
             <tr>                
