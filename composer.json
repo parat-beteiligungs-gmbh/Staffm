@@ -8,7 +8,7 @@
     "name": "pmwebdesign/staffm",
     "type": "typo3-cms-extension",
     "description": "Employee database with qualifications, cost centers, companies...",
-    "version": "2.6.1",
+    "version": "2.6.2",
     "keywords": [
         "TYPO3",
         "extension"

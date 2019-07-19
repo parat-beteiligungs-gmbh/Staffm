@@ -1,131 +1,119 @@
 {namespace tv = Pmwebdesign\Staffm\ViewHelpers}
+
 <f:layout name="Default" />
-
-This Template is responsible for displaying a single view for a domain object
-
-If you modify this template, do not forget to change the overwrite settings
-in /Configuration/ExtensionBuilder/settings.yaml:
-  Resources:
-    Private:
-      Templates:
-        Show.html: keep
-
-Otherwise your changes will be overwritten the next time you save the extension in the extension builder
-
 <f:section name="main">
-<h1><f:translate id="staffm.position.show.headline" /></h1>
-<f:debug>{userKey}</f:debug>
-<f:flashMessages />
-<f:render partial="Position/Properties" arguments="{position:position, userKey:userKey}" /><br />
-<div class="btn-group">
-    <f:if condition="{key} == 'vonMit'">
-        <f:then>        
-            <f:link.action class="btn btn-default" controller="Mitarbeiter" action="show" arguments="{mitarbeiter:mitarbeiter, search:standardsearch, userKey:userKey}"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span><f:translate id="staffm.back" /> (<f:translate key="tx_staffm_domain_model_mitarbeiter" />)</f:link.action>
-        </f:then>
-        <f:else>
-            <f:link.action section="pos{position.uid}" class="btn btn-default" action="list" arguments="{maid: 'maid', search:search}"><f:translate id="staffm.back" /></f:link.action>
-        </f:else>        
-    </f:if>
-    <f:link.action title="Die Liste in Excel ausgeben" id="excelExport" class="btn btn-default" action="export" arguments="{position:position}" name="excelExport" >
-        <f:image class="tx_staffm icon" src="typo3conf/ext/staffm/Resources/Public/Icons/Excel.png" />
-        Excel Export
-    </f:link.action> 
-</div>
-<br /><br />
-<h3><f:translate id="staffm.text.zugeordnete" /> <f:translate key="tx_staffm_domain_model_mitarbeiter" /> (<f:count subject="{position.mitarbeiters}" />)</h3>
-<table class="tx_staffm">    
-    <tr>
-        <th></th>
-        <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.personalnummer" /></th>
-        <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.username" /></th>
-        <th><f:translate key="tx_staffm_domain_model_mitarbeiter.last_name" /></th>
-        <th><f:translate key="tx_staffm_domain_model_mitarbeiter.first_name" /></th>
-        <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.title" /></th>
-        <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.telephone" /></th>
-        <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.qualifikationen" /></th>	
-        <f:security.ifHasRole role="PA"><th class="staffmmobilehidden"></th></f:security.ifHasRole>
-    </tr>   
-    <f:for each="{position.mitarbeiters}" as="ma">            
+    <h1><f:translate id="staffm.position.show.headline" /></h1>
+    <f:flashMessages />
+    <f:render partial="Position/Properties" arguments="{position:position, userKey:userKey}" /><br />
+    <div class="btn-group">
+        <f:if condition="{key} == 'vonMit'">
+            <f:then>        
+                <f:link.action class="btn btn-default" controller="Mitarbeiter" action="show" arguments="{mitarbeiter:mitarbeiter, search:standardsearch, userKey:userKey}"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span><f:translate id="staffm.back" /> (<f:translate key="tx_staffm_domain_model_mitarbeiter" />)</f:link.action>
+            </f:then>
+            <f:else>
+                <f:link.action section="pos{position.uid}" class="btn btn-default" action="list" arguments="{maid: 'maid', search:search}"><f:translate id="staffm.back" /></f:link.action>
+            </f:else>        
+        </f:if>
+        <f:link.action title="Die Liste in Excel ausgeben" id="excelExport" class="btn btn-default" action="export" arguments="{position:position}" name="excelExport" >
+            <f:image class="tx_staffm icon" src="typo3conf/ext/staffm/Resources/Public/Icons/Excel.png" />
+            Excel Export
+        </f:link.action> 
+    </div>
+    <br /><br />
+    <h3><f:translate id="staffm.text.zugeordnete" /> <f:translate key="tx_staffm_domain_model_mitarbeiter" /> (<f:count subject="{position.mitarbeiters}" />)</h3>
+    <table class="tx_staffm">    
         <tr>
-                <td>
-                    <f:if condition="{ma.image}">
-                        <f:for each="{ma.image}" as="img" key="key" iteration="iterator">    
-                            <f:if condition="{iterator.isFirst}">
-                                <f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, position:position, key: 'auswahlKst'}"><f:image class="tx_staffm profilbild klein" src="{img.originalResource.publicUrl}" /></f:link.action>                                            
-                            </f:if>
-                        </f:for>                        
-                    </f:if>                        
-                </td>
-                <td class="staffmmobilehidden"><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, position:position, key: 'auswahlKst'}"> {ma.personalnummer}</f:link.action></td>
-                <td class="staffmmobilehidden"><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, position:position, key: 'auswahlKst'}"> {ma.username}</f:link.action></td>
-                <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, position:position, key: 'auswahlKst'}"> {ma.lastName}</f:link.action></td>
-                <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, position:position, key: 'auswahlKst'}"> {ma.firstName}</f:link.action></td>
-                <td class="staffmmobilehidden"><div class="tx_staffm tds150"><f:link.action title="{ma.title}" controller="Mitarbeiter" action="showKst" arguments="{ma : ma, position:position, key: 'auswahlKst'}"> {ma.title}</f:link.action></div></td>
-                <td class="staffmmobilehidden"><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, position:position, key: 'auswahlKst'}"> {ma.telephone}</f:link.action></td>
-                <td class="staffmmobilehidden">     
-                    <f:for each="{ma.qualifikationen}" as="mitarbeiterqualifikation" iteration="iteration">
-                        <f:if condition="{iteration.isFirst}">
-                            <f:then>
-                                <p class="marksq" title="{mitarbeiterqualifikation.beschreibung}"><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, position:position, key: 'auswahlKst'}"><span>{mitarbeiterqualifikation.bezeichnung}</span></f:link.action>
-                                    <f:if condition="{ma.qualifikationen -> f:count()} > 1">
-                                        <a class="btn btn-secondary btn-sm" style="float:right" href="javascript:void(0)" id="q{ma.uid}" onClick="getID(this);return false;"><span name="q{ma.uid}glyphiconchange" id="q{ma.uid}" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                                            <f:if condition="{ma.qualifikationen -> f:count()} < 10">
-                                                0
-                                            </f:if>
-                                            {ma.qualifikationen -> f:count()}</a>
-                                    </f:if>
-                                </p>
-                            </f:then>
-                            <f:else>
-                                <p class="marksq q{ma.uid}hidden" style="display:none" title="{mitarbeiterqualifikation.beschreibung}"><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, position:position, key: 'auswahlKst'}">{mitarbeiterqualifikation.bezeichnung}</f:link.action></p>                                            
-                            </f:else>
-                        </f:if>                                            
-                    </f:for>
-                </td>
-                <f:security.ifHasRole role="PA">
-                    <td class="staffmmobilehidden">
-                        <div class="btn-group" style="float: right">
-                            <f:link.action class="btn btn-secondary btn-sm" title="{ma.firstName} {ma.lastName} bearbeiten" controller="Mitarbeiter" action="edit" arguments="{mitarbeiter : ma}"><f:translate id="staffm.edit" /></f:link.action>
-                            <f:link.action class="btn btn-danger btn-sm" controller="Mitarbeiter" action="delete" arguments="{mitarbeiter : ma}"><f:translate id="staffm.delete" /></f:link.action>
-                        </div>
+            <th></th>
+            <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.personalnummer" /></th>
+            <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.username" /></th>
+            <th><f:translate key="tx_staffm_domain_model_mitarbeiter.last_name" /></th>
+            <th><f:translate key="tx_staffm_domain_model_mitarbeiter.first_name" /></th>
+            <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.title" /></th>
+            <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.telephone" /></th>
+            <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.qualifikationen" /></th>	
+            <f:security.ifHasRole role="PA"><th class="staffmmobilehidden"></th></f:security.ifHasRole>
+        </tr>   
+        <f:for each="{position.mitarbeiters}" as="ma">            
+            <tr>
+                    <td>
+                        <f:if condition="{ma.image}">
+                            <f:for each="{ma.image}" as="img" key="key" iteration="iterator">    
+                                <f:if condition="{iterator.isFirst}">
+                                    <f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, position:position, key: 'auswahlKst'}"><f:image class="tx_staffm profilbild klein" src="{img.originalResource.publicUrl}" /></f:link.action>                                            
+                                </f:if>
+                            </f:for>                        
+                        </f:if>                        
                     </td>
-                </f:security.ifHasRole>
-        </tr>
-    </f:for>
-</table>
-<script>    
-    function getID(stat) {
-        // ID der geklickten Mitarbeiterqualifikation ermitteln   
-        //var objEvt;
-        //var objEvt = (window.event)? window.event: objEvt;
-        //var objSrc = (objEvt.target)? objEvt.target : objEvt.srcElement;        
-        //var id = objSrc.id;      
-        var id = stat.id;
+                    <td class="staffmmobilehidden"><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, position:position, key: 'auswahlKst'}"> {ma.personalnummer}</f:link.action></td>
+                    <td class="staffmmobilehidden"><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, position:position, key: 'auswahlKst'}"> {ma.username}</f:link.action></td>
+                    <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, position:position, key: 'auswahlKst'}"> {ma.lastName}</f:link.action></td>
+                    <td><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, position:position, key: 'auswahlKst'}"> {ma.firstName}</f:link.action></td>
+                    <td class="staffmmobilehidden"><div class="tx_staffm tds150"><f:link.action title="{ma.title}" controller="Mitarbeiter" action="showKst" arguments="{ma : ma, position:position, key: 'auswahlKst'}"> {ma.title}</f:link.action></div></td>
+                    <td class="staffmmobilehidden"><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, position:position, key: 'auswahlKst'}"> {ma.telephone}</f:link.action></td>
+                    <td class="staffmmobilehidden">     
+                        <f:for each="{ma.qualifikationen}" as="mitarbeiterqualifikation" iteration="iteration">
+                            <f:if condition="{iteration.isFirst}">
+                                <f:then>
+                                    <p class="marksq" title="{mitarbeiterqualifikation.beschreibung}"><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, position:position, key: 'auswahlKst'}"><span>{mitarbeiterqualifikation.bezeichnung}</span></f:link.action>
+                                        <f:if condition="{ma.qualifikationen -> f:count()} > 1">
+                                            <a class="btn btn-secondary btn-sm" style="float:right" href="javascript:void(0)" id="q{ma.uid}" onClick="getID(this);return false;"><span name="q{ma.uid}glyphiconchange" id="q{ma.uid}" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                                                <f:if condition="{ma.qualifikationen -> f:count()} < 10">
+                                                    0
+                                                </f:if>
+                                                {ma.qualifikationen -> f:count()}</a>
+                                        </f:if>
+                                    </p>
+                                </f:then>
+                                <f:else>
+                                    <p class="marksq q{ma.uid}hidden" style="display:none" title="{mitarbeiterqualifikation.beschreibung}"><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, position:position, key: 'auswahlKst'}">{mitarbeiterqualifikation.bezeichnung}</f:link.action></p>                                            
+                                </f:else>
+                            </f:if>                                            
+                        </f:for>
+                    </td>
+                    <f:security.ifHasRole role="PA">
+                        <td class="staffmmobilehidden">
+                            <div class="btn-group" style="float: right">
+                                <f:link.action class="btn btn-secondary btn-sm" title="{ma.firstName} {ma.lastName} bearbeiten" controller="Mitarbeiter" action="edit" arguments="{mitarbeiter : ma}"><f:translate id="staffm.edit" /></f:link.action>
+                                <f:link.action class="btn btn-danger btn-sm" controller="Mitarbeiter" action="delete" arguments="{mitarbeiter : ma}"><f:translate id="staffm.delete" /></f:link.action>
+                            </div>
+                        </td>
+                    </f:security.ifHasRole>
+            </tr>
+        </f:for>
+    </table>
+    <script>    
+        function getID(stat) {
+            // ID der geklickten Mitarbeiterqualifikation ermitteln   
+            //var objEvt;
+            //var objEvt = (window.event)? window.event: objEvt;
+            //var objSrc = (objEvt.target)? objEvt.target : objEvt.srcElement;        
+            //var id = objSrc.id;      
+            var id = stat.id;
 
 
-        // Klassen der Mitarbeiterqualifikation ermitteln
-        var list = document.getElementsByClassName(id + "hidden");
-        // Aus- oder einblenden
-        for(var i = 0; i < list.length; i++) {
-            /*(list[i].style.display == 'none') ? list[i].style.display = ''
-            : list[i].style.display = 'none';*/
+            // Klassen der Mitarbeiterqualifikation ermitteln
+            var list = document.getElementsByClassName(id + "hidden");
+            // Aus- oder einblenden
+            for(var i = 0; i < list.length; i++) {
+                /*(list[i].style.display == 'none') ? list[i].style.display = ''
+                : list[i].style.display = 'none';*/
 
-            var elem = document.getElementsByName(id + 'glyphiconchange');            
-            if (list[i].style.display == 'none') {
-                list[i].style.display = '';
-                for (var ii = 0; ii < elem.length; ii++) { 
-                    elem[ii].setAttribute('class', 'glyphicon glyphicon-triangle-top');
-                }                 
-            } else {
-                list[i].style.display = 'none';
-                //elem.setAttribute('class', 'glyphicon glyphicon-triangle-bottom');
-                for (var ii = 0; ii < elem.length; ii++) { 
-                    elem[ii].setAttribute('class', 'glyphicon glyphicon-triangle-bottom');
-                }        
+                var elem = document.getElementsByName(id + 'glyphiconchange');            
+                if (list[i].style.display == 'none') {
+                    list[i].style.display = '';
+                    for (var ii = 0; ii < elem.length; ii++) { 
+                        elem[ii].setAttribute('class', 'glyphicon glyphicon-triangle-top');
+                    }                 
+                } else {
+                    list[i].style.display = 'none';
+                    //elem.setAttribute('class', 'glyphicon glyphicon-triangle-bottom');
+                    for (var ii = 0; ii < elem.length; ii++) { 
+                        elem[ii].setAttribute('class', 'glyphicon glyphicon-triangle-bottom');
+                    }        
 
-            } 
+                } 
+            }
+
         }
-        
-    }
-</script>
+    </script>
 </f:section>
