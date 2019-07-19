@@ -18,10 +18,10 @@
         </f:if>
         <f:if condition="{admin} == TRUE"><th class="staffmmobilehidden"></th></f:if>
     </tr> 
-    <tv:widget.qualiStatus objects="{qualifikation.employeequalifications}" as="filteredEmployeequalifications" property="check">  
+    <tv:widget.qualiStatus objects="{qualifikation.employeequalifications}" as="filteredEmployeequalifications" property="check" admin="{adminQS}">  
         <f:variable name="admin" value="{tv:isAdmin()}" />
         <f:variable name="adminQS" value="{tv:isAdminQualificationStatus()}" />
-        <f:for each="{filteredEmployeequalifications -> vhs:iterator.sort(sortBy: 'employee.lastName')}" as="ma"> 
+        <f:for each="{filteredEmployeequalifications -> vhs:iterator.sort(sortBy: 'status')}" as="ma" reverse="true"> 
             <tr id="ma{ma.uid}">
                 <td>
                     <f:if condition="{ma.employee.image}">

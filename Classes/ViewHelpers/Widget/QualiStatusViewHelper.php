@@ -40,9 +40,10 @@ class QualiStatusViewHelper extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetV
      * @param \TYPO3\CMS\Extbase\Persistence\Generic\LazyObjectStorage $objects
      * @param string $as Name of the Result-Set   
      * @param string $property of Status
+     * @param bool $admin Admin authorization
      * @return string
      */
-    public function render($objects, $as, $property) {
+    public function render($objects, $as, $property, $admin) {
         return $this->initiateSubRequest(); // Run SubRequest with included Controller and his Action (indexAction())
     }
 }

@@ -50,15 +50,16 @@
                         <td class="staffmmobilehidden"><div class="tx_staffm tds150"><f:link.action title="{mitarbeiter.title}" action="show" arguments="{mitarbeiter : mitarbeiter, search:search}"> {mitarbeiter.title}</f:link.action></div></td>
                         <td class="staffmmobilehidden"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, search:search}"> {mitarbeiter.telephone}</f:link.action></td>                               
                         <f:comment><!-- Search condition, for more performance (Qualification just by search) --></f:comment>
-                        <f:if condition="{search}">
-                            <tv:widget.qualiStatus objects="{mitarbeiter.employeequalifications}" as="sortedEmployeequalifications" property="check">                                
+                        <f:if condition="{search}">    
+                            <f:variable name="adminQS" value="{tv:isAdminQualificationStatus()}" />
+                            <tv:widget.qualiStatus objects="{mitarbeiter.employeequalifications}" as="sortedEmployeequalifications" property="check" admin="{adminQS}">                                
                                 <td>     
                                     <f:for each="{sortedEmployeequalifications -> vhs:iterator.sort(sortBy: 'qualification.bezeichnung')}" as="employeequalification" iteration="iteration">
                                         <f:if condition="{iteration.isFirst}">
                                             <f:then>
                                                 <p class="marksq" title="{employeequalification.qualification.beschreibung}">                                                
                                                     <f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, search:search}">
-                                                        <span>{employeequalification.qualification.bezeichnung}{f:if(condition:'{employeequalification.showstatus} == TRUE', then:' ({employeequalification.status})')}</span>
+                                                        <span>{employeequalification.qualification.bezeichnung}{f:if(condition:'{employeequalification.showstatus} == TRUE || {adminQS} == TRUE', then:' ({employeequalification.status})')}</span>
                                                     </f:link.action>
                                                     <f:if condition="{countmit} > 1">
                                                         <a class="btn btn-secondary btn-sm" style="float:right" href="javascript:void(0)" id="q{mitarbeiter.uid}" onClick="getID(this);return false;">
