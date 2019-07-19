@@ -50,7 +50,8 @@
                     <td class="staffmmobilehidden"><f:link.action title="{ma.title}" controller="Mitarbeiter" action="showKst" arguments="{ma : ma, kostenstelle:kostenstelle, key: 'auswahlKst', search:search}"> {ma.title}</f:link.action></td>
                     <td class="staffmmobilehidden"><f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, kostenstelle:kostenstelle, key: 'auswahlKst', search:search}"> {ma.telephone}</f:link.action></td>
                     <td class="staffmmobilehidden">     
-                    <tv:widget.qualiStatus objects="{ma.employeequalifications}" as="filteredEmployeequalifications" property="check">
+                    <f:variable name="adminQS" value="{vh:isAdminQualificationStatus()}" />
+                    <tv:widget.qualiStatus objects="{ma.employeequalifications}" as="filteredEmployeequalifications" property="check" admin="{adminQS}">
                         <f:variable name="adminQS" value="{tv:isAdminQualificationStatus()}" />
                         <f:for each="{filteredEmployeequalifications}" as="mitarbeiterqualifikation" iteration="iteration">
                             <f:if condition="{iteration.isFirst}">

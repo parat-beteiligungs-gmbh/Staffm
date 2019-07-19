@@ -1,5 +1,11 @@
 # Staffm Change Log
 
+## 2.6.2
+
+Supports Typo3 8.7.0 - 8.7.99
+
+- [BUGFIX] Fix bug in cost center show with qualification authorization.
+
 ## 2.6.1
 
 Supports Typo3 8.7.0 - 8.7.99
