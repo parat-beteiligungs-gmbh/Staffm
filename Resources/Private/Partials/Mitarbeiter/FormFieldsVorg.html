@@ -19,8 +19,7 @@
         <f:comment><!-- Representations --></f:comment>        
         <f:if condition="{vh:isCostCenterResponsible(employee:aktuser, withDeputy: 0)} > 0 && {vh:isCostCenterResponsible(employee:mitarbeiter, withDeputy: 0)} > 0">                
             <f:render partial="Mitarbeiter/Representation/FormFields" arguments="{representations: mitarbeiter.representations, key:key, userKey:userKey, art:art}" />
-            <div class="btn-group" role="group"> 
-                <!-- TODO-Error: list Mitarbeiter -->
+            <div class="btn-group" role="group">                
                 <f:link.action action="list" arguments="{mitarbeiter:mitarbeiter, key:'chooseDeputyForEmployee', userKey:'auswahlUsr', cache:'notcache', art:art}" class="btn btn-default"><f:translate id="staffm.choose" /></f:link.action>                
                 <f:if condition="{mitarbeiter.representations}">
                     <f:link.action class="btn btn-danger" action="deleteRepresentations" arguments="{employee:mitarbeiter, key:key, userKey:'auswahlUsr', art:art}"><f:translate id="staffm.remove" /></f:link.action>

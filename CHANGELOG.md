@@ -1,5 +1,9 @@
 # Staffm Change Log
 
+## 2.6.3
+
+- [BUGFIX] Just allow ".jpg" pictures for profile images.
+
 ## 2.6.2
 
 Supports Typo3 8.7.0 - 8.7.99
