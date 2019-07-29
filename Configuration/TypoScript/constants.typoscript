@@ -8,8 +8,7 @@ plugin.tx_staffm {
 		# cat=plugin.tx_staffm/file; type=string; label=Path to template layouts (FE)
 		layoutRootPath = EXT:staffm/Resources/Private/Layouts/
 	}
-	persistence {
-                # TODO: Error if creates a new employee then the pid is 128 not 28
+	persistence {              
 		# cat=plugin.tx_staffm//a; type=string; label=Default storage PID
 		storagePid =                 
 	}

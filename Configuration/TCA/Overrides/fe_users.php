@@ -122,40 +122,20 @@ $fields = [
                 //'tablenames' => 'tx_staffm_domain_model_mitarbeiter',
                 'tablenames' => 'fe_users',
                 'table_local' => 'sys_file',
-            ],
+            ],            
             'foreign_types' => [
                 '0' => [
                     'showitem' => '
                         --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
                         --palette--;;filePalette'
-                ],
-                \TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT => [
-                    'showitem' => '
-                        --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                        --palette--;;filePalette'
-                ],
+                ],               
                 \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
-                    'showitem' => '
-                        --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                        --palette--;;filePalette'
-                ],
-                \TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO => [
-                    'showitem' => '
-                        --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                        --palette--;;filePalette'
-                ],
-                \TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO => [
-                    'showitem' => '
-                        --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                        --palette--;;filePalette'
-                ],
-                \TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION => [
                     'showitem' => '
                         --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
                         --palette--;;filePalette'
                 ]
             ]
-        ], $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'])
+        ], 'jpg')
     ],
     'categories' => [
         'exclude' => 1,        

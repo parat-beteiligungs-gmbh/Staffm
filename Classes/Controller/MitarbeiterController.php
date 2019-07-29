@@ -962,7 +962,7 @@ class MitarbeiterController extends ActionController
     protected function setTypeConverterConfigurationForImageUpload($argumentName)
     {
         $uploadConfiguration = [
-            UploadedFileReferenceConverter::CONFIGURATION_ALLOWED_FILE_EXTENSIONS => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
+            UploadedFileReferenceConverter::CONFIGURATION_ALLOWED_FILE_EXTENSIONS => 'jpg',
             UploadedFileReferenceConverter::CONFIGURATION_UPLOAD_FOLDER => '1:/user_upload/profilbilder/',
         ];
         /** @var PropertyMappingConfiguration $newMitarbeiterConfiguration */

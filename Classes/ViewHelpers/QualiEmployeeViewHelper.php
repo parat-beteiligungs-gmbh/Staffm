@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (C) 2018 pm-webdesign.eu 
+ * Copyright (C) 2019 pm-webdesign.eu 
  * Markus Puffer <m.puffer@pm-webdesign.eu>
  *
  * All rights reserved
@@ -26,7 +26,7 @@
 namespace Pmwebdesign\Staffm\ViewHelpers;
 
 /**
- * TODO: Check qualification of employee
+ * Check qualification of employee
  */
 class QualiEmployeeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {

@@ -104,8 +104,7 @@ return [
                     'minitems' => 0,
                     'maxitems' => 1000,
             ],
-        ],       
-        // TODO: TCA employees
+        ],      
         'employees' => [
             //'exclude' => 1,        
             'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_category.employees',

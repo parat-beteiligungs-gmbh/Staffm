@@ -57,9 +57,7 @@ class Caching {
         $this->extensionName = $extensionName;
         if(!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$extensionName]))
             $extensionName = self::DEFAULT_CACHE_EXTENSIONKEY;            
-        
-//        \TYPO3\CMS\Core\Cache\Cache::initializeCachingFramework(); TODO: Error -> Class 'TYPO3\CMS\Core\Cache\Cache' not found
-//        \TYPO3\CMS\Core\Cache\CacheManager::registerCache();
+
         try {
             $this->cacheInstance = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->getCache($extensionName);
         } catch (\TYPO3\CMS\Core\Cache\Exception\NoSuchCacheException $e) {
