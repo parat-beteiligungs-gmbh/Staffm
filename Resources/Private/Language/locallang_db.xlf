@@ -9,6 +9,9 @@
             <trans-unit id="tx_staffm_domain_model_mitarbeiter.personalnummer">
                 <source>Personalnummer</source>
             </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.image">
+                <source>Profilbilder</source>
+            </trans-unit>
             <trans-unit id="tx_staffm_domain_model_mitarbeiter.username">
                 <source>Username</source>
             </trans-unit>

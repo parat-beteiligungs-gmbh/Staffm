@@ -1,6 +1,14 @@
 # Staffm Change Log
 
+## 
+
+Supports Typo3 8.7.0 - 8.7.99
+
+- [BUGFIX] Set missed language label in employee.
+
 ## 2.6.3
+
+Supports Typo3 8.7.0 - 8.7.99
 
 - [BUGFIX] Just allow ".jpg" pictures for profile images.
 
