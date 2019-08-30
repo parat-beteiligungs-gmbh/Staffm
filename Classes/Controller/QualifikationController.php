@@ -263,6 +263,8 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
 
         // Delete Excel file at server
         unlink($filePath);
+        
+        $this->redirect('list');
     }
     
     /**

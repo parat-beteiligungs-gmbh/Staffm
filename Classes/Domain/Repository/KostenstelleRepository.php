@@ -28,55 +28,59 @@ namespace Pmwebdesign\Staffm\Domain\Repository;
 /**
  * The repository for Cost Centers
  */
-class KostenstelleRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
-	/**
-	 * @param string $search
-	 * @param int $limit
-	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findSearchForm($search, $limit) {		
-		$constraints = array();		
-		$query = $this->createQuery();
-		$searchArr = str_getcsv($search, " ");
-		$s = $search;
-		
-		foreach ($searchArr as $s) { 
-			$constraints[] = $query->like('nummer', '%' . $s . '%');
-			$constraints[] = $query->like('bezeichnung', '%' . $s . '%');	
-			$verant = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findSearchFormKst($s);			
-			foreach ($verant as $v) {			
-				$constraints[] = $query->equals('verantwortlicher', $v);
-			}
-		}	
-		
-		$query->matching(					
-				$query->logicalOr(					
-					$constraints					
-				)
-		);
-		//\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($constraints); // SQL-Debug-Output
-		
-		$query->setOrderings(array('bezeichnung' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
-		$limits = (int) $limit;
-		if ($limit > 0) {
-			$query->setLimit($limits);
-		}
-		return $query->execute();
-	}
+class KostenstelleRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
+
+    /**
+     * @param string $search
+     * @param int $limit
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findSearchForm($search, $limit)
+    {
+        $query = $this->createQuery();
         
-        /**
-         * Find Cost centers from a responsible/supervisor
-         * 
-         * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee
-         * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-         */
-        public function findCostCentersFromResponsible(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee)
-        {
-            $query = $this->createQuery();
-            $constraints = [];
-            $constraints[] = $query->equals('verantwortlicher', $employee->getUid());
-            // Representations
-            /* @var $assignedRepresentation \Pmwebdesign\Staffm\Domain\Model\Representation */
+        if ($search != "") {
+            $constraints = array();
+            $searchArr = str_getcsv($search, " ");
+
+            foreach ($searchArr as $s) {
+                $constraints[] = $query->like('nummer', '%' . $s . '%');
+                $constraints[] = $query->like('bezeichnung', '%' . $s . '%');
+                $verant = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findSearchFormKst($s);
+                foreach ($verant as $v) {
+                    $constraints[] = $query->equals('verantwortlicher', $v);
+                }
+            }
+
+            $query->matching(
+                    $query->logicalOr(
+                            $constraints
+                    )
+            );
+        } 
+
+        $query->setOrderings(array('bezeichnung' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
+        $limits = (int) $limit;
+        if ($limit > 0) {
+            $query->setLimit($limits);
+        }
+        return $query->execute();
+    }
+
+    /**
+     * Find Cost centers from a responsible/supervisor
+     * 
+     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findCostCentersFromResponsible(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee)
+    {
+        $query = $this->createQuery();
+        $constraints = [];
+        $constraints[] = $query->equals('verantwortlicher', $employee->getUid());
+        // Representations
+        /* @var $assignedRepresentation \Pmwebdesign\Staffm\Domain\Model\Representation */
 //            foreach ($employee->getAssignedRepresentations() as $assignedRepresentation) {
 //                $constraints[] = $query->equals('verantwortlicher', $assignedRepresentation->getEmployee()->getUid());
 //                if($assignedRepresentation->getCostcenters() != NULL) {
@@ -87,48 +91,49 @@ class KostenstelleRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 //                    }
 //                }
 //            }
-            $query->matching(
+        $query->matching(
                 $query->logicalAnd(
-                    $query->logicalOr(
-                            $constraints
-                    )
+                        $query->logicalOr(
+                                $constraints
+                        )
                 )
-            );
-            $query->setOrderings(['nummer' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING]);
-            return $query->execute();
-        }
-        
-        /**
-         * Find Cost centers from a responsible/supervisor
-         * 
-         * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee
-         * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-         */
-        public function findCostCentersFromResponsibleAndDeputy(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee)
-        {
-            $query = $this->createQuery();
-            $constraints = [];
-            $constraints[] = $query->equals('verantwortlicher', $employee->getUid());
-            // Representations
-            /* @var $assignedRepresentation \Pmwebdesign\Staffm\Domain\Model\Representation */
-            foreach ($employee->getAssignedRepresentations() as $assignedRepresentation) {
-                $constraints[] = $query->equals('verantwortlicher', $assignedRepresentation->getEmployee()->getUid());
-                if($assignedRepresentation->getCostcenters() != NULL) {
-                    foreach ($assignedRepresentation->getCostcenters() as $costCenter) {
-                        $constraints[] = $query->logicalNot(
+        );
+        $query->setOrderings(['nummer' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING]);
+        return $query->execute();
+    }
+
+    /**
+     * Find Cost centers from a responsible/supervisor
+     * 
+     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findCostCentersFromResponsibleAndDeputy(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee)
+    {
+        $query = $this->createQuery();
+        $constraints = [];
+        $constraints[] = $query->equals('verantwortlicher', $employee->getUid());
+        // Representations
+        /* @var $assignedRepresentation \Pmwebdesign\Staffm\Domain\Model\Representation */
+        foreach ($employee->getAssignedRepresentations() as $assignedRepresentation) {
+            $constraints[] = $query->equals('verantwortlicher', $assignedRepresentation->getEmployee()->getUid());
+            if ($assignedRepresentation->getCostcenters() != NULL) {
+                foreach ($assignedRepresentation->getCostcenters() as $costCenter) {
+                    $constraints[] = $query->logicalNot(
                             $query->equals('uid', $costCenter->getUid())
-                            );
-                    }
+                    );
                 }
             }
-            $query->matching(
-                $query->logicalAnd(
-                    $query->logicalOr(
-                            $constraints
-                    )
-                )
-            );
-            $query->setOrderings(['nummer' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING]);
-            return $query->execute();
         }
+        $query->matching(
+                $query->logicalAnd(
+                        $query->logicalOr(
+                                $constraints
+                        )
+                )
+        );
+        $query->setOrderings(['nummer' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING]);
+        return $query->execute();
+    }
+
 }

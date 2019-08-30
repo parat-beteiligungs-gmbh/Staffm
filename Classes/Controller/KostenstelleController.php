@@ -155,12 +155,19 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(3, 1, 'Verantwortlicher');
             
             for ($i = 0; $i < count($kostenstellen); $i++) {
-                $kostenstelle = new \Pmwebdesign\Staffm\Domain\Model\Kostenstelle();
+                /* @var $kostenstelle \Pmwebdesign\Staffm\Domain\Model\Kostenstelle */
                 $kostenstelle = $kostenstellen[$i];
                 $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(1, $i + 2, $kostenstelle->getNummer());
                 $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(2, $i + 2, $kostenstelle->getBezeichnung());
-                if ($kostenstelle->getVerantwortlicher() != null) {
-                    $vera = $kostenstelle->getVerantwortlicher()->getLastName() . " " . $kostenstelle->getVerantwortlicher()->getFirstName();
+                $this->console_log($kostenstelle->getNummer());
+                if ($kostenstelle->getVerantwortlicher() != NULL) {
+                    $vera = "";
+                    if($kostenstelle->getVerantwortlicher()->getLastName() != null) {
+                        $vera = $kostenstelle->getVerantwortlicher()->getLastName();                        
+                    }
+                    if($kostenstelle->getVerantwortlicher()->getFirstName() != null) {
+                        $vera = $vera . " " . $kostenstelle->getVerantwortlicher()->getFirstName();
+                    }
                     $_oPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(3, $i + 2, $vera);
                 }
             }
@@ -234,6 +241,20 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 
         // Delete Excel file on server
         unlink($filePath);
+    }
+    
+    /**
+     * Logs variable in console of browser
+     * 
+     * @param type $output
+     * @param type $with_script_tags
+     */
+    private function console_log($output, $with_script_tags = true) {
+        $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . ');';
+        if ($with_script_tags) {
+            $js_code = '<script>' . $js_code . '</script>';
+        }
+        echo $js_code;
     }
 
     /**
