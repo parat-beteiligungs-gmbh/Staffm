@@ -1,6 +1,16 @@
 # Staffm Change Log
 
+## 2.6.4
+
+Supports Typo3 8.7.0 - 8.7.99
+
+- [UPDATE] Vertical align for qualification table.
+- [BUGFIX] Debug Excel export error.
+- [BUGFIX] Set missed language label in employee.
+
 ## 2.6.3
+
+Supports Typo3 8.7.0 - 8.7.99
 
 - [BUGFIX] Just allow ".jpg" pictures for profile images.
 

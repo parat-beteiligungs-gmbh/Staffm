@@ -47,9 +47,10 @@ class MultiuploadViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\UploadView
 		}
 		$this->tag->addAttribute('type', 'file');
 		$this->tag->addAttribute('name', $name . '[]');
-                 $this->tag->addAttribute('class', 'btn btn-outline-secondary form-control-file');
+                $this->tag->addAttribute('class', 'btn btn-outline-secondary form-control-file');
                 $this->tag->addAttribute('id', 'formControlFile01');
 		$this->tag->addAttribute('multiple', '1');
+                //$this->tag->addAttribute('accept', 'image/jpeg');
 		$this->setErrorClassAttribute();
 		//$output = $this->tag->render();
                 $output = "<div class='form-group'><label for='formControlFile01'>Dateien hochladen</label>" . $this->tag->render() . "</div>";

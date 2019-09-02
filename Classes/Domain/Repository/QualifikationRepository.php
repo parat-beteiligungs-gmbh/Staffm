@@ -43,7 +43,7 @@ class QualifikationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     public function findSearchForm($search, $limit)
     {
         $query = $this->createQuery();
-        if ($search != NULL) {
+        if ($search != "") {
             $query->matching(
                     $query->logicalOr(
                             $query->like('bezeichnung', '%' . $search . '%'), $query->like('beschreibung', '%' . $search . '%')

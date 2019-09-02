@@ -32,7 +32,7 @@ plugin.tx_staffm._CSS_DEFAULT_STYLE (
 	}
 
 	.tx-staffm table {
-		border-collapse:separate;
+		/*border-collapse:separate;*/
 		border-spacing:10px;
 	}
 

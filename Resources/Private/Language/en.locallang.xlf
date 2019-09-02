@@ -83,6 +83,10 @@
                 <source>PNR</source>
                 <target state="translated">PN</target>
             </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.image">
+                <source>Profilbilder</source>
+                <target state="translated">Profile pictures</target>
+            </trans-unit>
             <trans-unit id="tx_staffm_domain_model_mitarbeiter.username">
                 <source>Username</source>
                 <target state="translated">User name</target>
