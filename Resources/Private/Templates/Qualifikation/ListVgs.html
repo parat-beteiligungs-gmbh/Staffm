@@ -35,7 +35,7 @@
                         <tr>
                             <th><f:translate key="tx_staffm_domain_model_mitarbeiter" />/<f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></th>                          
                             <f:for each="{qualifikations}" as="qualification">                                                                
-                                <th class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}" style="min-width: 120px;max-width: 120px" title="{qualification.beschreibung}"><div style="-ms-hyphens: auto;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;vertical-align: bottom">{qualification.bezeichnung}</div></th>                                             
+                                <th class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}" style="min-width: 120px;max-width: 120px" title="{qualification.beschreibung}"><div class="splitwords verticalwriting" style="max-height: 170px">{qualification.bezeichnung}</div></th>                                             
                             </f:for>                         
                         </tr>
                     </thead>
@@ -47,7 +47,7 @@
                                     <tr>
                                         <th><f:translate key="tx_staffm_domain_model_mitarbeiter" />/<f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></th>                          
                                         <f:for each="{qualifikations}" as="qualification">                                                                
-                                            <th class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}" style="min-width: 120px;max-width: 120px" title="{qualification.beschreibung}"><div style="-ms-hyphens: auto;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;vertical-align: bottom">{qualification.bezeichnung}</div></th>                                             
+                                            <th class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}" style="min-width: 120px;max-width: 120px" title="{qualification.beschreibung}"><div class="splitwords verticalwriting" style="max-height: 170px">{qualification.bezeichnung}</div></th>                                             
                                         </f:for>                        
                                     </tr>  
                                 </f:if></f:comment>
