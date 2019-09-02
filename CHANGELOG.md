@@ -1,9 +1,10 @@
 # Staffm Change Log
 
-## 
+## 2.6.4
 
 Supports Typo3 8.7.0 - 8.7.99
 
+- [UPDATE] Vertical align for qualification table.
 - [BUGFIX] Debug Excel export error.
 - [BUGFIX] Set missed language label in employee.
 

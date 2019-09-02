@@ -57,6 +57,18 @@ input {
     color: #cd0a0a;
 }
 
+/* Word splitting */
+.splitwords {
+    -ms-hyphens: auto;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+}
+.verticalwriting {
+    writing-mode: sideways-lr;
+    /*transform: rotate(270deg);*/
+}
+
 /* Qualification assign Reminder Date */
 .ui-datepicker-trigger {
 /*    margin-left: 5px;*/
