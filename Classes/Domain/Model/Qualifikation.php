@@ -89,6 +89,18 @@ class Qualifikation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var \Array
      */
     protected $status;
+    
+    /**
+     *
+     * @var \Array
+     */
+    protected $fullStatus;
+    
+    /**
+     *
+     * @var string
+     */
+    protected $stringStatus;
 
     /**
      * Constructor
@@ -229,10 +241,35 @@ class Qualifikation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->status = [
             0 => "",
-            1 => "1: Befindet sich in der Anlernphase / In Sprachen kaum Kenntnisse / In Ausbildung",
-            2 => "2: Kann die Tätigkeit in der geforderten Zeit und Qualität / Grundkenntnisse. Werden z.B. durch Teilnahme bei Arbeitsgruppen erreicht /In Sprachen vergleichbar Niveaustufe A / abgeschlossene Ausbildung",
-            3 => "3: Ist in der Lage andere einzuarbeiten / Erweiterte Kenntnisse. Kann die bestehenden und für den jeweiligen Bereich zutreffenden Systeme bzw. Abläufe in der täglichen Praxis anwenden. Diese Stufe lässt sich durch interne o. externe Schulungen oder mind. 3-jährige Erfahrung erreichen / In Sprachen vergleichbar Niveaustufe B / Zusatzqualifikationen (z.B. CAD)",
-            4 => "4: Kann selbst Optimierungslösungen finden und deren Umsetzung einleiten / Umfangreiche Kenntnisse. Setzt vorhandene Systematik ein, kann Schwächen erkennen und Systeme weiterentwickeln. Diese Stufe lässt sich nur durch eine nachgewiesene externe Schulung und Praxiserfahrung oder Berufsausbildung erreichen / In Sprachen vergleichbar Niveaustufe C / Fachwirt, Meister, Betriebswirt, Bachelor, Master, Ingenieur"
+            1 => "Stufe 1",
+            2 => "Stufe 2",
+            3 => "Stufe 3",
+            4 => "Stufe 4"
         ];
+    }
+    
+    /**
+     * 
+     * @return \Array
+     */
+    public function getFullStatus()
+    {
+        return $this->fullStatus = [
+            0 => "",
+            1 => "Stufe 1: Befindet sich in Anlernphase / Grundkenntnisse / In Sprachen kaum Kenntnisse / In Ausbildung",
+            2 => "Stufe 2: Kann Tätigkeit in der geforderten Zeit und Qualität ausführen / In Sprachen vergleichbar Niveaustufe A / abgeschlossene Ausbildung",
+            3 => "Stufe 3: Ist in der Lage andere einzuarbeiten / Erweiterte Kenntnisse. Kann bestehende und für den jeweiligen Bereich zutreffende Systeme bzw. Abläufe in der täglichen Praxis anwenden. Diese Stufe lässt sich durch interne o. externe Schulungen oder mind. 3-jährige Erfahrung erreichen / In Sprachen vergleichbar Niveaustufe B / Zusatzqualifikationen (z.B. CAD)",
+            4 => "Stufe 4: Kann selbst Optimierungslösungen finden und deren Umsetzung einleiten / Umfangreiche Kenntnisse. Setzt vorhandene Systematik ein, kann Schwächen erkennen und Systeme weiterentwickeln. Diese Stufe lässt sich nur durch eine nachgewiesene externe Schulung und Praxiserfahrung oder Berufsausbildung erreichen / In Sprachen vergleichbar Niveaustufe C / Fachwirt, Meister, Betriebswirt, Bachelor, Master, Ingenieur",
+        ];
+    }
+    
+    /**
+     * 
+     * @return \Array
+     */
+    public function getStringStatus()
+    {
+        $statusse = $this->getFullStatus();
+        return $this->stringStatus = $statusse[1] . "\n\n" . $statusse[2] . "\n\n" . $statusse[3] . "\n\n" . $statusse[4];
     }
 }
