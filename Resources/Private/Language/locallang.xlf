@@ -198,6 +198,9 @@
             <trans-unit id="tx_staffm_domain_model_qualifikation.status">
                 <source>Status</source>
             </trans-unit>
+             <trans-unit id="tx_staffm_domain_model_qualifikation.zielstatus">
+                <source>Zielstatus</source>
+            </trans-unit>
             <trans-unit id="tx_staffm_domain_model_qualifikation.employeequalifications">
                 <source>Mitarbeiter Qualifikationen</source>
             </trans-unit>
