@@ -501,7 +501,7 @@ input[type="search"]::-webkit-search-cancel-button {
 .redbackground {
     background-color: red !important;
 }
-p.redbackground:hover {
+span.redbackground:hover {
     background-color: #a6a6a6 !important;    
 }
 
