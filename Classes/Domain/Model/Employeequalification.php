@@ -152,7 +152,7 @@ class Employeequalification extends \TYPO3\CMS\Extbase\DomainObject\AbstractEnti
      * 
      * @return \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter
      */
-    public function getEmployee(): \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter
+    public function getEmployee()
     {
         return $this->employee;
     }

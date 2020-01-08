@@ -114,7 +114,7 @@ return [
                     'foreign_table' => 'fe_users',
                     'MM' => 'tx_staffm_employee_category_mm',
                     'MM_opposite_field' => 'employee',
-                    //'foreign_table_where' => ' AND fe_users.pid=###CURRENT_PID### ORDER BY fe_users.username ', // TODO: employees not show with this line
+                    //'foreign_table_where' => ' AND fe_users.pid=###CURRENT_PID### ORDER BY fe_users.username ', // employees not show with this line
                     //'foreign_sortby' => 'sorting',
 //                    'multiple' => 1,
                     'minitems' => 0,

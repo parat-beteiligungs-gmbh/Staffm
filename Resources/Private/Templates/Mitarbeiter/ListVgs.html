@@ -25,7 +25,7 @@
             <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.employeequalifications" /></th> 
             <th></th>
         </tr>                  
-        <f:for each="{mitarbeiters}" as="mitarbeiter">            
+        <f:for each="{mitarbeiters}" as="mitarbeiter">                
             <tr id="ma{mitarbeiter.uid}">    
                 <td>
                     <f:if condition="{mitarbeiter.image}">   
@@ -42,29 +42,31 @@
                 <td class="staffmmobilehidden"><div class="tx_staffm tds150"><f:link.action title="{mitarbeiter.title}" action="show" arguments="{mitarbeiter : mitarbeiter, userKey: 'Vgs'}"> {mitarbeiter.title}</f:link.action></div></td>
                 <td class="staffmmobilehidden"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, userKey: 'Vgs'}"> {mitarbeiter.telephone}</f:link.action></td>                                          
                 <td class="staffmmobilehidden">
+                <f:variable name="otherstatus" value="false" />
                 <f:if condition="{mitarbeiter.employeequalifications}">
                     <f:then>
-                        <f:for each="{mitarbeiter.employeequalifications -> vhs:iterator.sort(sortBy: 'qualification.bezeichnung')}" as="mitarbeiterqualifikation" iteration="iteration">
+                        <f:for each="{mitarbeiter.employeequalifications -> vhs:iterator.sort(sortBy: 'qualification.bezeichnung')}" as="mitarbeiterqualifikation" iteration="iteration">                            
                             <f:if condition="{iteration.isFirst}">
                                 <f:then>
-                                    <p class="marksq" title="{mitarbeiterqualifikation.qualification.beschreibung}"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, userKey: 'Vgs'}"><span>{mitarbeiterqualifikation.qualification.bezeichnung} ({mitarbeiterqualifikation.status})</span></f:link.action>
-                                    <f:if condition="{mitarbeiter.employeequalifications -> f:count()} > 1">
-                                        <a class="btn btn-sm btn-secondary" style="float:right" href="javascript:void(0)" id="q{mitarbeiter.uid}" onClick="getID(this);return false;"><span name="q{mitarbeiter.uid}glyphiconchange" id="q{mitarbeiter.uid}" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                                            <f:if condition="{mitarbeiter.employeequalifications -> f:count()} < 10">
-                                                0
-                                            </f:if>
-                                            {mitarbeiter.employeequalifications -> f:count()}</a>
-                                    </f:if>
+                                    <f:variable name="otherstatus" value="{tv:qualiStatusTargetStatus(employee:'{mitarbeiter}')}" />
+                                    <p class="marksq" title="{mitarbeiterqualifikation.qualification.beschreibung}{f:if(condition:'{mitarbeiterqualifikation.status} < {mitarbeiterqualifikation.targetstatus}', then:' ->{f:translate(key:\'tx_staffm_domain_model_qualifikation.zielstatus\')} {mitarbeiterqualifikation.targetstatus}')}"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, userKey: 'Vgs'}"><span class="{f:if(condition:'{mitarbeiterqualifikation.status} < {mitarbeiterqualifikation.targetstatus}', then:' redbackground')}">{mitarbeiterqualifikation.qualification.bezeichnung} ({mitarbeiterqualifikation.status}){f:if(condition:'{mitarbeiterqualifikation.status} < {mitarbeiterqualifikation.targetstatus}', then:'({mitarbeiterqualifikation.targetstatus})')}</span></f:link.action>
+                                        <f:if condition="{mitarbeiter.employeequalifications -> f:count()} > 1">
+                                            <a class="btn btn-sm btn-secondary{f:if(condition:'{otherstatus} == \'true\'', then:' redbackground')}" style="float:right" href="javascript:void(0)" id="q{mitarbeiter.uid}" onClick="getID(this);return false;"><span name="q{mitarbeiter.uid}glyphiconchange" id="q{mitarbeiter.uid}" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                                                <f:if condition="{mitarbeiter.employeequalifications -> f:count()} < 10">
+                                                    0
+                                                </f:if>
+                                                {mitarbeiter.employeequalifications -> f:count()}</a>
+                                        </f:if>
                                     </p>
                                 </f:then>
                                 <f:else>
-                                    <p class="marksq q{mitarbeiter.uid}hidden" style="display:none" title="{mitarbeiterqualifikation.qualification.beschreibung}"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}">{mitarbeiterqualifikation.qualification.bezeichnung} ({mitarbeiterqualifikation.status})</f:link.action></p>                                            
+                                    <p class="marksq q{mitarbeiter.uid}hidden{f:if(condition:'{mitarbeiterqualifikation.status} < {mitarbeiterqualifikation.targetstatus}', then:' redbackground')}" style="display:none" title="{mitarbeiterqualifikation.qualification.beschreibung}{f:if(condition:'{mitarbeiterqualifikation.status} < {mitarbeiterqualifikation.targetstatus}', then:' ->{f:translate(key:\'tx_staffm_domain_model_qualifikation.zielstatus\')} {mitarbeiterqualifikation.targetstatus}')}"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter}">{mitarbeiterqualifikation.qualification.bezeichnung} ({mitarbeiterqualifikation.status}){f:if(condition:'{mitarbeiterqualifikation.status} < {mitarbeiterqualifikation.targetstatus}', then:'({mitarbeiterqualifikation.targetstatus})')}</f:link.action></p>                                            
                                 </f:else>
                             </f:if>                                            
-                        </f:for>                                                  
+                        </f:for>                          
                     </f:then>
                     <f:else>
-                        <p><f:link.action style="color:red" action="show" arguments="{mitarbeiter : mitarbeiter, userKey: 'Vgs'}">>> keine <<</f:link.action></p>     
+                        <p><f:link.action style="color:red" action="show" arguments="{mitarbeiter : mitarbeiter, userKey: 'Vgs'}">>> <f:translate key="staffm.nothing" /> <<</f:link.action></p>     
                     </f:else>
                 </f:if>
                 </td>                
@@ -109,6 +111,6 @@
 
                 }
             }
-        }
+        }       
     </script>
 </f:section>

@@ -16,12 +16,12 @@
     </tr>
         <f:for each="{mitarbeiter.employeequalifications -> vhs:iterator.sort(sortBy: 'qualification.bezeichnung')}" as="employeequalification">        
             <tr>
-                <td>{employeequalification.qualification.bezeichnung}</td>
+                <td title="{employeequalification.qualification.beschreibung}">{employeequalification.qualification.bezeichnung}</td>
                 <f:if condition="{costcenterresponsible} > 0 || {adminQS} == TRUE">
-                    <td title="{employeequalification.qualification.status.{employeequalification.status}}">
+                    <td title="{employeequalification.qualification.fullStatus.{employeequalification.status}}">
                         {employeequalification.status}<f:comment> - {employeequalification.qualification.status.{employeequalification.status}}</f:comment>                        
                     </td>
-                    <td title="{employeequalification.qualification.status.{employeequalification.targetstatus}}" class="staffmmobilehidden">
+                    <td title="{employeequalification.qualification.fullStatus.{employeequalification.targetstatus}}" class="staffmmobilehidden">
                         <f:if condition="{employeequalification.targetstatus}">
                             {employeequalification.targetstatus}<f:comment> - {employeequalification.qualification.status.{employeequalification.targetstatus}}</f:comment>
                         </f:if>
@@ -69,7 +69,6 @@
             </tr>
         </f:for>
 </table>
-<!-- TODO: Selection of employees for a qualification (authorization) -->
 <f:if condition="{mitarbeiter.employeequalifications}">
     <f:then>
         <f:if condition="{adminQS} == TRUE">

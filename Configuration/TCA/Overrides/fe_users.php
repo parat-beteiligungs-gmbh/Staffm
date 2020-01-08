@@ -102,8 +102,6 @@ $fields = [
                 'foreign_table' => 'tx_staffm_domain_model_employeequalification',                
                 'foreign_field' => 'employee',
                 'foreign_label' => 'qualification',            
-                //'foreign_sortby' => 'qualification.bezeichnung', // TODO: Error - Unknown column 'qualification.bezeichnung' by choosing qualifications in edit form of employee, in show and list it´s ok                
-                //'foreign_default_sortby' => 'qualification',
                 'minitems' => 0,
                 'maxitems' => 1000,                
         ],
@@ -157,7 +155,7 @@ $fields = [
                         'name' => 'wizard_edit',
                     ],
                     'type' => 'popup',
-                    'title' => 'Edit', // todo define label: LLL:EXT:.../Resources/Private/Language/locallang_tca.xlf:wizard.edit
+                    'title' => 'LLL:EXT:staffm/Resources/Private/Language/locallang.xlf:staffm.edit', 
                     'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_edit.gif',
                     'popup_onlyOpenIfSelected' => 1,
                     'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
@@ -167,7 +165,7 @@ $fields = [
                         'name' => 'wizard_add',
                     ],
                     'type' => 'script',
-                    'title' => 'Create new', // todo define label: LLL:EXT:.../Resources/Private/Language/locallang_tca.xlf:wizard.add
+                    'title' => 'LLL:EXT:staffm/Resources/Private/Language/locallang.xlf:staffm.add',
                     'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_add.gif',
                     'params' => [
                         'table' => 'tx_staffm_domain_model_category',

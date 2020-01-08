@@ -31,8 +31,14 @@
 		<td>     
                     <a class="btn btn-default btn-sm" onclick="showStatus();"><f:translate key="staffm.show" /></a><br />
                     <div id="showStatus" style="display:none">
-                        <f:for each="{qualifikation.status}" as="status" key="index">                        
-                            {status}<br />
+                        <f:for each="{qualifikation.fullStatus}" as="status" key="index" iteration="iterator">
+                            {status}
+                            <f:if condition="{iterator.isFirst}">
+                                <f:then></f:then>
+                                <f:else>
+                                    <br /><br />
+                                </f:else>
+                            </f:if>
                         </f:for>
                     </div>
 		</td>

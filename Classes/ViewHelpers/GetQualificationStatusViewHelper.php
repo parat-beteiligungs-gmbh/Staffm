@@ -38,8 +38,7 @@ class GetQualificationStatusViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\
     public function render()
     {
         $qualification = new \Pmwebdesign\Staffm\Domain\Model\Qualifikation();
-        $status = $qualification->getStatus();
-//        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($status);
+        $status = $qualification->getFullStatus();
         return $status;
     }
 }

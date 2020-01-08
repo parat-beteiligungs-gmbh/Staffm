@@ -58,12 +58,12 @@
                                         <f:if condition="{eq}">                                        
                                             <f:then>                                                                                    
                                                 <td id="tdM{mitarbeiter.uid}Q{qualification.uid}" style="background-color: #BCEE68" class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}">                                        
-                                                    <f:form.select style="max-width: 100px" id="mitaSelectM{mitarbeiter.uid}Q{qualification.uid}" name="mitarbeiters[{mitarbeiter.uid}][{qualification.uid}]" options="{qualification.status}" value="{eq.status}" additionalAttributes="{onClick: 'setCheckbox(this);'}" />
+                                                    <f:form.select title="{qualification.stringStatus}" style="max-width: 100px" id="mitaSelectM{mitarbeiter.uid}Q{qualification.uid}" name="mitarbeiters[{mitarbeiter.uid}][{qualification.uid}]" options="{qualification.status}" value="{eq.status}" additionalAttributes="{onClick: 'setCheckbox(this);'}" />
                                                 </td>
                                             </f:then>
                                             <f:else>
                                                 <td id="tdM{mitarbeiter.uid}Q{qualification.uid}" class="catAll {f:if(condition: i.isLast, then: '{category.name}', else: '{category.name} ') -> f:for(each:'{qualification.categories}', as: 'category', iteration: 'i')}">                                        
-                                                    <f:form.select style="max-width: 100px" id="mitaSelectM{mitarbeiter.uid}Q{qualification.uid}" name="mitarbeiters[{mitarbeiter.uid}][{qualification.uid}]" options="{qualification.status}" value="" additionalAttributes="{onClick: 'setCheckbox(this);'}" />
+                                                    <f:form.select title="{qualification.stringStatus}" style="max-width: 100px" id="mitaSelectM{mitarbeiter.uid}Q{qualification.uid}" name="mitarbeiters[{mitarbeiter.uid}][{qualification.uid}]" options="{qualification.status}" value="" additionalAttributes="{onClick: 'setCheckbox(this);'}" />
                                                 </td>
                                             </f:else>
                                         </f:if>                                

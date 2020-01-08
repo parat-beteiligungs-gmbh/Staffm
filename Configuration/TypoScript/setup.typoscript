@@ -74,8 +74,8 @@ page {
     #config.cache.16 = tx_staffm_domain_model_mitarbeiter:42,tx_staffm_domain_model_kostenstelle:53
 
     includeCSS {        
-        staffm = EXT:staffm/Resources/Public/css/jquery-ui.css
-        staffm1 = EXT:staffm/Resources/Public/css/staffm.css
+        jquery = EXT:staffm/Resources/Public/css/jquery-ui.css
+        staffm = EXT:staffm/Resources/Public/css/staffm.css
     }
 
     includeJSFooter {
