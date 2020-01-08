@@ -1,5 +1,17 @@
 # Staffm Change Log
 
+## 2.7.0
+
+Supports Typo3 8.7.0 - 8.7.99
+
+- [META] Set the EM conf and json version number to 2.7.0.
+- Merge pull request #29 from pmarkus84/develop
+- [TASK] Language translations.
+- [UPDATE] Better status view and selection for qualifications.
+- [FEATURE] Better status view and selection for qualifications.
+- [CODESTYLE] Change css setup.
+- [BUGFIX] Fix null error in qualifications.
+
 ## 2.6.4
 
 Supports Typo3 8.7.0 - 8.7.99
