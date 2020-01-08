@@ -49,7 +49,7 @@
                                 </tr>
                                 <f:for each="{employeequalification.histories}" as="history">
                                     <tr>
-                                        <td title="{employeequalification.qualification.status.{history.status}}">{history.status}</td>
+                                        <td title="{employeequalification.qualification.fullStatus.{history.status}}">{history.status}</td>
                                         <td>{f:format.date(date: history.dateFrom, format: 'd.m.Y')}</td>
                                         <td>
                                             <f:if condition="{history.dateTo}">
