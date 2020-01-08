@@ -11,6 +11,10 @@
                 <source>Bearbeiten</source>
                 <target state="translated">Edit</target>
             </trans-unit>
+            <trans-unit id="staffm.add">
+                <source>Hinzufügen</source>
+                <target state="translated">Add</target>
+            </trans-unit>
             <trans-unit id="staffm.back">
                 <source>Zurück</source>
                 <target state="translated">Back</target>
@@ -522,6 +526,46 @@
             <trans-unit id="staffm.text.visible.supervisor">
                 <source>Nur für Vorgesetzten sichtbar</source>
                 <target state="translated">Only visible for supervisors</target>
+            </trans-unit>
+            <trans-unit id="staffm.text.profile">
+                <source>Unter "Profil bearbeiten" kann das eigene Userprofil bearbeitet werden.</source>
+                <target state="translated">Your own user profile can be edited under "Edit profile".</target>
+            </trans-unit>
+            <trans-unit id="staffm.text.profileCostCenter">
+                <source>Beachte: Es können nur Mitarbeiter bearbeitet werden, die dem eingeloggten User in einer Kostenstelle (für die er verantwortlich ist) zugeordnet sind.</source>
+                <target state="translated">Note: Only employees who are assigned to the logged-in user in a cost center (for which he is responsible) can be edited.</target>
+            </trans-unit>
+            <trans-unit id="staffm.text.profileEmployee">
+                <source>Unter "Mitarbeiter" können mehrere Daten eines Mitarbeiters geändert werden.</source>
+                <target state="tranlated">Multiple employee data can be changed under "Employees".</target>
+            </trans-unit>
+            <trans-unit id="staffm.text.profileQualification">
+                <source>Unter "Qualifikationen" können bei allen Mitarbeitern die Qualifikationen gleichzeitig zugeordnet werden.</source>
+                <target state="translated">The qualifications can be assigned to all employees at the same time under "Qualifications".</target>
+            </trans-unit>
+            <trans-unit id="staffm.nothing">
+                <source>Keine</source>
+                <target state="translated">Nothing</target>
+            </trans-unit>
+            <trans-unit id="staffm.step">
+                <source>Stufe</source>
+                <target state="translated">Step</target>
+            </trans-unit>
+            <trans-unit id="staffm.step1">
+                <source>Stufe 1: Befindet sich in Anlernphase / Grundkenntnisse / In Sprachen kaum Kenntnisse / In Ausbildung</source>
+                <target state="translated">Step 1: Is in the learning phase / Basic knowledge / Hardly any knowledge in languages / In Training</target>
+            </trans-unit>
+            <trans-unit id="staffm.step2">
+                <source>Stufe 2: Kann Tätigkeit in der geforderten Zeit und Qualität ausführen / In Sprachen vergleichbar Niveaustufe A / abgeschlossene Ausbildung</source>
+                <target state="translated">Step 2: Can carry out work in the required time and quality / Comparable in languages level A / Completed training</target>
+            </trans-unit>
+            <trans-unit id="staffm.step3">
+                <source>Stufe 3: Ist in der Lage andere einzuarbeiten / Erweiterte Kenntnisse. Kann bestehende und für den jeweiligen Bereich zutreffende Systeme bzw. Abläufe in der täglichen Praxis anwenden. Diese Stufe lässt sich durch interne o. externe Schulungen oder mind. 3-jährige Erfahrung erreichen / In Sprachen vergleichbar Niveaustufe B / Zusatzqualifikationen (z.B. CAD)</source>
+                <target state="translated">Step 3: Is able to incorporate others / Advanced knowledge. Can apply existing systems and processed that apply to the respective area in daily practice. This level can be achieved through internal or external training or at least 3 years of experience / Comparable in language level B / Additional qualifications (e. g. CAD)</target>
+            </trans-unit>
+            <trans-unit id="staffm.step4">
+                <source>Stufe 4: Kann selbst Optimierungslösungen finden und deren Umsetzung einleiten / Umfangreiche Kenntnisse. Setzt vorhandene Systematik ein, kann Schwächen erkennen und Systeme weiterentwickeln. Diese Stufe lässt sich nur durch eine nachgewiesene externe Schulung und Praxiserfahrung oder Berufsausbildung erreichen / In Sprachen vergleichbar Niveaustufe C / Fachwirt, Meister, Betriebswirt, Bachelor, Master, Ingenieur</source>
+                <target state="translated">Step 4: Can find optimization solutions themselves and initiate their implementation / Extensive knowledge. Uses existing systematics, can identify weaknesses and develop systems further. This level can only be achieved through external training and pratical experience or vocational training / Comparable in languages level C / Specialist, master, business economist, bachelor, engineer</target>
             </trans-unit>
         </body>
     </file>
