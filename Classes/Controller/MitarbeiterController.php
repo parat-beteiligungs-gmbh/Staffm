@@ -324,7 +324,7 @@ class MitarbeiterController extends ActionController
         // Logged in user              
         $aktuser = $this->objectManager->
                 get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
-                findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
+                findByUid($GLOBALS['TSFE']->fe_user->user['uid']);
         if ($aktuser != NULL) {
             $this->view->assign('aktuser', $aktuser);
         }
@@ -445,7 +445,7 @@ class MitarbeiterController extends ActionController
      */
     public function showAction($mitarbeiter)
     {
-        $mitarbeiter = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findOneByUid($mitarbeiter);
+        $mitarbeiter = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findByUid($mitarbeiter);
         
         if ($this->request->hasArgument('key')) {
             $key = $this->request->getArgument('key');
@@ -475,7 +475,7 @@ class MitarbeiterController extends ActionController
         //$aktuser = new Mitarbeiter();
         $aktuser = $this->objectManager->
                 get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
-                findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
+                findByUid($GLOBALS['TSFE']->fe_user->user['uid']);
         if ($aktuser != NULL) {
             $this->view->assign('aktuser', $aktuser);
         }
@@ -493,7 +493,7 @@ class MitarbeiterController extends ActionController
      */
     public function showCustomAction($mitarbeiter)
     {
-        $mitarbeiter = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findOneByUid($mitarbeiter);
+        $mitarbeiter = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findByUid($mitarbeiter);
         $this->view->assign('mitarbeiter', $mitarbeiter);
     }
 
@@ -559,22 +559,22 @@ class MitarbeiterController extends ActionController
      */
     public function editAction($mitarbeiter)
     {          
-        $mitarbeiter = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findOneByUid($mitarbeiter);
+        $mitarbeiter = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findByUid($mitarbeiter);
         if($this->request->hasArgument('aktuser')) {            
-            $aktuser = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findOneByUid($this->request->getArgument('aktuser'));           
+            $aktuser = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findByUid($this->request->getArgument('aktuser'));           
             $this->view->assign('aktuser', $aktuser);
         }
         
         // Logged in user              
         $aktuser = $this->objectManager->
                 get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
-                findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
+                findByUid($GLOBALS['TSFE']->fe_user->user['uid']);
         if ($aktuser) {
             $this->view->assign('aktuser', $aktuser);
         } else {
             $aktuser = $this->objectManager->
                 get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
-                findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
+                findByUid($GLOBALS['TSFE']->fe_user->user['uid']);
             if($aktuser != NULL)  {
                 $this->view->assign('aktuser', $aktuser);
             }
@@ -664,13 +664,13 @@ class MitarbeiterController extends ActionController
          // Logged in user              
         $aktuser = $this->objectManager->
                 get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
-                findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
+                findByUid($GLOBALS['TSFE']->fe_user->user['uid']);
         if ($aktuser) {
             $this->view->assign('aktuser', $aktuser);
         } else {
             $aktuser = $this->objectManager->
                 get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
-                findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
+                findByUid($GLOBALS['TSFE']->fe_user->user['uid']);
             if($aktuser != NULL)  {
                 $this->view->assign('aktuser', $aktuser);
             }

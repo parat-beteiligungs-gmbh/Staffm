@@ -387,7 +387,7 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         $aktuser = new \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter();
         $aktuser = $this->objectManager->
                 get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
-                findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
+                findByUid($GLOBALS['TSFE']->fe_user->user['uid']);
         // If user is logged in, get cost centers who user is responsible
         if ($aktuser != NULL) {
             $this->view->assign('aktuser', $aktuser);
@@ -398,7 +398,7 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             $this->view->assign('kostenstellen', $kostenstellen);
         }
         
-        $kostenstelle = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->findOneByUid($kostenstelle); 
+        $kostenstelle = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->findByUid($kostenstelle); 
 
         // Search word?
         if ($this->request->hasArgument('search')) {

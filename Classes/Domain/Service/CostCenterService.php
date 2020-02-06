@@ -52,7 +52,7 @@ class CostCenterService
                 /* @var $costcenter \Pmwebdesign\Staffm\Domain\Model\Kostenstelle */
                 $costcenter = $objectManager->get(
                                 'Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository'
-                        )->findOneByUid($c);                
+                        )->findByUid($c);                
                 $costcenters->attach($costcenter);
             }
             return $costcenters;

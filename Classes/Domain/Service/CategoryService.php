@@ -52,7 +52,7 @@ class CategoryService
                 /* @var $category \Pmwebdesign\Staffm\Domain\Model\Category */
                 $category = $objectManager->get(
                                 'Pmwebdesign\\Staffm\\Domain\\Repository\\CategoryRepository'
-                        )->findOneByUid($c);                
+                        )->findByUid($c);                
                 $categories->attach($category);
             }
             return $categories;

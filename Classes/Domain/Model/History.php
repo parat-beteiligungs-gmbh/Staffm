@@ -73,7 +73,7 @@ class History extends \TYPO3\CMS\Extbase\DomainObject\AbstractValueObject
      * @var string
      */
     protected $note = "";
-    
+       
     /**
      * 
      * @return integer
@@ -140,7 +140,7 @@ class History extends \TYPO3\CMS\Extbase\DomainObject\AbstractValueObject
     
     /**
      * 
-     * @param integer $status
+     * @param integer $targetstatus
      */
     public function setTargetstatus($targetstatus)
     {
@@ -182,5 +182,5 @@ class History extends \TYPO3\CMS\Extbase\DomainObject\AbstractValueObject
     public function setNote($note)
     {
         $this->note = $note;
-    }    
+    }   
 }

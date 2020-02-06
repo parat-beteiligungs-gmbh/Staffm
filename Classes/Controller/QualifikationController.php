@@ -431,7 +431,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             $this->view->assign('userKey', $userKey);
         }
         
-         if ($this->request->hasArgument('kst')) {
+        if ($this->request->hasArgument('kst')) {
             $kst = $this->request->getArgument('kst');        
             $this->view->assign('kst', $kst);
         }
@@ -453,7 +453,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         /* @var $aktuser \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter */
         $aktuser = $this->objectManager->
                 get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
-                findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
+                findByUid($GLOBALS['TSFE']->fe_user->user['uid']);
         if($aktuser != NULL) {
             $categoryfield = "";
             if($this->request->hasArgument('categoryfield')) {
@@ -506,7 +506,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         /* @var $aktuser \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter */
         $aktuser = $this->objectManager->
                 get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
-                findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
+                findByUid($GLOBALS['TSFE']->fe_user->user['uid']);
         // transfer user to view
         if ($aktuser != NULL) {
             $this->view->assign('aktuser', $aktuser);
@@ -567,7 +567,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         // Get logged in user        
         $aktuser = $this->objectManager->
                 get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
-                findOneByUid($GLOBALS['TSFE']->fe_user->user['uid']);
+                findByUid($GLOBALS['TSFE']->fe_user->user['uid']);
         
         if ($aktuser != NULL) {
             $this->view->assign('aktuser', $aktuser);
@@ -595,7 +595,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             $this->view->assign('userKey', $this->request->getArgument('userKey'));
         }
         
-        $qualifikation = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\QualifikationRepository')->findOneByUid($qualifikation);
+        $qualifikation = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\QualifikationRepository')->findByUid($qualifikation);
         $this->view->assign('qualifikation', $qualifikation);
     }
 
@@ -632,7 +632,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             // Yes, frontend user
             $qualil->setBearbeiter($this->objectManager->get(
                             'Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository'
-                    )->findOneByUid(
+                    )->findByUid(
                             $GLOBALS['TSFE']->fe_user->user['uid']
                     )
             );
@@ -743,7 +743,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             // Yes, Frontend-User
             $qualil->setBearbeiter($this->objectManager->get(
                             'Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository'
-                    )->findOneByUid(
+                    )->findByUid(
                             $GLOBALS['TSFE']->fe_user->user['uid']
                     )
             );

@@ -47,7 +47,7 @@ class UserService
         if ($uid != null) {
             // Yes, Frontend User
             $user = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager')
-                    ->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findOneByUid($uid);
+                    ->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findByUid($uid);
         } else {
             // No, Backend User -> Not needed in Staffm
 //            $user = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager')
@@ -116,7 +116,7 @@ class UserService
         $users = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
         $aUsers = explode(",", $settingusers);
         foreach ($aUsers as $sUser) {           
-            $user = $objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findOneByUid(intval($sUser));
+            $user = $objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findByUid(intval($sUser));
             $users->attach($user);
         }
         return $users;
@@ -152,7 +152,7 @@ class UserService
                 /* @var $employee \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter */
                 $employee = $objectManager->get(
                                 'Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository'
-                        )->findOneByUid($e);                
+                        )->findByUid($e);                
                 $employees->attach($employee);
             }
             return $employees;
@@ -207,7 +207,7 @@ class UserService
             // Set employees to array items
             foreach ($emp as $e) {
                 /* @var $employee \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter */
-                $employee = $objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository::class)->findOneByUid($e);                
+                $employee = $objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository::class)->findByUid($e);                
                 $representation = new \Pmwebdesign\Staffm\Domain\Model\Representation();
                 $representation->setEmployee($aktEmployee);
                 $representation->setDeputy($employee);

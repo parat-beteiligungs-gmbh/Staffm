@@ -278,7 +278,7 @@ class CategoryController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
      */
     public function showAction($category = 0, \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee = NULL)
     {
-        $category = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\CategoryRepository')->findOneByUid($category);
+        $category = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\CategoryRepository')->findByUid($category);
         
         // Previous search?
         if ($this->request->hasArgument('standardsearch')) {

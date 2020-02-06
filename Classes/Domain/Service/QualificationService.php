@@ -82,7 +82,7 @@ class QualificationService
                 $employeequalification = new \Pmwebdesign\Staffm\Domain\Model\Employeequalification();
                 $qualification = $objectManager->get(
                                 'Pmwebdesign\\Staffm\\Domain\\Repository\\QualifikationRepository'
-                        )->findOneByUid($q);
+                        )->findByUid($q);
                 $status = $qualificationsstatus[$qualification->getUid()];
                 $targetstatus = $qualificationstargetstatus[$qualification->getUid()];
                 $note = $qualificationsnotes[$qualification->getUid()];
@@ -247,7 +247,7 @@ class QualificationService
                 $employeequalification = new \Pmwebdesign\Staffm\Domain\Model\Employeequalification();
                 $employee = $objectManager->get(
                                 'Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository'
-                        )->findOneByUid($m);
+                        )->findByUid($m);
                 $status = $qualificationsstatus[$employee->getUid()];
                 $note = $qualificationsnotes[$employee->getUid()];
                 $reminderDate = $qualificationsreminderdate[$employee->getUid()];
@@ -360,7 +360,7 @@ class QualificationService
             // Set qualifications to array items
             foreach ($ma as $m => $arrVals) {                   
                 /* @var $employee \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter */
-                $employee = $objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository::class)->findOneByUid($m);
+                $employee = $objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository::class)->findByUid($m);
                 
                 // Read previous qualifications of employee  
                 $prevEmployeequalifications = $employee->getEmployeequalifications();
@@ -372,7 +372,7 @@ class QualificationService
                     if($statusuid != 0) {
                         $aktEmployeequalification = new \Pmwebdesign\Staffm\Domain\Model\Employeequalification();
                         $aktEmployeequalification->setEmployee($employee);
-                        $qualification = $objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\QualifikationRepository::class)->findOneByUid($qualificationuid);
+                        $qualification = $objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\QualifikationRepository::class)->findByUid($qualificationuid);
                         $aktEmployeequalification->setQualification($qualification);
                         $aktEmployeequalification->setStatus($statusuid);   
                         
@@ -468,7 +468,7 @@ class QualificationService
                 $qualification = new \Pmwebdesign\Staffm\Domain\Model\Qualifikation();
                 $qualification = $objectManager->get(
                                 'Pmwebdesign\\Staffm\\Domain\\Repository\\QualifikationRepository'
-                        )->findOneByUid($q);
+                        )->findByUid($q);
 
                 $qualifications->attach($qualification);
             }

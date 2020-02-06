@@ -368,7 +368,6 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     public function showAction($firma = 0, $mitarbeiter = 0)
     {        
         $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
-        
         // Employee?        
         if ($mitarbeiter != 0) {    
             // Cache exist?       
@@ -376,7 +375,7 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 // Show Cache-Page
                 return $output; 
             }    
-            $mitarbeiter = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findOneByUid($mitarbeiter);
+            $mitarbeiter = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findByUid($mitarbeiter);
             $firma = $mitarbeiter->getFirma(); 
             $key = $this->request->getArgument('key');
             $this->view->assign('key', $key);        
@@ -385,9 +384,8 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 // Show Cache-Page
                 return $output;
             }
-            $firma = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\FirmaRepository')->findOneByUid($firma); 
+            $firma = $this->firmaRepository->findByUid($firma);     
         }
-
         // Previous search?
         if ($this->request->hasArgument('standardsearch')) {
             $standardsearch = $this->request->getArgument('standardsearch');
