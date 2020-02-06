@@ -1,5 +1,15 @@
 # Staffm Change Log
 
+## 2.7.1
+
+Supports Typo3 8.7.0 - 8.7.99
+
+- [META] Set the version number to 2.7.1.
+- [BUGFIX] Fix find command in repositories.
+- [BUGFIX] Fix colours from status and title.
+- [BUGFIX] Fix colours from status and title.
+- [RELEASE] Version 2.7.0 New status view of employee qualifications.
+
 ## 2.7.0
 
 Supports Typo3 8.7.0 - 8.7.99
