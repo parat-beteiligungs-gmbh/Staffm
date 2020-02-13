@@ -1,5 +1,15 @@
 # Staffm Change Log
 
+## 2.7.2
+
+Supports Typo3 8.7.0 - 8.7.99
+
+- [META] Set the version number to 2.7.2.
+- [BUGFIX] Fix profile pictures of employees on detail views.
+- [UPDATE] Show qualification after creation.
+- [BUGFIX] Fixed the error #30 on qualification delete.
+- [BUGFIX] Fix profile pictures of employees on cost center detail view.
+
 ## 2.7.1
 
 Supports Typo3 8.7.0 - 8.7.99
