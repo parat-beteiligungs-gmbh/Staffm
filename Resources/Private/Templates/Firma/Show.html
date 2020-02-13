@@ -37,7 +37,7 @@
                         <f:if condition="{ma.image}">   
                             <f:for each="{ma.image}" as="img" key="key" iteration="iterator">        
                                 <f:if condition="{iterator.isFirst}">
-                                    <f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, firma:firma, key: 'auswahlKst'}"><f:image class="tx_staffm profilbild klein" src="{img.originalResource.publicUrl}" /></f:link.action>                                            
+                                    <f:link.action controller="Mitarbeiter" action="showKst" arguments="{ma : ma, firma:firma, key: 'auswahlKst'}"><f:image class="tx_staffm profilbild klein" src="{img}" treatIdAsReference="1" /></f:link.action>                                            
                                 </f:if>
                             </f:for>                                                                           
                         </f:if>                                           
