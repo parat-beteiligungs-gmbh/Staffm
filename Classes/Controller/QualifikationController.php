@@ -763,7 +763,7 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         $this->qualilogRepository->add($qualil);
 
         // Delete qualifications of assigned employees
-        $qualifikation->deleteMitarbeiters();
+        $qualifikation->deleteEmployeequalifications();
         $this->qualifikationRepository->update($qualifikation);
 
         $this->objectManager->get(
