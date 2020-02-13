@@ -649,14 +649,16 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         
         $this->qualilogRepository->add($qualil);
 
-        $this->addFlashMessage('Qualifikation angelegt!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
+        $this->addFlashMessage('Qualifikation angelegt. Bitte noch Kategorien zuweisen!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::WARNING);
         $this->qualifikationRepository->add($newQualifikation);
         
         // Delete Caches
         $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
         $cacheService->deleteCaches($newQualifikation->getBezeichnung(), "list", $this->request->getControllerName(), 0); 
         
-        $this->redirect('list', 'Qualifikation', NULL, array('cache' => 'notcache'));
+        $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class)->persistAll();
+        
+        $this->redirect('edit', 'Qualifikation', NULL, array('qualifikation' => $newQualifikation));
     }
 
     /**
