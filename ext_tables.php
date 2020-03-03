@@ -52,7 +52,6 @@ if (TYPO3_MODE === 'BE') {
 			'Position' => 'list, show, choose, edit, new, create, update, delete, deletePosition, export',
 			'Kostenstelle' => 'list, show, choose, edit, new, create, update, delete, deleteKst, deleteKstVerantwortlicher, export',
 			'Firma' => 'list, show, choose, edit, new, create, update, delete, deleteFirma, export',
-			'Standort' => 'list, show, choose, edit, new, create, update, delete, deleteStandort',
 			'Qualifikation' => 'list, show, choose, edit, new, create, update, delete, export',
 			'Mitarbeiterqualifikation' => 'list, show, choose, edit, new, create, update, delete, deleteQuali'
 		),                

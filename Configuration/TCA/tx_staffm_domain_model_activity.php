@@ -79,6 +79,7 @@ return [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
                 'eval' => 'date',
+                'default' => null
             ],
         ],
         'target_deadline' => [
@@ -88,6 +89,7 @@ return [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
                 'eval' => 'date',
+                'default' => null
             ],
         ],
         'certificate_art' => [

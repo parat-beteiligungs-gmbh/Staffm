@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (C) 2018 pm-webdesign.eu 
+ * Copyright (C) 2019 pm-webdesign.eu 
  * Markus Puffer <m.puffer@pm-webdesign.eu>
  *
  * All rights reserved
@@ -40,12 +40,25 @@ class SortViewHelper extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetViewHelp
     protected $controller;
     
     /**
+     * Initialize arguments
      * @param \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult $objects übergebene Objekte
-     * @param string $as Name des Ergebnis-Set
-     * @param string $property Objekteigenschaft 
+     * @param string $as
+     * @param string $property
+     * @param string $search
+     * @param string $maid
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('objects', 'TYPO3\\CMS\\Extbase\\Persistence\\Generic\\QueryResult', 'objects', true);
+        $this->registerArgument('as', 'string', 'as', true);
+        $this->registerArgument('property', 'string', 'propterty', true);
+    }
+    
+    /**     *
      * @return string
      */
-    public function render($objects, $as, $property) {
+    public function render() {
         return $this->initiateSubRequest(); // SubRequest einleiten über den eingebundenen Controller und seine Action (indexAction())
     }
 }

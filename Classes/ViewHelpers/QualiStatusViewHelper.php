@@ -25,20 +25,29 @@
 
 namespace Pmwebdesign\Staffm\ViewHelpers;
 
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+
 /**
  * Check status in qualification of employee
  */
-class QualiStatusViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class QualiStatusViewHelper extends AbstractViewHelper
 {
+    public function initializeArguments(): void
+    {
+        $this->registerArgument('mitarbeiter', \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter::class, '', true, null);
+        $this->registerArgument('qualifikation', \Pmwebdesign\Staffm\Domain\Model\Qualifikation::class, '$description', true, null);
+    }
 
     /**
+     * Render
      * 
-     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
-     * @param \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualifikation
      * @return int 
      */
-    public function render(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter = NULL, \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualifikation = null)
+    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
     {
+        $mitarbeiter = $arguments['mitarbeiter'];
+        $qualifikation = $arguments['qualifikation'];
         if ($mitarbeiter != NULL) {
             $pruefe = 0;
             foreach ($mitarbeiter->getEmployeequalifications() as $q) {

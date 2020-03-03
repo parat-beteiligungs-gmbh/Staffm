@@ -28,17 +28,23 @@ namespace Pmwebdesign\Staffm\ViewHelpers;
 /**
  * Check Deputy of employee
  */
-class DeputyEmployeeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class DeputyEmployeeViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
+    public function initializeArguments(): void
+    {
+        $this->registerArgument('c', \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter::class, '', true, null);
+        $this->registerArgument('ma', \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter::class, '', true, null);
+    }
+    
     /**
      * Render
      * 
-     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $c
-     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $ma
      * @return int 
      */
-    public function render(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $c = NULL, \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $ma = null)
+    public function render()
     {
+        $c = $this->arguments['c'];
+        $ma = $this->arguments['ma'];
         $pruefe = 0;
         if ($c != NULL) {           
             foreach ($c->getRepresentations() as $r) {                

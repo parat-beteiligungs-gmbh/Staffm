@@ -30,17 +30,25 @@ namespace Pmwebdesign\Staffm\ViewHelpers;
  *
  * @author Markus Puffer <m.puffer@pm-webdesign.eu>
  */
-class SetNumElementsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class SetNumElementsViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
+    public function initializeArguments(): void
+    {
+        $this->registerArgument('objects', \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult::class, '', true);
+        $this->registerArgument('iterator', 'int', '', true);
+        $this->registerArgument('num', 'int', '', true);
+    }
+    
     /**
      * Render
      * 
-     * @param TYPO3\CMS\Extbase\Persistence\Generic\QueryResult $objects
-     * @param integer $iterator
-     * @param integer $num Number of elements to be displayed
+     * @return bool
      */
     public function render($objects, $iterator, $num)
-    {        
+    {     
+        $objects = $this->arguments['objects'];
+        $iterator = $this->arguments['iterator'];
+        $num = $this->arguments['num'];
         $numberOfElements = count($objects);
         $block = intdiv($numberOfElements, $num);
         

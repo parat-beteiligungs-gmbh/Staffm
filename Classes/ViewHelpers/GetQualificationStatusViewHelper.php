@@ -30,7 +30,7 @@ namespace Pmwebdesign\Staffm\ViewHelpers;
  *
  * @author Markus Puffer <m.puffer@pm-webdesign.eu>
  */
-class GetQualificationStatusViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class GetQualificationStatusViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
      * @return \Array

@@ -39,14 +39,27 @@ class AtoZNavViewHelper extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetViewH
     protected $controller;
     
     /**
+     * Initialize arguments
      * @param \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult $objects übergebene Objekte
      * @param string $as
      * @param string $property
      * @param string $search
-     * @param string $maid   
+     * @param string $maid
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('objects', 'TYPO3\\CMS\\Extbase\\Persistence\\Generic\\QueryResult', 'objects', true);
+        $this->registerArgument('as', 'string', 'as', true);
+        $this->registerArgument('property', 'string', 'propterty', true);
+        $this->registerArgument('search', 'string', 'search', true);
+        $this->registerArgument('maid', 'string', 'maid', true);
+    }
+    
+    /** 
      * @return string
      */
-    public function render($objects, $as, $property, $search, $maid) {
+    public function render() {
         return $this->initiateSubRequest();
     }
 }

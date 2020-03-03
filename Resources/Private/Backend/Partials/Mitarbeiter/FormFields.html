@@ -96,16 +96,6 @@
             </f:if>
         </div>
         <br />
-<f:comment><label class="tx-staffm bold" for="standort">
-	<f:translate key="tx_staffm_domain_model_mitarbeiter.standort" />        
-</label><br />
-	<f:form.hidden property="standort" />
-        <label>{mitarbeiter.standort.bezeichnung}</label>
-        <f:link.action class="btn btn-default" action="list" controller="Standort" arguments="{mitarbeiter:mitarbeiter, standort:standort, key:'auswahl'}">Auswahl</f:link.action>
-        <f:if condition="{mitarbeiter.standort}">
-            <f:link.action class="btn btn-default delete" action="deleteStandort" controller="Standort" arguments="{mitarbeiter:mitarbeiter}">Entfernen</f:link.action>
-        </f:if>
-        <br /></f:comment>
 <label class="tx-staffm bold" for="qualifikation">
 	<f:translate key="tx_staffm_domain_model_qualifikation" />        
 </label><br />

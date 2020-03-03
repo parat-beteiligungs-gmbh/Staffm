@@ -412,11 +412,10 @@ class MitarbeiterController extends ActionController
      * @param Position $position
      * @param Kostenstelle $kostenstelle
      * @param Firma $firma
-     * @param \Pmwebdesign\Staffm\Domain\Model\Standort $standort
      * @param Qualifikation $qualifikation
      * @return void
      */
-    public function showKstAction(Mitarbeiter $ma = NULL, Position $position = NULL, Kostenstelle $kostenstelle = NULL, Firma $firma = NULL, \Pmwebdesign\Staffm\Domain\Model\Standort $standort = NULL, Qualifikation $qualifikation = NULL)
+    public function showKstAction(Mitarbeiter $ma = NULL, Position $position = NULL, Kostenstelle $kostenstelle = NULL, Firma $firma = NULL, Qualifikation $qualifikation = NULL)
     {
         if ($ma == NULL) {
             $ma = new Mitarbeiter();
@@ -433,7 +432,6 @@ class MitarbeiterController extends ActionController
         $this->view->assign('position', $position);
         $this->view->assign('kostenstelle', $kostenstelle);
         $this->view->assign('firma', $firma);
-        $this->view->assign('standort', $standort);
         $this->view->assign('qualifikation', $qualifikation);
     }
 
@@ -645,11 +643,10 @@ class MitarbeiterController extends ActionController
      * @param Position $position
      * @param Kostenstelle $kostenstelle
      * @param Firma $firma
-     * @param \Pmwebdesign\Staffm\Domain\Model\Standort $standort
      * @param Qualifikation $qualifikation
      * @return void
      */
-    public function editKstAction(Mitarbeiter $ma, Position $position = NULL, Kostenstelle $kostenstelle = NULL, Firma $firma = NULL, \Pmwebdesign\Staffm\Domain\Model\Standort $standort = NULL, Qualifikation $qualifikation = NULL)
+    public function editKstAction(Mitarbeiter $ma, Position $position = NULL, Kostenstelle $kostenstelle = NULL, Firma $firma = NULL, Qualifikation $qualifikation = NULL)
     {
         if ($this->request->hasArgument('kst')) {
             $kst = $this->request->getArgument('kst');
@@ -680,7 +677,6 @@ class MitarbeiterController extends ActionController
         $this->view->assign('position', $position);
         $this->view->assign('kostenstelle', $kostenstelle);
         $this->view->assign('firma', $firma);
-        $this->view->assign('standort', $standort);
         $this->view->assign('qualifikation', $qualifikation);
     }
 

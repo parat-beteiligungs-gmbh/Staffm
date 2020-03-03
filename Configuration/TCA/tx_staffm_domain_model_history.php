@@ -87,7 +87,8 @@ return [
 			'config' => [
 				'type' => 'input',
 				'size' => 1,
-				'eval' => 'trim'
+				'eval' => 'trim',
+                                'default' => null
 			],
 		],
                 'date_from' => [
@@ -97,6 +98,8 @@ return [
                         'type' => 'input',
                         'renderType' => 'inputDateTime',
                         'eval' => 'date',
+                        'default' => null
+                        
                     ],
                 ],
                 'date_to' => [
@@ -106,6 +109,7 @@ return [
                         'type' => 'input',
                         'renderType' => 'inputDateTime',
                         'eval' => 'date',
+                        'default' => null
                     ],
                 ],  
                 'note' => [

@@ -28,19 +28,23 @@ namespace Pmwebdesign\Staffm\ViewHelpers;
 /**
  * Check Deputy Costcenters of employee
  */
-class DeputyCostCenterEmployeeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class DeputyCostCenterEmployeeViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
+    public function initializeArguments(): void
+    {
+        $this->registerArgument('representation', \Pmwebdesign\Staffm\Domain\Model\Representation::class, '', true, null);
+        $this->registerArgument('costcenter', \Pmwebdesign\Staffm\Domain\Model\Kostenstelle::class, '', true, null);
+    }
+    
     /**
      * Render
-     *   
-     * @param \Pmwebdesign\Staffm\Domain\Model\Representation $representation
-     * @param \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $costcenter
      * 
      * @return int 
      */
-    public function render(\Pmwebdesign\Staffm\Domain\Model\Representation $representation = NULL, 
-            \Pmwebdesign\Staffm\Domain\Model\Kostenstelle $costcenter = NULL)
+    public function render()
     {
+        $representation = $this->arguments['representation'];
+        $costcenter = $this->arguments['costcenter'];
         $pruefe = 0;
         if ($representation != NULL) {           
             foreach ($representation->getEmployee()->getRepresentations() as $r) {  

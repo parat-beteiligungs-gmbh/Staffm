@@ -128,6 +128,7 @@ return [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
                 'eval' => 'date',
+                'default' => null
             ],
         ],
         'activities' => [

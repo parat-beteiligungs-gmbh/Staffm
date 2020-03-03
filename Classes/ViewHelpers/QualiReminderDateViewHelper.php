@@ -28,17 +28,21 @@ namespace Pmwebdesign\Staffm\ViewHelpers;
 /**
  * Check status in qualification of employee
  */
-class QualiReminderDateViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class QualiReminderDateViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
-
+    public function initializeArguments(): void
+    {
+        $this->registerArgument('mitarbeiter', \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter::class, '', true, null);
+        $this->registerArgument('qualifikation', \Pmwebdesign\Staffm\Domain\Model\Qualifikation::class, '', true, null);
+    }
+    
     /**
-     * 
-     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
-     * @param \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualifikation
      * @return string
      */
-    public function render(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter = NULL, \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualifikation = null)
+    public function render()
     {
+        $mitarbeiter = $this->arguments['mitarbeiter'];
+        $qualifikation = $this->arguments['qualifikation'];
         if ($mitarbeiter != NULL) {
             $pruefe = 0;
             foreach ($mitarbeiter->getEmployeequalifications() as $q) {

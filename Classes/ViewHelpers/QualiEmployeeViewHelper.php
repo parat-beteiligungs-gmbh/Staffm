@@ -28,17 +28,23 @@ namespace Pmwebdesign\Staffm\ViewHelpers;
 /**
  * Check qualification of employee
  */
-class QualiEmployeeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class QualiEmployeeViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
+    public function initializeArguments(): void
+    {
+        $this->registerArgument('employee', \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter::class, '', true, null);
+        $this->registerArgument('qualification', \Pmwebdesign\Staffm\Domain\Model\Qualifikation::class, '', true, null);
+    }
+    
     /**
-     * 
-     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee
-     * @param \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualification
      * @return \Pmwebdesign\Staffm\Domain\Model\Employeequalification
      */
-    public function render(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee = NULL, \Pmwebdesign\Staffm\Domain\Model\Qualifikation $qualification = null)
-    {
+    public function render()
+    {        
         $employeequalification = NULL;
+        
+        $employee = $this->arguments['employee'];
+        $qualification = $this->arguments['qualification'];
         if ($employee->getEmployeequalifications() != NULL) {            
             // All employee qualifications
             foreach ($employee->getEmployeequalifications() as $eq) {

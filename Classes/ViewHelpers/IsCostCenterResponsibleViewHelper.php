@@ -26,30 +26,37 @@
 namespace Pmwebdesign\Staffm\ViewHelpers;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Checks if the transfered user has a cost center responsible
  *
  * @author Markus Puffer <m.puffer@pm-webdesign.eu>
  */
-class IsCostCenterResponsibleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class IsCostCenterResponsibleViewHelper extends AbstractViewHelper
 {
-    /**     
-     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee
-     * @param integer $withDeputy
-     */
-    public function render(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee = NULL, $withDeputy = 0)
+    public function initializeArguments(): void
     {
-        // Receive cost centers for which the employee is responsible       
+        $this->registerArgument('employee', \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter::class, '', true, null);
+        $this->registerArgument('withDeputy', 'int', '', true, 0);
+    }
+    
+    /**     
+     * @return int
+     */
+    public function render()
+    {
+        // Receive cost centers for which the employee is responsible  
+        $employee = $this->arguments['employee'];
+        $withDeputy = $this->arguments['withDeputy'];
         if($employee != NULL ) {
+            $objectManager =  GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
+
             if($withDeputy == 0) {
-                $costCenters = $this->objectManager->
-                        get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->
-                        findCostCentersFromResponsible($employee);                
+                $costCenters = $objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->findCostCentersFromResponsible($employee);                
             } elseif ($withDeputy > 0) {
-                $costCenters = $this->objectManager->
-                        get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->
-                        findCostCentersFromResponsibleAndDeputy($employee);
+                $costCenters = $objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->findCostCentersFromResponsibleAndDeputy($employee);
             }
             // Cost centers available?   
             if(count($costCenters) > 0) {

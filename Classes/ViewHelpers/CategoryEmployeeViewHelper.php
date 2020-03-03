@@ -28,16 +28,21 @@ namespace Pmwebdesign\Staffm\ViewHelpers;
 /**
  * Check category qualification
  */
-class CategoryEmployeeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class CategoryEmployeeViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
+    public function initializeArguments()
+    {
+        $this->registerArgument('c', \Pmwebdesign\Staffm\Domain\Model\Category::class, '', true, null);
+        $this->registerArgument('ma', \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter::class, '', true, null);
+    }
+    
     /**
-     * 
-     * @param \Pmwebdesign\Staffm\Domain\Model\Category $c
-     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $ma
      * @return int 
      */
-    public function render(\Pmwebdesign\Staffm\Domain\Model\Category $c = NULL, \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $ma = null)
+    public function render()
     {
+        $c = $this->arguments['c'];
+        $ma = $this->arguments['ma'];
         $pruefe = 0;
         if ($c != NULL) {           
             foreach ($c->getEmployees() as $m) {

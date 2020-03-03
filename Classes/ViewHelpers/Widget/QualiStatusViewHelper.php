@@ -32,18 +32,29 @@ class QualiStatusViewHelper extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetV
     /** 
      * Get Controller with Dependency Injection
      * @var \Pmwebdesign\Staffm\ViewHelpers\Widget\Controller\QualiStatusController
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $controller;
     
     /**
-     * @param \TYPO3\CMS\Extbase\Persistence\Generic\LazyObjectStorage $objects
-     * @param string $as Name of the Result-Set   
-     * @param string $property of Status
-     * @param bool $admin Admin authorization
+     * Initialize arguments
+     * @param \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult $objects übergebene Objekte
+     * @param string $as
+     * @param string $property
+     * @param bool $admin
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('objects', \TYPO3\CMS\Extbase\Persistence\Generic\LazyObjectStorage::class, 'objects', true);
+        $this->registerArgument('as', 'string', 'as', true);
+        $this->registerArgument('property', 'string', 'propterty', true);
+        $this->registerArgument('admin', 'bool', 'admin', true);
+    }
+    
+    /**
      * @return string
      */
-    public function render($objects, $as, $property, $admin) {
+    public function render() {
         return $this->initiateSubRequest(); // Run SubRequest with included Controller and his Action (indexAction())
     }
 }

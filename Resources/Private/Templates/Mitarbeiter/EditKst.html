@@ -19,9 +19,6 @@
             <f:if condition="{firma}">
                 <f:link.action class="btn btn-default" controller="Firma" action="show" arguments="{firma:firma}"><f:translate id="staffm.back" /></f:link.action>
             </f:if>
-            <f:if condition="{standort}">
-                <f:link.action class="btn btn-default" controller="Standort" action="show" arguments="{standort:standort}"><f:translate id="staffm.back" /></f:link.action>
-            </f:if>
             <f:if condition="{qualifikation}">
                 <f:link.action section="ma{mitarbeiter.uid}" class="btn btn-default" controller="Qualifikation" action="show" arguments="{qualifikation:qualifikation, search:search}"><f:translate id="staffm.back" /></f:link.action>
             </f:if>

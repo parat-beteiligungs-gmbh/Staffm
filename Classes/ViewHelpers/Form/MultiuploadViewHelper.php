@@ -36,11 +36,23 @@ class MultiuploadViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\UploadView
 	 * @inject
 	 */
 	protected $propertyMapper;
+        
+        /**
+         * Initialize Arguments
+         */
+        public function initializeArguments()
+        {
+            $this->registerArgument('property', 'string', '', true, null);
+            $this->registerArgument('resources', 'string', '', true, null);
+        }
+        
 	/**
 	 * @param string|null $resources
 	 * @return string
 	 */
-	public function render($resources = NULL) {
+	public function render() 
+        {
+                $resources = $this->arguments['resources'];
 		$name = $this->getName();
 		foreach (array('type', 'tmp_name', 'error', 'size') as $fieldName) {
 			$this->registerFieldNameForFormTokenGeneration(sprintf('%s[*][%s]', $name, $fieldName));
@@ -84,6 +96,7 @@ class MultiuploadViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\UploadView
 		// This means: we need another way to remember which file references were
 		// rendered the first time somewhere ...
 		$resources = $this->getPropertyValue();
+//                $resources = $this->arguments['resources'];
 		if ($resources instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage || $resources instanceof \TYPO3\CMS\Extbase\Persistence\QueryResultInterface) {
 			$resources = $resources->toArray();
 		} else if (!is_array($resources)) {

@@ -212,23 +212,7 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
         $query->setOrderings(array('last_name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
         return $query->execute();
     }
-
-    /**
-     * Find employees from given place
-     * 
-     * @param \Pmwebdesign\Staffm\Domain\Model\Standort $standort
-     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-     */
-    public function findStandortMitarbeiter(\Pmwebdesign\Staffm\Domain\Model\Standort $standort)
-    {
-        $query = $this->createQuery();
-        $query->matching(
-                $query->equals('standort', $standort)
-        );
-        $query->setOrderings(array('last_name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
-        return $query->execute();
-    }
-
+    
     /**
      * TODO: Check if this is needed
      * 	

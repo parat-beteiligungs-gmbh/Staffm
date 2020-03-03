@@ -25,18 +25,27 @@
 
 namespace Pmwebdesign\Staffm\ViewHelpers;
 
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+
 /**
  * Check status in qualification of employee
  */
-class QualiStatusTargetStatusViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class QualiStatusTargetStatusViewHelper extends AbstractViewHelper
 {
     /**
-     * 
-     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee
+     * Initialize Arguments
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('employee', \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter::class, '', true, null);
+    }
+
+    /**
      * @return string 
      */
-    public function render(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee = NULL)
+    public function render()
     {
+        $employee = $this->arguments['employee'];
         $pruefe = "false";
         if ($employee != NULL) {
             /* @var $q \Pmwebdesign\Staffm\Domain\Model\Employeequalification */
@@ -46,7 +55,7 @@ class QualiStatusTargetStatusViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper
                     break;
                 }
             }
-        } 
+        }
         return $pruefe;
     }
 

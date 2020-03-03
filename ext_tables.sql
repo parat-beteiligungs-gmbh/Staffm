@@ -17,7 +17,6 @@ CREATE TABLE fe_users (
 	title varchar(255) DEFAULT '' NOT NULL,
 	kostenstelle int(11) unsigned DEFAULT '0',
 	firma int(11) unsigned DEFAULT '0',
-	standort int(11) unsigned DEFAULT '0',        
         employeequalifications int(11) unsigned DEFAULT '0',  
         categories int(11) unsigned DEFAULT '0',
         representations int(11) unsigned DEFAULT '0',
@@ -156,7 +155,7 @@ CREATE TABLE tx_staffm_domain_model_employeequalification (
         targetstatus int(11) DEFAULT '0' NOT NULL,
 	employee int(11) unsigned DEFAULT '0',	
         note text NOT NULL,
-        reminder_date DATE DEFAULT '0000-00-00',
+        reminder_date DATE DEFAULT NULL,
         activities int(11) unsigned DEFAULT '0',	
         histories int(11) unsigned DEFAULT '0',  
 
@@ -327,8 +326,8 @@ CREATE TABLE tx_staffm_domain_model_history (
 
         status int(11) DEFAULT '0' NOT NULL,
         targetstatus int(11) DEFAULT '0' NOT NULL,
-        date_from DATE DEFAULT '0000-00-00' NOT NULL,
-        date_to DATE DEFAULT '0000-00-00',        
+        date_from DATE DEFAULT NULL,
+        date_to DATE DEFAULT NULL,        
         assessor int(11) unsigned DEFAULT '0',
         note text NOT NULL,
 
@@ -444,8 +443,8 @@ CREATE TABLE tx_staffm_domain_model_activity (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
         
-        deadline DATE DEFAULT '0000-00-00',               
-        target_deadline DATE DEFAULT '0000-00-00',
+        deadline DATE DEFAULT NULL,               
+        target_deadline DATE DEFAULT NULL,
         certificate_art int(11) DEFAULT '0' NOT NULL,
         note text NOT NULL,
         attachments varchar(255) DEFAULT '' NOT NULL,
