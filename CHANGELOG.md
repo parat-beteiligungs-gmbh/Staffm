@@ -1,5 +1,13 @@
 # Staffm Change Log
 
+## 3.0.0
+
+Supports Typo3 9.5.0 - 9.5.99
+
+- [META] Set the version number to 3.0.0.
+- [UPDATE] Compatibility with Typo3 9.5 and PHP 7.4.
+- [RELEASE] Version 2.7.2 with fixed issues.
+
 ## 2.7.2
 
 Supports Typo3 8.7.0 - 8.7.99
