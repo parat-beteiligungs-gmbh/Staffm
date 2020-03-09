@@ -1,5 +1,14 @@
 # Staffm Change Log
 
+## 3.0.1
+
+Supports Typo3 9.5.0 - 9.5.99
+
+- [META] Set the version number to 3.0.1.
+- [DOCS] Added picture for represent the extension in git.
+- [BUGFIX] Change language settings for extension.
+- [RELEASE] Version 3.0.0 for Typo3 9.5 and PHP 7.4 Support.
+
 ## 3.0.0
 
 Supports Typo3 9.5.0 - 9.5.99
