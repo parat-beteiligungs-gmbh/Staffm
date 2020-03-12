@@ -140,8 +140,8 @@
 		<td>
 			<f:translate key="tx_staffm_domain_model_mitarbeiter.firma" />
 		</td>
-		<td>
-                    <f:link.action class="tx_staffm link" action="show" controller="Firma" arguments="{mitarbeiter:mitarbeiter, key: 'vonMit', userKey: userKey, standardsearch:search, uid: mitarbeiter.firma.uid}">
+		<td>                    
+                    <f:link.action class="tx_staffm link" action="show" controller="Firma" arguments="{firma:mitarbeiter.firma, mitarbeiter:mitarbeiter, key: 'vonMit', userKey: userKey, standardsearch:search, uid: mitarbeiter.firma.uid}">
 			{mitarbeiter.firma.bezeichnung}
                     </f:link.action>
 		</td>

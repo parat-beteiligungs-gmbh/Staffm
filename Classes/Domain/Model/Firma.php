@@ -35,14 +35,14 @@ class Firma extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @var string 
      */
-    protected  $nummer = "";
+    protected $nummer = "";
 
     /**
      * Designation
      * 
      * @var string
      */
-    protected $bezeichnung = '';
+    public $bezeichnung = "";
     
     /**
      * Address
@@ -171,7 +171,7 @@ class Firma extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the bezeichnung
      * 
-     * @return string $bezeichnung
+     * @return string
      */
     public function getBezeichnung()
     {

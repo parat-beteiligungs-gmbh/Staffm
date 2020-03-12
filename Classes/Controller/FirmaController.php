@@ -361,21 +361,21 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * action show
      *   
-     * @param integer $firma 
-     * @param integer $mitarbeiter
+     * @param \Pmwebdesign\Staffm\Domain\Model\Firma $firma 
+     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
      * @return void
      */
-    public function showAction($firma = 0, $mitarbeiter = 0)
+    public function showAction(\Pmwebdesign\Staffm\Domain\Model\Firma $firma = null, 
+            \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter = null)
     {        
         $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
         // Employee?        
-        if ($mitarbeiter != 0) {    
+        if ($mitarbeiter != null) {    
             // Cache exist?       
-            if(($output = $cacheService->getCache($this->request->getControllerActionName(), "Mitarbeiter".$this->request->getControllerName(), "", "", $mitarbeiter)) != NULL) {                
+            if(($output = $cacheService->getCache($this->request->getControllerActionName(), "Mitarbeiter".$this->request->getControllerName(), "", "", $mitarbeiter->getUid())) != NULL) {                
                 // Show Cache-Page
                 return $output; 
             }    
-            $mitarbeiter = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findByUid($mitarbeiter);
             $firma = $mitarbeiter->getFirma(); 
             $key = $this->request->getArgument('key');
             $this->view->assign('key', $key);        

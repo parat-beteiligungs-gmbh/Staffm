@@ -25,7 +25,9 @@
 
 namespace Pmwebdesign\Staffm\Domain\Model;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+use Pmwebdesign\Staffm\Domain\Service\UserService;
 
 /**
  * Employee
@@ -144,6 +146,13 @@ class Mitarbeiter extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      * @lazy  
      */
     protected $assignedRepresentations = NULL;
+    
+    /**
+     * Is it a cost center responsible?
+     *
+     * @var bool
+     */
+    protected $isCostCenterResponsible = false;
 
     /**
      * objectManager
@@ -438,5 +447,17 @@ class Mitarbeiter extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
     public function setAssignedRepresentations(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $assignedRepresentations)
     {
         $this->assignedRepresentations = $assignedRepresentations;
+    }
+    
+    /**
+     * Is it a cost center responsible?
+     * 
+     * @return bool
+     */
+    public function getIsCostCenterResponsible() : bool
+    {        
+        /* @var $userService UserService */
+        $userService = GeneralUtility::makeInstance(UserService::class);
+        return $userService->isCostCenterResponsible($this);
     }
 }
