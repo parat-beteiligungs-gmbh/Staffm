@@ -51,7 +51,6 @@ class Kostenstelle extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * Responsible of cost center
      * 
      * @var \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter
-     * @lazy
      */
     protected $verantwortlicher = NULL;
 
