@@ -216,4 +216,21 @@ class UserService
             return $representations;
         }
     }
+    
+    /**
+     * Cost center responsible?
+     * 
+     * @return bool
+     */
+    public function isCostCenterResponsible(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee) : bool
+    {
+        $objectManager =  \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
+        $costCenters = $objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\KostenstelleRepository::class)->findCostCentersFromResponsible($employee);   
+        // Has responsible assigned cost centers?
+        if(count($costCenters) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
