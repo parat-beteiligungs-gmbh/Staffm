@@ -10,7 +10,7 @@
  * "version" and "dependencies" must not be touched!
  * ************************************************************* */
 
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
     'title' => 'Staffmanage',
     'description' => 'Employee database with qualifications, cost centers, companies and so on.',
     'category' => 'misc',
@@ -22,17 +22,14 @@ $EM_CONF[$_EXTKEY] = array(
     'createDirs' => '',
     'clearCacheOnLoad' => 0,
     'version' => '3.0.1',
-    'constraints' => array(
-        'depends' => array(
+    'constraints' => [
+        'depends' => [
             'typo3' => '9.5.0-9.5.99',
             'vhs' => '6.0.0-6.0.99',
-        ),
-        'conflicts' => array(
-        ),
-        'suggests' => array(
-        ),
-    ),
-);
-
-// Deprecated: ab Typo3 7.6
-//require_once (t3lib_extMgm::extPath('adodb').'adodb/adodb.inc.php');
+        ],
+        'conflicts' => [
+        ],
+        'suggests' => [
+        ],
+    ],
+];
