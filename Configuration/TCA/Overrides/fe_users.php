@@ -38,11 +38,8 @@ $fields = [
         'exclude' => 1,
         'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_mitarbeiter.date_of_birth_show',
         'config' => [
-                'type' => 'input',
-                'size' => 1,
-                'eval' => 'trim',
-                'checkbox' => 1,
-                'default' => 0
+                'type' => 'check',                
+                'default' => false
         ],
     ],
     'date_of_birth' => [
@@ -210,7 +207,7 @@ $fields = [
 // Make fields visible in the TCEforms:
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
   'fe_users', // Table name
-  'employeequalifications, categories, representations, assigned_representations;;;;1-1-1'
+  'personalnumber, handy, date_of_birth_show, date_of_birth, kostenstelle, firma, position, employeequalifications, categories, representations, assigned_representations;;;;1-1-1'
 );
   
 // Add the new palette:
