@@ -75,22 +75,11 @@ class KostenstelleRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
     public function findCostCentersFromResponsible(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee)
-    {
+    {        
         $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(false);
         $constraints = [];
         $constraints[] = $query->equals('verantwortlicher', $employee->getUid());
-        // Representations
-        /* @var $assignedRepresentation \Pmwebdesign\Staffm\Domain\Model\Representation */
-//            foreach ($employee->getAssignedRepresentations() as $assignedRepresentation) {
-//                $constraints[] = $query->equals('verantwortlicher', $assignedRepresentation->getEmployee()->getUid());
-//                if($assignedRepresentation->getCostcenters() != NULL) {
-//                    foreach ($assignedRepresentation->getCostcenters() as $costCenter) {
-//                        $constraints[] = $query->logicalNot(
-//                            $query->equals('uid', $costCenter->getUid())
-//                            );
-//                    }
-//                }
-//            }
         $query->matching(
                 $query->logicalAnd(
                         $query->logicalOr(
