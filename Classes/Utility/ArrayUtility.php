@@ -69,22 +69,28 @@ class ArrayUtility
         $i = 0;
 
         // Number has changed?
-        if (count($newImages) != count($oldImages)) {
-            $state = TRUE;
+        if($newImages == null && $oldImages != null || $newImages != null && $oldImages == null) {
+            $state = true;
+        } elseif ($newImages == null && $oldImages == null) { 
+            $state = false;
         } else {
-            // New images
-            foreach ($newImages as $newImage) {
-                $i2 = 0;
-                // Old images
-                foreach ($oldImages as $oldImage) {
-                    if ($i == $i2) {
-                        if ($newImage->getUid() != $oldImage->getUid()) {
-                            $state = TRUE;
+            if (count($newImages) != count($oldImages)) {
+                $state = TRUE;
+            } else {
+                // New images
+                foreach ($newImages as $newImage) {
+                    $i2 = 0;
+                    // Old images
+                    foreach ($oldImages as $oldImage) {
+                        if ($i == $i2) {
+                            if ($newImage->getUid() != $oldImage->getUid()) {
+                                $state = TRUE;
+                            }
                         }
+                        $i2++;
                     }
-                    $i2++;
+                    $i++;
                 }
-                $i++;
             }
         }
         return $state;
