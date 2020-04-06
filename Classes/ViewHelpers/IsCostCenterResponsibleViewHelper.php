@@ -53,9 +53,12 @@ class IsCostCenterResponsibleViewHelper extends AbstractViewHelper
         if($employee != NULL ) {
             $objectManager =  GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
 
+            // Without Deputy?
             if($withDeputy == 0) {
-                $costCenters = $objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->findCostCentersFromResponsible($employee);                
+                // Yes, just cost center responsible
+                $costCenters = $objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->findCostCentersFromResponsible($employee);    
             } elseif ($withDeputy > 0) {
+                // No, with deputy of cost center responsible
                 $costCenters = $objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->findCostCentersFromResponsibleAndDeputy($employee);
             }
             // Cost centers available?   
