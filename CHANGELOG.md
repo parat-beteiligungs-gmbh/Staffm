@@ -1,5 +1,21 @@
 # Staffm Change Log
 
+## 3.0.2
+
+Supports Typo3 9.5.0 - 9.5.99
+
+- [META] Set the version number to 3.0.2.
+- [BUGFIX] Show firma on employee.
+- [UPDATE] Date of birth check field.
+- [COMMENT] Add comments.
+- [COMMENT] Comment out unused lines.
+- [BUGFIX] Fix changes on profil pictures of an employee.
+- [META] Update config with new codestyle.
+- [BUGFIX] Cost center responsible helper.
+- [BUGFIX] Show firma on employee.
+- [BUGFIX] Show cost center responsible.
+- [RELEASE] Version 3.0.1 small bugfixes.
+
 ## 3.0.1
 
 Supports Typo3 9.5.0 - 9.5.99
