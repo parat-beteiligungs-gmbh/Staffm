@@ -438,13 +438,11 @@ class MitarbeiterController extends ActionController
     /**
      * Show the details from an employee
      * 
-     * @param integer $mitarbeiter	
+     * @param Mitarbeiter $mitarbeiter	
      * @return void
      */
-    public function showAction($mitarbeiter)
+    public function showAction(Mitarbeiter $mitarbeiter)
     {
-        $mitarbeiter = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findByUid($mitarbeiter);
-        
         if ($this->request->hasArgument('key')) {
             $key = $this->request->getArgument('key');
             $this->view->assign('key', $key);
@@ -477,7 +475,6 @@ class MitarbeiterController extends ActionController
         if ($aktuser != NULL) {
             $this->view->assign('aktuser', $aktuser);
         }
-        
         $this->view->assign('searchstatus', $searchstatus);
         $this->view->assign('search', $search);
         $this->view->assign('mitarbeiter', $mitarbeiter);
@@ -486,10 +483,10 @@ class MitarbeiterController extends ActionController
     /**
      * Show the details of an employee from the custom list
      * 
-     * @param integer $mitarbeiter	
+     * @param Mitarbeiter $mitarbeiter	
      * @return void
      */
-    public function showCustomAction($mitarbeiter)
+    public function showCustomAction(Mitarbeiter $mitarbeiter)
     {
         $mitarbeiter = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findByUid($mitarbeiter);
         $this->view->assign('mitarbeiter', $mitarbeiter);
@@ -551,13 +548,12 @@ class MitarbeiterController extends ActionController
     /**
      * Edit form for employee
      * 
-     * @param integer $mitarbeiter     
+     * @param Mitarbeiter $mitarbeiter     
      * @ignorevalidation $mitarbeiter
      * @return void
      */
-    public function editAction($mitarbeiter)
+    public function editAction(Mitarbeiter $mitarbeiter)
     {          
-        $mitarbeiter = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findByUid($mitarbeiter);
         if($this->request->hasArgument('aktuser')) {            
             $aktuser = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findByUid($this->request->getArgument('aktuser'));           
             $this->view->assign('aktuser', $aktuser);
