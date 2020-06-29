@@ -72,7 +72,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Pmwebdesign\Sta
     'extension' => $_EXTKEY,
     'title' => 'Send Memories',
     'description' => 'Send memories of employee qualification if the memory date is come',
-    'additionalFields' => \TYPO3\CMS\Scheduler\Task\CachingFrameworkGarbageCollectionAccitionalFieldProvieder::class 
+   'additionalFields' => \TYPO3\CMS\Scheduler\Task\CachingFrameworkGarbageCollectionAdditionalFieldProvider::class
 ];
 
 /**
