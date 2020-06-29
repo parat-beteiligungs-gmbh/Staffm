@@ -1,5 +1,14 @@
 # Staffm Change Log
 
+## 3.0.3
+
+Supports Typo3 9.5.0 - 9.5.99
+
+- [META] Set the version number to 3.0.3.
+- [UPDATE] Performance improvement.
+- [BUGFIX] Fixed Task error.
+- [RELEASE] Version 3.0.2 fix some bugs.
+
 ## 3.0.2
 
 Supports Typo3 9.5.0 - 9.5.99
