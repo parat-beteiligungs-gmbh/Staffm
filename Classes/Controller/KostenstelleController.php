@@ -371,7 +371,7 @@ class KostenstelleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
     /**
      * Single view for cost center
      * 
-     * @param integer $kostenstelle
+     * @param int $kostenstelle
      * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
      * @return void
      */

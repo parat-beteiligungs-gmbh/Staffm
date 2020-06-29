@@ -408,18 +408,20 @@ class MitarbeiterController extends ActionController
      * Detail view of employee from other show Actions
      * Example (Cost Center, Qualification, aso.)
      * 
-     * @param Mitarbeiter $ma
+     * @param int $ma
      * @param Position $position
      * @param Kostenstelle $kostenstelle
      * @param Firma $firma
      * @param Qualifikation $qualifikation
      * @return void
      */
-    public function showKstAction(Mitarbeiter $ma = NULL, Position $position = NULL, Kostenstelle $kostenstelle = NULL, Firma $firma = NULL, Qualifikation $qualifikation = NULL)
+    public function showKstAction($ma = NULL, Position $position = NULL, Kostenstelle $kostenstelle = NULL, Firma $firma = NULL, Qualifikation $qualifikation = NULL)
     {
         if ($ma == NULL) {
             $ma = new Mitarbeiter();
             $ma = $kostenstelle->getVerantwortlicher();
+        } else {
+            $ma = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository::class)->findByUid($ma);
         }
 
         // Search word?
@@ -438,11 +440,13 @@ class MitarbeiterController extends ActionController
     /**
      * Show the details from an employee
      * 
-     * @param Mitarbeiter $mitarbeiter	
+     * @param int $mitarbeiter	
      * @return void
      */
-    public function showAction(Mitarbeiter $mitarbeiter)
+    public function showAction($mitarbeiter)
     {
+        $mitarbeiter = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository::class)->findByUid($mitarbeiter);
+        
         if ($this->request->hasArgument('key')) {
             $key = $this->request->getArgument('key');
             $this->view->assign('key', $key);
@@ -483,10 +487,10 @@ class MitarbeiterController extends ActionController
     /**
      * Show the details of an employee from the custom list
      * 
-     * @param Mitarbeiter $mitarbeiter	
+     * @param int $mitarbeiter	
      * @return void
      */
-    public function showCustomAction(Mitarbeiter $mitarbeiter)
+    public function showCustomAction($mitarbeiter)
     {
         $mitarbeiter = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findByUid($mitarbeiter);
         $this->view->assign('mitarbeiter', $mitarbeiter);
