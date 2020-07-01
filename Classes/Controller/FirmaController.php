@@ -361,13 +361,16 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * action show
      *   
-     * @param \Pmwebdesign\Staffm\Domain\Model\Firma $firma 
+     * @param int $firma 
      * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter
      * @return void
      */
-    public function showAction(\Pmwebdesign\Staffm\Domain\Model\Firma $firma = null, 
+    public function showAction($firma = 0, 
             \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $mitarbeiter = null)
     {        
+        if($firma != 0) {
+            $firma = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\FirmaRepository::class)->findByUid($firma);
+        }
         $cacheService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\CacheService::class);
         // Employee?        
         if ($mitarbeiter != null) {    
@@ -380,7 +383,7 @@ class FirmaController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $key = $this->request->getArgument('key');
             $this->view->assign('key', $key);        
         } else {
-            if(($output = $cacheService->getCache($this->request->getControllerActionName(), $this->request->getControllerName(), "", "", $firma)) != NULL) {
+            if(($output = $cacheService->getCache($this->request->getControllerActionName(), $this->request->getControllerName(), "", "", $firma->getUid())) != NULL) {
                 // Show Cache-Page
                 return $output;
             }
