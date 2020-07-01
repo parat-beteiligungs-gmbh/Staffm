@@ -1,5 +1,14 @@
 # Staffm Change Log
 
+## 3.0.4
+
+Supports Typo3 9.5.0 - 9.5.99
+
+- [META] Set the version number to 3.0.4.
+- [BUGFIX] Fix Company show invalid argument exception #31.
+- [UPDATE] Better Email content for memories.
+- [RELEASE] Version 3.0.3 fix some bugs.
+
 ## 3.0.3
 
 Supports Typo3 9.5.0 - 9.5.99
