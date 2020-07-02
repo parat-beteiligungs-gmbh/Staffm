@@ -21,7 +21,7 @@ if (!defined('TYPO3_MODE')) {
 		'Position' => 'list, show, choose, export, new, edit, create, update, delete, deletePosition',
 		'Kostenstelle' => 'list, listChoose, show, choose, export, new, edit, create, update, delete, deleteKst, deleteKstVerantwortlicher',
 		'Firma' => 'list, show, choose, export, new, edit, create, update, delete, deleteFirma',			
-		'Qualifikation' => 'list, show, create, update, delete',
+		'Qualifikation' => 'list, show, edit, create, update, delete',
 		'Qualilog' => 'choose, create, update, delete',
                 'Category' => 'list, show, new, edit, create, update, delete',
                 'Activity' => 'create, delete'
