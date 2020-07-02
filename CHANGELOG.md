@@ -4,6 +4,14 @@
 
 Supports Typo3 9.5.0 - 9.5.99
 
+- [META] Set the version number to 3.0.6.
+- [BUGFIX] Fix qualification edit cache #32.
+- [RELEASE] Version 3.0.5 performance.
+
+## 3.0.5
+
+Supports Typo3 9.5.0 - 9.5.99
+
 - [META] Set the version number to 3.0.5.
 - [UPDATE] Performance improvement on company.
 - [RELEASE] Version 3.0.4 fix bug.
