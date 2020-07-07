@@ -1,6 +1,14 @@
 # Staffm Change Log
 
-## 3.0.5
+## 3.0.7
+
+Supports Typo3 9.5.0 - 9.5.99
+
+- [META] Set the version number to 3.0.7.
+- [CLEANUP] Remove Fax number.
+- [RELEASE] Version 3.0.6 fix bug.
+
+## 3.0.6
 
 Supports Typo3 9.5.0 - 9.5.99
 
