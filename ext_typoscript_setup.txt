@@ -24,7 +24,6 @@ config.tx_extbase {
                         }
                 }
             }
-            
     	}    
         objects {
             TYPO3\CMS\Extbase\Domain\Model\FileReference.className = Pmwebdesign\Staffm\Domain\Model\FileReference
