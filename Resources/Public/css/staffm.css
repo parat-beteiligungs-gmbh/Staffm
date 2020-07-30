@@ -122,7 +122,9 @@ input {
 .staffm-button.right {
     float: right;
 }
-
+table.tx_staffm {
+    border-collapse: unset;
+}
 table.tx_staffm {
     width: 100%;
     margin-left: 0;
