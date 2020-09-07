@@ -37,11 +37,11 @@
                         <td>
                             <f:if condition="{mitarbeiter.image}">   
                                 <f:for each="{mitarbeiter.image}" as="img" key="key" iteration="iterator">        
-                                    <f:if condition="{iterator.isFirst}">
-                                        <f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, search:search}"><f:image class="tx_staffm profilbild klein" src="{img.uid}" treatIdAsReference="1" /></f:link.action>                                            
+                                    <f:if condition="{iterator.isFirst}">                                        
+                                        <f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, search:search}"><f:image class="tx_staffm profilbild klein" src="{img.originalResource.publicUrl}" /></f:link.action>                                            
                                     </f:if>
                                 </f:for>                                                                           
-                            </f:if>                        
+                            </f:if>
                         </td>
                         <td class="staffmmobilehidden"><div id="ma{mitarbeiter.uid}" class="anchor"></div><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter, search:search, char:char}"> {mitarbeiter.personalnummer}</f:link.action></td>
                         <td class="staffmmobilehidden"><f:link.action action="show" arguments="{mitarbeiter : mitarbeiter.uid, search:search}"> {mitarbeiter.username}</f:link.action></td>
