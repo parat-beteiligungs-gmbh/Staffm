@@ -707,8 +707,9 @@ class MitarbeiterController extends ActionController
         $userService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\UserService::class);
         // Check if list fields have changed
         $changestatusList = $userService->getChangeStatus($mitarbeiter);
-        
+        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($mitarbeiter);
         $this->mitarbeiterRepository->update($mitarbeiter);
+        
         $this->addFlashMessage('Der Mitarbeiter "'.$mitarbeiter->getFirstName().' '.$mitarbeiter->getLastName().'" wurde aktualisiert!', '', AbstractMessage::OK);
 
         $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager')->persistAll();
@@ -754,18 +755,18 @@ class MitarbeiterController extends ActionController
         if ($this->request->hasArgument('art')) {
             $art = $this->request->getArgument('art');           
         }                     
-        if ($kst == 'kst') {
-            $this->redirect('editKst', 'Mitarbeiter', NULL, array('ma' => $mitarbeiter, 'kostenstelle' => $mitarbeiter->getKostenstelle()));
-        } else {
-            if ($key == 'auswahlUsr' || $userKey == 'auswahlUsr') {
-                $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'kst' => $kst, 'berechtigung' => $berechtigung, 'key' => $key, 'userKey' => $userKey, 'art' => $art));
-            } elseif ($userKey == 'Vgs' || $userKey == 'auswahlVgs') { 
-                $berechtigung = "vonVorg";
-                $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'kst' => $kst, 'berechtigung' => $berechtigung, 'userKey' => $userKey, 'art' => $art));
-            } else {
-                $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'kst' => $kst, 'berechtigung' => $berechtigung, 'key' => $key, 'userKey' => $userKey, 'art' => $art));
-            }
-        }
+//        if ($kst == 'kst') {
+//            $this->redirect('editKst', 'Mitarbeiter', NULL, array('ma' => $mitarbeiter, 'kostenstelle' => $mitarbeiter->getKostenstelle()));
+//        } else {
+//            if ($key == 'auswahlUsr' || $userKey == 'auswahlUsr') {
+//                $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'kst' => $kst, 'berechtigung' => $berechtigung, 'key' => $key, 'userKey' => $userKey, 'art' => $art));
+//            } elseif ($userKey == 'Vgs' || $userKey == 'auswahlVgs') { 
+//                $berechtigung = "vonVorg";
+//                $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'kst' => $kst, 'berechtigung' => $berechtigung, 'userKey' => $userKey, 'art' => $art));
+//            } else {
+//                $this->redirect('edit', 'Mitarbeiter', NULL, array('mitarbeiter' => $mitarbeiter, 'search' => $search, 'kst' => $kst, 'berechtigung' => $berechtigung, 'key' => $key, 'userKey' => $userKey, 'art' => $art));
+//            }
+//        }
     }
 
     /**
