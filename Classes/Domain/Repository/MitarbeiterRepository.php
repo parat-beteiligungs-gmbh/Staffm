@@ -77,16 +77,16 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
                 foreach ($quali as $q) {
                     // If qualification is found, save employee uid to array
                     foreach ($q->getEmployeequalifications() as $mq) {
-                        // Logged in user and assigned employees?                                     
+                        // Logged in user and assigned employees?      
                         if ($user != NULL && $mitarbeiters != NULL) {
                             if (in_array($mq->getEmployee(), $mitarbeiters->toArray(), TRUE)) {
                                 array_push($arrMit, (int) $mq->getEmployee()->getUid());
                                 // Employee qualification not null and status?  
-                            } elseif ($mq != NULL && $mq->getStatus() > $this->qualiStatusIgnore) {
+                            } elseif ($mq != NULL && $mq->getEmployee() != NULL && ($mq->getStatus() > $this->qualiStatusIgnore)) {
                                 array_push($arrMit, (int) $mq->getEmployee()->getUid());
                             }
                             // Employee qualification not null and status?  
-                        } elseif ($mq != NULL && $mq->getStatus() > $this->qualiStatusIgnore) {
+                        } elseif ($mq != NULL && $mq->getEmployee() != NULL && ($mq->getStatus() > $this->qualiStatusIgnore)) {
                             array_push($arrMit, (int) $mq->getEmployee()->getUid());
                         }
                     }
@@ -102,7 +102,7 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
                 $constraints[++$i] = $query->like('personalnummer', '%' . $value . '%');
                 $constraints[++$i] = $query->like('title', '%' . $value . '%');
                 $constraints[++$i] = $query->like('telephone', '%' . $value . '%');
-                //$constraints[++$i] = $query->equals('deleted', 0); //-> doesnÂ´t run
+                //$constraints[++$i] = $query->equals('deleted', 0); //-> doesn´t run
                 // Qualification?
                 if (count($arrMit) > 0) {
                     $constraints[++$i] = $query->in('uid', $arrMit);
@@ -275,7 +275,7 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
                 foreach ($quali as $q) {
                     // Save qualifications in array
                     foreach ($q->getEmployeequalifications() as $mq) {
-                        if ($mq != NULL) {
+                        if ($mq != NULL && $mq->getEmployee() != NULL) {
                             array_push($arrMit, (int) $mq->getEmployee()->getUid());
                         }
                     }
