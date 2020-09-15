@@ -1,5 +1,17 @@
 # Staffm Change Log
 
+## 3.0.8
+
+Supports Typo3 9.5.0 - 9.5.99
+
+- [META] Set the version number to 3.0.8.
+- [BUGFIX] Fixed employee and qualification search error #33.
+- [UPDATE] Change image load.
+- [PREPARATION] Add icons for backend.
+- [UPDATE] Change table style.
+- [UPDATE] Extension change.
+- [RELEASE] Version 3.0.7.
+
 ## 3.0.7
 
 Supports Typo3 9.5.0 - 9.5.99
