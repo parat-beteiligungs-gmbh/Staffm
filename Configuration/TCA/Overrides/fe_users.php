@@ -105,7 +105,7 @@ $fields = [
     ],
     'image' => [
         'exclude' => 0,
-        'label' => 'LLL:EXT:Staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_mitarbeiter.image',
+        'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_mitarbeiter.image',
         'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig('image', [
             'appearance' => [
                 'createNewRelationLinkTitle' => 'LLL:EXT:cms/locallang_ttc.xlf:images.addFileReference'
