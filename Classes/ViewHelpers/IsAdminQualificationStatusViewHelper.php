@@ -32,7 +32,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  * @author Markus Puffer <m.puffer@pm-webdesign.eu>
  */
-class IsAdminQualificationStatusViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class IsAdminQualificationStatusViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     public function render()
     {
