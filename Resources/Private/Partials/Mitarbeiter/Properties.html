@@ -82,6 +82,7 @@
 		</td>
 		<td>			
                     <f:link.action class="tx_staffm link" action="show" controller="Position" arguments="{mitarbeiter:mitarbeiter, key: 'vonMit', userKey: userKey, standardsearch:search}">
+                        <f:form.hidden value="{mitarbeiter.position}" />
 			{mitarbeiter.position.bezeichnung}
                     </f:link.action>
 		</td>
