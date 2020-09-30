@@ -1,5 +1,16 @@
 # Staffm Change Log
 
+## 3.0.9
+
+Supports Typo3 9.5.0 - 9.5.99
+
+- [META] Set the version number to 3.0.9.
+- [UPDATE] Include new ViewHelper class.
+- [BUGFIX] The position display in the detail view has been corrected #35.
+- [BUGFIX] Backend label for profile picture.
+- [UPDATE] Decrease varchar values in sql.
+- [RELEASE] Version 3.0.8.
+
 ## 3.0.8
 
 Supports Typo3 9.5.0 - 9.5.99
