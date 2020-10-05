@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (C) 2018 pm-webdesign.eu 
+ * Copyright (C) 2020 pm-webdesign.eu 
  * Markus Puffer <m.puffer@pm-webdesign.eu>
  *
  * All rights reserved
@@ -28,25 +28,42 @@ namespace Pmwebdesign\Staffm\Domain\Repository;
 /**
  * The repository for positions
  */
-class PositionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
-	/**
-	 * @param string $search
-	 * @param int $limit
-	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findSearchForm($search, $limit) {
-		$query = $this->createQuery();
-		if ($search != NULL) {
-			$query->matching(										
-				$query->like('bezeichnung', '%' . $search . '%')										
-			);
-		} 	
-		
-		$query->setOrderings(array('bezeichnung' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
-		$limits = (int) $limit;
-		if ($limit > 0) {
-			$query->setLimit($limits);
-		}
-		return $query->execute();
-	}
+class PositionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
+
+    /**
+     * @param string $search
+     * @param int $limit
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findSearchForm($search, $limit)
+    {
+        $query = $this->createQuery();
+        if ($search != NULL) {
+            $query->matching(
+                    $query->like('bezeichnung', '%' . $search . '%')
+            );
+        }
+
+        $query->setOrderings(array('bezeichnung' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
+        $limits = (int) $limit;
+        if ($limit > 0) {
+            $query->setLimit($limits);
+        }
+        return $query->execute();
+    }
+
+    /**
+     * Find GF Positions
+     * 
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findPositionGF()
+    {
+        $query = $this->createQuery();
+        $query->matching(
+                $query->in('bezeichnung', ['GF COO', 'GF CFO', 'GF Geschäftsführer'])
+        );
+        return $query->execute();
+    }
 }
