@@ -26,7 +26,6 @@
 namespace Pmwebdesign\Staffm\Domain\Model;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use Pmwebdesign\Staffm\Domain\Service\UserService;
 
 /**
@@ -111,7 +110,7 @@ class Mitarbeiter extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      * @lazy
      */
     protected $firma = NULL;
-
+        
     /**
      * Qualifications
      *
@@ -459,5 +458,5 @@ class Mitarbeiter extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
         /* @var $userService UserService */
         $userService = GeneralUtility::makeInstance(UserService::class);
         return $userService->isCostCenterResponsible($this);
-    }
+    }    
 }
