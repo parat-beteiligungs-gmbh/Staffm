@@ -1,5 +1,18 @@
 # Staffm Change Log
 
+## 3.1.0
+
+Supports Typo3 9.5.0 - 9.5.99
+
+- [META] Set the version number to 3.1.0.
+- [CLEANUP] Removed unused function.
+- [FEATURE] New task for set employee classes.
+- [CODESTYLE] Reorder entries.
+- [FEATURE] New action for find Chief positions.
+- [DOCS] Change licence header.
+- [CLEANUP] Remove unused import.
+- [RELEASE] Version 3.0.9.
+
 ## 3.0.9
 
 Supports Typo3 9.5.0 - 9.5.99
