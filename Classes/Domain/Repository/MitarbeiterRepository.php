@@ -102,7 +102,7 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
                 $constraints[++$i] = $query->like('personalnummer', '%' . $value . '%');
                 $constraints[++$i] = $query->like('title', '%' . $value . '%');
                 $constraints[++$i] = $query->like('telephone', '%' . $value . '%');
-                //$constraints[++$i] = $query->equals('deleted', 0); //-> doesn´t run
+                //$constraints[++$i] = $query->equals('deleted', 0); //-> doesnï¿½t run
                 // Qualification?
                 if (count($arrMit) > 0) {
                     $constraints[++$i] = $query->in('uid', $arrMit);
@@ -214,7 +214,8 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
     }
     
     /**
-     * TODO: Check if this is needed
+     * TODO: Not needed! Check it.
+     * Find superiors based on cost centers
      * 	
      * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
@@ -326,4 +327,19 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
         return $query->execute();
     }
     
+    /**
+     * Set tx_extbase_type
+     * 
+     * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee
+     * @param string $typeNumber
+     */
+    public function updateExtbaseType(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $employee, $typeNumber)
+    {
+        $queryBuilder = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)->getQueryBuilderForTable('fe_users');
+        $queryBuilder
+                ->update('fe_users')
+                ->where($queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($employee->getUid())))
+                ->set('tx_extbase_type', $typeNumber)
+                ->execute();
+    }    
 }
