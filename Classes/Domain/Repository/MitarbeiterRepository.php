@@ -212,22 +212,6 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
         $query->setOrderings(array('last_name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
         return $query->execute();
     }
-    
-    /**
-     * TODO: Not needed! Check it.
-     * Find superiors based on cost centers
-     * 	
-     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-     */
-    public function findVorgesetzte()
-    {
-        $query = $this->createQuery();
-        $query->matching(
-                $query->equals('status', 27), $query->equals('status', 51)
-        );
-        $query->setOrderings(array('last_name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
-        return $query->execute();
-    }
 
     /**
      * Find employees of the supervisor or deputies of supervisor
