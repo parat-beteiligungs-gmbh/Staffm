@@ -73,7 +73,6 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Pmwebdesign\Sta
     'extension' => $_EXTKEY,
     'title' => 'Send Memories',
     'description' => 'Send memories of employee qualification if the memory date is come',
-    'additionalFields' => \TYPO3\CMS\Scheduler\Task\CachingFrameworkGarbageCollectionAdditionalFieldProvider::class
 ];
 
 // Task for set employee classes
@@ -81,7 +80,6 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Pmwebdesign\Sta
     'extension' => $_EXTKEY,
     'title' => 'Set employee classes',
     'description' => 'Check superiors and so on and set the class to the employees',
-    'additionalFields' => \TYPO3\CMS\Scheduler\Task\CachingFrameworkGarbageCollectionAdditionalFieldProvider::class
 ];
 
 /**
