@@ -44,4 +44,3 @@ class FinduserViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewH
         return $mitarbeiterService->getLoggedInUser();        
     }
 }
-?>

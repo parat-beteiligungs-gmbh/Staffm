@@ -1,29 +1,52 @@
+{namespace vh=Pmwebdesign\Staffm\ViewHelpers}
+
+<f:variable name="user" value="{vh:finduser()}" />
+
 <label class="tx-staffm bold" for="representations">
-    <f:translate key="tx_staffm_domain_model_mitarbeiter.representations" />&nbsp;(<f:translate key="tx_staffm_domain_model_representation.costcenters" />)
+    <f:translate key="tx_staffm_domain_model_mitarbeiter.representations" />
 </label><br />
-<f:for each="{representations}" as="representation">
-    <span>{representation.deputy.lastName} {representation.deputy.firstName}</span>
-    <f:if condition="{representation.costcenters}">
-        (
-        <f:for each="{representation.costcenters}" as="costcenter" iteration="iterator">  
-            <span title="{costcenter.bezeichnung}">
-                <f:if condition="{iterator.isLast}">
-                    <f:then>
-                        {costcenter.nummer}
-                    </f:then>
-                    <f:else>
-                        {costcenter.nummer},
-                    </f:else>
-                </f:if>
-            </span>
+<f:alias map="{superiorWithoutDeputy: '{vh:isCostCenterResponsible(employee:user, withDeputy: 0)}'}">  
+    <div class="row">
+        <f:for each="{representations}" as="representation">
+            <div class="p-1 col-sm-12 col-lg-6" style="border:0.5px solid #888;border-radius: 5px">
+                <span>{representation.deputy.lastName} {representation.deputy.firstName}</span>
+
+                <div class="form-check">
+                    <f:form.checkbox class="form-check-input" id="mitarCheckActive{representation.deputy.uid}" onclick="setDeputyActiveStatus(this);false" name="employeesActive[{representation.deputy.uid}]" value="{representation.uid}" multiple="1" checked="{f:if(condition: '{representation.statusActive} == 1', then: 1)}" />
+                    <label class="form-check-label" for="mitarCheckQualiAuth{representation.deputy.uid}"><f:translate key="tx_staffm_domain_model_representation.status_active" /></label>
+                </div>
+                <f:comment><!-- Qualification Authorization --></f:comment>
+                <div class="form-check">
+                    <f:form.checkbox class="form-check-input" id="mitarCheckQualiAuth{representation.deputy.uid}" onclick="setQualificationAuthorizationStatus(this);false" name="employeesQualiAuth[{representation.deputy.uid}]" value="{representation.uid}" multiple="1" checked="{f:if(condition: '{representation.qualificationAuthorization} == 1', then: 1)}" />
+                    <label class="form-check-label" style="font-weight: normal" for="mitarCheckQualiAuth{representation.deputy.uid}">
+                        <f:translate key="tx_staffm_domain_model_representation.qualification_authorization" /><br />
+                        <f:translate key="tx_staffm_domain_model_representation.costcenters" />:
+                        <f:if condition="{representation.costcenters}">                    
+                            <f:for each="{representation.costcenters}" as="costcenter" iteration="iterator">  
+                                <span title="{costcenter.bezeichnung}">
+                                    <f:if condition="{iterator.isLast}">
+                                        <f:then>
+                                            {costcenter.nummer}
+                                        </f:then>
+                                        <f:else>
+                                            {costcenter.nummer},
+                                        </f:else>
+                                    </f:if>
+                                </span>
+                            </f:for>
+                        </f:if>
+                        <div class="btn-group">
+                            <f:if condition="{superiorWithoutDeputy} > 0">
+                                <f:link.action action="listChoose" controller="Kostenstelle" arguments="{representation:representation, key:key, userKey:userKey, art:art}" class="btn btn-sm btn-default"><f:translate key="tx_staffm_domain_model_kostenstelle" />&nbsp;<f:translate key="staffm.choose" /></f:link.action>
+                            </f:if>
+                            <f:if condition="{representation.costcenters -> f:count()} > 0">
+                                <f:link.action action="deleteRepresentationCostCenters" class="btn btn-sm btn-danger" arguments="{representation:representation, key:key, userKey:userKey, art:art}"><f:translate key="tx_staffm_domain_model_kostenstelle" />&nbsp;<f:translate key="staffm.delete" /></f:link.action>
+                            </f:if>           
+                        </div>
+                    </label>
+                </div>   
+            </div>
         </f:for>
-        ) 
-    </f:if>
-    <div class="btn-group">
-        <f:link.action action="listChoose" controller="Kostenstelle" arguments="{representation:representation, key:key, userKey:userKey, art:art}" class="btn btn-sm btn-default"><f:translate key="tx_staffm_domain_model_kostenstelle" />&nbsp;<f:translate key="staffm.choose" /></f:link.action>
-        <f:if condition="{representation.costcenters}">
-            <f:link.action action="deleteRepresentationCostCenters" class="btn btn-sm btn-danger" arguments="{representation:representation, key:key, userKey:userKey, art:art}"><f:translate key="tx_staffm_domain_model_kostenstelle" />&nbsp;<f:translate key="staffm.delete" /></f:link.action>
-        </f:if>
     </div>
-    <br /><br />
-</f:for>
+</f:alias>
+<script src="../../../../Public/js/staffm.js"></script>

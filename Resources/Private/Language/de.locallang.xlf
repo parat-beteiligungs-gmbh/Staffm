@@ -483,6 +483,14 @@
                 <source>Excluded cost centers</source>
                 <target state="translated">Ausgenommene Kostenstellen</target>
             </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_representation.status_active">
+                <source>Active</source>
+                <target state="translated">Aktiv</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_representation.qualification_authorization">
+                <source>Authorization for qualification management</source>
+                <target state="translated">Berechtigung für das Qualifikationsmanagement</target>
+            </trans-unit>
             <trans-unit id="staffm.text.verantwortlicher.waehlen">
                 <source>Please choose the Responsible!</source>
                 <target state="translated">Hier bitte den Verantwortlichen auswählen!</target>
@@ -493,7 +501,7 @@
             </trans-unit>
             <trans-unit id="staffm.text.zugeordnete">
                 <source>Assigned</source>
-                <target state="translated">Zugeordnete</target>
+                <target state="translated">Zugeordnet</target>
             </trans-unit>
             <trans-unit id="staffm.text.uebergeben">
                 <source>hand over</source>

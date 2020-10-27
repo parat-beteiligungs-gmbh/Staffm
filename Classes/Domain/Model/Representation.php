@@ -55,6 +55,20 @@ class Representation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $costcenters = NULL;
     
     /**
+     * Status for representation
+     *
+     * @var bool 
+     */
+    protected $statusActive = false;
+
+    /**
+     * Set qualifications status
+     *
+     * @var bool
+     */
+    protected $qualificationAuthorization = false;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -97,7 +111,7 @@ class Representation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * 
      * @return \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter
      */
-    public function getDeputy(): \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter
+    public function getDeputy()
     {
         return $this->deputy;
     }
@@ -131,4 +145,47 @@ class Representation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->costcenters = $costcenters;
     }
+    
+    /**
+     * Get status active
+     * 
+     * @return bool
+     */
+    function getStatusActive(): bool
+    {
+        return $this->statusActive;
+    }
+
+    /**
+     * Set status active
+     * 
+     * @param bool $statusActive
+     * @return void
+     */
+    function setStatusActive(bool $statusActive): void
+    {
+        $this->statusActive = $statusActive;
+    }
+
+    /**
+     * Set qualification status
+     * 
+     * @return bool
+     */
+    function getQualificationAuthorization(): bool
+    {
+        return $this->qualificationAuthorization;
+    }
+
+    /**
+     * Get qualification status
+     * 
+     * @param bool $setQualifications
+     * @return void
+     */
+    function setQualificationAuthorization(bool $qualificationAuthorization): void
+    {
+        $this->qualificationAuthorization = $qualificationAuthorization;
+    }
+
 }

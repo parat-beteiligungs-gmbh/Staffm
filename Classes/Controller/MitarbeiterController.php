@@ -1008,12 +1008,38 @@ class MitarbeiterController extends ActionController
         /* @var $mailService \Pmwebdesign\Staffm\Domain\Service\MailService */
         $mailService = GeneralUtility::makeInstance(\Pmwebdesign\Staffm\Domain\Service\MailService::class);           
         
+        // Previous Representations
+        $previousRepresentations = $employee->_getCleanProperty('representations');
+        
         /* @var $representation \Pmwebdesign\Staffm\Domain\Model\Representation */
-        foreach ($employee->getRepresentations() as $representation) {            
-            $message = "Hallo ".$representation->getDeputy()->getFirstName().",\n\nich habe Dich im Intranet als Vertreter ".
-                    "eingestellt.\n\nEs wird Dir hiermit die Berechtigung übertragen, die Mitarbeiter meiner Kostenstellen zu bearbeiten (z. B. Qualifikationen).".
-                    "\n\nFreundliche Grüße,\n\n".$employee->getFirstName()." ".$employee->getLastName();  
-            $mailService->sendEmail($employee->getEmail(), $employee->getLastName()." ".$employee->getFirstName(), $representation->getDeputy()->getEmail(), $representation->getDeputy()->getLastName()." ".$representation->getDeputy()->getFirstName(), "Intranet Vertretung", $message);
+        foreach ($employee->getRepresentations() as $representation) {  
+            $found = false;
+            foreach ($previousRepresentations as $previousRepresentation) {
+                // Deputy available exist?
+                if($representation->getDeputy()->getUid() == $previousRepresentation->getDeputy()->getUid()) {
+                    // Yes
+                    $found = true;
+                }
+            }
+            // Deputy not found?
+            if($found == false) {
+                $textQualification = "";
+                // Qualification authorization?
+                if($representation->getQualificationAuthorization() == true) {
+                    // Yes, set text
+                    $textQualification = "\n\nEs wird Dir außerdem hiermit die Berechtigung übertragen, die Mitarbeiter meiner Kostenstellen zu bearbeiten (z. B. Qualifikationen).";
+                }
+                
+                // Has deputy a email address?
+                if($representation->getDeputy()->getEmail() != "" && $representation->getDeputy()->getEmail() != null) {
+                    // Send email to new deputy
+                    $message = "Hallo ".$representation->getDeputy()->getFirstName().",\n\nich habe Dich im Intranet als Vertreter ".
+                            "eingestellt." . $textQualification .
+                            "\n\nFreundliche Grüße,\n\n".$employee->getFirstName()." ".$employee->getLastName();  
+                    $mailService->sendEmail($employee->getEmail(), $employee->getLastName()." ".$employee->getFirstName(), $representation->getDeputy()->getEmail(), $representation->getDeputy()->getLastName()." ".$representation->getDeputy()->getFirstName(), "Intranet Vertretung", $message);
+                }
+            }
+            
         }        
         
         $this->addFlashMessage('Die Vertreter vom Mitarbeiter "' . $employee->getFirstName() . ' ' . $employee->getLastName() . '" wurden aktualisiert!', '', AbstractMessage::OK);

@@ -1,7 +1,7 @@
 
 <f:layout name="Default" />
 <f:section name="main">
-    <h1><f:translate id="staffm.mitarbeiter.edit.headline" /></h1>    
+    <h1><f:translate key="staffm.mitarbeiter.edit.headline" /></h1>    
     <f:flashMessages />   
     <f:render partial="FormErrors" />
     <f:form enctype="multipart/form-data" action="update" name="mitarbeiter" arguments="{mitarbeiter:mitarbeiter, maid:'maid', search:search, key:key, userKey:userKey, berechtigung:berechtigung}" object="{mitarbeiter}" >
@@ -9,7 +9,7 @@
             <f:then>
                 <f:render partial="Mitarbeiter/FormFieldsVorg" arguments="{mitarbeiter:mitarbeiter, aktuser:aktuser, search:search, berechtigung:berechtigung, key:'auswahl', art:art}" /><br />
             </f:then>            
-            <f:else>                
+            <f:else>     
                 <f:if condition="{key} == 'auswahlUsr' || {userKey} == 'auswahlUsr'">
                     <f:then>                          
                         <f:render partial="Mitarbeiter/FormFieldsVorg" arguments="{mitarbeiter:mitarbeiter, aktuser:aktuser, key:key, userKey:userKey, art:art}" /><br />

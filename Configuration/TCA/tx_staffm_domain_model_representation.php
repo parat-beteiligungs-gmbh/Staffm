@@ -34,11 +34,11 @@ $GLOBALS['TCA']['tx_staffm_domain_model_representation'] = [
         'versioningWS' => FALSE,
         'transOrigPointerField' => 'l10n_parent',
         'transOrigDiffSourceField' => 'l10n_diffsource',
-        'searchFields' => 'employee, deputy, costcenters',
+        'searchFields' => 'employee, deputy, costcenters, qualification_authorization',
         'iconfile' => 'EXT:staffm/Resources/Public/Icons/tx_staffm_domain_model_representation.gif'
     ],
     'interface' => [
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, employee, deputy, costcenters',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, employee, deputy, costcenters, status_active, qualification_authorization',
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -118,9 +118,29 @@ $GLOBALS['TCA']['tx_staffm_domain_model_representation'] = [
                 'maxitems' => 1000               
             ],       
         ],
+        'status_active' => [
+            'exclude' => 1,
+            'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang.xlf:tx_staffm_domain_model_representation.status_active',
+            'config' => [
+                'type' => 'check',
+                'items' => [
+                    [0, 1],                    
+                ],
+            ]
+        ],
+        'qualification_authorization' => [
+            'exclude' => 1,
+            'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang.xlf:tx_staffm_domain_model_representation.qualification_authorization',
+            'config' => [
+                'type' => 'check',
+                'items' => [
+                    [0, 1],                    
+                ],
+            ]
+        ],
     ],
     'types' => [
-        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, employee, deputy, costcenters'],
+        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, employee, deputy, costcenters, status_active, qualification_authorization'],
     ],
     'palettes' => [
         '1' => ['showitem' => ''],

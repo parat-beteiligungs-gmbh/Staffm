@@ -409,6 +409,8 @@ CREATE TABLE tx_staffm_domain_model_representation (
 	employee int(11) unsigned DEFAULT '0',	
         deputy int(11) unsigned DEFAULT '0',	        
         costcenters int(11) unsigned DEFAULT '0', 
+        status_active int(11) unsigned DEFAULT '0',
+        qualification_authorization int(11) unsigned DEFAULT '0',
         
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

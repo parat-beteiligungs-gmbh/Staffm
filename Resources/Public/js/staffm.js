@@ -42,4 +42,50 @@ function setDates() {
     }  
 }
 
+/**
+ * Set the deputy active status * 
+ * 
+ * @param {type} stat
+ * @returns {undefined}
+ */
+function setDeputyActiveStatus(stat) {
+    var fullId = stat.id;
+    var cb = document.getElementById(fullId);
+    var url_controller = 'tx_staffm_staffm[controller]=Representation';
+    var url_action = 'tx_staffm_staffm[action]=setDeputyActiveStatus';
+    var url_data = 'tx_staffm_staffm[representationUid]=' + cb.value +
+            '&tx_staffm_staffm[cbStatus]=' + cb.checked;
+    var url_type = 'type=100022';
+        
+    $.ajax({
+        url: window.location.href + '&' + url_type,
+        data: url_controller + '&' + url_action + '&' + url_data
+    });
+}
+
+/**
+ * Set the deputy active status * 
+ * 
+ * @param {type} stat
+ * @returns {undefined}
+ */
+function setQualificationAuthorizationStatus(stat) {
+    var fullId = stat.id;
+    var cb = document.getElementById(fullId);
+    
+    var url_controller = 'tx_staffm_staffm[controller]=Representation';
+    var url_action = 'tx_staffm_staffm[action]=setQualificationAuthorizationStatus';
+    var url_data = 'tx_staffm_staffm[representationUid]=' + cb.value +
+            '&tx_staffm_staffm[cbStatus]=' + cb.checked;
+    var url_type = 'type=100022';
+
+    $.ajax({
+        url: window.location.href + '&' + url_type,
+        data: url_controller + '&' + url_action + '&' + url_data,
+        success: function (result) {
+            
+        }
+    });    
+}
+
 

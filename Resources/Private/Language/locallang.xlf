@@ -363,6 +363,12 @@
             <trans-unit id="tx_staffm_domain_model_representation.costcenters">
                 <source>Excluded cost centers</source>
             </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_representation.status_active">
+                <source>Active</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_representation.qualification_authorization">
+                <source>Authorization for qualification management</source>
+            </trans-unit>
             <trans-unit id="staffm.text.verantwortlicher.waehlen">
                 <source>Please choose the Responsible!</source>
             </trans-unit>

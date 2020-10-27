@@ -37,6 +37,13 @@ use Pmwebdesign\Staffm\Domain\Service\UserService;
 class Mitarbeiter extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
 {
     /**
+     * Full classname
+     *
+     * @var string 
+     */
+    protected $className = "";
+    
+    /**
      * Pictures
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
@@ -167,6 +174,7 @@ class Mitarbeiter extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
     public function __construct()
     {
         $this->initStorageObjects();
+        $this->className = get_class($this);
     }
 
     /**
@@ -179,6 +187,16 @@ class Mitarbeiter extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
         $this->representations = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
         $this->assignedRepresentations = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
+    
+    /**
+     * Get fully class name
+     * 
+     * @return string
+     */
+    public function getClassName(): string
+    {
+        return get_class($this);
+    }    
 
     /**
      * Get position

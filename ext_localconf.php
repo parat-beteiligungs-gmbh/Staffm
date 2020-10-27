@@ -15,7 +15,8 @@ if (!defined('TYPO3_MODE')) {
             'Qualifikation' => 'list, show, edit, new, create, update, delete, export',
             'Qualilog' => 'list, show, choose, edit, new, create, update, delete',
             'Category' => 'list, show, new, edit, create, update, delete',
-            'Activity' => 'create, delete'
+            'Activity' => 'create, delete',
+            'Representation' => 'setDeputyActiveStatus, setQualificationAuthorizationStatus'
         ],
         [// Non-cacheable actions
             'Mitarbeiter' => 'list, listChoose, listChooseQuali, choose, show, new, edit, editUser, create, editKst, update, delete, deleteQuali, deleteCategories, deleteRepresentations, showKst, showVeraKst, setRepresentations, setRepresentationCostCenters, deleteRepresentationCostCenters, deleteImage, export',
@@ -25,7 +26,8 @@ if (!defined('TYPO3_MODE')) {
             'Qualifikation' => 'list, show, edit, create, update, delete',
             'Qualilog' => 'choose, create, update, delete',
             'Category' => 'list, show, new, edit, create, update, delete',
-            'Activity' => 'create, delete'
+            'Activity' => 'create, delete',
+            'Representation' => 'setDeputyActiveStatus, setQualificationAuthorizationStatus'
         ]
 );
 
@@ -40,7 +42,8 @@ if (!defined('TYPO3_MODE')) {
             'Qualifikation' => 'list, listVgs, show, chooselist, edit, new, create, update, delete, export, exportQualisEmployees',
             'Qualilog' => 'list, show, choose, edit, new, create, update, delete',
             'Category' => 'list, show, new, edit, create, update, delete',
-            'Activity' => 'create, delete'
+            'Activity' => 'create, delete',
+            'Representation' => 'setDeputyStatus, setQualificationAuthorizationStatus'
         ],
         [// Non-cacheable actions
             'Mitarbeiter' => 'edit, listVgs, list, show, editKst, update, showKst, showVeraKst, deleteImage, deleteQuali, deleteCategories, setRepresentations, setRepresentationCostCenters, deleteRepresentations, deleteRepresentationCostCenters, export',
@@ -50,7 +53,8 @@ if (!defined('TYPO3_MODE')) {
             'Qualifikation' => 'list, listVgs, show, chooselist, edit, new, create, update, delete, export, exportQualisEmployees',
             'Qualilog' => 'list, show, choose, edit, new, create, update, delete',
             'Category' => 'list, show, new, edit, create, update, delete',
-            'Activity' => 'create, delete'
+            'Activity' => 'create, delete',
+            'Representation' => 'setDeputyStatus, setQualificationAuthorizationStatus'
         ]
 );
 

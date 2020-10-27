@@ -43,6 +43,7 @@ class UserService
     public function getLoggedInUser() 
     {     
         $uid = $GLOBALS['TSFE']->fe_user->user['uid'];
+        $user = null;
         // Frontend User?
         if ($uid != null) {
             // Yes, Frontend User
@@ -203,6 +204,8 @@ class UserService
 
             // Read checkboxes into array
             $emp = $request->getArgument('employees');
+            $active = $request->getArgument('employeesActive');
+            $qualificationAuth = $request->getArgument('employeesQualiAuth');
 
             // Set employees to array items
             foreach ($emp as $e) {
@@ -211,6 +214,18 @@ class UserService
                 $representation = new \Pmwebdesign\Staffm\Domain\Model\Representation();
                 $representation->setEmployee($aktEmployee);
                 $representation->setDeputy($employee);
+                if($active[$e]) {
+                    $representation->setStatusActive(true);
+                } else {
+                    $representation->setStatusActive(false);
+                }
+                if($qualificationAuth[$e]) {
+                    \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($qualificationAuth[$e]);
+                    $representation->setQualificationAuthorization(true);
+                } else {
+                    $representation->setQualificationAuthorization(false);
+                }
+                
                 $representations->attach($representation);
             }
             return $representations;

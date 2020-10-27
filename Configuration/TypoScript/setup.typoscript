@@ -68,6 +68,7 @@ module.tx_staffm {
 }
 
 page {
+    typeNum = 0
     # Caching
     noCache = 0 
 
@@ -80,8 +81,31 @@ page {
 
     includeJSFooter {
         # load own Javascript immediatelly with complete website
-        #staffmjs = EXT:staffm/Resources/Public/js/staffm.js
+        staffmjs = EXT:staffm/Resources/Public/js/staffm.js
 #        jquery1 = EXT:staffm/Resources/Public/js/jquery-1.12.4.js -> Error on load
         jquery2 = EXT:staffm/Resources/Public/js/jquery-ui.js
     }
 }
+
+# Prototype for Ajax-Calls # TODO: Erklärung
+lib.templatetyp < page
+lib.templatetyp {
+    typeNum = 100021
+    config {
+        disableAllHeaderCode = 1
+        xhtml_cleaning = 0
+        admPanel = 0
+        debug = 0
+        no_cache = 1
+        additionalHeaders = Content-type:text/plain
+    }
+}
+ 
+# Call for specific Plugin # TODO: Erklärung
+plugin_staffmvorg < lib.templatetyp
+plugin_staffmvorg {
+    typeNum = 100022
+    #10 < tt_content.list.20.staffm_staffmvorg
+    10 < tt_content.list.20.staffm_staffm
+}
+

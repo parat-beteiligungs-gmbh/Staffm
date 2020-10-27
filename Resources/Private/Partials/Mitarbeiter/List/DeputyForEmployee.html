@@ -11,47 +11,54 @@
             <th><f:translate key="tx_staffm_domain_model_mitarbeiter.last_name" /></th>
             <th><f:translate key="tx_staffm_domain_model_mitarbeiter.first_name" /></th>
             <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.title" /></th>           
-            <th><f:translate id="staffm.active" /></th>
+            <th><f:translate key="staffm.text.zugeordnete" /></th>
+            <th><f:translate key="tx_staffm_domain_model_representation.status_active" /></th>
+            <th><f:translate key="tx_staffm_domain_model_representation.qualification_authorization" /></th>
         </tr>
         <f:for each="{mitarbeiters}" as="employee">
             <tr>                  
-                
-            <f:if condition="{tv:deputyEmployee(c:mitarbeiter, ma: employee)} > 0">
-                <f:then>                       
-                    <td class="td{employee.uid}" style="background-color: #BCEE68">
-                        <f:if condition="{employee.image}">   
-                            <f:for each="{employee.image}" as="img" key="key" iteration="iterator">        
-                                <f:if condition="{iterator.isFirst}">
-                                    <f:image class="tx_staffm profilbild klein" src="{img.uid}" treatIdAsReference="1" />                                            
-                                </f:if>
-                            </f:for>                                                                           
-                        </f:if>                        
-                    </td>
-                    <td class="td{employee.uid}" style="background-color: #BCEE68">{employee.personalnummer}</td> 
-                    <td class="td{employee.uid}" style="background-color: #BCEE68">{employee.username}</td> 
-                    <td class="td{employee.uid}" style="background-color: #BCEE68">{employee.lastName}</td> 
-                    <td class="td{employee.uid}" style="background-color: #BCEE68">{employee.firstName}</td> 
-                    <td class="td{employee.uid}" style="background-color: #BCEE68">{employee.title}</td> 
-                    <td class="td{employee.uid}" style="background-color: #BCEE68"><f:form.checkbox id="mitarCheck{employee.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="employees" value="{employee.uid}" multiple="1" checked="1" /></td>                                                    
-                </f:then>
-                <f:else>
-                    <td class="td{employee.uid}">
-                        <f:if condition="{employee.image}">   
-                            <f:for each="{employee.image}" as="img" key="key" iteration="iterator">        
-                                <f:if condition="{iterator.isFirst}">
-                                    <f:image class="tx_staffm profilbild klein" src="{img.uid}" treatIdAsReference="1" />                                            
-                                </f:if>
-                            </f:for>                                                                           
-                        </f:if>                        
-                    </td>
-                    <td class="td{employee.uid}">{employee.personalnummer}</td> 
-                    <td class="td{employee.uid}">{employee.username}</td> 
-                    <td class="td{employee.uid}">{employee.lastName}</td> 
-                    <td class="td{employee.uid}">{employee.firstName}</td> 
-                    <td class="td{employee.uid}">{employee.title}</td> 
-                    <td class="td{employee.uid}"><f:form.checkbox id="mitarCheck{employee.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="employees" value="{employee.uid}" multiple="1" checked="0" /></td>                    
-                </f:else>
-            </f:if>
+                <f:alias map="{representation: '{tv:deputyEmployee(c:mitarbeiter, ma: employee)}'}">
+                    <f:if condition="{representation} > 0">
+                        <f:then>                       
+                            <td class="td{employee.uid}" style="background-color: #BCEE68">
+                                <f:if condition="{employee.image}">   
+                                    <f:for each="{employee.image}" as="img" key="key" iteration="iterator">        
+                                        <f:if condition="{iterator.isFirst}">
+                                            <f:image class="tx_staffm profilbild klein" src="{img.uid}" treatIdAsReference="1" />                                            
+                                        </f:if>
+                                    </f:for>                                                                           
+                                </f:if>                        
+                            </td>
+                            <td class="td{employee.uid}" style="background-color: #BCEE68">{employee.personalnummer}</td> 
+                            <td class="td{employee.uid}" style="background-color: #BCEE68">{employee.username}</td> 
+                            <td class="td{employee.uid}" style="background-color: #BCEE68">{employee.lastName}</td> 
+                            <td class="td{employee.uid}" style="background-color: #BCEE68">{employee.firstName}</td> 
+                            <td class="td{employee.uid}" style="background-color: #BCEE68">{employee.title}</td> 
+                            <td class="td{employee.uid}" style="background-color: #BCEE68" title="{f:translate(key:'staffm.text.zugeordnete')}"><f:form.checkbox id="mitarCheck{employee.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="employees" value="{employee.uid}" multiple="1" checked="1" /></td>
+                            <td class="td{employee.uid}" style="background-color: #BCEE68" title="{f:translate(key:'tx_staffm_domain_model_representation.status_active')}"><f:form.checkbox id="mitarCheckActive{employee.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="employeesActive[{employee.uid}]" value="{employee.uid}" multiple="1" checked="{f:if(condition: '{representation.statusActive} == 1', then: 1)}" /></td>
+                            <td class="td{employee.uid}" style="background-color: #BCEE68" title="{f:translate(key:'tx_staffm_domain_model_representation.qualification_authorization')}"><f:form.checkbox id="mitarCheckQualiAuth{employee.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="employeesQualiAuth[{employee.uid}]" value="{employee.uid}" multiple="1" checked="{f:if(condition: '{representation.qualificationAuthorization} == 1', then: 1)}" /></td>
+                        </f:then>
+                        <f:else>
+                            <td class="td{employee.uid}">
+                                <f:if condition="{employee.image}">   
+                                    <f:for each="{employee.image}" as="img" key="key" iteration="iterator">        
+                                        <f:if condition="{iterator.isFirst}">
+                                            <f:image class="tx_staffm profilbild klein" src="{img.uid}" treatIdAsReference="1" />                                            
+                                        </f:if>
+                                    </f:for>                                                                           
+                                </f:if>                        
+                            </td>
+                            <td class="td{employee.uid}">{employee.personalnummer}</td> 
+                            <td class="td{employee.uid}">{employee.username}</td> 
+                            <td class="td{employee.uid}">{employee.lastName}</td> 
+                            <td class="td{employee.uid}">{employee.firstName}</td> 
+                            <td class="td{employee.uid}">{employee.title}</td> 
+                            <td class="td{employee.uid}" title="{f:translate(key:'staffm.text.zugeordnete')}"><f:form.checkbox id="mitarCheck{employee.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="employees" value="{employee.uid}" multiple="1" checked="0" /></td>
+                            <td class="td{employee.uid}" title="{f:translate(key:'tx_staffm_domain_model_representation.status_active')}"><f:form.checkbox id="mitarCheckActive{employee.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="employeesActive[{employee.uid}]" value="{employee.uid}" multiple="1" checked="0" /></td>
+                            <td class="td{employee.uid}" title="{f:translate(key:'tx_staffm_domain_model_representation.qualification_authorization')}"><f:form.checkbox id="mitarCheckQualiAuth{employee.uid}" additionalAttributes="{onClick:'setCheckbox(this);'}" name="employeesQualiAuth[{employee.uid}]" value="{employee.uid}" multiple="1" checked="0" /></td>
+                        </f:else>
+                    </f:if>
+                </f:alias>
             </tr>
         </f:for>
     </table>

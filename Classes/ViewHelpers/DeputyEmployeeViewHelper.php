@@ -46,13 +46,16 @@ class DeputyEmployeeViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\Abstrac
         $c = $this->arguments['c'];
         $ma = $this->arguments['ma'];
         $pruefe = 0;
+        $representation = null;
         if ($c != NULL) {           
             foreach ($c->getRepresentations() as $r) {                
                 if ($r->getDeputy() === $ma) {
                     $pruefe = 1;
+                    $representation = $r;
+                    break;
                 }
             }
         } 
-        return $pruefe;
+        return $representation;
     }
 }
