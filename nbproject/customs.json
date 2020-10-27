@@ -1,0 +1,454 @@
+{
+    "elements": {
+        "f:alias": {
+            "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+            "doc": "Creates an alias for a object\/variable.",
+            "attributes": {
+                "map": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Variable or a object that ist mapping. Example: {person} : {thisPerson}.",
+                    "type": "variable or object"
+                }
+            }
+        },
+        "f:layout": {
+            "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+            "doc": "Set the Typo3 Layout, normally at begin (before f:section) of the site.",
+            "attributes": {
+                "name": {
+                    "doc": "Set the name of the Layout-file, example for file default.html -> default.",
+                    "type": "String",
+                    "required": "true"
+                }
+            }
+        },
+        "tv:widget.atoZNav": {},
+        "f:then": {
+            "context": "f:if, f:security.ifHasRole",
+            "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+            "doc": "Then condition for if-statement."
+        },
+        "f:link.typolink": {},
+        "f:render": {
+            "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+            "doc": "Render a Partial of a template.",
+            "attributes": {
+                "arguments": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Set variables or objects, example \"{headline: 'Neuen Post anlegen', action:'add', submitmessage:'Post anlegen!',blog:blog,post:post,tags:tags}\" or for all objects and variables set {_all}.",
+                    "type": "Array"
+                },
+                "partial": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Require the objectname and name of the partial in folder Partials, example \"Object\/NameOfPartial\".",
+                    "type": "String",
+                    "required": "true"
+                }
+            }
+        },
+        "tv:widget.qualiStatus": {
+            "attributes": {
+                "as": {},
+                "objects": {},
+                "property": {}
+            }
+        },
+        "vh:form.multiupload.delete": {
+            "attributes": {
+                "property": {},
+                "value": {}
+            }
+        },
+        "f:for": {
+            "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+            "doc": "For-each loop.",
+            "attributes": {
+                "as": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Object of the object array. Write without {}.",
+                    "type": "object",
+                    "required": "true"
+                },
+                "iteration": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Variable for Iteration, it starts from 1 to max count of objects.",
+                    "type": "String\/Variable"
+                },
+                "reverse": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Reverse the objectArray of for, example TRUE or FALSE.",
+                    "type": "BOOLEAN"
+                },
+                "each": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Iterate throug an object array.",
+                    "type": "objectArray",
+                    "required": "true"
+                },
+                "key": {}
+            }
+        },
+        "f:security.ifHasRole": {
+            "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+            "doc": "With this ViewHelper you are able to set a block condition which is only shown if there is a frontend user logged in and is in the given usergroup.",
+            "attributes": {
+                "role": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Require a uid of the FE usergroup or the name of the FE usergroup.<br><br>Example:<br>role=\"7\" or role=\"administratoren\".",
+                    "type": "String\/Integer"
+                }
+            }
+        },
+        "f:form.submit": {
+            "attributes": {
+                "value": {
+                    "required": "true"
+                }
+            }
+        },
+        "f:form.hidden": {
+            "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+            "doc": "Hidden formular field for variables or objects.",
+            "attributes": {
+                "property": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Set a post variablename.",
+                    "type": "String\/Variable"
+                },
+                "name": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Set a post variablename.<br><br>Example:<br>name=\"myExtName[ttAddressUid]\"",
+                    "type": "String\/Variable"
+                },
+                "value": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Set a value for the hidden field."
+                }
+            }
+        },
+        "f:link.page": {
+            "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+            "doc": "A view helper for creating links to TYPO3 pages.",
+            "attributes": {
+                "pageUid": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "PageUid of the site. <br><br>Example:<br>^f:link.page pageUid=\"${uid}\">${cursor}^\/f:link.page>",
+                    "type": "Integer"
+                }
+            }
+        },
+        "f:form.textarea": {
+            "attributes": {
+                "property": {}
+            }
+        },
+        "f:form.validationResults": {},
+        "label{tv:hasError(property:'title',then:'": {},
+        "vh:form.multiupload": {
+            "attributes": {
+                "property": {},
+                "resources": {}
+            }
+        },
+        "f:variable": {
+            "attributes": {
+                "name": {},
+                "value": {}
+            }
+        },
+        "f:debug": {
+            "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+            "doc": "This ViewHelper allows you to output the value of a variable or a set of variables (e.g. array) to the screen. This can be helpful when debugging, to make sure that the value of the variable is as you would expect it to be. Individual nested array or object attributes can be individually expanded.",
+            "attributes": {
+                "title": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Name for the Variable or a object.",
+                    "type": "name of the debugvalue"
+                }
+            }
+        },
+        "f:format.date": {
+            "attributes": {
+                "format": {}
+            }
+        },
+        "f:flashMessages": {
+            "attributes": {
+                "as": {}
+            }
+        },
+        "f:link.email": {
+            "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+            "doc": "Link action for a email.",
+            "attributes": {
+                "email": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Set a email, example \"test@outlook.de\"",
+                    "type": "String",
+                    "required": "true"
+                }
+            }
+        },
+        "f:if": {
+            "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+            "doc": "If statement, can extend with f:then and f:else.",
+            "attributes": {
+                "condition": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Check an Object or Object-Attribut condition, example {person} or {person.name} == 'Mustermann'.",
+                    "type": "Object, or Object-Attributes"
+                }
+            }
+        },
+        "tv:tsfe": {},
+        "f:form.textfield": {
+            "attributes": {
+                "property": {},
+                "value": {}
+            }
+        },
+        "f:else": {
+            "context": "f:if, f:security.ifHasRole",
+            "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+            "doc": "Else condition for if-statement."
+        },
+        "f:form.radio": {},
+        "f:comment": {
+            "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+            "doc": "Comment out all between this code."
+        },
+        "f:renderChildren": {
+            "attributes": {
+                "arguments": {}
+            }
+        },
+        "f:section": {
+            "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+            "doc": "Set the Typo3 Section, normally at begin (after f:layout) and at the end of the site.",
+            "attributes": {
+                "name": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Standard-Value is \"main\".",
+                    "type": "String",
+                    "required": "true"
+                }
+            }
+        },
+        "f:count": {},
+        "f:image": {
+            "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+            "doc": "Set an Image.",
+            "attributes": {
+                "image": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Set an Image-Object for FAL-Images.",
+                    "type": "Object"
+                },
+                "src": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "For FAL-Image it can set a object {image}, for others a path fileadmin\/...",
+                    "type": "Path, or Image-Object"
+                },
+                "alt": {},
+                "width": {},
+                "treatIdAsReference": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Required for Image-Resource in a Site Konfiguration.",
+                    "type": "integer, 0 or 1"
+                },
+                "style": {},
+                "height": {}
+            }
+        },
+        "f:widget.paginate": {
+            "attributes": {
+                "as": {},
+                "configuration": {},
+                "objects": {}
+            }
+        },
+        "f:form.select": {
+            "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+            "doc": "This ViewHelper enables you to create a ^select> dropdown list for the use with a HTML form.",
+            "attributes": {
+                "optionValueField": {},
+                "name": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Name of the group",
+                    "type": "String"
+                },
+                "property": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Example:<br>\"tags\".",
+                    "type": "ObjectArray"
+                },
+                "multiple": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Multiple Selection in the Select-Box.<br><br>Example:<br>multiple=\"1\".",
+                    "type": "Integer"
+                },
+                "options": {},
+                "optionLabelField": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "TODO:",
+                    "type": "String\/Variable"
+                },
+                "style": {},
+                "value": {},
+                "additionalAttributes": {}
+            }
+        },
+        "f:form.upload": {
+            "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+            "doc": "For File\/Image Uploads.",
+            "attributes": {
+                "property": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "For File\/Image Uploads.",
+                    "type": "String"
+                }
+            }
+        },
+        "f:form.checkbox": {
+            "attributes": {
+                "name": {},
+                "multiple": {},
+                "checked": {},
+                "style": {},
+                "value": {},
+                "additionalAttributes": {}
+            }
+        },
+        "f:link.action": {
+            "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+            "doc": "Link action for start an controller action.<br><br>Example:<br>^f:link.action action=\"${action}\" controller=\"${controller}\">${cursor}^\/f:link.action>",
+            "attributes": {
+                "controller": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "name of the controller where the action should start.",
+                    "type": "String"
+                },
+                "pluginName": {},
+                "action": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "name from an action of the current controller or named controller if set.",
+                    "required": "true"
+                },
+                "arguments": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Set Objects, example {blog:blog,post:post}.",
+                    "type": "Array"
+                },
+                "section": {},
+                "additionalAttributes": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Set Form, example {role: 'form'}.",
+                    "type": "Array"
+                }
+            }
+        },
+        "f:form": {
+            "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+            "doc": "A Formular for send.",
+            "attributes": {
+                "enctype": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Formular type, example \"multipart\/form-data\".",
+                    "type": "String"
+                },
+                "controller": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>"
+                },
+                "name": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>"
+                },
+                "action": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "required": "true"
+                },
+                "arguments": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "required": "true"
+                },
+                "object": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Object, example {blog}",
+                    "type": "Object"
+                },
+                "additionalAttributes": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Role of the form, example {role:'form'}",
+                    "type": "Array"
+                }
+            }
+        },
+        "f:format.crop": {
+            "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+            "doc": "Crops a string according to the defined properties.",
+            "attributes": {
+                "maxCharacters": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Max Count of the string.",
+                    "type": "Variable or Integer"
+                },
+                "append": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "String that come after the value, example \"&nbsp;...\"",
+                    "type": "Variable\/String"
+                }
+            }
+        },
+        "f:translate": {
+            "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+            "doc": "This ViewHelper connects to a standard translation file - most often locallang.xlf - and provides a defined translation for the current language using a \u201Ckey\u201D parameter. https:\/\/docs.typo3.org\/typo3cms\/ExtbaseGuide\/Fluid\/ViewHelper\/Translate.html",
+            "attributes": {
+                "extensionName": {},
+                "key": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "String to the language file attribute, example tx_forms_domain_model_form.lfdnr",
+                    "type": "String",
+                    "required": "true"
+                }
+            }
+        },
+        "tv:widget.sort": {
+            "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+            "doc": "This ViewHelper Widget sorts from A to Z, or Z to A",
+            "attributes": {
+                "as": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "New name for returned, sorted objects",
+                    "type": "ObjectArray",
+                    "required": "true"
+                },
+                "objects": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Given objects",
+                    "type": "ObjectArray",
+                    "required": "true"
+                },
+                "property": {
+                    "description": "<b style=\"color:#3399FF\">Typo3-Fluid<\/b>",
+                    "doc": "Keyword\/Variable for sorting",
+                    "type": "Variable\/String",
+                    "required": "true"
+                }
+            }
+        }
+    },
+    "attributes": {
+        "role": {},
+        "index": {
+            "context": "label"
+        },
+        "')}": {
+            "context": "label"
+        },
+        "id": {},
+        "title": {},
+        "class": {},
+        "{tv:haserror(property:'title',then:'": {
+            "context": "label"
+        }
+    }
+}
