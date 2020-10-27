@@ -43,7 +43,42 @@ function setDates() {
 }
 
 /**
- * Set the deputy active status * 
+ * Set the employee presence status 
+ * 
+ * @param {type} stat
+ * @returns {undefined}
+ */
+function setEmployeePresentStatus(stat) {
+    var fullId = stat.id;
+    var cb = document.getElementById(fullId);
+    var url_controller = 'tx_staffm_staffm[controller]=Mitarbeiter';
+    var url_action = 'tx_staffm_staffm[action]=setEmployeePresentStatus';
+    var url_data = 'tx_staffm_staffm[employeeUid]=' + cb.value +
+            '&tx_staffm_staffm[cbStatus]=' + cb.checked;
+    var url_type = 'type=100022';
+        
+    $.ajax({
+        url: window.location.href + '&' + url_type,
+        data: url_controller + '&' + url_action + '&' + url_data,
+        success: function (result) {
+            // Set label red or black
+            var labelPresentStatus = document.getElementById('labelPresentStatus')
+            var classstring = labelPresentStatus.className;
+            if(result == "0") {
+                if(classstring == "form-check-label tx-staffm bold") {
+                    labelPresentStatus.className = classstring + " red";
+                }
+            } else {
+                if(classstring == "form-check-label tx-staffm bold red") {
+                    labelPresentStatus.className = "form-check-label tx-staffm bold";
+                }
+            }
+        }
+    });
+}
+
+/**
+ * Set the deputy active status 
  * 
  * @param {type} stat
  * @returns {undefined}
@@ -64,7 +99,7 @@ function setDeputyActiveStatus(stat) {
 }
 
 /**
- * Set the deputy active status * 
+ * Set the deputy active status 
  * 
  * @param {type} stat
  * @returns {undefined}

@@ -8,7 +8,7 @@ if (!defined('TYPO3_MODE')) {
         'Pmwebdesign.' . $_EXTKEY,
         'Staffm', // Plugin
         [// Cacheable actions
-            'Mitarbeiter' => 'list, listChoose, listChooseQuali, choose, show, new, edit, editUser, create, editKst, update, delete, deleteQuali, deleteCategories, deleteRepresentations, showKst, showVeraKst, setRepresentations, setRepresentationCostCenters, deleteRepresentationCostCenters, deleteImage, export',
+            'Mitarbeiter' => 'list, listChoose, listChooseQuali, choose, show, new, edit, editUser, create, editKst, update, delete, deleteQuali, deleteCategories, deleteRepresentations, showKst, showVeraKst, setRepresentations, setRepresentationCostCenters, deleteRepresentationCostCenters, setEmployeePresentStatus, deleteImage, export',
             'Position' => 'list, show, choose, export, new, edit, create, update, delete, deletePosition',
             'Kostenstelle' => 'list, listChoose, show, choose, export, new, edit, create, update, delete, deleteKst, deleteKstVerantwortlicher',
             'Firma' => 'list, show, choose, export, new, edit, create, update, delete, deleteFirma',
@@ -19,7 +19,7 @@ if (!defined('TYPO3_MODE')) {
             'Representation' => 'setDeputyActiveStatus, setQualificationAuthorizationStatus'
         ],
         [// Non-cacheable actions
-            'Mitarbeiter' => 'list, listChoose, listChooseQuali, choose, show, new, edit, editUser, create, editKst, update, delete, deleteQuali, deleteCategories, deleteRepresentations, showKst, showVeraKst, setRepresentations, setRepresentationCostCenters, deleteRepresentationCostCenters, deleteImage, export',
+            'Mitarbeiter' => 'list, listChoose, listChooseQuali, choose, show, new, edit, editUser, create, editKst, update, delete, deleteQuali, deleteCategories, deleteRepresentations, showKst, showVeraKst, setRepresentations, setRepresentationCostCenters, deleteRepresentationCostCenters, setEmployeePresentStatus, deleteImage, export',
             'Position' => 'list, show, choose, export, new, edit, create, update, delete, deletePosition',
             'Kostenstelle' => 'list, listChoose, show, choose, export, new, edit, create, update, delete, deleteKst, deleteKstVerantwortlicher',
             'Firma' => 'list, show, choose, export, new, edit, create, update, delete, deleteFirma',
@@ -35,7 +35,7 @@ if (!defined('TYPO3_MODE')) {
         'Pmwebdesign.' . $_EXTKEY,
         'Staffmvorg',
         [// Cacheable actions
-            'Mitarbeiter' => 'edit, listVgs, list, show, editKst, update, showKst, showVeraKst, deleteImage, deleteQuali, deleteCategories, setRepresentations, setRepresentationCostCenters, deleteRepresentations, deleteRepresentationCostCenters, export',
+            'Mitarbeiter' => 'edit, listVgs, list, show, editKst, update, showKst, showVeraKst, deleteImage, deleteQuali, deleteCategories, setRepresentations, setRepresentationCostCenters, setEmployeePresentStatus, deleteRepresentations, deleteRepresentationCostCenters, export',
             'Position' => 'list, show, choose',
             'Kostenstelle' => 'list, listChoose, show, choose, export',
             'Firma' => 'list, show, choose, export',
@@ -46,7 +46,7 @@ if (!defined('TYPO3_MODE')) {
             'Representation' => 'setDeputyStatus, setQualificationAuthorizationStatus'
         ],
         [// Non-cacheable actions
-            'Mitarbeiter' => 'edit, listVgs, list, show, editKst, update, showKst, showVeraKst, deleteImage, deleteQuali, deleteCategories, setRepresentations, setRepresentationCostCenters, deleteRepresentations, deleteRepresentationCostCenters, export',
+            'Mitarbeiter' => 'edit, listVgs, list, show, editKst, update, showKst, showVeraKst, deleteImage, deleteQuali, deleteCategories, setRepresentations, setRepresentationCostCenters, setEmployeePresentStatus, deleteRepresentations, deleteRepresentationCostCenters, export',
             'Position' => 'list, show, choose',
             'Kostenstelle' => 'list, listChoose, show, choose, export',
             'Firma' => 'list, show, choose, export',

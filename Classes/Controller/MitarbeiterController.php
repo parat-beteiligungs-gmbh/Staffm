@@ -1047,6 +1047,27 @@ class MitarbeiterController extends ActionController
     }
     
     /**
+     * Set employee presence status
+     */
+    public function setEmployeePresentStatusAction()
+    {
+        $employeeUid = $this->request->getArgument('employeeUid');        
+        $cb = $this->request->getArgument('cbStatus');
+        if($cb == "true") {
+            $cb = 1;
+        } else {
+            $cb = 0;
+        }
+        
+        /* @var $employee \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter */
+        $employee = $this->mitarbeiterRepository->findByUid($employeeUid);
+        $employee->setPresent($cb);
+        $this->mitarbeiterRepository->update($employee);   
+        
+        return "".$cb;
+    }    
+    
+    /**
      * Set the exempted cost centers for a Deputy
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Representation $representation

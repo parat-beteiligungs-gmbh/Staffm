@@ -126,6 +126,9 @@
             <trans-unit id="tx_staffm_domain_model_mitarbeiter.assignedRepresentations">
                 <source>Assigned representations</source>
             </trans-unit>
+            <trans-unit id="tx_staffm_domain_model_mitarbeiter.present">
+                <source>Present</source>
+            </trans-unit>
             <trans-unit id="staffm.position.new">
                 <source>New position</source>
             </trans-unit>

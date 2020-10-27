@@ -25,6 +25,11 @@ This copyright notice MUST APPEAR in all copies of the script!
     Author     : Markus Puffer <m.puffer@pm-webdesign.eu>
 */
 
+/** Colours */
+.red {
+    color: #dc3545;
+}
+
 /** Navbar */
 .navbarstaffm {
     border-radius: 5px;

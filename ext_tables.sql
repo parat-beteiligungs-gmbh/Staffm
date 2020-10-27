@@ -5,6 +5,7 @@ CREATE TABLE fe_users (
 
 	personalnummer varchar(30) DEFAULT '' NOT NULL,
 	username varchar(10) DEFAULT '' NOT NULL,
+        present int(11) unsigned DEFAULT '0',
         date_of_birth_show int(11) DEFAULT '0' NOT NULL,
 	date_of_birth int(11) DEFAULT '0' NOT NULL,
 	last_name varchar(50) DEFAULT '' NOT NULL,

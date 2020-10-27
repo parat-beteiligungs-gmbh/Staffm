@@ -211,7 +211,17 @@ $fields = [
                 'maxitems' => 100,   
                 
         ],
-    ],    
+    ], 
+    'present' => [
+        'exclude' => 1,
+        'label' => 'LLL:EXT:staffm/Resources/Private/Language/locallang_db.xlf:tx_staffm_domain_model_mitarbeiter.present',
+        'config' => [
+            'type' => 'check',
+            'items' => [
+                [0, 1],                    
+            ],
+        ],
+    ]
 ];
 
 // Add new fields to fe_users

@@ -1,6 +1,12 @@
 {namespace vh=Pmwebdesign\Staffm\ViewHelpers}
 
 <f:variable name="user" value="{vh:finduser()}" />
+<div class="form-check">
+<f:form.checkbox class="form-check-input" id="mitarCheckPresent{mitarbeiter.uid}" onclick="setEmployeePresentStatus(this);false" name="employeePresentStatus" value="{mitarbeiter.uid}" checked="{f:if(condition: '{mitarbeiter.present} == TRUE', then: 1)}" />
+<label id="labelPresentStatus" class="form-check-label tx-staffm bold{f:if(condition: '{mitarbeiter.present} == FALSE', then: ' red')}" for="present"><f:translate key="tx_staffm_domain_model_mitarbeiter.present" /></label>
+</div>
+<br style="clear:both"/>
+
 <label class="tx-staffm bold"><f:translate key="tx_staffm_domain_model_mitarbeiter.image" /></label> &nbsp;(*.jpg)<br />
 <vh:form.multiupload property="image" resources="resources">
     <ul style="list-style:none;padding:0;display: flex">
@@ -151,3 +157,4 @@
     <f:render partial="Mitarbeiter/Qualification/ListFormFields" arguments="{mitarbeiter:mitarbeiter, aktuser:aktuser, kst:kst, key:key, standardsearch:search, userKey:userKey, berechtigung:berechtigung, art:art}" />
     <br />
 </f:if>
+<script src="../../../Public/js/staffm.js"></script>

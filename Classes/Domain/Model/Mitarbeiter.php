@@ -159,6 +159,13 @@ class Mitarbeiter extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      * @var bool
      */
     protected $isCostCenterResponsible = false;
+    
+    /**
+     * Presence status
+     *
+     * @var bool 
+     */
+    protected $present = true;
 
     /**
      * objectManager
@@ -466,6 +473,27 @@ class Mitarbeiter extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
         $this->assignedRepresentations = $assignedRepresentations;
     }
     
+    /**
+     * Get presence status
+     * 
+     * @return bool
+     */
+    function getPresent(): bool
+    {
+        return $this->present;
+    }
+
+    /**
+     * Set presence status
+     * 
+     * @param bool $present
+     * @return void
+     */
+    function setPresent(bool $present): void
+    {
+        $this->present = $present;
+    }
+        
     /**
      * Is it a cost center responsible?
      * 
