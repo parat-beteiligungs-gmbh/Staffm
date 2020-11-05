@@ -1,5 +1,23 @@
 # Staffm Change Log
 
+## 3.2.0
+
+- [META] Set the version number to 3.2.0.
+- [UPDATE] Bootstrap design for checkboxes.
+- [FEATURE] New absence status for employee.
+- [DEV] Edit files for config.
+- [FEATURE] New representative functions.
+- [CLEANUP] Remove deprecated and unused lines.
+- [RELEASE] Version 3.1.0 new task.
+
+Dependent | Version
+-------- | ----------
+PHP | 7.0 - 7.4
+
+Reference | Version
+-------- | ----------
+IntraPentaUserSynch (Java) | 3.1.0 - 3.1.99
+
 ## 3.1.0
 
 Supports Typo3 9.5.0 - 9.5.99
