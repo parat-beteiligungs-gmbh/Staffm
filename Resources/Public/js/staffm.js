@@ -62,15 +62,15 @@ function setEmployeePresentStatus(stat) {
         data: url_controller + '&' + url_action + '&' + url_data,
         success: function (result) {
             // Set label red or black
-            var labelPresentStatus = document.getElementById('labelPresentStatus')
+            var labelPresentStatus = document.getElementById('labelPresentStatus');
             var classstring = labelPresentStatus.className;
             if(result == "0") {
-                if(classstring == "form-check-label tx-staffm bold") {
+                if(classstring == "custom-control-label tx-staffm bold") {
                     labelPresentStatus.className = classstring + " red";
                 }
             } else {
-                if(classstring == "form-check-label tx-staffm bold red") {
-                    labelPresentStatus.className = "form-check-label tx-staffm bold";
+                if(classstring == "custom-control-label tx-staffm bold red") {
+                    labelPresentStatus.className = "custom-control-label tx-staffm bold";
                 }
             }
         }
