@@ -66,11 +66,17 @@ class SetEmployeeClasses extends \TYPO3\CMS\Scheduler\Task\AbstractTask
         /* @var $employee \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter */
         foreach ($employees as $employee) {
             $extbaseType = "0";
+            $update = true;
             if ($employee->getIsCostCenterResponsible() == true) {     
                 $extbaseType = "1";
 //                $employee->setTxExtbaseType('1'); // TODO-Error: Update doesn´t run! -> set in repository
+            } elseif ($employee instanceof \BmParat\Adjustmentsheet\Domain\Model\ApplicationEngineer) {
+                $update = false;
             }
-            $employeeRepository->updateExtbaseType($employee, $extbaseType); 
+            // Update?
+            if ($update == true) {
+                $employeeRepository->updateExtbaseType($employee, $extbaseType);
+            }
         }
         $objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class)->persistAll();
        
