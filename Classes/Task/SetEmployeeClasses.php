@@ -71,6 +71,7 @@ class SetEmployeeClasses extends \TYPO3\CMS\Scheduler\Task\AbstractTask
                 $extbaseType = "1";
 //                $employee->setTxExtbaseType('1'); // TODO-Error: Update doesn´t run! -> set in repository
             } elseif ($employee instanceof \BmParat\Adjustmentsheet\Domain\Model\ApplicationEngineer) {
+                // No update -> Application Engineers are sets manually in extension adjustmentsheet
                 $update = false;
             }
             // Update?
