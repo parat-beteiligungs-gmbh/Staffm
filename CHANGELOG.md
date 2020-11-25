@@ -1,5 +1,20 @@
 # Staffm Change Log
 
+## 3.2.1
+
+- [META] Set the version number to 3.2.1.
+- [COMMENT] Change comment in Task.
+- [UPDATE] Add new condition with application engineer to task.
+- [RELEASE] Version 3.2.0 new Representative functions.
+
+Dependent | Version
+-------- | ----------
+PHP | 7.0 - 7.4
+
+Reference | Version
+-------- | ----------
+IntraPentaUserSynch (Java) | 3.1.0 - 3.2.99
+
 ## 3.2.0
 
 - [META] Set the version number to 3.2.0.
