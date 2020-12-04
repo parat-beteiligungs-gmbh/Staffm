@@ -40,9 +40,14 @@ class SetEmployeeClasses extends \TYPO3\CMS\Scheduler\Task\AbstractTask
 {
 
     public function execute()
-    {
+    { 
         $objectManager = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
-
+        
+        $configurationManager = $objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\ConfigurationManager');
+        $config = $configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
+        $noSuperiorUids = $config['plugin.']['tx_staffm.']['persistence.']['noSuperiorUids'];
+        $noSuperiorArray = explode(",", $noSuperiorUids);
+        
         /* @var $querySettings Typo3QuerySettings */
         $querySettings = $objectManager->get(Typo3QuerySettings::class);
         $querySettings->setRespectStoragePage(false);
@@ -67,12 +72,14 @@ class SetEmployeeClasses extends \TYPO3\CMS\Scheduler\Task\AbstractTask
         foreach ($employees as $employee) {
             $extbaseType = "0";
             $update = true;
-            if ($employee->getIsCostCenterResponsible() == true) {     
+            if ($employee->getIsCostCenterResponsible() == true && !in_array(strval($employee->getUid()), $noSuperiorArray)) {     
                 $extbaseType = "1";
 //                $employee->setTxExtbaseType('1'); // TODO-Error: Update doesn´t run! -> set in repository
             } elseif ($employee instanceof \BmParat\Adjustmentsheet\Domain\Model\ApplicationEngineer) {
                 // No update -> Application Engineers are sets manually in extension adjustmentsheet
                 $update = false;
+            } elseif (strpos($employee->getTitle(), "Projektleiter") !== false || (strpos($employee->getTitle(), "Teamleiter") !== false && (strpos($employee->getTitle(), "LFI") !== false || strpos($employee->getTitle(), "RIM") !== false))) {
+                $extbaseType = "22";
             }
             // Update?
             if ($update == true) {
