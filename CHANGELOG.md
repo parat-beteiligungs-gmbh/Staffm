@@ -1,5 +1,21 @@
 # Staffm Change Log
 
+
+## 3.3.0
+
+- [META] Set version number to 3.3.0
+- [UPDATE] task sets project manager and checks if no superior
+- [UPDATE] added constant to set costcenter responible, who are no supe… …
+- [RELEASE] Version 3.2.1 Small changes.
+
+Dependent | Version
+-------- | ----------
+PHP | 7.0 - 7.4
+
+Reference | Version
+-------- | ----------
+IntraPentaUserSynch (Java) | 3.1.0 - 3.2.99
+
 ## 3.2.1
 
 - [META] Set the version number to 3.2.1.
