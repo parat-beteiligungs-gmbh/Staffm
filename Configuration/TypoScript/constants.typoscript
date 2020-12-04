@@ -10,7 +10,10 @@ plugin.tx_staffm {
 	}
 	persistence {              
 		# cat=plugin.tx_staffm//a; type=string; label=Default storage PID
-		storagePid =                 
+		storagePid =   
+
+                # cat=plugin.tx_staffm//a; type=string; label=No Superior UIDs
+		noSuperiorUids =              
 	}
 }
 

@@ -7,6 +7,8 @@ plugin.tx_staffm {
 	}
 	persistence {
 		storagePid = {$plugin.tx_staffm.persistence.storagePid}
+                # cat=plugin.tx_staffm//a; type=string; label=No Superior UIDs
+		noSuperiorUids = {$plugin.tx_staffm.persistence.noSuperiorUids}
                 classes {                    
                     Pmwebdesign\Staffm\Domain\Model\Mitarbeiter.RecordStoragePid = 42
                     Pmwebdesign\Staffm\Domain\Model\Mitarbeiter.newRecordStoragePid = 42  
