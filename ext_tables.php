@@ -30,6 +30,15 @@ if (!defined('TYPO3_MODE')) {
 	'Stafflistcustom' // Plugin-Titel
 );
 
+/**
+ * Registers a Frontend Module for create and edit fe users.
+ */
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+	'Pmwebdesign.' . $_EXTKEY,
+	'Createuser',   // Plugin
+	'Staffm: create and edit fe user' // Plugin-Titel
+);
+
 call_user_func(
     function()
     {

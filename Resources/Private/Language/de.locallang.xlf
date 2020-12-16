@@ -579,6 +579,210 @@
                 <source>Step 4: Can find optimization solutions themselves and initiate their implementation / Extensive knowledge. Uses existing systematics, can identify weaknesses and develop systems further. This level can only be achieved through external training and pratical experience or vocational training / Comparable in languages level C / Specialist, master, business economist, bachelor, engineer</source>
                 <target state="translated">Stufe 4: Kann selbst Optimierungslösungen finden und deren Umsetzung einleiten / Umfangreiche Kenntnisse. Setzt vorhandene Systematik ein, kann Schwächen erkennen und Systeme weiterentwickeln. Diese Stufe lässt sich nur durch eine nachgewiesene externe Schulung und Praxiserfahrung oder Berufsausbildung erreichen / In Sprachen vergleichbar Niveaustufe C / Fachwirt, Meister, Betriebswirt, Bachelor, Master, Ingenieur</target>
             </trans-unit>
+            <trans-unit id="tx_staffm_not.login">
+                <source>You must be logged in to access this page.</source>
+                <target state="translated">Sie müssen eingeloggt sein, um auf diese Seite zugreifen zu können.</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_not.allowed">
+                <source>You have no authorization for this page.</source>
+                <target state="translated">Sie haben keine Berechtigung für diese Seite.</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_employee.no.username">
+                <source>These employees have no username, but are in SAP.</source>
+                <target state="translated">Diese Mitarbeiter haben noch keinen Usernamen, sind allerdings in SAP angelegt.</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_assign.username">
+                <source>Assign username</source>
+                <target state="translated">Username vergeben</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_no.mail">
+                <source>Employee has no e-mail address.</source>
+                <target state="translated">Mitarbeiter hat keine E-Mailadresse</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_password">
+                <source>Password</source>
+                <target state="translated">Passwort</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_enter.mail">
+                <source>Please enter an email address.</source>
+                <target state="translated">Bitte geben Sie eine E-Mailadresse ein</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_take.on">
+                <source>take on</source>
+                <target state="translated">Übernehmen</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_saved.data">
+                <source>Data successfully saved.</source>
+                <target state="translated">Daten erfolgreich gespeichert.</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_search">
+                <source>Search</source>
+                <target state="translated">Suchen</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_created.user">
+                <source>Created Users</source>
+                <target state="translated">Erstellte Benutzer</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_remove.username">
+                <source>Remove username</source>
+                <target state="translated">Username entfernen</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_remove.username1">
+                <source>Do you really want to remove the username of </source>
+                <target state="translated">Wollen Sie wirklich den Benutzernamen von </target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_remove.username2">
+                <source> and thus the access to the Intranet?</source>
+                <target state="translated"> entfernen und somit den Zugang zum Intranet?</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_cancel">
+                <source>Cancel</source>
+                <target state="translated">Abbrechen</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_yes">
+                <source>Yes</source>
+                <target state="translated">Ja</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_assign.mail">
+                <source>Assign E-Mail</source>
+                <target state="translated">E-Mail zuweisen</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_change.password">
+                <source>Change Password</source>
+                <target state="translated">Passwort ändern</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_no.mail.address">
+                <source>Currently this user has no e-mail address.</source>
+                <target state="translated">Dieser Benutzer hat aktuell keine E-Mailadresse.</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_current.mail">
+                <source>Current E-Mail:</source>
+                <target state="translated">Aktuelle E-Mail:</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_new.mail">
+                <source>New E-Mail:</source>
+                <target state="translated">Neue E-Mail:</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_new.mail.assigned">
+                <source>New E-Mail address assigned.</source>
+                <target state="translated">Neue E-Mailadresse zugewiesen.</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_remove.mail">
+                <source>Remove E-Mail</source>
+                <target state="translated">E-Mail entfernen</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_removed.mail">
+                <source>E-Mail address was removed.</source>
+                <target state="translated">E-Mailadresse wurde entfernt.</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_new.password">
+                <source>New Password:</source>
+                <target state="translated">Neues Passwort:</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_old.password">
+                <source>Old Password:</source>
+                <target state="translated">Altes Passwort:</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_new.password.assigned">
+                <source>New password was assigned.</source>
+                <target state="translated">Neues Passwort wurde zugewiesen.</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_new.employee">
+                <source>New employee</source>
+                <target state="translated">Neuer Mitarbeiter</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_create.new.employee">
+                <source>Create new employee</source>
+                <target state="translated">Neuen Mitarbeiter anlegen</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_auto.added">
+                <source>Will be automatic added</source>
+                <target state="translated">Wird automatisch ergänzt</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_four.pnr">
+                <source>four digits personal number</source>
+                <target state="translated">Vierstellige Personalnummer</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_cost.center.apps">
+                <source>Cost center for applications</source>
+                <target state="translated">Kostenstelle für Anträge</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_cost.center.expiry">
+                <source>Date of Expiry</source>
+                <target state="translated">Gültig bis:</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_required.fields">
+                <source>Required fields</source>
+                <target state="translated">Pflichtfelder</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_required.fields.message">
+                <source>All required fields must be set.</source>
+                <target state="translated">Alle Pflichtfelder müssen gefüllt sein.</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_four.digit.message">
+                <source>The personal number must be a four-digit number.</source>
+                <target state="translated">Die Personalnummer muss eine vierstellige Zahl sein.</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_four.costcenter.message">
+                <source>The entered cost center is not valid.</source>
+                <target state="translated">Die eingegebene Kostenstelle existiert nicht.</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_four.costcenter.apps.message">
+                <source>The entered cost center for applications is not valid.</source>
+                <target state="translated">Die eingegebene Kostenstelle für Anträge existiert nicht.</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_date.expiry.message">
+                <source>If there is a cost center for application, there must be a date of expiry, too.</source>
+                <target state="translated">Wenn eine Kostenstelle für Anträge eingegeben wird, muss auch ein gültig bis - Datum eingetragen werden.</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_date.expiry.message2">
+                <source>The date of expiry must be in the future.</source>
+                <target state="translated">Das eingegebene gültig bis - Datum muss in der Zukunft liegen.</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_position.message">
+                <source>The enterd position doesn't exist.</source>
+                <target state="translated">Die eingegebene Position existiert nicht.</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_company.message">
+                <source>The enterd company doesn't exist.</source>
+                <target state="translated">Die eingegebene Firma existiert nicht.</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_mail.message">
+                <source>The e-mail is not correctly.</source>
+                <target state="translated">Es wurde keine korrekte E-Mail eingegeben.</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_new.user.successful">
+                <source>The new user was saved successfully.</source>
+                <target state="translated">Der neue User wurde erfolgreich angelegt.</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_edit.created.user">
+                <source>Edit created user</source>
+                <target state="translated">Erstellten Benutzer bearbeiten</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_all.users">
+                <source>All Users</source>
+                <target state="translated">Alle Benutzer</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_assign.cost.center">
+                <source>Assign cost center for applications</source>
+                <target state="translated">Kostenstelle für Anträge zuweisen</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_current.cost.center.apps">
+                <source>Current Cost Center for Apps</source>
+                <target state="translated">Aktuelle Kostenstelle für Anträge</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_current.cost.center.is.used">
+                <source>Currently the normal cost center is used.</source>
+                <target state="translated">Akuell wird die normale Kostenstelle verwendet.</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_new.cost.center.apps">
+                <source>New Cost Center for Apps</source>
+                <target state="translated">Neue Kostenstelle für Anträge</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_cost.center.assigned">
+                <source>Cost center for apps assigned successfully.</source>
+                <target state="translated">Kostenstelle für Anträge erfolgreich zugewiesen.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

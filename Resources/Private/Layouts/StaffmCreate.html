@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2020 PARAT Beteiligungs GmbH
+Markus Blöchl <mbloechl@parat.eu>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+{namespace tv = Pmwebdesign\Forms\ViewHelpers}
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+    <f:alias map="{user: '{tv:finduser()}'}">
+        <f:if condition="{user}">   
+            <f:then>
+                <f:comment><!-- Only PA can access --></f:comment>
+                <f:security.ifHasRole role="PA">
+                    <f:then>
+                       <div id="ajaxPlace">
+                           <div style="position:fixed;top: 20%;left: 50%;display:block;transform: translate(-50%, -50%);z-index: 99999999"><img style="display:none;margin-left:auto;margin-right:auto;" src="typo3conf/ext/forms/Resources/Public/Icons/loading.gif" id="ladebild" /></div>        
+                           <div id="ladediv" style="display:block;"></div>  
+                           <f:render section="content" />
+                           <p style="text-align: right">&COPY; 2020 Markus Blöchl</p>
+                        </div>
+                    </f:then>
+                    <f:else>
+                        <div class="text-danger">
+                            <f:translate key="tx_staffm_not.allowed"/>
+                        </div>
+                    </f:else>
+                </f:security.ifHasRole>
+            </f:then>
+            <f:else>
+                <div class="text-danger">
+                    <f:translate key="tx_staffm_not.login"/>
+                </div>
+            </f:else>
+        </f:if>
+    </f:alias>
+</html>

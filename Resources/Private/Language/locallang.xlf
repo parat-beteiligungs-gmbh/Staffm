@@ -435,6 +435,159 @@
             <trans-unit id="staffm.step4">
                 <source>Step 4: Can find optimization solutions themselves and initiate their implementation / Extensive knowledge. Uses existing systematics, can identify weaknesses and develop systems further. This level can only be achieved through external training and pratical experience or vocational training / Comparable in languages level C / Specialist, master, business economist, bachelor, engineer</source>
             </trans-unit>
+            <trans-unit id="tx_staffm_not.login">
+                <source>You must be logged in to access this page.</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_not.allowed">
+                <source>You have no authorization for this page.</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_employee.no.username">
+                <source>These employees have no username, but are in SAP.</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_assign.username">
+                <source>Assign username</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_no.mail">
+                <source>Employee has no e-mail address.</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_password">
+                <source>Password</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_enter.mail">
+                <source>Please enter an email address.</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_take.on">
+                <source>take on</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_saved.data">
+                <source>Data successfully saved.</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_search">
+                <source>Search</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_created.user">
+                <source>Created Users</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_remove.username">
+                <source>Remove username</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_remove.username1">
+                <source>Do you really want to remove the username of </source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_remove.username2">
+                <source> and thus the access to the Intranet?</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_cancel">
+                <source>Cancel</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_yes">
+                <source>Yes</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_assign.mail">
+                <source>Assign E-Mail</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_change.password">
+                <source>Change Password</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_no.mail.address">
+                <source>Currently this user has no e-mail address.</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_current.mail">
+                <source>Current E-Mail:</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_new.mail">
+                <source>New E-Mail:</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_new.mail.assigned">
+                <source>New E-Mail address assigned.</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_remove.mail">
+                <source>Remove E-Mail</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_removed.mail">
+                <source>E-Mail address was removed.</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_new.password">
+                <source>New Password:</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_old.password">
+                <source>Old Password:</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_new.password.assigned">
+                <source>New password was assigned.</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_new.employee">
+                <source>New employee</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_create.new.employee">
+                <source>Create new employee</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_auto.added">
+                <source>Will be automatic added</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_four.pnr">
+                <source>four digits personal number</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_cost.center.apps">
+                <source>Cost center for applications</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_cost.center.expiry">
+                <source>Date of Expiry</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_required.fields">
+                <source>Required fields</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_required.fields.message">
+                <source>All required fields must be set.</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_four.digit.message">
+                <source>The personal number must be a four-digit number.</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_four.costcenter.message">
+                <source>The entered cost center is not valid.</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_four.costcenter.apps.message">
+                <source>The entered cost center for applications is not valid.</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_date.expiry.message">
+                <source>If there is a cost center for application, there must be a date of expiry, too.</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_date.expiry.message2">
+                <source>The date of expiry must be in the future.</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_position.message">
+                <source>The enterd position doesn't exist.</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_company.message">
+                <source>The enterd company doesn't exist.</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_mail.message">
+                <source>The e-mail is not correctly.</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_new.user.successful">
+                <source>The new user was saved successfully.</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_edit.created.user">
+                <source>Edit created user</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_all.users">
+                <source>All Users</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_assign.cost.center">
+                <source>Assign cost center for applications</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_current.cost.center.apps">
+                <source>Current Cost Center for Apps</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_current.cost.center.is.used">
+                <source>Currently the normal cost center is used.</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_new.cost.center.apps">
+                <source>New Cost Center for Apps</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_cost.center.assigned">
+                <source>Cost center for apps assigned successfully.</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>

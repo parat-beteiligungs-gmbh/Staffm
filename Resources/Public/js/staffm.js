@@ -123,4 +123,60 @@ function setQualificationAuthorizationStatus(stat) {
     });    
 }
 
+/**
+ * Show calendar in CreateNewUser
+ */
+function showCalendar() {
+    $("#validTo").datepicker(
+    {
+       prevText: '&#x3c;zurück', prevStatus: '',
+        prevJumpText: '&#x3c;&#x3c;', prevJumpStatus: '',
+        nextText: 'Vor&#x3e;', nextStatus: '',
+        nextJumpText: '&#x3e;&#x3e;', nextJumpStatus: '',
+        currentText: 'heute', currentStatus: '',
+        todayText: 'heute', todayStatus: '',
+        clearText: '-', clearStatus: '',
+        closeText: 'schließen', closeStatus: '',
+        monthNames: ['Januar','Februar','März','April','Mai','Juni',
+        'Juli','August','September','Oktober','November','Dezember'],
+        monthNamesShort: ['Jan','Feb','Mär','Apr','Mai','Jun',
+        'Jul','Aug','Sep','Okt','Nov','Dez'],
+        dayNames: ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'],
+        dayNamesShort: ['So','Mo','Di','Mi','Do','Fr','Sa'],
+        dayNamesMin: ['So','Mo','Di','Mi','Do','Fr','Sa'],
+        showMonthAfterYear: false,
+        dateFormat:'d.mm.yy',
+        firstDay: 1
+    }         
+    ).datepicker("show").attr('readonly', 'readonly');
+}
 
+/**
+ * Show calendar in Modal
+ */
+function showCalendarInModal(userUid) {
+    $("#validTo" + userUid).css('z-index', '55555555555');
+    $("#validTo" + userUid).datepicker(
+    {
+       prevText: '&#x3c;zurück', prevStatus: '',
+        prevJumpText: '&#x3c;&#x3c;', prevJumpStatus: '',
+        nextText: 'Vor&#x3e;', nextStatus: '',
+        nextJumpText: '&#x3e;&#x3e;', nextJumpStatus: '',
+        currentText: 'heute', currentStatus: '',
+        todayText: 'heute', todayStatus: '',
+        clearText: '-', clearStatus: '',
+        closeText: 'schließen', closeStatus: '',
+        monthNames: ['Januar','Februar','März','April','Mai','Juni',
+        'Juli','August','September','Oktober','November','Dezember'],
+        monthNamesShort: ['Jan','Feb','Mär','Apr','Mai','Jun',
+        'Jul','Aug','Sep','Okt','Nov','Dez'],
+        dayNames: ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'],
+        dayNamesShort: ['So','Mo','Di','Mi','Do','Fr','Sa'],
+        dayNamesMin: ['So','Mo','Di','Mi','Do','Fr','Sa'],
+        showMonthAfterYear: false,
+        dateFormat:'d.mm.yy',
+        firstDay: 1
+    }         
+    ).datepicker("show").attr('readonly', 'readonly');
+    
+}

@@ -221,6 +221,29 @@ $fields = [
                 [0, 1],                    
             ],
         ],
+    ],
+    'expiry_date' => [
+        'exclude' => true,
+        'label' => 'Kostenstelle für Anträge gültig bis',
+        'config' => [
+            'dbType' => 'date',
+            'type' => 'input',
+            'renderType' => 'inputDateTime',
+            'size' => 7,
+            'eval' => 'date',
+            'default' => null,
+        ],
+    ],
+    'app_cost_center' => [
+        'exclude' => 1,        
+        'label' => 'Kostenstelle für Anträge',
+        'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'foreign_table' => 'tx_staffm_domain_model_kostenstelle',
+                'minitems' => 0,
+                'maxitems' => 1,
+        ],
     ]
 ];
 

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2020 PARAT Beteiligungs GmbH
+Markus Blöchl <mbloechl@parat.eu>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<f:layout name="StaffmCreate" />
+<f:section name="content">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li><f:link.action onclick="loadSite('createNewUser', 'Mitarbeiter');return false" class="nav-link"><span><f:translate key="tx_staffm_new.employee"/></span></f:link.action> </li>
+                <li><f:link.action onclick="loadSite('listCreate', 'Mitarbeiter');return false" class="nav-link"><span><f:translate key="staffm.mitarbeiter.list.headline"/></span></f:link.action> </li>
+                <li class="nav-item active"><f:link.action onclick="loadSite('listCreated', 'Mitarbeiter');return false" class="nav-link"><span><f:translate key="tx_staffm_created.user"/></span></f:link.action> </li>
+                <li><f:link.action onclick="loadSite('listAllUser', 'Mitarbeiter');return false" class="nav-link"><span><f:translate key="tx_staffm_all.users"/></span></f:link.action> </li>
+            </ul>
+        </div>
+    </nav>
+
+    <h1><f:translate key="tx_staffm_created.user"/></h1>
+    <f:flashMessages />
+    <f:render partial="FormErrors" />
+    
+    <table class="tx_staffm" id="createdUserTable">     
+        <tr>
+            <th class="staffmmobilehidden"><f:translate key="tx_staffm_domain_model_mitarbeiter.personalnummer" /></th>
+            <th><f:translate key="tx_staffm_domain_model_mitarbeiter.username" /></th>
+            <th><f:translate key="tx_staffm_domain_model_mitarbeiter.last_name" /></th>
+            <th><f:translate key="tx_staffm_domain_model_mitarbeiter.first_name" /></th>    
+            <th><f:translate key="tx_staffm_domain_model_mitarbeiter.kostenstelle"/></th>
+            <th></th>
+        </tr>
+        <f:for each="{createdUsers}" as="user">            
+            <tr>
+                <td class="staffmmobilehidden">{user.personalnummer}</td>
+                <td>{user.username}</td>
+                <td>{user.lastName}</td>
+                <td>{user.firstName}</td> 
+                <td>{user.kostenstelle.bezeichnung}</td>
+                <td>
+                    <div class='btn-group'>
+                        <button class="btn btn-dark btn-sm" onclick="loadSiteWithUserUid('{user.uid}', 'editCreated', 'Mitarbeiter');return false"><f:translate key="staffm.edit"/></button>
+                        <div class="dropdown btn-group">
+                            <button class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <button class="dropdown-item" data-toggle="modal" data-target="#removeUsername{user.uid}"><f:translate key="tx_staffm_remove.username"/></button>
+                                <button class="dropdown-item" onclick="randomString(6, '{user.uid}');return false" data-toggle="modal" data-target="#changePassword{user.uid}"><f:translate key="tx_staffm_change.password"/></button>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr> 
+            <div class="modal fade" id="removeUsername{user.uid}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"><f:translate key="tx_staffm_remove.username"/></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <f:translate key="tx_staffm_remove.username1"/><b>{user.firstName} {user.lastName}</b><f:translate key="tx_staffm_remove.username2"/>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="btn-group">
+                                <button style="width: 110px !important" type="button" class="btn btn-secondary" data-dismiss="modal"><f:translate key="tx_staffm_cancel"/></button>
+                                <button style="width: 110px !important" type="button" data-dismiss="modal" onclick="loadSiteWithUserUid('{user.uid}', 'removeUsername', 'Mitarbeiter');return false" class="btn btn-success"><f:translate key="tx_staffm_yes"/></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="changePassword{user.uid}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"><f:translate key="tx_staffm_change.password"/></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text" style="width: 140px"><f:translate key="tx_staffm_new.password"/></span></div>
+                                <label id="newPassword{user.uid}" class="form-control"></label>
+                                <div class="input-group-append">
+                                    <f:link.action class="btn btn-default" onclick="randomString(6, '{user.uid}');return false">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+                                            <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
+                                            <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
+                                        </svg>
+                                    </f:link.action>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal"><f:translate key="tx_staffm_cancel"/></button>
+                                <button type="button" data-dismiss="modal" onclick="assignNewPassword('{user.uid}');return false" class="btn btn-success"><f:translate key="staffm.save"/></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </f:for>
+    </table>
+</f:section>

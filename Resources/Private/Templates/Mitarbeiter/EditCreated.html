@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2020 PARAT Beteiligungs GmbH
+Markus Blöchl <mbloechl@parat.eu>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<f:layout name="StaffmCreate" />
+
+<f:section name="content">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li><f:link.action onclick="loadSite('createNewUser', 'Mitarbeiter');return false" class="nav-link"><span><f:translate key="tx_staffm_new.employee"/></span></f:link.action> </li>
+                <li><f:link.action onclick="loadSite('listCreate', 'Mitarbeiter');return false" class="nav-link"><span><f:translate key="staffm.mitarbeiter.list.headline"/></span></f:link.action> </li>
+                <li class="nav-item active"><f:link.action onclick="loadSite('listCreated', 'Mitarbeiter');return false" class="nav-link"><span><f:translate key="tx_staffm_created.user"/></span></f:link.action> </li>
+                <li><f:link.action onclick="loadSite('listAllUser', 'Mitarbeiter');return false" class="nav-link"><span><f:translate key="tx_staffm_all.users"/></span></f:link.action> </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <h1><f:translate id="tx_staffm_edit.created.user" /></h1>
+    <div id="alertDanger" style="display: none" class="alert alert-danger" role="alert"></div>
+    
+    <f:comment><!-- flash message text --></f:comment>
+    <f:form.hidden value="{f:translate(key: 'tx_staffm_required.fields.message')}" id='required'/>
+    <f:form.hidden value="{f:translate(key: 'tx_staffm_four.digit.message')}" id='fourDigit'/>
+    <f:form.hidden value="{f:translate(key: 'tx_staffm_four.costcenter.message')}" id="costMessage"/>
+    <f:form.hidden value="{f:translate(key: 'tx_staffm_four.costcenter.apps.message')}" id='costAppsMessage'/>
+    <f:form.hidden value="{f:translate(key: 'tx_staffm_date.expiry.message')}" id='dateExpiryMessage'/>
+    <f:form.hidden value="{f:translate(key: 'tx_staffm_date.expiry.message2')}" id='dateExpiryMessage2'/>
+    <f:form.hidden value="{f:translate(key: 'tx_staffm_position.message')}" id='positionMessage'/>
+    <f:form.hidden value="{f:translate(key: 'tx_staffm_company.message')}" id='companyMessage'/>
+    <f:form.hidden value="{f:translate(key: 'tx_staffm_mail.message')}" id='mailMessage'/>
+    
+    <f:render partial="FormErrors" />
+    
+    <f:comment><!-- username --></f:comment>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" style="width: 210px">
+                <b><f:translate key="tx_staffm_domain_model_mitarbeiter.username"/></b>
+            </span>
+        </div>
+        <label class="form-control" id="username">{userEdit.username}</label>
+    </div>
+    
+    <f:comment><!-- first name --></f:comment>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" style="width: 210px">
+                <b><f:translate key="tx_staffm_domain_model_mitarbeiter.firstName"/></b> &nbsp;*
+            </span>
+        </div>
+        <label class="form-control" id="firstName">{userEdit.firstName}</label>
+    </div>
+    
+    <f:comment><!-- last name --></f:comment>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" style="width: 210px">
+                <b><f:translate key="tx_staffm_domain_model_mitarbeiter.lastName"/></b>&nbsp;*
+            </span>
+        </div>
+        <label class="form-control" id="lastName">{userEdit.lastName}</label>
+    </div>
+    
+    <f:comment><!-- personal number --></f:comment>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" style="width: 210px">
+                <b><f:translate key="tx_staffm_domain_model_mitarbeiter.personalnummer"/></b>&nbsp;*
+            </span>
+        </div>
+        <label class="form-control" id="pnr">{userEdit.personalnummer}</label>
+    </div>
+    
+    <f:comment><!-- kostenstelle --></f:comment>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" style="width: 210px">
+                <b><f:translate key="tx_staffm_domain_model_mitarbeiter.kostenstelle"/></b>&nbsp;*
+            </span>
+        </div>
+        <label id="kostenstelle" class="form-control">{userEdit.kostenstelle.bezeichnung}</label>
+    </div>
+    
+    <f:comment><!-- Kostenstelle für Anträge --></f:comment>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" style="width: 210px">
+                <b><f:translate key="tx_staffm_cost.center.apps"/></b>
+            </span>
+        </div>
+        <datalist id="costcenters">
+            <f:for each="{kostenstellen}" as="stelle">
+                <option value="{stelle.bezeichnung}">
+            </f:for>
+        </datalist>
+        <input list="costcenters" id="kostenstelleApps" class="form-control" value="{userEdit.appCostCenter.bezeichnung}">
+        <div class="input-group-prepend input-group-append">
+            <span class="input-group-text" style="width: 150px">
+                <b><f:translate key="tx_staffm_cost.center.expiry"/></b>
+            </span>
+        </div>
+        <input id="validTo" class="form-control" style="background-color: white;" onclick="showCalendar();return false" value="{f:format.date(date: '{userEdit.expiryDate}', format: 'd.m.yy')}" readonly>
+    </div>
+    
+    <f:comment><!-- e-mail --></f:comment>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" style="width: 210px">
+                <b><f:translate key="tx_staffm_domain_model_mitarbeiter.email"/></b>
+            </span>
+        </div>
+        <input type="text" class="form-control" id="email" value="{userEdit.email}"/>
+    </div>
+    
+    <f:comment><!-- title --></f:comment>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" style="width: 210px">
+                <b><f:translate key="tx_staffm_domain_model_mitarbeiter.title"/></b>
+            </span>
+        </div>
+        <input type="text" class="form-control" id="title" value="{userEdit.title}"/>
+    </div>
+    
+    <f:comment><!-- position --></f:comment>
+    <f:form.hidden value="{userEdit.position}"/>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" style="width: 210px">
+                <b><f:translate key="tx_staffm_domain_model_mitarbeiter.position"/></b>
+            </span>
+        </div>
+        <datalist id="positionen">
+            <f:for each="{positionen}" as="pos">
+                <option value="{pos.bezeichnung}">
+            </f:for>
+        </datalist>
+        <input list="positionen" type="text" class="form-control" id="position" value="{userEdit.position.bezeichnung}"/>
+    </div>
+    
+    <f:comment><!-- firma --></f:comment>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" style="width: 210px">
+                <b><f:translate key="tx_staffm_domain_model_mitarbeiter.firma"/></b>
+            </span>
+        </div>
+        <label type="text" class="form-control" id="firma">{userEdit.firma.bezeichnung}</label>
+    </div>
+    
+    <div class=text-right><font size="2">* &nbsp; <f:translate key="tx_staffm_required.fields"/></font></div>
+    <f:link.action class="btn btn-success" onclick="saveEditedUser('{userEdit.uid}');return false"><f:translate key="staffm.save"/></f:link.action>
+</f:section>

@@ -166,7 +166,21 @@ class Mitarbeiter extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      * @var bool 
      */
     protected $present = true;
+    
+    /**
+     * The cost center to send the apps if not the the normal center.
+     * 
+     * @var \Pmwebdesign\Staffm\Domain\Model\Kostenstelle
+     */
+    protected $appCostCenter = null;
 
+    /**
+     * The expiry date of the appCostCenter.
+     * 
+     * @var \DateTime
+     */
+    protected $expiryDate = null;
+    
     /**
      * objectManager
      * Required for picture upload
@@ -505,4 +519,68 @@ class Mitarbeiter extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
         $userService = GeneralUtility::makeInstance(UserService::class);
         return $userService->isCostCenterResponsible($this);
     }    
+    
+    /**
+     * Setter for appCostCenter
+     * 
+     * @param Kostenstelle $appCostCenter
+     */
+    public function setAppCostCenter($appCostCenter) 
+    {
+        $this->appCostCenter = $appCostCenter;
+    }
+    
+    /**
+     * Getter for appCostCenter
+     * 
+     * @return Kostenstelle
+     */
+    public function getAppCostCenter()
+    {
+        return $this->appCostCenter;
+    }
+    
+    /**
+     * Setter for expiryDate
+     * 
+     * @param \DateTime $expiryDate
+     */
+    public function setExpiryDate($expiryDate)
+    {
+        $this->expiryDate = $expiryDate;
+    }
+    
+    /**
+     * Getter for expiryDate
+     * 
+     * @return \DateTime
+     */
+    public function getExpiryDate()
+    {
+        return $this->expiryDate;
+    }
+    
+    /**
+     * Removes the cost center for apps.
+     */
+    public function removeAppCostCenter()
+    {
+        $this->appCostCenter = null;
+    }
+    
+    /**
+     * Removes the expiry date.
+     */
+    public function removeExpiryDate()
+    {
+        $this->expiryDate = null;
+    }
+    
+    /**
+     * Removes the position.
+     */
+    public function removePosition()
+    {
+        $this->position = null;
+    }
 }

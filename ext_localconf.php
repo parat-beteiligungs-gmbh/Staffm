@@ -69,6 +69,17 @@ if (!defined('TYPO3_MODE')) {
         ]
 );
 
+TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+        'Pmwebdesign.' . $_EXTKEY,
+        'Createuser',
+        [
+            'Mitarbeiter' => 'listCreate, editCreate, saveUserData, listCreated, removeUsername, assignNewMail, removeMail, assignNewPassword, createNewUser, getAllCostCenters, getAllPositions, getAllCompanies, createUser, editCreated, updateCreatedUser, listAllUser, updateAppCostCenter'
+        ],
+        [
+            'Mitarbeiter' => 'listCreate, editCreate, saveUserData, listCreated, removeUsername, assignNewMail, removeMail, assignNewPassword, createNewUser, getAllCostCenters, getAllPositions, getAllCompanies, createUser, editCreated, updateCreatedUser, listAllUser, updateAppCostCenter'
+        ]
+);
+
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerTypeConverter('Pmwebdesign\\Staffm\\Property\\TypeConverter\\UploadedFileReferenceConverter');
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerTypeConverter('Pmwebdesign\\Staffm\\Property\\TypeConverter\\ObjectStorageConverter');
 
@@ -84,6 +95,13 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Pmwebdesign\Sta
     'extension' => $_EXTKEY,
     'title' => 'Set employee classes',
     'description' => 'Check superiors and so on and set the class to the employees',
+];
+
+// Task for synchronize the created user with a ad acc
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Pmwebdesign\Staffm\Task\SyncCreatedUserAd'] = [
+    'extension' => $_EXTKEY,
+    'title' => 'Sync created user with AD',
+    'description' => 'Check if the created user has an ad acc, if yes, sync data with it.',
 ];
 
 /**

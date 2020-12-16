@@ -125,4 +125,16 @@ class KostenstelleRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         return $query->execute();
     }
 
+    /**
+     * Returns the cost center with the given bezeichnung
+     * 
+     * @param string $bezeichnung
+     * @return \Pmwebdesign\Staffm\Domain\Model\Kostenstelle
+     */
+    public function findByBezeichnung($bezeichnung) 
+    {
+        $query = $this->createQuery();
+        $query->matching($query->equals('bezeichnung', $bezeichnung));
+        return $query->execute()[0];
+    }
 }

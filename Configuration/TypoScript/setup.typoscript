@@ -86,7 +86,24 @@ page {
         staffmjs = EXT:staffm/Resources/Public/js/staffm.js
 #        jquery1 = EXT:staffm/Resources/Public/js/jquery-1.12.4.js -> Error on load
         jquery2 = EXT:staffm/Resources/Public/js/jquery-ui.js
+        ajax = EXT:staffm/Resources/Public/js/ajax.js
     }
+}
+
+staffm_create_page < page
+staffm_create_page {
+    typeNum = 587463
+
+    config {
+        disableAllHeaderCode = 1
+        additionalHeaders = Content-type:application/html
+        xhtml_cleaning = 0
+        debug = 0
+        no_cache = 1
+        admPanel = 0
+    }
+
+    10 < tt_content.list.20.staffm_createuser
 }
 
 # Prototype for Ajax-Calls # TODO: Erklärung

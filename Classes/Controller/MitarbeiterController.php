@@ -1126,4 +1126,376 @@ class MitarbeiterController extends ActionController
         /* Caching Framework */
         $this->cache = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->getCache('staffm_mycache');
     }
+    
+    /**
+     * Lists all fe users who have no username.
+     */
+    public function listCreateAction() 
+    {
+        $allUsers = $this->mitarbeiterRepository->findAll();
+        $userWithoutUsername = new ObjectStorage();
+        foreach($allUsers as $user) {
+            if($user->getUsername() == '') {
+                $userWithoutUsername->attach($user);
+            }
+        }
+        $this->view->assign('users', $userWithoutUsername);
+    }
+    
+    /**
+     * Shows a user wwith his username and password.
+     */
+    public function editCreateAction()
+    {
+        $userUid = $this->request->getArgument('userUid');
+        $user = $this->mitarbeiterRepository->findByUid($userUid);
+        
+        $username = $user->getPersonalnummer() . substr($user->getFirstName(), 0, 2) . substr($user->getLastName(), 0, 2);
+        $password = bin2hex(random_bytes(3));
+        
+        $allKostenstellen = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\KostenstelleRepository::class)->findAll();
+        
+        $this->view->assign('username', $username);
+        $this->view->assign('password', $password);
+        $this->view->assign('userCreate', $user);
+        $this->view->assign('kostenstellen', $allKostenstellen);
+    }
+    
+    /**
+     * Saves the the new data of the user.
+     */
+    public function saveUserDataAction()
+    {
+        $userUid = $this->request->getArgument('userUid');
+        $user = $this->mitarbeiterRepository->findByUid($userUid);
+        
+        if($this->request->getArgument('mail') != '') {
+            $user->setEmail($this->request->getArgument('mail'));
+        }
+        if($this->request->getArgument('kostenstelleApps') != '') {
+            $appCostCenter = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\KostenstelleRepository::class)->findByBezeichnung($this->request->getArgument('kostenstelleApps'));
+            $user->setAppCostCenter($appCostCenter);
+            $user->setExpiryDate(new \DateTime($this->request->getArgument('dateExpiry')));
+        }
+        if($this->request->getArgument('title') != '') {
+            $user->setTitle($this->request->getArgument('title'));
+        }
+        if($this->request->getArgument('position') != '') {
+            $position = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\PositionRepository::class)->findSearchForm($this->request->getArgument('position'), 1)[0];
+            $user->setPosition($position);
+        }
+        $user->setUsername($this->request->getArgument('username'));
+        $user->setName($user->getLastName() . ' ' . $user->getFirstName());
+        $password = $this->request->getArgument('password');
+        $hashInstance = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory::class)->getDefaultHashInstance('FE');
+        $hashedPassword = $hashInstance->getHashedPassword($password);
+        $user->setPassword($hashedPassword);
+        $userGroups = new ObjectStorage();
+        $userGroups->attach($this->objectManager->get(\TYPO3\CMS\Extbase\Domain\Repository\FrontendUserGroupRepository::class)->findByUid(1));
+        $user->setUsergroup($userGroups);
+        
+        $this->mitarbeiterRepository->update($user);
+        
+        $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class)->persistAll();
+        
+        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_staffm_saved.data', 'staffm'));
+        
+        $this->forward('listCreated');
+    }
+    
+    /**
+     * List all created users.
+     */
+    public function listCreatedAction()
+    {
+        $allUsers = $this->mitarbeiterRepository->findAll();
+        
+        $createdUsers = new ObjectStorage();
+        foreach($allUsers as $user) {
+            $createdUsername = $user->getPersonalnummer() . substr($user->getFirstName(), 0, 2) . substr($user->getLastName(), 0, 2);
+            $username = $user->getUsername();
+            if($createdUsername == $username) {
+                $createdUsers->attach($user);
+            }
+        }
+        
+        $this->view->assign('createdUsers', $createdUsers);
+    }
+    
+    /**
+     * Removes the username, password and usergroups of a user.
+     */
+    public function removeUsernameAction()
+    {
+        $user = $this->mitarbeiterRepository->findByUid($this->request->getArgument('userUid'));
+        $user->setUsername('');
+        $user->setPassword('');
+        $user->setName('');
+        $user->setUsergroup(new ObjectStorage());
+        
+        $this->mitarbeiterRepository->update($user);
+        
+        $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class)->persistAll();
+        
+        $this->forward('listCreated');
+    }
+    
+    /**
+     * Assigns the user the new mail address.
+     */
+    public function assignNewMailAction()
+    {
+        $user = $this->mitarbeiterRepository->findByUid($this->request->getArgument('userUid'));
+        $mail = $this->request->getArgument('mail');
+        $user->setEmail($mail);
+        $this->mitarbeiterRepository->update($user);
+        $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class)->persistAll();
+        
+        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_staffm_new.mail.assigned', 'staffm'));
+        
+        $this->forward('listCreated');
+    }
+    
+    /**
+     * Removes the mail address of the user.
+     */
+    public function removeMailAction()
+    {
+        $user = $this->mitarbeiterRepository->findByUid($this->request->getArgument('userUid'));
+        $user->setEmail('');
+        $this->mitarbeiterRepository->update($user);
+        $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class)->persistAll();
+        
+        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_staffm_removed.mail', 'staffm'));
+        
+        $this->forward('listCreated');
+    }
+    
+    /**
+     * Sets the new password of the user.
+     */
+    public function assignNewPasswordAction()
+    {
+        $user = $this->mitarbeiterRepository->findByUid($this->request->getArgument('userUid'));
+        
+        $password = $this->request->getArgument('password');
+        $hashInstance = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory::class)->getDefaultHashInstance('FE');
+        $hashedPassword = $hashInstance->getHashedPassword($password);
+        
+        $user->setPassword($hashedPassword);
+        
+        $this->mitarbeiterRepository->update($user);
+        $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class)->persistAll();
+        
+        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_staffm_new.password.assigned', 'staffm'));
+        $this->forward('listCreated');
+    }
+    
+    /**
+     * Form to create a new user.
+     */
+    public function createNewUserAction()
+    {
+        $kostenstellen = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\KostenstelleRepository::class)->findAll();
+        $this->view->assign('kostenstellen', $kostenstellen);
+        
+        $password = bin2hex(random_bytes(3));
+        $this->view->assign('password', $password);
+        
+        $positionen = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\PositionRepository::class)->findAll();
+        $this->view->assign('positionen', $positionen);
+        
+        $firmen = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\FirmaRepository::class)->findAll();
+        $this->view->assign('firmen', $firmen);
+    }
+    
+    /**
+     * Returns all cost centers as string.
+     * @return string
+     */
+    public function getAllCostCentersAction()
+    {
+        $allCostCenters = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\KostenstelleRepository::class)->findAll();
+        $costCenters = '';
+        foreach($allCostCenters as $center) {
+           $costCenters .= $center->getBezeichnung() . ',';
+        }
+        return $costCenters;
+    }
+    
+    /**
+     * Returns all positions as string.
+     * @return string
+     */
+    public function getAllPositionsAction()
+    {
+        $allPositions = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\PositionRepository::class)->findAll();
+        $positions = '';
+        foreach($allPositions as $pos) {
+           $positions .= $pos->getBezeichnung() . ',';
+        }
+        return $positions;
+    }
+    
+    /**
+     * Returns all companies as string.
+     * @return string
+     */
+    public function getAllCompaniesAction()
+    {
+        $allCompanies = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\FirmaRepository::class)->findAll();
+        $companies = '';
+        foreach($allCompanies as $com) {
+           $companies .= $com->getBezeichnung() . ',';
+        }
+        return $companies;
+    }
+    
+    /**
+     * Creates a new user with the given params.
+     */
+    public function createUserAction() {
+        $username = $this->request->getArgument('username');
+        $password = $this->request->getArgument('password');
+        $firstName = $this->request->getArgument('firstName');
+        $lastName = $this->request->getArgument('lastName');
+        $pnr = $this->request->getArgument('pnr');
+        $kostenstelle = $this->request->getArgument('kostenstelle');
+        $kostenstelleApps = $this->request->getArgument('kostenstelleApps');
+        $dateExpiry = $this->request->getArgument('dateExpiry');
+        $title = $this->request->getArgument('title');
+        $position = $this->request->getArgument('position');
+        $firma = $this->request->getArgument('firma');
+        $mail = $this->request->getArgument('mail');
+        
+        $user = new Mitarbeiter();
+        $user->setUsername($username);
+        $hashInstance = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory::class)->getDefaultHashInstance('FE');
+        $hashedPassword = $hashInstance->getHashedPassword($password);
+        $user->setPassword($hashedPassword);
+        $user->setFirstName($firstName);
+        $user->setLastName($lastName);
+        $user->setPersonalnummer($pnr);
+        $kostenstelleRep = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\KostenstelleRepository::class);
+        $costCenter = $kostenstelleRep->findByBezeichnung($kostenstelle);
+        $user->setKostenstelle($costCenter);
+        if($kostenstelleApps != '') {
+            $appCostCenter = $kostenstelleRep->findByBezeichnung($kostenstelleApps);
+            $user->setAppCostCenter($appCostCenter);
+            $user->setExpiryDate(new \DateTime($dateExpiry));
+        }
+        if($title != '') {
+            $user->setTitle($title);
+        }
+        if($position != '') {
+            $positionRep = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\PositionRepository::class);
+            $positionO = $positionRep->findSearchForm($position, 1)[0];
+            $user->setPosition($positionO);
+        }
+        if($firma != '') {
+            $firmaRep = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\FirmaRepository::class);
+            $firmaO = $firmaRep->findSearchForm($firma, 1)[0];
+            $user->setFirma($firmaO);
+        }
+        if($mail != '') {
+            $user->setEmail($mail);
+        }
+        $user->setName($lastName . ' '. $firstName);
+        
+        $userGroups = new ObjectStorage();
+        $userGroups->attach($this->objectManager->get(\TYPO3\CMS\Extbase\Domain\Repository\FrontendUserGroupRepository::class)->findByUid(1));
+        $user->setUsergroup($userGroups);
+        
+        $this->mitarbeiterRepository->add($user);
+        
+        // first persist then the extbase_type can be set
+        $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class)->persistAll();
+        $this->mitarbeiterRepository->updateExtbaseType($user, 0);
+        
+        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_staffm_new.user.successful', 'staffm'));
+        
+        $this->forward('listCreated');
+    }
+    
+    public function editCreatedAction() 
+    {
+        $user = $this->mitarbeiterRepository->findByUid($this->request->getArgument('userUid'));
+        $this->view->assign('userEdit', $user);
+        
+        $positionen = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\PositionRepository::class)->findAll();
+        $this->view->assign('positionen', $positionen);
+        
+        $kostenstellen = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\KostenstelleRepository::class)->findAll();
+        $this->view->assign('kostenstellen', $kostenstellen);
+    }
+    
+    public function updateCreatedUserAction()
+    {
+        $user = $this->mitarbeiterRepository->findByUid($this->request->getArgument('userUid'));
+        
+        $appCostCenter = $this->request->getArgument('kostenstelleApps');
+        $dateExpiry = $this->request->getArgument('dateExpiry');
+        $title = $this->request->getArgument('title');
+        $position = $this->request->getArgument('position');
+        $mail = $this->request->getArgument('mail');
+        
+        if($appCostCenter != '') {
+            $kostenstelleRep = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\KostenstelleRepository::class);
+            $center = $kostenstelleRep->findByBezeichnung($appCostCenter);
+            $user->setAppCostCenter($center);
+            $user->setExpiryDate(new \DateTime($dateExpiry));
+        } else {
+            $user->removeAppCostCenter();
+            $user->removeExpiryDate();
+        }
+        $user->setTitle($title);
+        if($position != '') {
+            $positionRep = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\PositionRepository::class);
+            $positionObject = $positionRep->findSearchForm($position, 1)[0];
+            $user->setPosition($positionObject);
+        } else {
+            $user->removePosition();
+        }
+        $user->setEmail($mail);
+        
+        $this->mitarbeiterRepository->update($user);
+        $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class)->persistAll();
+        
+        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_staffm_saved.data', 'staffm'));
+        
+        $this->forward('listCreated');
+    }
+    
+    public function listAllUserAction()
+    {
+        $allUsers = $this->mitarbeiterRepository->findAll();
+        $this->view->assign('allUsers', $allUsers);
+        
+        $costcenters = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\KostenstelleRepository::class)->findAll();
+        $this->view->assign('costcenters', $costcenters);
+    }
+    
+    public function updateAppCostCenterAction()
+    {
+        $user = $this->mitarbeiterRepository->findByUid($this->request->getArgument('userUid'));
+        $appCostCenterString = $this->request->getArgument('appCostCenter');
+        $expiryDateString = $this->request->getArgument('expiryDate');
+        
+        if($appCostCenterString == '') {
+            $user->removeAppCostCenter();
+            $user->removeExpiryDate();
+        } else {
+            $kostenstelle = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\KostenstelleRepository::class)->findByBezeichnung($appCostCenterString);
+            $expiryDate = new \DateTime($expiryDateString);
+            $user->setAppCostCenter($kostenstelle);
+            $user->setExpiryDate($expiryDate);
+        }
+        $this->mitarbeiterRepository->update($user);
+        
+        $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class)->persistAll();
+        
+        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_staffm_cost.center.assigned', 'staffm'));
+        
+        $this->forward('listAllUser');
+    }
 }
