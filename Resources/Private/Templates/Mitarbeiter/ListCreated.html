@@ -54,9 +54,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <td>{user.kostenstelle.bezeichnung}</td>
                 <td>
                     <div class='btn-group'>
-                        <button class="btn btn-dark btn-sm" onclick="loadSiteWithUserUid('{user.uid}', 'editCreated', 'Mitarbeiter');return false"><f:translate key="staffm.edit"/></button>
+                        <button class="btn btn-secondary btn-sm" onclick="loadSiteWithUserUid('{user.uid}', 'editCreated', 'Mitarbeiter');return false"><f:translate key="staffm.edit"/></button>
                         <div class="dropdown btn-group">
-                            <button class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <button class="btn btn-sm btn-default dropdown-toggle dropdown-toggle-split" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <button class="dropdown-item" data-toggle="modal" data-target="#removeUsername{user.uid}"><f:translate key="tx_staffm_remove.username"/></button>
                                 <button class="dropdown-item" onclick="randomString(6, '{user.uid}');return false" data-toggle="modal" data-target="#changePassword{user.uid}"><f:translate key="tx_staffm_change.password"/></button>

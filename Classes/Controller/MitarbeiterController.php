@@ -1318,7 +1318,7 @@ class MitarbeiterController extends ActionController
         $allCostCenters = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\KostenstelleRepository::class)->findAll();
         $costCenters = '';
         foreach($allCostCenters as $center) {
-           $costCenters .= $center->getBezeichnung() . ',';
+           $costCenters .= $center->getNummer() . ' ' . $center->getBezeichnung() . ',';
         }
         return $costCenters;
     }
@@ -1377,10 +1377,12 @@ class MitarbeiterController extends ActionController
         $user->setLastName($lastName);
         $user->setPersonalnummer($pnr);
         $kostenstelleRep = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\KostenstelleRepository::class);
-        $costCenter = $kostenstelleRep->findByBezeichnung($kostenstelle);
+        $costNumber = substr($kostenstelle, 0, 4);
+        $costCenter = $kostenstelleRep->findByNummer($costNumber);
         $user->setKostenstelle($costCenter);
         if($kostenstelleApps != '') {
-            $appCostCenter = $kostenstelleRep->findByBezeichnung($kostenstelleApps);
+            $appNumber = substr($kostenstelleApps, 0, 4);
+            $appCostCenter = $kostenstelleRep->findByNummer($appNumber);
             $user->setAppCostCenter($appCostCenter);
             $user->setExpiryDate(new \DateTime($dateExpiry));
         }
@@ -1441,7 +1443,8 @@ class MitarbeiterController extends ActionController
         
         if($appCostCenter != '') {
             $kostenstelleRep = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\KostenstelleRepository::class);
-            $center = $kostenstelleRep->findByBezeichnung($appCostCenter);
+            $centerNumber = substr($appCostCenter, 0, 4);
+            $center = $kostenstelleRep->findByNummer($centerNumber);
             $user->setAppCostCenter($center);
             $user->setExpiryDate(new \DateTime($dateExpiry));
         } else {
@@ -1485,7 +1488,8 @@ class MitarbeiterController extends ActionController
             $user->removeAppCostCenter();
             $user->removeExpiryDate();
         } else {
-            $kostenstelle = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\KostenstelleRepository::class)->findByBezeichnung($appCostCenterString);
+            $nummer = substr($appCostCenterString, 0, 4);
+            $kostenstelle = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\KostenstelleRepository::class)->findByNummer($nummer);
             $expiryDate = new \DateTime($expiryDateString);
             $user->setAppCostCenter($kostenstelle);
             $user->setExpiryDate($expiryDate);

@@ -96,7 +96,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" style="width: 250px"><b><f:translate key="tx_staffm_domain_model_mitarbeiter.kostenstelle"/></b></span>
                                 </div>
-                                <label class="form-control">{userL.kostenstelle.bezeichnung}</label>
+                                <label class="form-control">{userL.kostenstelle.nummer} {userL.kostenstelle.bezeichnung}</label>
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
@@ -104,7 +104,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 </div>
                                 <f:if condition="{userL.appCostCenter}">
                                     <f:then>
-                                        <label class="form-control">{userL.appCostCenter.bezeichnung}</label>
+                                        <label class="form-control">{userL.appCostCenter.nummer} {userL.appCostCenter.bezeichnung}</label>
                                         <div class="input-group-prepend input-group-append">
                                             <span class="input-group-text" style="width: 100px"><b><f:translate key="tx_staffm_cost.center.expiry"/></b></span>
                                         </div>
@@ -121,7 +121,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 </div>
                                 <datalist id="costcenters">
                                     <f:for each="{costcenters}" as="center">
-                                        <option value="{center.bezeichnung}">
+                                        <option value="{center.nummer} {center.bezeichnung}">
                                     </f:for>
                                 </datalist>
                                 <input list="costcenters" class="form-control" id="appCostCenterValue{userL.uid}">

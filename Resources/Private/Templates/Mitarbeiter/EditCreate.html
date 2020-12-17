@@ -114,7 +114,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <b><f:translate key="tx_staffm_domain_model_mitarbeiter.kostenstelle"/></b>&nbsp;*
             </span>
         </div>
-        <label id="kostenstelle" class="form-control">{userCreate.kostenstelle.bezeichnung}</label>
+        <label id="kostenstelle" class="form-control">{userCreate.kostenstelle.nummer} {userCreate.kostenstelle.bezeichnung}</label>
     </div>
     
     <f:comment><!-- Kostenstelle für Anträge --></f:comment>
@@ -126,7 +126,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
         <datalist id="costcenters">
             <f:for each="{kostenstellen}" as="stelle">
-                <option value="{stelle.bezeichnung}">
+                <option value="{stelle.nummer} {stelle.bezeichnung}">
             </f:for>
         </datalist>
         <input list="costcenters" id="kostenstelleApps" class="form-control">

@@ -116,7 +116,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
         <datalist id="costcenters">
             <f:for each="{kostenstellen}" as="stelle">
-                <option value="{stelle.bezeichnung}">
+                <option value="{stelle.nummer} {stelle.bezeichnung}">
             </f:for>
         </datalist>
         <input list="costcenters" id="kostenstelle" class="form-control">
@@ -129,12 +129,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <b><f:translate key="tx_staffm_cost.center.apps"/></b>
             </span>
         </div>
-        <datalist id="costcenters">
+        <datalist id="costcentersApps">
             <f:for each="{kostenstellen}" as="stelle">
-                <option value="{stelle.bezeichnung}">
+                <option value="{stelle.nummer} {stelle.bezeichnung}">
             </f:for>
         </datalist>
-        <input list="costcenters" id="kostenstelleApps" class="form-control">
+        <input list="costcentersApps" id="kostenstelleApps" class="form-control">
         <div class="input-group-prepend input-group-append">
             <span class="input-group-text" style="width: 150px">
                 <b><f:translate key="tx_staffm_cost.center.expiry"/></b>

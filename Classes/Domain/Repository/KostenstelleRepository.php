@@ -137,4 +137,17 @@ class KostenstelleRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $query->matching($query->equals('bezeichnung', $bezeichnung));
         return $query->execute()[0];
     }
+    
+    /**
+     * Returns the cost center with the given number.
+     * 
+     * @param type $nummer
+     * @return \Pmwebdesign\Staffm\Domain\Model\Kostenstelle
+     */
+    public function findByNummer($nummer)
+    {
+        $query = $this->createQuery();
+        $query->matching($query->equals('nummer', $nummer));
+        return $query->execute()[0];
+    }
 }
