@@ -180,3 +180,7 @@ function showCalendarInModal(userUid) {
     ).datepicker("show").attr('readonly', 'readonly');
     
 }
+
+function disableClickedButton(clickedId) {
+    document.getElementById(clickedId).disabled = true;
+}

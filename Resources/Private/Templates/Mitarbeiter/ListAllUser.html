@@ -134,7 +134,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <div class="modal-footer">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><f:translate key="staffm.back"/></button>
-                                <button type="button" class="btn btn-success" onclick="updateAppCostCenter('{userL.uid}');return false"><f:translate key="staffm.save"/></button>
+                                <button id="updateAppCostCenter{userL.uid}" type="button" class="btn btn-success" onclick="disableClickedButton(this.id);updateAppCostCenter('{userL.uid}');return false"><f:translate key="staffm.save"/></button>
                             </div>
                         </div>
                     </div>

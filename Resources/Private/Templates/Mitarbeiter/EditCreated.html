@@ -167,5 +167,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
     
     <div class=text-right><font size="2">* &nbsp; <f:translate key="tx_staffm_required.fields"/></font></div>
-    <f:link.action class="btn btn-success" onclick="saveEditedUser('{userEdit.uid}');return false"><f:translate key="staffm.save"/></f:link.action>
+    <button id="saveEditedUser" class="btn btn-success" onclick="disableClickedButton(this.id);saveEditedUser('{userEdit.uid}');return false"><f:translate key="staffm.save"/></button>
 </f:section>

@@ -312,6 +312,7 @@ function saveNewUser() {
         document.getElementById('alertDanger').innerHTML = document.getElementById('required').value;
         document.getElementById('alertDanger').setAttribute("style", "display:block;");
         document.getElementById("ladebild").setAttribute("style", "display:none;margin-left:auto;margin-right:auto;opacity: 1; ");
+        document.getElementById("saveNewUser").disabled = false;
         return;
     }
     // validate pnr
@@ -319,6 +320,7 @@ function saveNewUser() {
         document.getElementById('alertDanger').innerHTML = document.getElementById('fourDigit').value;
         document.getElementById('alertDanger').setAttribute("style", "display:block;");
         document.getElementById("ladebild").setAttribute("style", "display:none;margin-left:auto;margin-right:auto;opacity: 1; ");
+        document.getElementById("saveNewUser").disabled = false;
         return;
     }
     // validate cost center
@@ -336,12 +338,14 @@ function saveNewUser() {
                 document.getElementById('alertDanger').innerHTML = document.getElementById('costMessage').value;
                 document.getElementById('alertDanger').setAttribute("style", "display:block;");
                 document.getElementById("ladebild").setAttribute("style", "display:none;margin-left:auto;margin-right:auto;opacity: 1; ");
+                document.getElementById("saveNewUser").disabled = false;
                 return;
             }
             if(kostenstelleApps != '' && !allCostCenters.includes(kostenstelleApps)) {
                 document.getElementById('alertDanger').innerHTML = document.getElementById('costAppsMessage').value;
                 document.getElementById('alertDanger').setAttribute("style", "display:block;");
                 document.getElementById("ladebild").setAttribute("style", "display:none;margin-left:auto;margin-right:auto;opacity: 1; ");
+                document.getElementById("saveNewUser").disabled = false;
                 return;
             }
             // validate date of expiry
@@ -349,6 +353,7 @@ function saveNewUser() {
                 document.getElementById('alertDanger').innerHTML = document.getElementById('dateExpiryMessage').value;
                 document.getElementById('alertDanger').setAttribute("style", "display:block;");
                 document.getElementById("ladebild").setAttribute("style", "display:none;margin-left:auto;margin-right:auto;opacity: 1; ");
+                document.getElementById("saveNewUser").disabled = false;
                 return;
             } else {
                 var today = new Date();
@@ -360,6 +365,7 @@ function saveNewUser() {
                     document.getElementById('alertDanger').innerHTML = document.getElementById('dateExpiryMessage2').value;
                     document.getElementById('alertDanger').setAttribute("style", "display:block;");
                     document.getElementById("ladebild").setAttribute("style", "display:none;margin-left:auto;margin-right:auto;opacity: 1; ");
+                    document.getElementById("saveNewUser").disabled = false;
                     return;
                 }
             }
@@ -378,6 +384,7 @@ function saveNewUser() {
                         document.getElementById('alertDanger').innerHTML = document.getElementById('positionMessage').value;
                         document.getElementById('alertDanger').setAttribute("style", "display:block;");
                         document.getElementById("ladebild").setAttribute("style", "display:none;margin-left:auto;margin-right:auto;opacity: 1; ");
+                        document.getElementById("saveNewUser").disabled = false;
                         return;
                     }
                     // validate firma
@@ -395,6 +402,7 @@ function saveNewUser() {
                                 document.getElementById('alertDanger').innerHTML = document.getElementById('companyMessage').value;
                                 document.getElementById('alertDanger').setAttribute("style", "display:block;");
                                 document.getElementById("ladebild").setAttribute("style", "display:none;margin-left:auto;margin-right:auto;opacity: 1; ");
+                                document.getElementById("saveNewUser").disabled = false;
                                 return;
                             }
                             // validate email
@@ -404,6 +412,7 @@ function saveNewUser() {
                                 document.getElementById('alertDanger').innerHTML = document.getElementById('mailMessage').value;
                                 document.getElementById('alertDanger').setAttribute("style", "display:block;");
                                 document.getElementById("ladebild").setAttribute("style", "display:none;margin-left:auto;margin-right:auto;opacity: 1; ");
+                                document.getElementById("saveNewUser").disabled = false;
                                 return;
                             }
 
@@ -491,6 +500,7 @@ function saveExistUser(userUid) {
                 document.getElementById('alertDanger').innerHTML = document.getElementById('costAppsMessage').value;
                 document.getElementById('alertDanger').setAttribute("style", "display:block;");
                 document.getElementById("ladebild").setAttribute("style", "display:none;margin-left:auto;margin-right:auto;opacity: 1; ");
+                document.getElementById("saveExistUser").disabled = false;
                 return;
             }
             // validate date of expiry
@@ -498,6 +508,7 @@ function saveExistUser(userUid) {
                 document.getElementById('alertDanger').innerHTML = document.getElementById('dateExpiryMessage').value;
                 document.getElementById('alertDanger').setAttribute("style", "display:block;");
                 document.getElementById("ladebild").setAttribute("style", "display:none;margin-left:auto;margin-right:auto;opacity: 1; ");
+                document.getElementById("saveExistUser").disabled = false;
                 return;
             } else {
                 var today = new Date();
@@ -509,6 +520,7 @@ function saveExistUser(userUid) {
                     document.getElementById('alertDanger').innerHTML = document.getElementById('dateExpiryMessage2').value;
                     document.getElementById('alertDanger').setAttribute("style", "display:block;");
                     document.getElementById("ladebild").setAttribute("style", "display:none;margin-left:auto;margin-right:auto;opacity: 1; ");
+                    document.getElementById("saveExistUser").disabled = false;
                     return;
                 }
             }
@@ -527,6 +539,7 @@ function saveExistUser(userUid) {
                         document.getElementById('alertDanger').innerHTML = document.getElementById('positionMessage').value;
                         document.getElementById('alertDanger').setAttribute("style", "display:block;");
                         document.getElementById("ladebild").setAttribute("style", "display:none;margin-left:auto;margin-right:auto;opacity: 1; ");
+                        document.getElementById("saveExistUser").disabled = false;
                         return;
                     }
                     // validate email
@@ -536,6 +549,7 @@ function saveExistUser(userUid) {
                         document.getElementById('alertDanger').innerHTML = document.getElementById('mailMessage').value;
                         document.getElementById('alertDanger').setAttribute("style", "display:block;");
                         document.getElementById("ladebild").setAttribute("style", "display:none;margin-left:auto;margin-right:auto;opacity: 1; ");
+                        document.getElementById("saveExistUser").disabled = false;
                         return;
                     }
                     // all data is correct
@@ -592,6 +606,7 @@ function saveEditedUser(userUid) {
     if(firstName == '' || lastName == '' || pnr == '' || kostenstelle == '') {
         document.getElementById('alertDanger').innerHTML = document.getElementById('required').value;
         document.getElementById('alertDanger').setAttribute("style", "display:block;")
+        document.getElementById("saveEditedUser").disabled = false;
         return;
     }
     // validate cost center
@@ -610,6 +625,7 @@ function saveEditedUser(userUid) {
                 document.getElementById('alertDanger').innerHTML = document.getElementById('costAppsMessage').value;
                 document.getElementById('alertDanger').setAttribute("style", "display:block;");
                 document.getElementById("ladebild").setAttribute("style", "display:none;margin-left:auto;margin-right:auto;opacity: 1; ");
+                document.getElementById("saveEditedUser").disabled = false;
                 return;
             }
             // validate date of expiry
@@ -617,6 +633,7 @@ function saveEditedUser(userUid) {
                 document.getElementById('alertDanger').innerHTML = document.getElementById('dateExpiryMessage').value;
                 document.getElementById('alertDanger').setAttribute("style", "display:block;");
                 document.getElementById("ladebild").setAttribute("style", "display:none;margin-left:auto;margin-right:auto;opacity: 1; ");
+                document.getElementById("saveEditedUser").disabled = false;
                 return;
             } else {
                 var today = new Date();
@@ -628,6 +645,7 @@ function saveEditedUser(userUid) {
                     document.getElementById('alertDanger').innerHTML = document.getElementById('dateExpiryMessage2').value;
                     document.getElementById('alertDanger').setAttribute("style", "display:block;");
                     document.getElementById("ladebild").setAttribute("style", "display:none;margin-left:auto;margin-right:auto;opacity: 1; ");
+                    document.getElementById("saveEditedUser").disabled = false;
                     return;
                 }
             }
@@ -646,6 +664,7 @@ function saveEditedUser(userUid) {
                         document.getElementById('alertDanger').innerHTML = document.getElementById('positionMessage').value;
                         document.getElementById('alertDanger').setAttribute("style", "display:block;");
                         document.getElementById("ladebild").setAttribute("style", "display:none;margin-left:auto;margin-right:auto;opacity: 1; ");
+                        document.getElementById("saveEditedUser").disabled = false;
                         return;
                     }
                     // validate email
@@ -655,6 +674,7 @@ function saveEditedUser(userUid) {
                         document.getElementById('alertDanger').innerHTML = document.getElementById('mailMessage').value;
                         document.getElementById('alertDanger').setAttribute("style", "display:block;");
                         document.getElementById("ladebild").setAttribute("style", "display:none;margin-left:auto;margin-right:auto;opacity: 1; ");
+                        document.getElementById("saveEditedUser").disabled = false;
                         return;
                     }
                     // all data is correct
@@ -714,6 +734,7 @@ function updateAppCostCenter(userUid) {
                 document.getElementById('exampleModalLabel' + userUid).innerHTML = document.getElementById('costAppsMessage').value;
                 document.getElementById('exampleModalLabel' + userUid).style.color = '#d00';
                 document.getElementById("ladebild").setAttribute("style", "display:none;margin-left:auto;margin-right:auto;opacity: 1; ");
+                document.getElementById("updateAppCostCenter" + userUid).disabled = false;
                 return;
             }
             // validate date of expiry
@@ -721,6 +742,7 @@ function updateAppCostCenter(userUid) {
                 document.getElementById('exampleModalLabel' + userUid).innerHTML = document.getElementById('dateExpiryMessage').value;
                 document.getElementById('exampleModalLabel' + userUid).style.color = '#d00';
                 document.getElementById("ladebild").setAttribute("style", "display:none;margin-left:auto;margin-right:auto;opacity: 1; ");
+                document.getElementById("updateAppCostCenter" + userUid).disabled = false;
                 return;
             } else {
                 var today = new Date();
@@ -732,6 +754,7 @@ function updateAppCostCenter(userUid) {
                     document.getElementById('exampleModalLabel' + userUid).innerHTML = document.getElementById('dateExpiryMessage2').value;
                     document.getElementById('exampleModalLabel' + userUid).style.color = '#d00';
                     document.getElementById("ladebild").setAttribute("style", "display:none;margin-left:auto;margin-right:auto;opacity: 1; ");
+                    document.getElementById("updateAppCostCenter" + userUid).disabled = false;
                     return;
                 }
             }
