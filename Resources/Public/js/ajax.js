@@ -271,7 +271,7 @@ function setUsername() {
     var beginLast = lastName.substring(0,2);
     
     var username = pnr + beginFirst + beginLast;
-    
+    username = username.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     document.getElementById('username').innerHTML = username;
 }
 
