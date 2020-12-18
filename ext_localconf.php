@@ -73,10 +73,10 @@ TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
         'Pmwebdesign.' . $_EXTKEY,
         'Createuser',
         [
-            'Mitarbeiter' => 'listCreate, editCreate, saveUserData, listCreated, removeUsername, assignNewMail, removeMail, assignNewPassword, createNewUser, getAllCostCenters, getAllPositions, getAllCompanies, createUser, editCreated, updateCreatedUser, listAllUser, updateAppCostCenter'
+            'Mitarbeiter' => 'listCreate, editCreate, saveUserData, listCreated, removeUsername, assignNewMail, removeMail, assignNewPassword, createNewUser, getAllCostCenters, getAllPositions, getAllCompanies, createUser, editCreated, updateCreatedUser, listAllUser, updateAppCostCenter, listAllUserModal'
         ],
         [
-            'Mitarbeiter' => 'listCreate, editCreate, saveUserData, listCreated, removeUsername, assignNewMail, removeMail, assignNewPassword, createNewUser, getAllCostCenters, getAllPositions, getAllCompanies, createUser, editCreated, updateCreatedUser, listAllUser, updateAppCostCenter'
+            'Mitarbeiter' => 'listCreate, editCreate, saveUserData, listCreated, removeUsername, assignNewMail, removeMail, assignNewPassword, createNewUser, getAllCostCenters, getAllPositions, getAllCompanies, createUser, editCreated, updateCreatedUser, listAllUser, updateAppCostCenter, listAllUserModal'
         ]
 );
 

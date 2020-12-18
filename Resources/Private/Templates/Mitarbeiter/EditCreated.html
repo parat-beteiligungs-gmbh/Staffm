@@ -111,6 +111,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <option value="{stelle.nummer} {stelle.bezeichnung}">
             </f:for>
         </datalist>
+        <f:form.hidden value="{userEdit.appCostCenter}"/>
         <input list="costcenters" id="kostenstelleApps" class="form-control" value="{userEdit.appCostCenter.nummer} {userEdit.appCostCenter.bezeichnung}">
         <div class="input-group-prepend input-group-append">
             <span class="input-group-text" style="width: 150px">

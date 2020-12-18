@@ -1288,9 +1288,12 @@ class MitarbeiterController extends ActionController
             $user->setEmail($this->request->getArgument('mail'));
         }
         if($this->request->getArgument('kostenstelleApps') != '') {
-            $appCostCenter = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\KostenstelleRepository::class)->findByBezeichnung($this->request->getArgument('kostenstelleApps'));
+            $number = substr($this->request->getArgument('kostenstelleApps'), 0, 4);
+            $appCostCenter = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\KostenstelleRepository::class)->findByNummer($number);
             $user->setAppCostCenter($appCostCenter);
-            $user->setExpiryDate(new \DateTime($this->request->getArgument('dateExpiry')));
+            $date = new \DateTime($this->request->getArgument('dateExpiry'));
+            $date->add(new \DateInterval('P1D'));
+            $user->setExpiryDate($date);
         }
         if($this->request->getArgument('title') != '') {
             $user->setTitle($this->request->getArgument('title'));
@@ -1327,7 +1330,9 @@ class MitarbeiterController extends ActionController
         
         $createdUsers = new ObjectStorage();
         foreach($allUsers as $user) {
-            $createdUsername = $user->getPersonalnummer() . substr($user->getFirstName(), 0, 2) . substr($user->getLastName(), 0, 2);
+            $firstName = $this->removeAccents($user->getFirstName());
+            $lastName = $this->removeAccents($user->getLastName());
+            $createdUsername = $user->getPersonalnummer() . substr($firstName, 0, 2) . substr($lastName, 0, 2);
             $username = $user->getUsername();
             if($createdUsername == $username) {
                 $createdUsers->attach($user);
@@ -1499,7 +1504,9 @@ class MitarbeiterController extends ActionController
             $appNumber = substr($kostenstelleApps, 0, 4);
             $appCostCenter = $kostenstelleRep->findByNummer($appNumber);
             $user->setAppCostCenter($appCostCenter);
-            $user->setExpiryDate(new \DateTime($dateExpiry));
+            $date = new \DateTime($dateExpiry);
+            $date->add(new \DateInterval('P1D'));
+            $user->setExpiryDate($date);
         }
         if($title != '') {
             $user->setTitle($title);
@@ -1561,7 +1568,9 @@ class MitarbeiterController extends ActionController
             $centerNumber = substr($appCostCenter, 0, 4);
             $center = $kostenstelleRep->findByNummer($centerNumber);
             $user->setAppCostCenter($center);
-            $user->setExpiryDate(new \DateTime($dateExpiry));
+            $date = new \DateTime($dateExpiry);
+            $date->add(new \DateInterval('P1D'));
+            $user->setExpiryDate($date);
         } else {
             $user->removeAppCostCenter();
             $user->removeExpiryDate();
@@ -1605,16 +1614,24 @@ class MitarbeiterController extends ActionController
         } else {
             $nummer = substr($appCostCenterString, 0, 4);
             $kostenstelle = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\KostenstelleRepository::class)->findByNummer($nummer);
-            $expiryDate = new \DateTime($expiryDateString);
             $user->setAppCostCenter($kostenstelle);
-            $user->setExpiryDate($expiryDate);
+            $date = new \DateTime($expiryDateString);
+            $date->add(new \DateInterval('P1D'));
+            $user->setExpiryDate($date);
         }
         $this->mitarbeiterRepository->update($user);
         
         $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class)->persistAll();
         
-        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_staffm_cost.center.assigned', 'staffm'));
+//        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_staffm_cost.center.assigned', 'staffm'));
         
-        $this->forward('listAllUser');
+//        $this->forward('listAllUser');
+        return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_staffm_cost.center.assigned', 'staffm');
+    }
+    
+    public function listAllUserModalAction() 
+    {
+        $user = $this->mitarbeiterRepository->findByUid($this->request->getArgument('userUid'));
+        $this->view->assign('userL', $user);
     }
 }

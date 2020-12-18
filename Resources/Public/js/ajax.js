@@ -777,7 +777,24 @@ function updateAppCostCenter(userUid) {
                 dataType: 'HTML',
                 cache: false,
                 success: function (result) {
-                    $("#ajaxPlace").html(result).fadeIn('fast');
+//                    $("#ajaxPlace").html(result).fadeIn('fast');
+                    document.getElementById('successAlert').innerHTML = result;
+                    document.getElementById('successAlert').setAttribute("style", "display:block;");
+                    document.getElementById("ladebild").setAttribute("style", "display:none;margin-left:auto;margin-right:auto;opacity: 1; ");
+                    var modalData = 'tx_staffm_createuser[userUid]=' + userUid + '&' + 'tx_staffm_createuser[action]=listAllUserModal&tx_staffm_createuser[controller]=Mitarbeiter&type=587463';
+                    $.ajax({
+                        url: window.location.href,
+                        type: "GET",
+                        data: modalData,
+                        dataType: 'HTML',
+                        cache: false,
+                        success: function (result) {
+                            document.getElementById("appCostCenter" + userUid).innerHTML = result;
+                        },
+                        error: function (jqXHR) {
+                            $("#ajaxPlace").html("Es ist ein Fehler aufgetreten. Siehe unten." + jqXHR.responseText).fadeIn('fast');
+                        }
+                    });
                 },
                 error: function (jqXHR) {
                     $("#ajaxPlace").html("Es ist ein Fehler aufgetreten. Siehe unten." + jqXHR.responseText).fadeIn('fast');
