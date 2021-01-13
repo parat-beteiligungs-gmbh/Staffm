@@ -22,6 +22,12 @@ plugin.tx_staffm {
 	}
 }
 
+page.10 {
+    partialRootPaths {
+        40 = EXT:staffm/Resources/Private/Partials/ext/pmbelayouts/Partials/           
+    }
+}
+
 plugin.tx_staffm._CSS_DEFAULT_STYLE (
 	textarea.f3-form-error {
 		background-color:#FF9F9F;
