@@ -13,8 +13,15 @@ plugin.tx_staffm {
 		storagePid =   
 
                 # cat=plugin.tx_staffm//a; type=string; label=No Superior UIDs
-		noSuperiorUids =              
+		noSuperiorUids =     
 	}
+        settings {
+                # cat=plugin.tx_staffm//a; type=string; label=page id profil
+                pageIdProfil = 
+
+                # cat=plugin.tx_staffm//a; type=string; label=page id mitarbeiter
+                pageIdMitarbeiter = 
+        }
 }
 
 // Backend-Module

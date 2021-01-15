@@ -29,20 +29,28 @@ class GetPageIdViewHelper  extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractVie
 {
     public function initializeArguments()
     {
-        $this->registerArgument('extension', 'string', '', true, null);
+        $this->registerArgument('extensionName', 'string', '', true, null);
+        $this->registerArgument('sectionName', 'string', '', true, null);
+        $this->registerArgument('constantName', 'string', '', true, null);
     }
     
     public function render() 
     {
-        $extension = $this->arguments['extension'];
+        /*
+         * extensionName is the extension key
+         * sectionName is the section where the constant is in the
+         *             constants.typoscript is defined
+         * constantName is the name of the constant
+         */
+        $extensionName = $this->arguments['extensionName'];
+        $sectionName = $this->arguments['sectionName'];
+        $constantName = $this->arguments['constantName'];
         
-        $file = file_get_contents("typo3conf/ext/pageIds.txt");
-        $sites = explode(";", $file);
-        for($i = 0; $i < count($sites); $i++) {
-            $entry = explode(":", $sites[$i]);
-            if($entry[0] == $extension) {
-                return $entry[1];
-            }
-        }
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
+        
+        $configurationManager = $objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\ConfigurationManager');
+        $config = $configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
+        $pageId = $config['plugin.']['tx_' . $extensionName . '.'][$sectionName . '.'][$constantName];
+        return $pageId;
     }
 }

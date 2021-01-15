@@ -9,6 +9,7 @@ plugin.tx_staffm {
 		storagePid = {$plugin.tx_staffm.persistence.storagePid}
                 # cat=plugin.tx_staffm//a; type=string; label=No Superior UIDs
 		noSuperiorUids = {$plugin.tx_staffm.persistence.noSuperiorUids}
+                
                 classes {                    
                     Pmwebdesign\Staffm\Domain\Model\Mitarbeiter.RecordStoragePid = 42
                     Pmwebdesign\Staffm\Domain\Model\Mitarbeiter.newRecordStoragePid = 42  
@@ -20,6 +21,10 @@ plugin.tx_staffm {
 		# uncomment the following line to enable the new Property Mapper.
 		# rewrittenPropertyMapper = 1
 	}
+        settings {
+                pageIdProfil = {$plugin.tx_staffm.persistence.pageIdProfil}
+                pageIdMitarbeiter = {$plugin.tx_staffm.persistence.pageIdMitarbeiter}
+        }
 }
 
 page.10 {
