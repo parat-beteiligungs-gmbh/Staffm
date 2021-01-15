@@ -22,8 +22,8 @@ plugin.tx_staffm {
 		# rewrittenPropertyMapper = 1
 	}
         settings {
-                pageIdProfil = {$plugin.tx_staffm.persistence.pageIdProfil}
-                pageIdMitarbeiter = {$plugin.tx_staffm.persistence.pageIdMitarbeiter}
+                pageIdProfil = {$plugin.tx_staffm.settings.pageIdProfil}
+                pageIdMitarbeiter = {$plugin.tx_staffm.settings.pageIdMitarbeiter}
         }
 }
 
