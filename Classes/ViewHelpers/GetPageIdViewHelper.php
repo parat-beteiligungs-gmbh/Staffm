@@ -37,7 +37,7 @@ class GetPageIdViewHelper  extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractVie
     public function render() 
     {
         /*
-         * extensionName is the extension key
+         * extensionName is the extension key  + perhaps _pluginName
          * sectionName is the section where the constant is in the
          *             constants.typoscript is defined
          * constantName is the name of the constant
