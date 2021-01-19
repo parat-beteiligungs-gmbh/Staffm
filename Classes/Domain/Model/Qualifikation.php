@@ -45,7 +45,7 @@ class Qualifikation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @var string 
      * @validate NotEmpty
-     * @validate String, StringLength(minimum = 5, maximum = 255)
+     * @validate String, StringLength(minimum = 5)
      */
     protected $beschreibung = '';
 
