@@ -1,6 +1,30 @@
 # Staffm Change Log
 
 
+# 3.4.0
+
+- Merge origin/master
+- [META] set version number to 3.4.0
+- [METADATA] Extend variable check.
+- [COMMENT] changed comment in GetPageIdViewHelper
+- [UPDATE] updated constant link
+- [UPDATE] added constant for pageId and viewhelper to read the constant
+- [UPDATE] override layout from pmbelayouts
+- [UPDATE] better performance and bugfixes
+- [UPDATE] create username without accents and vowel mutation
+- [UPDATE] search cost center with number, too
+- [UPDATE] disable buttons if clicked
+- [FEATURE] added plugin to add manually fe users
+- [RELEASE] Version 3.3.0 adopt task
+
+Dependent | Version
+-------- | ----------
+PHP | 7.0 - 7.4
+
+Reference | Version
+-------- | ----------
+IntraPentaUserSynch (Java) | 3.1.0 - 3.2.99
+
 ## 3.3.0
 
 - [META] Set version number to 3.3.0
