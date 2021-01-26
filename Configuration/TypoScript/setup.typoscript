@@ -27,10 +27,12 @@ plugin.tx_staffm {
         }
 }
 
-page.10 {
-    partialRootPaths {
-        40 = EXT:staffm/Resources/Private/Partials/ext/pmbelayouts/Partials/           
-    }
+plugin.tx_pmbelayouts_pmbelayouts {
+    view {
+        templateRootPaths {
+            40 = EXT:staffm/Resources/Private/Partials/ext/pmbelayouts/Templates/
+        }  
+    }     
 }
 
 plugin.tx_staffm._CSS_DEFAULT_STYLE (
@@ -138,4 +140,3 @@ plugin_staffmvorg {
     #10 < tt_content.list.20.staffm_staffmvorg
     10 < tt_content.list.20.staffm_staffm
 }
-
