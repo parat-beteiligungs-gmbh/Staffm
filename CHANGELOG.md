@@ -1,6 +1,21 @@
 # Staffm Change Log
 
 
+# 3.4.1
+
+- [META] set version number to 3.4.1
+- [UPDATE] update project manager -> assistent is PM too
+- [UPDATE] load logout form with ajax
+- [RELEASE] Version 3.4.0
+
+Dependent | Version
+-------- | ----------
+PHP | 7.0 - 7.4
+
+Reference | Version
+-------- | ----------
+IntraPentaUserSynch (Java) | 3.1.0 - 3.2.99
+
 # 3.4.0
 
 - Merge origin/master
