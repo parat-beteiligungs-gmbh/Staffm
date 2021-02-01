@@ -78,7 +78,7 @@ class SetEmployeeClasses extends \TYPO3\CMS\Scheduler\Task\AbstractTask
             } elseif ($employee instanceof \BmParat\Adjustmentsheet\Domain\Model\ApplicationEngineer) {
                 // No update -> Application Engineers are sets manually in extension adjustmentsheet
                 $update = false;
-            } elseif (strpos($employee->getTitle(), "Projektleiter") !== false || (strpos($employee->getTitle(), "Teamleiter") !== false && (strpos($employee->getTitle(), "LFI") !== false || strpos($employee->getTitle(), "RIM") !== false))) {
+            } elseif (strpos($employee->getTitle (), "Assistentin der Projektleitung Kunststofftechnik") !== false || strpos($employee->getTitle(), "Projektleiter") !== false || (strpos($employee->getTitle(), "Teamleiter") !== false && (strpos($employee->getTitle(), "LFI") !== false || strpos($employee->getTitle(), "RIM") !== false))) {
                 $extbaseType = "22";
             }
             // Update?
