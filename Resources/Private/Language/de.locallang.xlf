@@ -783,6 +783,26 @@
                 <source>Cost center for apps assigned successfully.</source>
                 <target state="translated">Kostenstelle für Anträge erfolgreich zugewiesen.</target>
             </trans-unit>
+            <trans-unit id="tx_staffm_delete_user">
+                <source>Delete user</source>
+                <target state="translated">Benutzer löschen</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_delete_user_modal1">
+                <source>Do you really want to delete the user </source>
+                <target state="translated">Wollen Sie den Benutzer </target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_delete_user_modal2">
+                <source> ?</source>
+                <target state="translated"> wirklich löschen?</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_user_deleted1">
+                <source>User </source>
+                <target state="translated">Benutzer </target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_user_deleted2">
+                <source> deleted</source>
+                <target state="translated"> wurde gelöscht</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

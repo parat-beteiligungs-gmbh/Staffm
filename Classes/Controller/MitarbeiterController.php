@@ -1634,4 +1634,17 @@ class MitarbeiterController extends ActionController
         $user = $this->mitarbeiterRepository->findByUid($this->request->getArgument('userUid'));
         $this->view->assign('userL', $user);
     }
+    
+    public function deleteCreatedUserAction() 
+    {
+        $userId = $this->request->getArgument('userUid');
+        $userToDelete = $this->mitarbeiterRepository->findByUid($userId);
+        $this->mitarbeiterRepository->remove($userToDelete);
+        
+        $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class)->persistAll();
+        
+        $this->addFlashMessage(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_staffm_user_deleted1', 'staffm'). $userToDelete->getFirstName() . ' ' . $userToDelete->getLastName() . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_staffm_user_deleted2', 'staffm'));
+        
+        $this->forward('listCreated');
+    }
 }

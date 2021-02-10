@@ -588,6 +588,21 @@
             <trans-unit id="tx_staffm_cost.center.assigned">
                 <source>Cost center for apps assigned successfully.</source>
             </trans-unit>
+            <trans-unit id="tx_staffm_delete_user">
+                <source>Delete user</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_delete_user_modal1">
+                <source>Do you really want to delete the user </source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_delete_user_modal2">
+                <source> ?</source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_user_deleted1">
+                <source>User </source>
+            </trans-unit>
+            <trans-unit id="tx_staffm_user_deleted2">
+                <source> deleted</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>
