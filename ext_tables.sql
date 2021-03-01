@@ -26,7 +26,8 @@ CREATE TABLE fe_users (
         deleted tinyint(3) unsigned DEFAULT '0',
 	tx_extbase_type varchar(255) DEFAULT '' NOT NULL,
         app_cost_center int(11) unsigned DEFAULT '0',
-        expiry_date datetime DEFAULT NULL
+        expiry_date datetime DEFAULT NULL,
+        assigned_training int(11) DEFAULT '0' NOT NULL
 
 );
 
@@ -479,4 +480,43 @@ CREATE TABLE tx_staffm_domain_model_activity (
  	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
  KEY language (l10n_parent,sys_language_uid)
 
+);
+
+#
+# Table structure for table 'tx_forms_domain_model_notice'
+#
+CREATE TABLE tx_forms_domain_model_notice (
+    assigned_training int(11) DEFAULT '0' NOT NULL
+);
+
+#
+# Table structure for table 'tx_forms_domain_model_history'
+#
+CREATE TABLE tx_forms_domain_model_history (
+    assigned_training int(11) DEFAULT '0' NOT NULL
+);
+
+#
+# Table structure for table 'tx_staffm_domain_model_globaltraining'
+#
+CREATE TABLE tx_staffm_domain_model_globaltraining (
+    tx_extbase_type varchar(255) DEFAULT '' NOT NULL,
+
+    name varchar(255) DEFAULT '' NOT NULL,
+    scheduled_date DATE DEFAULT NULL,
+    accomplished_date DATE DEFAULT NULL,
+    notices int(11) DEFAULT '0' NOT NULL,
+    histories int(11) DEFAULT '0' NOT NULL,
+    members int(11) DEFAULT '0' NOT NULL,
+    number_shifts int(11) DEFAULT '0' NOT NULL,
+    assigned_quali int(11) DEFAULT '0' NOT NULL,
+    effect int(11) DEFAULT '0' NOT NULL,
+    responsible int(11) DEFAULT '0' NOT NULL
+);
+
+#
+# Table structure for table 'tx_staffm_domain_model_effect'
+#
+CREATE TABLE tx_staffm_domain_model_effect (
+    name varchar(255) DEFAULT '' NOT NULL
 );

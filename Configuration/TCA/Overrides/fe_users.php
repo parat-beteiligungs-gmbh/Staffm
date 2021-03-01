@@ -244,6 +244,15 @@ $fields = [
                 'minitems' => 0,
                 'maxitems' => 1,
         ],
+    ],
+    'assigned_training' => [
+        'exclude' => 1,
+        'label' => 'Training',
+        'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim'
+        ],
     ]
 ];
 
