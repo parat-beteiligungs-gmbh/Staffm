@@ -199,8 +199,12 @@ class UserService
      */
     public function getRepresentations(\TYPO3\CMS\Extbase\Mvc\Request $request, \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager, \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $aktEmployee)
     {
-        if ($request->hasArgument('employees')) {           
+        if ($request->hasArgument('employees')) {  
+            
             $representations = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+                        
+            $prevRepresentations = $aktEmployee->getRepresentations();
+            
 
             // Read checkboxes into array
             $emp = $request->getArgument('employees');
@@ -209,24 +213,57 @@ class UserService
 
             // Set employees to array items
             foreach ($emp as $e) {
-                /* @var $employee \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter */
-                $employee = $objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository::class)->findByUid($e);                
-                $representation = new \Pmwebdesign\Staffm\Domain\Model\Representation();
-                $representation->setEmployee($aktEmployee);
-                $representation->setDeputy($employee);
-                if($active[$e]) {
-                    $representation->setStatusActive(true);
-                } else {
-                    $representation->setStatusActive(false);
-                }
-                if($qualificationAuth[$e]) {
-                    \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($qualificationAuth[$e]);
-                    $representation->setQualificationAuthorization(true);
-                } else {
-                    $representation->setQualificationAuthorization(false);
+                
+                $found = false;       
+                $previousRepresentation = null;
+                foreach($prevRepresentations as $pRepresentation) {
+                    /* @var $previousRepresentation \Pmwebdesign\Staffm\Domain\Model\Representation */
+                    if($pRepresentation->getDeputy()->getUid() == $e) {
+                        $found = true;
+                        $previousRepresentation = $pRepresentation;
+                        break;
+                    }
                 }
                 
-                $representations->attach($representation);
+                if($found != true) {
+                    /* @var $employee \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter */
+                    $employee = $objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository::class)->findByUid($e);                
+                    $representation = new \Pmwebdesign\Staffm\Domain\Model\Representation();
+                    $representation->setEmployee($aktEmployee);
+                    $representation->setDeputy($employee);
+                }
+                
+                if($found != true) {
+                    if($active[$e]) {
+                        $representation->setStatusActive(true);
+                    } else {
+                        $representation->setStatusActive(false);
+                    }
+                    if($qualificationAuth[$e]) {
+                        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($qualificationAuth[$e]);
+                        $representation->setQualificationAuthorization(true);
+                    } else {
+                        $representation->setQualificationAuthorization(false);
+                    }
+                } else {
+                    if($active[$e]) {
+                        $previousRepresentation->setStatusActive(true);
+                    } else {
+                        $previousRepresentation->setStatusActive(false);
+                    }
+                    if($qualificationAuth[$e]) {
+                        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($qualificationAuth[$e]);
+                        $previousRepresentation->setQualificationAuthorization(true);
+                    } else {
+                        $previousRepresentation->setQualificationAuthorization(false);
+                    }
+                }
+                
+                if($found != true) {
+                    $representations->attach($representation);
+                } else {
+                     $representations->attach($previousRepresentation);
+                }
             }
             return $representations;
         }
