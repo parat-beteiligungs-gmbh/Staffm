@@ -138,16 +138,6 @@ class MitarbeiterController extends ActionController
             $search = $this->request->getArgument('searching');
         }
 
-        // Backend User? 
-//        if ($GLOBALS['BE_USER']->beUserLogin = 1) {
-//            //$aktpfad = $_SERVER['SERVER_NAME']; Liest Servername aus -> intranet
-//            $aktpfad = $_SERVER['DOCUMENT_ROOT']; // Funktioniert liest htdocs aus
-//            //echo "<script> alert('Pfad: ".$aktpfad."'); </script>";
-//            $filePath = $aktpfad . "/uploads/tx_staffm/export.xlsx";
-//        } else {
-//            $filePath = "uploads/tx_staffm/export.xlsx";
-//        }
-
         $aktpfad = $_SERVER['DOCUMENT_ROOT'];
         $filePath = $aktpfad . "/uploads/tx_staffm/export.xlsx";
 
@@ -305,7 +295,7 @@ class MitarbeiterController extends ActionController
     }
 
     /**
-     * List of employees for supervisors
+     * List of employees for supervisors and deputies
      * 
      * @param Kostenstelle $kostenstelle
      * @return void
@@ -322,9 +312,7 @@ class MitarbeiterController extends ActionController
         }
 
         // Logged in user              
-        $aktuser = $this->objectManager->
-                get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->
-                findByUid($GLOBALS['TSFE']->fe_user->user['uid']);
+        $aktuser = $this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findByUid($GLOBALS['TSFE']->fe_user->user['uid']);
         if ($aktuser != NULL) {
             $this->view->assign('aktuser', $aktuser);
         }
