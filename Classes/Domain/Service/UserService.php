@@ -50,9 +50,7 @@ class UserService
             $user = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager')
                     ->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findByUid($uid);
         } else {
-            // No, Backend User -> Not needed in Staffm
-//            $user = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager')
-//                    ->get('Pmwebdesign\\Staffm\\Domain\\Repository\\MitarbeiterRepository')->findOneByUsername($GLOBALS['BE_USER']->user['username']);
+            // No, Backend User -> Not needed in Staffm        
         }
         return $user;       
     }
@@ -215,7 +213,7 @@ class UserService
             foreach ($emp as $e) {
                 
                 $found = false;       
-                $previousRepresentation = null;
+                $previousRepresentation = null;                
                 foreach($prevRepresentations as $pRepresentation) {
                     /* @var $previousRepresentation \Pmwebdesign\Staffm\Domain\Model\Representation */
                     if($pRepresentation->getDeputy()->getUid() == $e) {
@@ -240,7 +238,6 @@ class UserService
                         $representation->setStatusActive(false);
                     }
                     if($qualificationAuth[$e]) {
-                        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($qualificationAuth[$e]);
                         $representation->setQualificationAuthorization(true);
                     } else {
                         $representation->setQualificationAuthorization(false);
@@ -252,13 +249,12 @@ class UserService
                         $previousRepresentation->setStatusActive(false);
                     }
                     if($qualificationAuth[$e]) {
-                        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($qualificationAuth[$e]);
                         $previousRepresentation->setQualificationAuthorization(true);
                     } else {
                         $previousRepresentation->setQualificationAuthorization(false);
                     }
                 }
-                
+               
                 if($found != true) {
                     $representations->attach($representation);
                 } else {

@@ -225,15 +225,23 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
         // Cost centers of logged in user
         $kostenstellen = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 
-        $kostenstellen = ArrayUtility::fillOjectStorageFromQueryResult($this->objectManager->
-                                get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->
+        $kostenstellen = ArrayUtility::fillOjectStorageFromQueryResult($this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->
                                 findByVerantwortlicher($vorgesetzter));
 
         // Check deputy cost centers
         $representations = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\RepresentationRepository::class)->findByDeputy($vorgesetzter);
-        foreach ($representations as $representation) {
+        if(count($representations) > 0) {
+            $deputy = true;
+        } else {
+            $deputy = false;
+        }
+        foreach ($representations as $representation) {            
             $costcentersSupervisor = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-            $costcentersSupervisor = ArrayUtility::fillOjectStorageFromQueryResult($this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->findByVerantwortlicher($representation->getEmployee()));
+            
+            /* @var $representation \Pmwebdesign\Staffm\Domain\Model\Representation */
+            if($representation->getQualificationAuthorization() == true && $representation->getStatusActive() == true) {
+                $costcentersSupervisor = ArrayUtility::fillOjectStorageFromQueryResult($this->objectManager->get('Pmwebdesign\\Staffm\\Domain\\Repository\\KostenstelleRepository')->findByVerantwortlicher($representation->getEmployee()));                
+            }
             // Attach cost centers of supervisor
             foreach ($costcentersSupervisor as $costcenterSupervisor) {
                 $kostenstellen->attach($costcenterSupervisor);
@@ -292,8 +300,8 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
         } else {
             $query = $this->createQuery();            
             // More cost centers?
-            if (count($kostenstellen) > 0) {
-                // Yes, more cost centers
+            if (count($kostenstellen) > 0) {               
+                // Yes, more cost centers                
                 $query->matching(
                         $query->logicalAnd(
                                 $query->equals('deleted', 0), $query->in('kostenstelle', $kostenstellen)
@@ -302,7 +310,12 @@ class MitarbeiterRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Fronten
                 );  
             } else {
                 // No cost center
-                //return new \TYPO3\CMS\Extbase\Persistence\ObjectStorage(); --> Error, because return must be an QueryResultInterface                
+                
+                // Deputy?
+                if($deputy == true) {
+                    // No authorization for qualification managment
+                    $query->matching($query->equals('uid', 'nothing'));
+                }
             }
         }
         

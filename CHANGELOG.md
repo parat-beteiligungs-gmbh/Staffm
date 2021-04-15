@@ -1,5 +1,21 @@
 # Staffm Change Log
 
+# 3.4.3
+
+- [META] Set the version number to 3.4.3.
+- [CLEANUP] Remove unused code.
+- [BUGFIX] Fixed bug #39 for the qualificationmanagement authorization.
+- [BUGFIX] Fix assignment for more deputies.
+- [RELEASE] Version 3.4.2
+
+Dependent | Version
+-------- | ----------
+PHP | 7.0 - 7.4
+
+Reference | Version
+-------- | ----------
+IntraPentaUserSynch (Java) | 3.1.0 - 3.2.99
+
 
 # 3.4.2
 
