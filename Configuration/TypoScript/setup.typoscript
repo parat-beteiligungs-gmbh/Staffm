@@ -24,6 +24,7 @@ plugin.tx_staffm {
         settings {
                 pageIdProfil = {$plugin.tx_staffm.settings.pageIdProfil}
                 pageIdMitarbeiter = {$plugin.tx_staffm.settings.pageIdMitarbeiter}
+                trainingIsActive = {$plugin.tx_staffm.settings.trainingIsActive}
         }
 }
 
@@ -139,4 +140,20 @@ plugin_staffmvorg {
     typeNum = 100022
     #10 < tt_content.list.20.staffm_staffmvorg
     10 < tt_content.list.20.staffm_staffm
+}
+
+staffm_training < plugin_staffmvorg
+staffm_training {
+    typeNum = 256987
+
+    config {
+        disableAllHeaderCode = 1
+        additionalHeaders = Content-type:application/html
+        xhtml_cleaning = 0
+        debug = 0
+        no_cache = 1
+        admPanel = 0
+    }
+
+    10 < tt_content.list.20.staffm_staffmvorg
 }

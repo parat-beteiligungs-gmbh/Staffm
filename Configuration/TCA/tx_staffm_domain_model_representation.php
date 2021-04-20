@@ -38,7 +38,7 @@ $GLOBALS['TCA']['tx_staffm_domain_model_representation'] = [
         'iconfile' => 'EXT:staffm/Resources/Public/Icons/tx_staffm_domain_model_representation.gif'
     ],
     'interface' => [
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, employee, deputy, costcenters, status_active, qualification_authorization',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, employee, deputy, costcenters, status_active, qualification_authorization, selected_employees',
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -138,9 +138,26 @@ $GLOBALS['TCA']['tx_staffm_domain_model_representation'] = [
                 ],
             ]
         ],
+        'selected_employees' => [
+            'exclude' => 1,
+            'label' => 'Ausgewählte Mitarbeiter für Qualifikationen',
+            'config' => [
+                'type' => 'inline',
+                'foreign_table' => 'fe_users',
+                'foreign_field' => 'representation_quali',
+                'maxitems' => 999,
+                'appearance' => [
+                    'collapseAll' => 0,
+                    'levelLinksPosition' => 'top',
+                    'showSynchronizationLink' => 1,
+                    'showPossibleLocalizationRecords' => 1,
+                    'showAllLocalizationLink' => 1
+                ],
+            ],
+        ],
     ],
     'types' => [
-        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, employee, deputy, costcenters, status_active, qualification_authorization'],
+        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, employee, deputy, costcenters, status_active, qualification_authorization, selected_employees'],
     ],
     'palettes' => [
         '1' => ['showitem' => ''],

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2021 PARAT Beteiligungs GmbH
+Markus Blöchl <mbloechl@parat.eu>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+{namespace st = Pmwebdesign\Staffm\ViewHelpers}
+<f:layout name="LoginLayout" />
+<f:section name="main">
+    <h1><f:translate key="tx_staffm_trainings" /></h1>    
+    <f:flashMessages />   
+    <f:render partial="FormErrors" />
+    <f:variable name="user" value="{st:finduser()}"/>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark navbarstaffm" style="margin-bottom: 15px">      
+        <ul class="navbar-nav mr-auto">   
+            <li style="padding-top:0 !important">
+                <f:link.action title="{f:translate(key: 'tx_staffm_create.new.training')}" class="nav-link" onclick="loadSiteStaffmvorg('new', 'Training');return false"><f:translate key="tx_staffm_new.training" /></f:link.action>
+            </li>
+            <li class="{f:if(condition: '{lastAction} == list', then: 'nav-item  active', else: '' )}" style="padding-top:0 !important">
+                <f:link.action title="{f:translate(key: 'tx_staffm_training.active.training')}" class="nav-link" onclick="loadSiteStaffmvorg('list', 'Training');return false"><f:translate key="tx_staffm_training.active.training" /></f:link.action>
+            </li>
+            <li class="{f:if(condition: '{lastAction} == accomplished', then: 'nav-item  active', else: '' )}" style="padding-top:0 !important">
+                <f:link.action title="{f:translate(key: 'tx_staffm_accomplished.trainings')}" class="nav-link" onclick="loadSiteStaffmvorg('listAccomplished', 'Training');return false"><f:translate key="tx_staffm_accomplished.trainings" /></f:link.action>
+            </li>
+            <li class="{f:if(condition: '{lastAction} == canceled', then: 'nav-item  active', else: '' )}" style="padding-top:0 !important">
+                <f:link.action title="{f:translate(key: 'tx_staffm_canceled.trainings')}" class="nav-link" onclick="loadSiteStaffmvorg('listCanceled', 'Training');return false"><f:translate key="tx_staffm_canceled.trainings" /></f:link.action>
+            </li>
+        </ul>   
+    </nav>
+    
+    <table class="table" id="newTrainingTable">
+        <thead>
+            <tr><th colspan=7><h3>{training.name}</h3></th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><b><f:translate key="tx_staffm_training.scheduled.date" /></b></td>
+                <f:if condition='{lastAction} == canceled'>
+                    <f:then>
+                        <td colspan=6><span class='text-danger'><f:translate key='tx_staffm_training.canceled'/></span></td>
+                    </f:then>
+                    <f:else>
+                        <td colspan=6><f:format.date format="d.m.Y">{training.scheduledDate}</f:format.date></td>
+                    </f:else>
+                </f:if>
+            </tr>
+            <tr>
+                <td><b><f:translate key="tx_staffm_training.accomplished" /></b></td>
+                <f:if condition="{training.accomplishedDate}">
+                    <f:then>
+                        <td colspan=6><f:format.date format="d.m.Y">{training.accomplishedDate}</f:format.date></td>
+                    </f:then>
+                    <f:else>
+                        <f:if condition='{lastAction} == canceled'>
+                            <f:then>
+                                <td>/</td>
+                            </f:then>
+                            <f:else>
+                                <td colspan="6"><f:translate key="tx_staffm_training.not.accomplished" /></td>
+                            </f:else>
+                        </f:if>
+                    </f:else>
+                </f:if>
+            </tr>
+            <tr>
+                <td><b><f:translate key="tx_staffm_training.assigned.qualis" /></b></td>
+                <f:if condition="{f:count(subject: '{training.assignedQualis}')} > 0">
+                    <f:then>
+                        <td colspan=6>{training.assignedQualis.0.bezeichnung}</td>
+                    </f:then>
+                    <f:else>
+                        <td colspan=6><f:translate key="tx_staffm_training.no.assigned.quali"/></td>
+                    </f:else>
+                </f:if>
+            </tr>
+            
+            <f:for each='{training.assignedQualis}' as='quali' iteration="i">
+                <f:if condition="{i.index} != 0">
+                    <tr>
+                        <td></td>
+                        <td colspan=6>{quali.bezeichnung}</td>
+                    </tr>
+                </f:if>
+            </f:for>
+            <tr>
+            <tr>
+                <td><b><f:translate key="tx_staffm_number.shifts"/></b></td>
+                <td colspan="6">{training.numberShifts}</td>
+            </tr>
+            <tr>
+                <td><b><f:translate key="tx_staffm_effect"/></b></td>
+                <f:if condition="{training.effect}">
+                    <f:then>
+                        <td colspan="6">{training.effect.name}</td>
+                    </f:then>
+                    <f:else>
+                        <f:if condition='{lastAction} == canceled'>
+                            <f:then>
+                                <td>/</td>
+                            </f:then>
+                            <f:else>
+                                <td colspan="6"><f:translate key="tx_staffm_training.not.accomplished" /></td>
+                            </f:else>
+                        </f:if>
+                    </f:else>
+                </f:if>
+            </tr>
+            <tr>
+                <td><b><f:translate key="tx_staffm_training.members" /></b></td>
+                <f:if condition="{f:count(subject: '{training.members}')} > 0">
+                    <f:then>
+                        <td colspan=6>{training.members.0.firstName} {training.members.0.lastName}</td>
+                    </f:then>
+                    <f:else>
+                        <td colspan=6><f:translate key="tx_staffm_training.no.members"/></td>
+                    </f:else>
+                </f:if>
+            </tr>
+            
+            <f:for each='{training.members}' as='member' iteration="i">
+                <f:if condition="{i.index} != 0">
+                    <tr>
+                        <td></td>
+                        <td colspan=6>{member.firstName} {member.lastName}</td>
+                    </tr>
+                </f:if>
+            </f:for>
+            <tr>
+                <f:if condition="{f:count(subject:'{training.notices}')} > 0"> 
+                    <f:then>
+                    <td>
+                        <b><f:translate key="tx_forms_domain_model_form.description" extensionName="Forms"/></b>
+                    </td>
+                    <td colspan="6">
+                        <table class="tx_forms">
+                            <thead>
+                                <th><f:translate key="tx_forms_creator" extensionName="Forms"/></th>
+                                <th><f:translate key="tx_forms_date" extensionName="Forms"/></th>
+                                <th><f:translate key="tx_forms_text" extensionName="Forms"/></th>
+                                <th></th>
+                            </thead>
+                            <tbody>
+                                <f:for each="{training.notices}" as="notice">
+                                    <tr id="{notices.uid}">
+                                        <td>{notice.employee.name}</td>
+                                        <td><f:format.date format="d.m.Y H:i:s">{notice.date}</f:format.date></td>
+                                        <td id='text{notice.uid}'><f:form.textarea cols="40" rows="3" id="bemerkung{notice.uid}" class="form-control" readonly="readonly" value="{notice.text}"/></td>
+                                        <f:if condition="{notice.employee.uid} == {user.uid}">
+                                            <f:then>
+                                                <f:if condition="{notice.canBeEdited}">
+                                                    <f:then>
+                                                        <td>
+                                                            <div class='btn-group'>
+                                                                <f:link.action id="edit{notice.uid}" class="btn" onclick="editNotice('{notice.uid}');return false" title="Bearbeiten">
+                                                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pen-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path fill-rule="evenodd" d="M13.498.795l.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/>
+                                                                    </svg>
+                                                                </f:link.action> 
+                                                                <f:link.action class="btn" onclick="deleteNotice('{notice.uid}');return false" title="Löschen">
+                                                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
+                                                                    </svg><i class="glyphicon glyphicon-floppy-disk"></i>
+                                                                </f:link.action> 
+                                                            </div>
+                                                        </td>
+                                                    </f:then>
+                                                    <f:else>
+                                                        <td></td>
+                                                    </f:else>
+                                                </f:if>
+                                            </f:then>
+                                            <f:else>
+                                                <td></td>
+                                            </f:else>
+                                        </f:if>
+                                    </tr>
+                                </f:for>
+                            </tbody>
+                        </table>
+                    </td>
+                    </f:then>
+                    <f:else>
+                        
+                    </f:else>
+                </f:if>
+            </tr>
+            <f:form.hidden value="{show}" id="show"/>
+            <f:form.hidden value="{hide}" id="hide"/>
+            <tr>
+                <td>
+                    <b><f:translate key="tx_staffm_domain_model_employeequalification.histories"/>
+                </td>
+                <td>
+                    <a id="buttonHistory" class="btn btn-default" onclick='showHistories()'><f:translate key="tx_forms_show" extensionName="forms"/></a>
+                    <div id="histories" style="display: none">
+                        <div class="tx_forms_tableContainer">
+                            <table class="tx_forms">
+                                <thead>
+                                    <tr>
+                                        <th><f:translate key="tx_staffm_training.time" /></th>                 
+                                        <th><f:translate key="tx_forms_domain_model_employee.first_name" extensionName="Forms"/></th>
+                                        <th><f:translate key="tx_forms_domain_model_employee.last_name" extensionName="Forms"/></th>
+                                        <th><f:translate key="tx_forms_domain_model_history.actaction" extensionName="Forms"/></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>      
+                                    <f:for each="{training.histories}" as="history" reverse="reverse">
+                                        <f:comment><!--needed to see first and last name--></f:comment>
+                                        <f:form.hidden name="{history.currentemployee}" />
+
+                                        <tr>
+                                            <td style="text-align: left"><f:format.date format="Y-m-d H:i">{history.entrytime}</f:format.date></td>                 
+                                            <td>{history.currentemployee.firstName}</td>
+                                            <td>{history.currentemployee.lastName}</td>
+                                            <td>{history.actaction}</td>
+                                            <td></td>
+                                        </tr>
+                                    </f:for>                            
+                                </tbody>
+                            </table>
+                            <f:if condition="{training.histories}">                
+                                <f:else>
+                                    <br><f:translate key="tx_staffm_no.entries"/>           
+                                </f:else>
+                            </f:if>    
+                        </div>      
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</f:section>

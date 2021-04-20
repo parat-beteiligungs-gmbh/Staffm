@@ -27,7 +27,8 @@ CREATE TABLE fe_users (
 	tx_extbase_type varchar(255) DEFAULT '' NOT NULL,
         app_cost_center int(11) unsigned DEFAULT '0',
         expiry_date datetime DEFAULT NULL,
-        assigned_training int(11) DEFAULT '0' NOT NULL
+        assigned_trainings int(11) DEFAULT '0' NOT NULL,
+        representation_quali int(11) DEFAULT '0'
 
 );
 
@@ -206,6 +207,7 @@ CREATE TABLE tx_staffm_domain_model_qualifikation (
         employeequalifications int(11) unsigned DEFAULT '0',  
         mitarbeiter int(11) unsigned DEFAULT '0',
         categories int(11) unsigned DEFAULT '0',  
+        assigned_trainings int(11) DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -415,6 +417,7 @@ CREATE TABLE tx_staffm_domain_model_representation (
         costcenters int(11) unsigned DEFAULT '0', 
         status_active int(11) unsigned DEFAULT '0',
         qualification_authorization int(11) unsigned DEFAULT '0',
+        selected_employees int(11) unsigned DEFAULT '0',
         
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -500,7 +503,7 @@ CREATE TABLE tx_forms_domain_model_history (
 # Table structure for table 'tx_staffm_domain_model_globaltraining'
 #
 CREATE TABLE tx_staffm_domain_model_globaltraining (
-    tx_extbase_type varchar(255) DEFAULT '' NOT NULL,
+    record_type varchar(255) DEFAULT '' NOT NULL,
 
     name varchar(255) DEFAULT '' NOT NULL,
     scheduled_date DATE DEFAULT NULL,
@@ -509,9 +512,10 @@ CREATE TABLE tx_staffm_domain_model_globaltraining (
     histories int(11) DEFAULT '0' NOT NULL,
     members int(11) DEFAULT '0' NOT NULL,
     number_shifts int(11) DEFAULT '0' NOT NULL,
-    assigned_quali int(11) DEFAULT '0' NOT NULL,
+    assigned_qualis int(11) DEFAULT '0' NOT NULL,
     effect int(11) DEFAULT '0' NOT NULL,
-    responsible int(11) DEFAULT '0' NOT NULL
+    responsible int(11) DEFAULT '0' NOT NULL,
+    canceled int(11) DEFAULT '0' NOT NULL
 );
 
 #
@@ -519,4 +523,30 @@ CREATE TABLE tx_staffm_domain_model_globaltraining (
 #
 CREATE TABLE tx_staffm_domain_model_effect (
     name varchar(255) DEFAULT '' NOT NULL
+);
+
+#
+# Table structure for table 'tx_staffm_mitarbeiter_training_mm'
+#
+CREATE TABLE tx_staffm_mitarbeiter_training_mm (
+    uid_local int(11) unsigned DEFAULT '0' NOT NULL,
+    uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+    sorting int(11) unsigned DEFAULT '0' NOT NULL,
+    sorting_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+
+    KEY uid_local (uid_local),
+    KEY uid_foreign(uid_foreign)
+);
+
+#
+# Table structure for table 'tx_staffm_qualification_training_mm'
+#
+CREATE TABLE tx_staffm_qualification_training_mm (
+    uid_local int(11) unsigned DEFAULT '0' NOT NULL,
+    uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+    sorting int(11) unsigned DEFAULT '0' NOT NULL,
+    sorting_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+
+    KEY uid_local (uid_local),
+    KEY uid_foreign(uid_foreign)
 );

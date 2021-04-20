@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2021 PARAT Beteiligungs GmbH
+Markus Blöchl <mbloechl@parat.eu>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+{namespace st = Pmwebdesign\Staffm\ViewHelpers}
+<f:layout name="LoginLayout" />
+<f:section name="main">
+    
+    <h1><f:translate key="tx_staffm_trainings" /></h1>    
+    <f:flashMessages />   
+    <f:render partial="FormErrors" />
+    <f:variable name="user" value="{st:finduser()}"/>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark navbarstaffm" style="margin-bottom: 15px">      
+        <ul class="navbar-nav mr-auto">   
+            <li style="padding-top:0 !important">
+                <f:link.action title="{f:translate(key: 'tx_staffm_create.new.training')}" class="nav-link" onclick="loadSiteStaffmvorg('new', 'Training');return false"><f:translate key="tx_staffm_new.training" /></f:link.action>
+            </li>
+            <li style="padding-top:0 !important">
+                <f:link.action title="{f:translate(key: 'tx_staffm_training.active.training')}" class="nav-link" onclick="loadSiteStaffmvorg('list', 'Training');return false"><f:translate key="tx_staffm_training.active.training" /></f:link.action>
+            </li>
+            <li style="padding-top:0 !important">
+                <f:link.action title="{f:translate(key: 'tx_staffm_accomplished.trainings')}" class="nav-link" onclick="loadSiteStaffmvorg('listAccomplished', 'Training');return false"><f:translate key="tx_staffm_accomplished.trainings" /></f:link.action>
+            </li>
+            <li class="nav-item active" style="padding-top:0 !important">
+                <f:link.action title="{f:translate(key: 'tx_staffm_canceled.trainings')}" class="nav-link" onclick="loadSiteStaffmvorg('listCanceled', 'Training');return false"><f:translate key="tx_staffm_canceled.trainings" /></f:link.action>
+            </li>
+        </ul>   
+    </nav>
+    
+    <table class="table" id="newTrainingTable">
+        <thead>
+            <tr><th colspan=7><h3><f:translate key="tx_staffm_canceled.trainings" /></h3></th></tr>
+        </thead>
+        <tbody>
+            <f:for each="{trainings}" as="training">
+                <tr>
+                    <td>
+                        <f:link.action title="{f:translate(key: 'tx_staffm_training.open.view')}" onclick="loadSiteWithTrainingUid('{training.uid}', 'show');return false">{training.name}</f:link.action>
+                    </td>
+                </tr>
+            </f:for>
+        </tbody>
+    </table>
+</f:section>

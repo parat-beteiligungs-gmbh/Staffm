@@ -121,6 +121,20 @@ return [
                 'maxitems' => 1000,
             ],
         ],
+        'assigned_trainings' => [
+            'exclude' => 1,
+            'label' => 'Trainings',
+            'config' => [
+                    'type' => 'select',
+                    'multiple' => 1,
+                    'foreign_table' => 'tx_staffm_domain_model_globaltraining',
+                    'MM' => 'tx_staffm_qualification_training_mm',
+                    'MM_opposite_field' => 'assigned_trainings',
+                    'foreign_table_where' => ' AND tx_staffm_domain_model_globaltraining.pid=###CURRENT_PID### ORDER BY tx_staffm_domain_model_globaltraining.name',
+                    'minitems' => 0,
+                    'maxitems' => 99,
+            ],
+        ]
     ],
 ];
 ## EXTENSION BUILDER DEFAULTS END TOKEN - Everything BEFORE this line is overwritten with the defaults of the extension builder

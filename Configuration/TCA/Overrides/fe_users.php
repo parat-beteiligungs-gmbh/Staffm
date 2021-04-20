@@ -245,13 +245,18 @@ $fields = [
                 'maxitems' => 1,
         ],
     ],
-    'assigned_training' => [
+    'assigned_trainings' => [
         'exclude' => 1,
-        'label' => 'Training',
+        'label' => 'Trainings',
         'config' => [
-                'type' => 'input',
-                'size' => 30,
-                'eval' => 'trim'
+                'type' => 'select',
+                'multiple' => 1,
+                'foreign_table' => 'tx_staffm_domain_model_globaltraining',
+                'MM' => 'tx_staffm_mitarbeiter_training_mm',
+                'MM_opposite_field' => 'assigned_trainings',
+                'foreign_table_where' => ' AND tx_staffm_domain_model_globaltraining.pid=###CURRENT_PID### ORDER BY tx_staffm_domain_model_globaltraining.name',
+                'minitems' => 0,
+                'maxitems' => 99,
         ],
     ]
 ];

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2020 PARAT Beteiligungs GmbH
+Markus Blöchl <mbloechl@parat.eu>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+<f:if condition="{f:count(subject: '{notices}')} > 0">
+<td>
+    
+</td>
+<td colspan="6">
+    <table class="tx_forms">
+        <thead>
+            <th><f:translate key="tx_forms_creator" extensionName="Forms"/></th>
+            <th><f:translate key="tx_forms_date" extensionName="Forms"/></th>
+            <th><f:translate key="tx_forms_text" extensionName="Forms"/></th>
+            <th></th>
+        </thead>
+        <tbody>
+            <f:for each="{notices}" as="notice">
+                <tr id="{notices.uid}">
+                    <td>{notice.employee.name}</td>
+                    <td><f:format.date format="d.m.Y H:i:s">{notice.date}</f:format.date></td>
+                    <td id='text{notice.uid}'><f:form.textarea cols="40" rows="3" id="bemerkung{notice.uid}" class="form-control" readonly="readonly" value="{notice.text}"/></td>
+                    <f:if condition="{notice.employee.uid} == {user.uid}">
+                        <f:then>
+                            <f:if condition="{notice.canBeEdited}">
+                                <f:then>
+                                    <td>
+                                        <div class='btn-group'>
+                                            <f:link.action id="edit{notice.uid}" class="btn" onclick="editNotice('{notice.uid}');return false" title="Bearbeiten">
+                                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pen-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd" d="M13.498.795l.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/>
+                                                </svg>
+                                            </f:link.action> 
+                                            <f:link.action class="btn" onclick="deleteNotice('{notice.uid}');return false" title="Löschen">
+                                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
+                                                </svg><i class="glyphicon glyphicon-floppy-disk"></i>
+                                            </f:link.action> 
+                                        </div>
+                                    </td>
+                                </f:then>
+                                <f:else>
+                                    <td></td>
+                                </f:else>
+                            </f:if>
+                        </f:then>
+                        <f:else>
+                            <td></td>
+                        </f:else>
+                    </f:if>
+                </tr>
+            </f:for>
+        </tbody>
+    </table>
+</td>
+</f:if>

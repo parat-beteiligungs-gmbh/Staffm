@@ -67,6 +67,13 @@ class Representation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var bool
      */
     protected $qualificationAuthorization = false;
+    
+    /**
+     * Employees where the deputy is responsible for qualifications.
+     * 
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter>
+     */
+    protected $selectedEmployees = null;
 
     /**
      * Constructor
@@ -188,4 +195,23 @@ class Representation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->qualificationAuthorization = $qualificationAuthorization;
     }
 
+    /**
+     * Getter for selectedEmployees
+     * 
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter>
+     */
+    public function getSelectedEmployees()
+    {
+        return $this->selectedEmployees;
+    }
+    
+    /**
+     * Setter for selectedEmployees
+     * 
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter> $selectedEmployees
+     */
+    public function setSelectedEmployees(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $selectedEmployees) 
+    {
+        $this->selectedEmployees = $selectedEmployees;
+    }
 }

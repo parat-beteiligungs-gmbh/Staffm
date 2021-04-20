@@ -1635,4 +1635,37 @@ class MitarbeiterController extends ActionController
         
         $this->forward('listCreated');
     }
+    
+    public function listChooseEmployeeAction(\Pmwebdesign\Staffm\Domain\Model\Representation $representation)
+    {
+        $this->view->assign('menuname', 'newRep');
+        $superior = $representation->getEmployee();
+        
+        $costRep = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\Kostenstellerepository::class);
+        $costCenters = $costRep->findCostCentersFromResponsible($superior);
+        $allEmployees = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        foreach($costCenters as $cost) {
+            $allEmployees->addAll($cost->getMitarbeiters());
+        }
+        $this->view->assign('employees', $allEmployees);
+        $this->view->assign('representation', $representation);
+    }
+    
+    /**
+     * 
+     * @param \Pmwebdesign\Staffm\Domain\Model\Representation $representation
+     */
+    public function setSelectedEmployeesAction(\Pmwebdesign\Staffm\Domain\Model\Representation $representation)
+    {
+        $selectedUids = $this->request->getArgument('selected');
+        $selectedEmployees = new ObjectStorage();
+        foreach($selectedUids as $selected) {
+            $employee = $this->mitarbeiterRepository->findByUid($selected);
+            $selectedEmployees->attach($employee);
+        }
+        $representation->setSelectedEmployees($selectedEmployees);
+        $repRep = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\RepresentationRepository::class);
+        $repRep->update($representation);
+        $this->redirect('edit', null, null, ['mitarbeiter' => $representation->getEmployee()]);
+    }
 }

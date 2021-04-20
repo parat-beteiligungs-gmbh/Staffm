@@ -19,8 +19,9 @@
  */
 return [
     'ctrl' => [
-        'title' => 'Gloabl Training',
-        'label' => 'GlobalTraining',
+        'title' => 'Global Training',
+        'label' => 'name',
+        'type' => 'record_type',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
         'cruser_id' => 'cruser_id',
@@ -33,14 +34,15 @@ return [
         'enablecolumns' => [
             'disabled' => 'hidden',
         ],
-        'searchFields' => 'name, scheduled_date, accomplished_date, notices, histories, members, number_shifts, assigned_quali',
+        'searchFields' => 'name, scheduled_date, accomplished_date, notices, histories, members, number_shifts, assigned_qualis',
         'iconfile' => 'EXT:staffm/Resources/Public/Icons/tx_staffm_domain_model_employeequalification.gif'
     ],
     'interface' => [
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, name, scheduled_date, accomplished_date, notices, histories, members, number_shifts, assigned_quali',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, name, scheduled_date, accomplished_date, notices, histories, members, number_shifts, assigned_qualis, canceled',
     ],
     'types' => [
-        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, name, scheduled_date, accomplished_date, notices, histories, members, number_shifts, assigned_quali'],
+        '0' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, name, scheduled_date, accomplished_date, notices, histories, members, number_shifts, assigned_qualis, record_type, canceled'],
+        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, name, scheduled_date, accomplished_date, notices, histories, members, number_shifts, assigned_qualis, record_type, canceled, responsible, effect']
     ],
     'palettes' => [
         '1' => ['showitem' => ''],
@@ -120,7 +122,7 @@ return [
             'config' => [
                 'type' => 'inline',
                 'foreign_table' => 'tx_forms_domain_model_notice',
-                'foreign_field' => 'assigned_taining',
+                'foreign_field' => 'assigned_training',
                 'minitems' => 0,
                 'maxitems' => 1000,
             ],
@@ -130,7 +132,7 @@ return [
             'config' => [
                 'type' => 'inline',
                 'foreign_table' => 'tx_forms_domain_model_history',
-                'foreign_field' => 'assigned_taining',
+                'foreign_field' => 'assigned_training',
                 'minitems' => 0,
                 'maxitems' => 1000,
             ],
@@ -138,11 +140,13 @@ return [
         'members' => [       
             'label' => 'Members',
             'config' => [
-                'type' => 'inline',
-                'foreign_table' => 'tx_staffm_domain_model_mitarbeiter',
-                'foreign_field' => 'assigned_taining',
+                'type' => 'select',
+                'multiple' => 1,
+                'foreign_table' => 'fe_users',
+                'MM' => 'tx_staffm_mitarbeiter_training_mm',
+                'foreign_table_where' => ' AND fe_users.pid=###CURRENT_PID### ORDER BY fe_users.name ',
                 'minitems' => 0,
-                'maxitems' => 1000,
+                'maxitems' => 99,
             ],
         ],
         'number_shifts' => [
@@ -154,15 +158,16 @@ return [
                 'eval' => 'trim'
             ],
         ],
-        'assigned_qauli' => [
+        'assigned_qualis' => [
             'label' => 'AssignedQualification',
             'config' => [
                 'type' => 'select',
-                'renderType' => 'selectSingle',
+                'multiple' => 1,
                 'foreign_table' => 'tx_staffm_domain_model_qualifikation',
-                'size' => 1,
-                'minitems' => 1,
-                'maxitems' => 1,
+                'MM' => 'tx_staffm_qualification_training_mm',
+                'foreign_table_where' => ' AND tx_staffm_domain_model_qualifikation.pid=###CURRENT_PID### ORDER BY tx_staffm_domain_model_qualifikation.bezeichnung ',
+                'minitems' => 0,
+                'maxitems' => 99,
             ],
         ],
         'effect' => [
@@ -185,6 +190,24 @@ return [
                 'size' => 1,
                 'minitems' => 1,
                 'maxitems' => 1,
+            ],
+        ],
+        'record_type' => [
+            'label' => 'Domain Object',
+            'config' => [
+                'type' => 'select',
+                'items' => [
+                    ['GlobalTraining', '0'],
+                    ['Training', '1'],
+                ],
+                'default' => '0'
+            ],
+        ],
+        'canceled' => [
+            'exclude' => 1,
+            'label' => 'canceled',
+            'config' => [
+                'type' => 'check',
             ],
         ]
     ],

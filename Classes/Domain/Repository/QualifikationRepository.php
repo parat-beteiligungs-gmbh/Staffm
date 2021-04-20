@@ -59,4 +59,15 @@ class QualifikationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         return $query->execute();
     }
 
+    /**
+     * Finds a Qualification by name.
+     * 
+     * @param string $name
+     * @return \Pmwebdesign\Staffm\Domain\Model\Qualifikation
+     */
+    public function findByName($name) {
+        $query = $this->createQuery();
+        $query->matching($query->equals('bezeichnung', $name));
+        return $query->execute()[0];
+    } 
 }

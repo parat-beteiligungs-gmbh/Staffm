@@ -803,6 +803,194 @@
                 <source> deleted</source>
                 <target state="translated"> wurde gelöscht</target>
             </trans-unit>
+            <trans-unit id="tx_staffm_trainings">
+                <source>Trainings</source>
+                <target state="translated">Schulungen</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_new.training">
+                <source>New</source>
+                <target state="translated">Neu</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_create.new.training">
+                <source>Create new training</source>
+                <target state="translated">Neue Schulung anlegen</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.name">
+                <source>Name</source>
+                <target state="translated">Bezeichnung</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.scheduled.date">
+                <source>Scheduled date</source>
+                <target state="translated">Geplantes Datum</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.date">
+                <source>Date</source>
+                <target state="translated">Datum</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.assigned.qualis">
+                <source>Assigned Qualifications</source>
+                <target state="translated">Zugewiesene Qualifikationen</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.members">
+                <source>Employees</source>
+                <target state="translated">Mitarbeiter</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.added.members">
+                <source>Added Employees</source>
+                <target state="translated">Hinzugefügte Mitarbeiter</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.add.employees">
+                <source>Add Employees</source>
+                <target state="translated">Mitarbeiter hinzufügen</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.select.quali">
+                <source>Select Qualification</source>
+                <target state="translated">Qualifikation auswählen</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.no.name">
+                <source>You must enter a name!</source>
+                <target state="translated">Es muss eine Bezeichnung eingegeben werden!</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.no.scheduled.date">
+                <source>You must enter a scheduled date!</source>
+                <target state="translated">Es muss ein geplantes Datum eingegeben werden!</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.false.quali">
+                <source>The entered qualification doesn't exists!</source>
+                <target state="translated">Die eingegebene Qualifikation existiert nicht!</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.active.training">
+                <source>Active Trainings</source>
+                <target state="translated">Aktuelle Schulungen</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.all.pending.trainings">
+                <source>All pending trainings</source>
+                <target state="translated">Alle anstehenden Schulungen</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.open.view">
+                <source>Open single view</source>
+                <target state="translated">Öffne Einzelansicht</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.no.members">
+                <source>There are no assigned employees.</source>
+                <target state="translated">Es wurden noch keine Mitarbeiter zugewiesen.</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.accomplished">
+                <source>Accomplished Date</source>
+                <target state="translated">Durchgeführt am</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.not.accomplished">
+                <source>Training isn't accomplished.</source>
+                <target state="translated">Schulung wurde noch nicht durchgeführt.</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.time">
+                <source>Time</source>
+                <target state="translated">Zeitpunkt</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_no.entries">
+                <source>No Entries</source>
+                <target state="translated">Keine Einträge</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_show">
+                <source>Show</source>
+                <target state="translated">Anzeigen</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_hide">
+                <source>Hide</source>
+                <target state="translated">Ausblenden</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_number.shifts">
+                <source>Number of Shifts</source>
+                <target state="translated">Anzahl Verschiebungen</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_effect">
+                <source>Effect</source>
+                <target state="translated">Wirksamkeit</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_edit.training">
+                <source>Edit Training</source>
+                <target state="translated">Schulung bearbeiten</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.was.accomplished">
+                <source>Training was accomplished</source>
+                <target state="translated">Schulung wurde durchgeführt</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_enter.data">
+                <source>Please enter data</source>
+                <target state="translated">Bitte Daten eingeben</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_enter.accomplished.date">
+                <source>Please enter a date!</source>
+                <target state="translated">Es muss ein Datum eingegeben werden!</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_change">
+                <source>Change</source>
+                <target state="translated">Ändern</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.employee.already.added">
+                <source>Employee was already added!</source>
+                <target state="translated">Mitarbeiter wurde schon hinzugefügt!</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.shift">
+                <source>Shift training</source>
+                <target state="translated">Schulung verschieben</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.reason.shift">
+                <source>Reason for shift</source>
+                <target state="translated">Grund für Verschiebung</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.reason.shift.message">
+                <source>There must be a reason</source>
+                <target state="translated">Es muss ein Grund eingegeben werden.</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.cancel">
+                <source>Cancel Training</source>
+                <target state="translated">Schulung absagen</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_really.training.cancel">
+                <source>Really cancel training?</source>
+                <target state="translated">Schulung wirklich absagen?</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.canceled">
+                <source>canceled</source>
+                <target state="translated">abgesagt</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.cancel.reason">
+                <source>Reason for cancel</source>
+                <target state="translated">Grund für Absage</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.reason.effect">
+                <source>Reason for effect</source>
+                <target state="translated">Grund für Wirksamkeit</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.saved">
+                <source>Training saved successfully.</source>
+                <target state="translated">Schulung erfolgreich gespeichert.</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_canceled.trainings">
+                <source>Canceled Trainings</source>
+                <target state="translated">Abgesagte Schulungen</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_accomplished.trainings">
+                <source>Accomplished Trainings</source>
+                <target state="translated">Durchgeführte Schulungen</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_traing.add.quali">
+                <source>Add Qualification</source>
+                <target state="translated">Qualifikation hinzufügen</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_traing.added.quali">
+                <source>Added Qualifications</source>
+                <target state="translated">Hinzugefügte Qualifikationen</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.qualification.already.added">
+                <source>Qualification was already added!</source>
+                <target state="translated">Qualifikation wurde schon hinzugefügt!</target>
+            </trans-unit>
+            <trans-unit id="tx_staffm_training.no.assigned.quali">
+                <source>There is no assigned qualification.</source>
+                <target state="translated">Es wurde keine Qualifikation zugewiesen.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -37,14 +37,26 @@
                                         </span>
                                     </f:for>
                                 </f:if>
+                                <br />
                                 <div class="btn-group">
                                     <f:link.action action="listChoose" controller="Kostenstelle" arguments="{representation:representation, key:key, userKey:userKey, art:art}" class="btn btn-sm btn-default"><f:translate key="tx_staffm_domain_model_kostenstelle" />&nbsp;<f:translate key="staffm.choose" /></f:link.action>
                                     <f:if condition="{representation.costcenters -> f:count()} > 0">
                                         <f:link.action action="deleteRepresentationCostCenters" class="btn btn-sm btn-danger" arguments="{representation:representation, key:key, userKey:userKey, art:art}"><f:translate key="tx_staffm_domain_model_kostenstelle" />&nbsp;<f:translate key="staffm.delete" /></f:link.action>
-                                    </f:if>           
+                                    </f:if>  
                                 </div>
                             </f:if>
-                        </label>
+                        </label><br/>
+                        <f:translate key="tx_forms_represetation.selected.employees" extensionName="Forms"/>:&nbsp;
+                        <f:if condition="{f:count(subject: '{representation.selectedEmployees}')} > 0">
+                            <f:then>
+                                <f:count subject="{representation.selectedEmployees}"/>
+                            </f:then>
+                            <f:else>
+                                <f:translate key="tx_forms_represetation.all" extensionName="Forms"/>
+                            </f:else>
+                        </f:if>
+                        <f:translate key="tx_forms_domain_model_changeform.employee" extensionName="Forms"/><br/>
+                        <f:link.action class="btn btn-secondary btn-sm" action="listChooseEmployee" controller="Mitarbeiter" arguments="{representation:representation}"><f:translate key="staffm.choose"/>&nbsp;<f:translate key="tx_staffm_domain_model_mitarbeiter"/></f:link.action>
                     </div>  
                 </f:if>
             </div>

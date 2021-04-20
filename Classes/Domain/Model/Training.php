@@ -25,12 +25,12 @@ namespace Pmwebdesign\Staffm\Domain\Model;
  *
  * @author Markus Blöchl <mbloechl@parat.eu>
  */
-class Training extends Pmwebdesign\Staffm\Domain\Model\GlobalTraining 
+class Training extends \Pmwebdesign\Staffm\Domain\Model\GlobalTraining 
 {
     /**
      * The effect of the training
      * 
-     * @var Effect
+     * @var \Pmwebdesign\Staffm\Domain\Model\Effect
      */
     protected $effect = null;
     
@@ -38,7 +38,7 @@ class Training extends Pmwebdesign\Staffm\Domain\Model\GlobalTraining
      * The responible for the training.
      * (The superior of the members)
      * 
-     * @var Mitarbeiter
+     * @var \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter
      */
     protected $responsible = null;
     
@@ -47,7 +47,7 @@ class Training extends Pmwebdesign\Staffm\Domain\Model\GlobalTraining
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Effect $effect
      */
-    public function setEffect(Effect $effect) 
+    public function setEffect(\Pmwebdesign\Staffm\Domain\Model\Effect $effect) 
     {
         $this->effect = $effect;
     }
@@ -55,7 +55,7 @@ class Training extends Pmwebdesign\Staffm\Domain\Model\GlobalTraining
     /**
      * Getter for effect
      * 
-     * @return Effect
+     * @return \Pmwebdesign\Staffm\Domain\Model\Effect
      */
     public function getEffect()
     {
@@ -67,7 +67,7 @@ class Training extends Pmwebdesign\Staffm\Domain\Model\GlobalTraining
      * 
      * @param \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $responsible
      */
-    public function setResponsible(Mitarbeiter $responsible)
+    public function setResponsible(\Pmwebdesign\Staffm\Domain\Model\Mitarbeiter $responsible)
     {
         $this->responsible = $responsible;
     }
@@ -75,7 +75,7 @@ class Training extends Pmwebdesign\Staffm\Domain\Model\GlobalTraining
     /**
      * Getter for responsible
      * 
-     * @return Mitarbeiter
+     * @return \Pmwebdesign\Staffm\Domain\Model\Mitarbeiter
      */
     public function getResponsible()
     {

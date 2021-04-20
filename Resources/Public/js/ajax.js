@@ -17,7 +17,7 @@
  */
 
 /**
- * Loads a action in a controller.
+ * Loads a action in a controller in createuser plugin.
  * 
  * @param string action
  * @param string controller
@@ -809,4 +809,64 @@ function updateAppCostCenter(userUid) {
 
 function setModalTitle(userUid) {
     document.getElementById('exampleModalLabel' + userUid).innerHTML = document.getElementById('headline').innerHTML;
+}
+
+/**
+ * Loads a action in a controller in staffmvorg plugin.
+ * 
+ * @param string action
+ * @param string controller
+ */
+function loadSiteStaffmvorg(action, controller) {
+    document.getElementById("ladebild").setAttribute("style", "display:block;margin-left:auto;margin-right:auto;opacity: 1; ");
+    var actionUrl = 'tx_staffm_staffmvorg[action]=' + action;
+    var controllerUrl = 'tx_staffm_staffmvorg[controller]=' + controller;
+    var typeUrl = 'type=256987';
+    
+    var data = actionUrl + '&' + controllerUrl + '&' + typeUrl;
+    
+    $.ajax({
+       url: window.location.href,
+       type: "GET",
+       data: data,
+       dataType: 'HTML',
+       cache: false,
+       success: function (result) {
+           $("#placeAjaxResult").html(result).fadeIn('fast');
+       },
+       error: function (jqXHR) {
+           $("#placeAjaxResult").html("Es ist ein Fehler aufgetreten. Siehe unten." + jqXHR.responseText).fadeIn('fast');
+       }
+    });
+}
+
+/**
+ * Loads a page with a given trainingsUid.
+ * 
+ * @param int trainingUid
+ * @param String action
+ */
+function loadSiteWithTrainingUid(trainingUid, action) {
+    document.getElementById("ladebild").setAttribute("style", "display:block;margin-left:auto;margin-right:auto;opacity: 1; ");
+    
+    var trainingUidUrl = 'tx_staffm_staffmvorg[trainingUid]=' + trainingUid;
+    var actionUrl = 'tx_staffm_staffmvorg[action]=' + action;
+    var controllerUrl = 'tx_staffm_staffmvorg[controller]=Training';
+    var typeUrl = 'type=256987';
+    
+    var data = trainingUidUrl + '&' + actionUrl + '&' + controllerUrl + '&' + typeUrl;
+    
+    $.ajax({
+       url: window.location.href,
+       type: "GET",
+       data: data,
+       dataType: 'HTML',
+       cache: false,
+       success: function (result) {
+           $("#placeAjaxResult").html(result).fadeIn('fast');
+       },
+       error: function (jqXHR) {
+           $("#placeAjaxResult").html("Es ist ein Fehler aufgetreten. Siehe unten." + jqXHR.responseText).fadeIn('fast');
+       }
+    });
 }

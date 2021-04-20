@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <div style="text-transform:none" class="nav-link logoutname mr-sm-2">
             <div class="row">
                 <div class="col-sm text-center justify-content-center align-self-center">
-                    <f:link.page title="grün: anwesend, rot: abwesend" pageUid="{s:getPageId(extensionName: 'staffm', sectionName: 'settings', constantName: 'pageIdProfil')}" class="nav-link" additionalParams="{tx_staffm_staffmvorg: {userKey: 'auswahlUsr'}, tx_staffm_staffmvorg: {art: 'profileedit'}, tx_staffm_staffmvorg: {mitarbeiter: '{loggedIn}'}}">
+                    <f:link.page style="padding: 0px;" title="grün: anwesend, rot: abwesend" pageUid="{s:getPageId(extensionName: 'staffm', sectionName: 'settings', constantName: 'pageIdProfil')}" class="nav-link" additionalParams="{tx_staffm_staffmvorg: {userKey: 'auswahlUsr'}, tx_staffm_staffmvorg: {art: 'profileedit'}, tx_staffm_staffmvorg: {mitarbeiter: '{loggedIn}'}}">
                         <f:if condition="{loggedIn.present}">
                             <f:then>
                                 <svg style="color: #43F73A" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16">

@@ -575,6 +575,14 @@ span.redbackground:hover {
     -webkit-appearance: none;
 }
 
+.table-display-none {
+    display: none;
+}
+
+.table-display-row {
+    display: table-row;
+}
+
 ::-webkit-scrollbar:vertical {
     width: 12px;
 }

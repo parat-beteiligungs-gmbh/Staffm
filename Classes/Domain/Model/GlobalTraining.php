@@ -77,11 +77,18 @@ class GlobalTraining extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $numberShifts = 0;
     
     /**
-     * The qualification that the training is assigned to.
+     * The qualifications that the training is assigned to.
      * 
-     * @var Qualifikation
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Qualifikation>
      */
-    protected $assignedQuali = null;
+    protected $assignedQualis = null;
+    
+    /**
+     * Is the training canceled?
+     * 
+     * @var bool
+     */
+    protected $canceled = false;
     
     /**
      * Getter for name.
@@ -154,13 +161,13 @@ class GlobalTraining extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Getter for assignedQuali
+     * Getter for assignedQualis
      * 
-     * @return \Pmwebdesign\Staffm\Domain\Model\Qualifikation
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Qualifikation>
      */
-    public function getAssignedQuali()
+    public function getAssignedQualis()
     {
-        return $this->assignedQuali;
+        return $this->assignedQualis;
     }
 
     /**
@@ -234,12 +241,31 @@ class GlobalTraining extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Setter for assignedQuali
+     * Setter for assignedQualis
      * 
-     * @param \Pmwebdesign\Staffm\Domain\Model\Qualifikation $assignedQuali
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pmwebdesign\Staffm\Domain\Model\Qualifikation> $assignedQualis
      */
-    public function setAssignedQuali(Qualifikation $assignedQuali)
+    public function setAssignedQualis(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $assignedQualis)
     {
-        $this->assignedQuali = $assignedQuali;
+        $this->assignedQualis = $assignedQualis;
+    }
+    
+    /**
+     * Getter for canceled.
+     * 
+     * @return bool
+     */
+    public function getCanceled()
+    {
+        return $this->canceled;
+    }
+    
+    /**
+     * Setter for canceled
+     * 
+     * @param bool $canceled
+     */
+    public function setCanceled($canceled) {
+        $this->canceled = $canceled;
     }
 }

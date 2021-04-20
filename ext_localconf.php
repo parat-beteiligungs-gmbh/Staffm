@@ -35,7 +35,7 @@ if (!defined('TYPO3_MODE')) {
         'Pmwebdesign.' . $_EXTKEY,
         'Staffmvorg',
         [// Cacheable actions
-            'Mitarbeiter' => 'edit, listVgs, list, show, editKst, update, showKst, showVeraKst, deleteImage, deleteQuali, deleteCategories, setRepresentations, setRepresentationCostCenters, setEmployeePresentStatus, deleteRepresentations, deleteRepresentationCostCenters, export',
+            'Mitarbeiter' => 'edit, listVgs, list, show, editKst, update, showKst, showVeraKst, deleteImage, deleteQuali, deleteCategories, setRepresentations, setRepresentationCostCenters, setEmployeePresentStatus, deleteRepresentations, deleteRepresentationCostCenters, export, listChooseEmployee, setSelectedEmployees',
             'Position' => 'list, show, choose',
             'Kostenstelle' => 'list, listChoose, show, choose, export',
             'Firma' => 'list, show, choose, export',
@@ -43,10 +43,11 @@ if (!defined('TYPO3_MODE')) {
             'Qualilog' => 'list, show, choose, edit, new, create, update, delete',
             'Category' => 'list, show, new, edit, create, update, delete',
             'Activity' => 'create, delete',
-            'Representation' => 'setDeputyStatus, setQualificationAuthorizationStatus'
+            'Representation' => 'setDeputyStatus, setQualificationAuthorizationStatus',
+            'Training' => 'list, new, addNewNotice, noticeTable, removeNotice, updateNotice, create, show, edit, update, listCanceled, listAccomplished'
         ],
         [// Non-cacheable actions
-            'Mitarbeiter' => 'edit, listVgs, list, show, editKst, update, showKst, showVeraKst, deleteImage, deleteQuali, deleteCategories, setRepresentations, setRepresentationCostCenters, setEmployeePresentStatus, deleteRepresentations, deleteRepresentationCostCenters, export',
+            'Mitarbeiter' => 'edit, listVgs, list, show, editKst, update, showKst, showVeraKst, deleteImage, deleteQuali, deleteCategories, setRepresentations, setRepresentationCostCenters, setEmployeePresentStatus, deleteRepresentations, deleteRepresentationCostCenters, export, listChooseEmployee, selectedEmployees',
             'Position' => 'list, show, choose',
             'Kostenstelle' => 'list, listChoose, show, choose, export',
             'Firma' => 'list, show, choose, export',
@@ -54,7 +55,8 @@ if (!defined('TYPO3_MODE')) {
             'Qualilog' => 'list, show, choose, edit, new, create, update, delete',
             'Category' => 'list, show, new, edit, create, update, delete',
             'Activity' => 'create, delete',
-            'Representation' => 'setDeputyStatus, setQualificationAuthorizationStatus'
+            'Representation' => 'setDeputyStatus, setQualificationAuthorizationStatus',
+            'Training' => 'list, new, addNewNotice, noticeTable, removeNotice, updateNotice, create, show, edit, update, listCanceled, listAccomplished'
         ]
 );
 

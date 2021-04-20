@@ -29,13 +29,14 @@ config.tx_extbase {
                         1 = Pmwebdesign\Staffm\Domain\Model\Training
                 }
             }
-    	}    
-        Pmwebdesign\Staffm\Domain\Model\Training {
+            Pmwebdesign\Staffm\Domain\Model\Training {
                 mapping {
                     tableName = tx_staffm_domain_model_globaltraining
                     recordType = 1
                 }
             }
+    	}    
+        
         objects {
             TYPO3\CMS\Extbase\Domain\Model\FileReference.className = Pmwebdesign\Staffm\Domain\Model\FileReference
             TYPO3\CMS\Extbase\Mvc\Controller\MvcPropertyMappingConfigurationService.className = Pmwebdesign\Staffm\Property\MvcPropertyMappingConfigurationService
