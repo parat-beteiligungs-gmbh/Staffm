@@ -1,5 +1,21 @@
 # Staffm Change Log
 
+# 3.5.0
+
+- [META] set version number to 3.5.0
+- [UPDATE] quali deputy only for some employee
+- [UPDATE] added trainings and update selection for quali representation
+- Merge origin/master
+- [RELEASE] Version 3.4.3.
+
+Dependent | Version
+-------- | ----------
+PHP | 7.0 - 7.4
+
+Reference | Version
+-------- | ----------
+IntraPentaUserSynch (Java) | 3.1.0 - 3.2.99
+
 # 3.4.3
 
 - [META] Set the version number to 3.4.3.
