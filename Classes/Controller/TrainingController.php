@@ -36,7 +36,6 @@ class TrainingController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         
         // Load all employees of the superior
         $userUid = $GLOBALS['TSFE']->fe_user->user['uid'];
-        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\MitarbeiterRepository::class)->findByUid($userUid));
         $allCostCenters = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\KostenstelleRepository::class)->findAll();
         $employees = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
         foreach($allCostCenters as $center) {

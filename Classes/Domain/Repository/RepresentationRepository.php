@@ -29,8 +29,19 @@ namespace Pmwebdesign\Staffm\Domain\Repository;
  * Representation Repository
  *
  * @author Markus Puffer <m.puffer@pm-webdesign.eu>
+ * @author Markus Blöchl <mbloechl@parat.eu>
  */
 class RepresentationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
-    //put your code here
+    /**
+     * Finds all representations where the given deputyUid is the deputy.
+     * 
+     * @param int $deputyUid
+     */
+    public function findByDeputy($deputyUid)
+    {
+        $query = $this->createQuery();
+        $query->matching($query->equals('deputy', $deputyUid));
+        return $query->execute();
+    }
 }

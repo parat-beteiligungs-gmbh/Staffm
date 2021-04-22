@@ -513,6 +513,31 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
 
             // Employees of cost center responsible
             $mitarbeiter = $this->mitarbeiterRepository->findMitarbeiterVonVorgesetzten(Null, $aktuser);
+            $mitarbeiter = $this->resultSetTostorage($mitarbeiter);
+            // check if deputy is only for some employee responsible
+            // get representation where aktuser is deputy
+            $representations = $this->objectManager->get(\Pmwebdesign\Staffm\Domain\Repository\RepresentationRepository::class)->findByDeputy($GLOBALS['TSFE']->fe_user->user['uid']);
+            foreach($representations as $rep) {
+                if(count($rep->getSelectedEmployees()) > 0 && $rep->getStatusActive() && $rep->getQualificationAuthorization()) {
+                    // find all employees where the deputy is not responsible
+                    $notResponsible = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+                    $superiorsEmployees = $this->mitarbeiterRepository->findMitarbeiterVonVorgesetzten(Null, $rep->getEmployee());
+                    foreach($superiorsEmployees as $empS) {
+                        $isSelected = false;
+                        foreach($rep->getSelectedEmployees() as $se) {
+                            if($empS->getUid() == $se->getUid()) {
+                                $isSelected = true;
+                            }
+                        }
+                        if(!$isSelected) {
+                            $notResponsible->attach($empS);
+                        }
+                    }
+                    foreach($notResponsible as $notR) {
+                        $mitarbeiter->detach($notR);
+                    }
+                }
+            }
 
             $this->view->assign('mitarbeiters', $mitarbeiter);
         } else {
@@ -547,6 +572,21 @@ class QualifikationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         }
     }
 
+    /**
+     * Converts a result set to an object storage.
+     * 
+     * @param \TYPO3\CMS\Extbase\Persistence\QueryResultInterface $result
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    private function resultSetTostorage(\TYPO3\CMS\Extbase\Persistence\QueryResultInterface $result)
+    {
+        $storage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        foreach($result as $r) {
+            $storage->attach($r);
+        }
+        return $storage;
+    }
+    
     /**
      * Single View of the qualification
      * 
